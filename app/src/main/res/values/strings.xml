@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">CloudMare</string>
+
+    // Activity titles
+    <string name="title_domain_list">Domains</string>
+    <string name="title_domain_dash">Domain Dash</string>
+    <string name="title_app_settings">Settings</string>
+
+    // Domain Dash categories
+    <string name="category_under_attack_mode">Under Attack Mode</string>
+    <string name="category_development_mode">Development Mode</string>
+
+    // Domain Dash category info
+    <string name="info_under_attack_mode">Show visitors a JavaScript challenge when visiting your site.</string>
+    <string name="info_development_mode">Temporarily bypass cache. See changes to your origin server in realtime.
+    </string>
+
+    // DNS Record Type Labels
+    <string name="type_a">A</string>
+    <string name="type_aaaa">AAAA</string>
+    <string name="type_cname">CNAME</string>
+    <string name="type_mx">MX</string>
+    <string name="type_loc">LOC</string>
+    <string name="type_srv">SRV</string>
+    <string name="type_spf">SPF</string>
+    <string name="type_txt">TXT</string>
+    <string name="type_ns">NS</string>
+    <string name="type_caa">CAA</string>
+    <string name="type_ptr">PTR</string>
+    <string name="type_cert">CERT</string>
+    <string name="type_dnskey">DNSKEY</string>
+    <string name="type_ds">DS</string>
+    <string name="type_naptr">NAPTR</string>
+    <string name="type_smimea">SMIMEA</string>
+    <string name="type_sshfp">SSHFP</string>
+    <string name="type_tlsa">TLSA</string>
+    <string name="type_uri">URI</string>
+
+    // DNS Record Type Options
+    <string-array name="entries_dns_record_type">
+        <item>@string/type_a</item>
+        <item>@string/type_aaaa</item>
+        <item>@string/type_cname</item>
+        <item>@string/type_mx</item>
+        <item>@string/type_loc</item>
+        <item>@string/type_srv</item>
+        <item>@string/type_spf</item>
+        <item>@string/type_txt</item>
+        <item>@string/type_ns</item>
+        <item>@string/type_caa</item>
+        <item>@string/type_ptr</item>
+        <item>@string/type_cert</item>
+        <item>@string/type_dnskey</item>
+        <item>@string/type_ds</item>
+        <item>@string/type_naptr</item>
+        <item>@string/type_smimea</item>
+        <item>@string/type_sshfp</item>
+        <item>@string/type_tlsa</item>
+        <item>@string/type_uri</item>
+    </string-array>
+
+    // DNS Record TTL Labels
+    <string name="ttl_automatic">AUTOMATIC</string>
+    <string name="ttl_two_minutes">2 minutes</string>
+    <string name="ttl_five_minutes">5 minutes</string>
+    <string name="ttl_ten_minutes">10 minutes</string>
+    <string name="ttl_fifteen_minutes">15 minutes</string>
+    <string name="ttl_thirty_minutes">30 minutes</string>
+    <string name="ttl_one_hours">1 hour</string>
+    <string name="ttl_two_hours">2 hours</string>
+    <string name="ttl_five_hours">5 hours</string>
+    <string name="ttl_twelve_hours">12 hour</string>
+    <string name="ttl_one_days">1 day</string>
+
+    // DNS Record TTL Options
+    <string-array name="entries_dns_record_ttl">
+        <item>@string/ttl_automatic</item>
+        <item>@string/ttl_two_minutes</item>
+        <item>@string/ttl_five_minutes</item>
+        <item>@string/ttl_ten_minutes</item>
+        <item>@string/ttl_fifteen_minutes</item>
+        <item>@string/ttl_thirty_minutes</item>
+        <item>@string/ttl_one_hours</item>
+        <item>@string/ttl_two_hours</item>
+        <item>@string/ttl_five_hours</item>
+        <item>@string/ttl_twelve_hours</item>
+        <item>@string/ttl_one_days</item>
+    </string-array>
+</resources>
