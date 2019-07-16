@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/baseline_settings_white_48"
+            android:title="Settings"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_delete"
+            android:icon="@drawable/baseline_delete_white_48"
+            android:title="Delete"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_save"
+            android:icon="@drawable/baseline_save_white_48"
+            android:title="Save"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_add"
+            android:icon="@drawable/baseline_add_white_48"
+            android:title="Add"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
+</menu>
