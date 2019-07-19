@@ -3,11 +3,15 @@ package dev.jtsalva.cloudmare.api
 import android.content.Context
 import android.util.Log
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.Request as VolleyRequest
 import com.android.volley.toolbox.JsonRequest
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import org.json.JSONException
 import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 import com.android.volley.Response as JsonResponse
 
 open class Request(
@@ -21,7 +25,25 @@ open class Request(
         private lateinit var TAG: String
     }
 
-    private fun handleError(error: VolleyError) = Log.e(TAG, error.message ?: error.toString())
+    private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
+        Log.e(TAG, error.message ?: error.toString())
+
+        val response = error.networkResponse
+        if (response != null) {
+            try {
+                val res = String(
+                    response.data,
+                    Charset.forName(HttpHeaderParser.parseCharset(response.headers, "UTF-8"))
+                )
+                Log.d(TAG, "Res: $res")
+                callback(JSONObject(res))
+            } catch (e: Exception) {
+                callback(null)
+                Log.e(TAG, "Something wen't wrong decoding error response")
+                e.printStackTrace()
+            }
+        }
+    }
 
     private fun <T> send(request: JsonRequest<T>) =
         RequestQueueSingleton.getInstance(context).addToRequestQueue(request)
@@ -36,7 +58,7 @@ open class Request(
                 url,
                 data,
                 JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> callback(null); handleError(error) }
+                JsonResponse.ErrorListener { error -> handleError(error, callback) }
             )
         )
 
@@ -49,7 +71,7 @@ open class Request(
                 url,
                 data,
                 JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> callback(null); handleError(error) }
+                JsonResponse.ErrorListener { error -> handleError(error, callback) }
             )
         )
 
@@ -62,7 +84,7 @@ open class Request(
                 url,
                 data,
                 JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> callback(null); handleError(error) }
+                JsonResponse.ErrorListener { error -> handleError(error, callback) }
             )
         )
 
@@ -75,7 +97,7 @@ open class Request(
                 url,
                 data,
                 JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> callback(null); handleError(error) }
+                JsonResponse.ErrorListener { error -> handleError(error, callback) }
             )
         )
 
