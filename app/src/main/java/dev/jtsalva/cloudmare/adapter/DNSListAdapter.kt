@@ -1,5 +1,6 @@
 package dev.jtsalva.cloudmare.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -8,11 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.DNSListActivity
-import dev.jtsalva.cloudmare.DNSRecordActivity
-import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.*
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
-import dev.jtsalva.cloudmare.putStringExtras
+import java.io.InvalidObjectException
 
 class DNSListAdapter(
     private val context: Context,
@@ -47,13 +46,13 @@ class DNSListAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            if (context is DNSListActivity) context.startActivityForResult(
-                Intent(context, DNSRecordActivity::class.java).putStringExtras(
-                    "domain_id", domainId,
-                    "domain_name", domainName,
-                    "dns_record_id", record.id
-                ).putExtra("position", position), DNSListActivity.Request.EDIT_RECORD.code
-            )
+            if (context is Activity) context.startActivityWithExtrasForResult(
+                DNSRecordActivity::class.java,  DNSListActivity.Request.EDIT_RECORD.code,
+                    "domain_id" to domainId,
+                    "domain_name" to domainName,
+                    "dns_record_id" to record.id,
+                    "position" to position
+            ) else throw InvalidObjectException("context should be subclass of Activity")
         }
     }
 

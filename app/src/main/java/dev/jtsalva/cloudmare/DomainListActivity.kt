@@ -34,9 +34,7 @@ class DomainListActivity : CloudMareActivity() {
         Log.d(TAG, "Checking auth - redirecting: ${Auth.notSet}")
 
         when {
-            Auth.notSet -> startActivity(
-                Intent(this, AppSettingsActivity::class.java)
-            )
+            Auth.notSet -> startActivity(AppSettingsActivity::class.java)
 
             initialized -> ZoneRequest(this).list(::renderList)
 

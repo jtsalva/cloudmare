@@ -1,6 +1,5 @@
 package dev.jtsalva.cloudmare
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
@@ -69,11 +68,9 @@ class DomainDashActivity : CloudMareActivity() {
 
     private fun setOnClickListeners() {
         dns_item.setOnClickListener {
-            startActivity(
-                Intent(this, DNSListActivity::class.java).putStringExtras(
-                    "domain_id", domainId,
-                    "domain_name", domainName
-                )
+            startActivityWithExtras(DNSListActivity::class.java,
+                    "domain_id" to domainId,
+                    "domain_name" to domainName
             )
         }
     }
