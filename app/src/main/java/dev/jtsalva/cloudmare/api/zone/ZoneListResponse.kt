@@ -6,7 +6,7 @@ import dev.jtsalva.cloudmare.api.Response
 @JsonClass(generateAdapter = true)
 class ZoneListResponse(
     success: Boolean,
-    errors: List<Error> = listOf(),
-    messages: List<String> = listOf(),
+    errors: List<Error> = emptyList(),
+    messages: List<String> = emptyList(),
     override val result: List<Zone>? = null
 ) : Response(success, errors, messages)
