@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
+import dev.jtsalva.cloudmare.api.user.UserRequest
 import kotlinx.android.synthetic.main.activity_app_settings.*
 
 class AppSettingsActivity : CloudMareActivity() {
@@ -20,12 +21,14 @@ class AppSettingsActivity : CloudMareActivity() {
         }
 
         done_button.setOnClickListener {
-            // TODO: validate email and api key before saving
             Auth.email = email_input.text.toString()
             Auth.apiKey = api_key_input.text.toString()
             Auth.save(this)
 
-            finish()
+            UserRequest(this).getDetails { response ->
+                if (response.success) finish()
+                else longToast(response.firstErrorMessage)
+            }
         }
     }
 
