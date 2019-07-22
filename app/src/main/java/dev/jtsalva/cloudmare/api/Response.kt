@@ -2,15 +2,13 @@ package dev.jtsalva.cloudmare.api
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 // TODO: handle null response before reaching calling code
 @JsonClass(generateAdapter = true)
 open class Response(
     val success: Boolean,
-    val errors: List<Error> = listOf(),
-    val messages: List<String> = listOf()
+    val errors: List<Error> = emptyList(),
+    val messages: List<String> = emptyList()
 ) {
 
     open val result: Any? = null
