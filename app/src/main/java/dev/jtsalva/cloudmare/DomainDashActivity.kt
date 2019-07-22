@@ -2,13 +2,14 @@ package dev.jtsalva.cloudmare
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
 import dev.jtsalva.cloudmare.databinding.ActivityDomainDashBinding
 import dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel
-import kotlinx.android.synthetic.main.activity_domain_dash.dns_item
+import kotlinx.android.synthetic.main.activity_domain_dash.*
 
 class DomainDashActivity : CloudMareActivity() {
 
@@ -39,19 +40,25 @@ class DomainDashActivity : CloudMareActivity() {
 
         viewModel = DomainDashViewModel(this, domainId)
 
-        SecurityLevelRequest(this).get(domainId) {
-            if (it?.result == null) return@get
+        SecurityLevelRequest(this).get(domainId) { response ->
+            if (response.failure || response.result == null) {
+                Log.e(TAG, "can't fetch security level")
+                return@get
+            }
 
             viewModel.apply {
-                setUnderAttackModeEnabled(it.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
+                setUnderAttackModeEnabled(response.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
             }
         }
 
-        DevelopmentModeRequest(this).get(domainId) {
-            if (it?.result == null) return@get
+        DevelopmentModeRequest(this).get(domainId) { response ->
+            if (response.failure || response.result == null) {
+                Log.e(TAG, "can't fetch development mode")
+                return@get
+            }
 
             viewModel.apply {
-                setDevelopmentModeEnabled(it.result.value == DevelopmentMode.Value.ON.toString())
+                setDevelopmentModeEnabled(response.result.value == DevelopmentMode.Value.ON.toString())
             }
         }
 

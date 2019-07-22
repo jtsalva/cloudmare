@@ -17,7 +17,7 @@ class UserRequest(context: Context) : Request(context, "user") {
 
             callback(
                 getAdapter(UserDetailsResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: UserDetailsResponse(success = false)
             )
         }
 

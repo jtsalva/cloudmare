@@ -1,9 +1,9 @@
 package dev.jtsalva.cloudmare.api
 
-import com.android.volley.Response as JsonResponse
 import com.android.volley.toolbox.JsonObjectRequest
 import dev.jtsalva.cloudmare.Auth
 import org.json.JSONObject
+import com.android.volley.Response as JsonResponse
 
 class AuthenticatedJsonRequest(
     method: Int,

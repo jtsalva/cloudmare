@@ -17,7 +17,7 @@ class ZoneRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(ZoneListResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: ZoneListResponse(success = false)
             )
         }
 

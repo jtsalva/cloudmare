@@ -1,6 +1,5 @@
 package dev.jtsalva.cloudmare.adapter
 
-import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -9,7 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.*
+import dev.jtsalva.cloudmare.DNSListActivity
+import dev.jtsalva.cloudmare.DNSRecordActivity
+import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.dns.DNSRecord
+import dev.jtsalva.cloudmare.putStringExtras
 
 class DNSListAdapter(
     private val context: Context,

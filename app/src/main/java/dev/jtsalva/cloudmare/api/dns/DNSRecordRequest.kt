@@ -20,7 +20,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DNSRecordListResponse::class.java).
-                        fromJson(it.toString())
+                        fromJson(it.toString()) ?: DNSRecordListResponse(success = false)
             )
         }
     }
@@ -31,7 +31,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DNSRecordResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
 
@@ -42,7 +42,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DNSRecordListResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: DNSRecordListResponse(success = false)
             )
         }
 
@@ -53,7 +53,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DNSRecordResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
     }
