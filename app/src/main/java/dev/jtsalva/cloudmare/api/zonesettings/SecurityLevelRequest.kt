@@ -19,7 +19,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(SecurityLevelResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
             )
         }
 
@@ -32,7 +32,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(SecurityLevelResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
             )
         }
     }

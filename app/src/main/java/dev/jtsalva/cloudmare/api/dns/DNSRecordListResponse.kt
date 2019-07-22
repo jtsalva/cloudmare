@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.Response
 
 @JsonClass(generateAdapter = true)
-data class DNSRecordListResponse(
-    override val success: Boolean,
-    override val errors: List<Error>,
-    override val messages: List<String>,
-    override val result: List<DNSRecord>?
-) : Response()
+class DNSRecordListResponse(
+    success: Boolean,
+    errors: List<Error> = listOf(),
+    messages: List<String> = listOf(),
+    override val result: List<DNSRecord>? = null
+) : Response(success, errors, messages)

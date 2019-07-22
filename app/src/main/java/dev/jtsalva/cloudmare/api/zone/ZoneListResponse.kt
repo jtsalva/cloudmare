@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.Response
 
 @JsonClass(generateAdapter = true)
-data class ZoneListResponse(
-    override val success: Boolean,
-    override val errors: List<Error>,
-    override val messages: List<String>,
-    override val result: List<Zone>?
-) : Response()
+class ZoneListResponse(
+    success: Boolean,
+    errors: List<Error> = listOf(),
+    messages: List<String> = listOf(),
+    override val result: List<Zone>? = null
+) : Response(success, errors, messages)

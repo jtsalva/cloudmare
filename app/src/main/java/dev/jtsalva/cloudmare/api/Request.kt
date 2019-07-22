@@ -4,14 +4,12 @@ import android.content.Context
 import android.util.Log
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.Request as VolleyRequest
 import com.android.volley.toolbox.JsonRequest
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import org.json.JSONException
 import org.json.JSONObject
-import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
+import com.android.volley.Request as VolleyRequest
 import com.android.volley.Response as JsonResponse
 
 open class Request(
@@ -38,7 +36,12 @@ open class Request(
                 Log.d(TAG, "Res: $res")
                 callback(JSONObject(res))
             } catch (e: Exception) {
-                callback(null)
+                val failedResponse = getAdapter(Response::class.java).
+                    toJson(
+                        Response(success = false)
+                    )
+
+                callback(JSONObject(failedResponse))
                 Log.e(TAG, "Something wen't wrong decoding error response")
                 e.printStackTrace()
             }
@@ -48,6 +51,7 @@ open class Request(
     private fun <T> send(request: JsonRequest<T>) =
         RequestQueueSingleton.getInstance(context).addToRequestQueue(request)
 
+    // TODO: move to companion object or util
     protected fun <T> getAdapter(type: Class<T>): JsonAdapter<T> =
         Moshi.Builder().build().adapter<T>(type)
 

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.ZoneListResponse
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
-import kotlinx.android.synthetic.main.activity_domain_list.domain_list
+import kotlinx.android.synthetic.main.activity_domain_list.*
 
 class DomainListActivity : CloudMareActivity() {
 
@@ -49,15 +49,21 @@ class DomainListActivity : CloudMareActivity() {
         }
     }
 
-    private fun renderList(response: ZoneListResponse?) {
-        if (response?.result == null) return
+    private fun renderList(response: ZoneListResponse) {
+        if (response.failure) {
+            Log.e(TAG, "response failure: ${response.firstErrorMessage}")
+            longToast(response.firstErrorMessage)
+            return
+        }
+
+        if (response.result == null) return
 
         Log.d(TAG, "List length: ${response.result.size}")
 
         domains.clear()
         response.result.forEach { zone ->
             Log.d(TAG, "Name: ${zone.name}")
-            domains.add(Pair(zone.id, zone.name))
+            domains.add(zone.id to zone.name)
         }
 
         if (initialized) domain_list.swapAdapter(

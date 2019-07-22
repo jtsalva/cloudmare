@@ -19,7 +19,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DevelopmentModeResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
             )
         }
 
@@ -32,7 +32,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
 
             callback(
                 getAdapter(DevelopmentModeResponse::class.java).
-                    fromJson(it.toString())
+                    fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
             )
         }
     }

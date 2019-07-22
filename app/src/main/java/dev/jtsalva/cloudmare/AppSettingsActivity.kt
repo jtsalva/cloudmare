@@ -1,10 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
-
-import kotlinx.android.synthetic.main.activity_app_settings.email_input
-import kotlinx.android.synthetic.main.activity_app_settings.api_key_input
-import kotlinx.android.synthetic.main.activity_app_settings.done_button
+import kotlinx.android.synthetic.main.activity_app_settings.*
 
 class AppSettingsActivity : CloudMareActivity() {
 

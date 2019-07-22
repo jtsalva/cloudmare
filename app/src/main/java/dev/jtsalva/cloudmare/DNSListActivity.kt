@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
-import kotlinx.android.synthetic.main.activity_dns_list.dns_list
+import kotlinx.android.synthetic.main.activity_dns_list.*
 
 class DNSListActivity : CloudMareActivity() {
 
@@ -41,7 +41,10 @@ class DNSListActivity : CloudMareActivity() {
                     val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
                     DNSRecordRequest(this).get(domainId, dnsRecordId) { response ->
-                        if (response?.result == null) return@get
+                        if (response.failure || response.result == null) {
+                            Log.e(TAG, "can't fetch DNS Record")
+                            return@get
+                        }
 
                         records[position] = response.result
                         dns_list.adapter?.notifyItemChanged(position) ?: Log.e(TAG, "Can't notify change")
@@ -73,10 +76,13 @@ class DNSListActivity : CloudMareActivity() {
         setLayout(R.layout.activity_dns_list)
         setToolbarTitle("$domainName | DNS Records")
 
-        DNSRecordRequest(this).list(domainId) {
-            if (it?.result == null) return@list
+        DNSRecordRequest(this).list(domainId) { response ->
+            if (response.failure || response.result == null) {
+                Log.e(TAG, "can't list DNS Records")
+                return@list
+            }
 
-            records = it.result as MutableList<DNSRecord>
+            records = response.result as MutableList<DNSRecord>
 
             dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
             dns_list.layoutManager = LinearLayoutManager(this)

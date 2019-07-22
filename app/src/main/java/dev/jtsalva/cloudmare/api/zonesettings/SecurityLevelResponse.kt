@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.Response
 
 @JsonClass(generateAdapter = true)
-data class SecurityLevelResponse(
-    override val success: Boolean,
-    override val errors: List<Error>,
-    override val messages: List<String>,
-    override val result: SecurityLevel?
-) : Response()
+class SecurityLevelResponse(
+    success: Boolean,
+    errors: List<Error> = listOf(),
+    messages: List<String> = listOf(),
+    override val result: SecurityLevel? = null
+) : Response(success, errors, messages)

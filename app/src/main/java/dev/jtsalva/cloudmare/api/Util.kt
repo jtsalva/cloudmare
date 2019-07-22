@@ -15,7 +15,7 @@ fun endpointUrl(vararg endpoints: String): String {
 
 typealias DateString = String
 
-typealias ResponseListener<Response> = (Response?) -> Unit
+typealias ResponseListener<Response> = (Response) -> Unit
 
 
 val DateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ENGLISH)

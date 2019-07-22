@@ -8,8 +8,7 @@ import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.databinding.ActivityDnsRecordBinding
 import dev.jtsalva.cloudmare.viewmodel.DNSRecordViewModel
-import kotlinx.android.synthetic.main.activity_dns_record.ttl_spinner
-import kotlinx.android.synthetic.main.activity_dns_record.type_spinner
+import kotlinx.android.synthetic.main.activity_dns_record.*
 
 class DNSRecordActivity : CloudMareActivity() {
 
@@ -33,12 +32,12 @@ class DNSRecordActivity : CloudMareActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_save -> {
-            viewModel.updateRequest {
-                if (it?.result == null) {
+            viewModel.updateRequest { response ->
+                if (response.failure || response.result == null) {
                     // TODO: tell user why unable to save
-                    Log.e(TAG, "Could not save DNS Record")
+                    Log.e(TAG, "Could not save DNS Record: ${response.errors}")
 
-                    longToast("Could not save DNS Record")
+                    longToast(response.firstErrorMessage)
                 } else {
                     setResult(Result.CHANGES_MADE.code, intent)
                     finish()
@@ -75,7 +74,10 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun renderForm() = DNSRecordRequest(this).get(domainId, dnsRecordId) { response ->
-        if (response?.result == null) return@get
+        if (response.failure || response.result == null) {
+            Log.e(TAG, "can't fetch DNS Record")
+            return@get
+        }
 
         viewModel = DNSRecordViewModel(this, domainId, domainName, response.result)
 
