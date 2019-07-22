@@ -1,7 +1,6 @@
 package dev.jtsalva.cloudmare.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.jtsalva.cloudmare.DomainDashActivity
 import dev.jtsalva.cloudmare.R
-import dev.jtsalva.cloudmare.putStringExtras
+import dev.jtsalva.cloudmare.startActivityWithExtras
 
 class DomainListAdapter(
     private val context: Context,
@@ -31,11 +30,9 @@ class DomainListAdapter(
 
         holder.name.text = domains[position].second
         holder.itemView.setOnClickListener {
-            context.startActivity(
-                Intent(context, DomainDashActivity::class.java).putStringExtras(
-                    "domain_id", domains[position].first,
-                    "domain_name", domains[position].second
-                )
+            context.startActivityWithExtras(DomainDashActivity::class.java,
+                "domain_id" to domains[position].first,
+                "domain_name" to domains[position].second
             )
         }
     }
