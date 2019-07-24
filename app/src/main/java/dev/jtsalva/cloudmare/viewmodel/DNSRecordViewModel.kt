@@ -8,12 +8,10 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.R
-import dev.jtsalva.cloudmare.api.ResponseListener
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Ttl
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.dns.DNSRecordResponse
-import kotlinx.android.synthetic.main.activity_dns_record.*
 import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
@@ -27,8 +25,8 @@ class DNSRecordViewModel(
         private const val TAG = "DNSRecordViewModel"
     }
 
-    fun updateRequest(callback: ResponseListener<DNSRecordResponse>) =
-        DNSRecordRequest(context).update(domainId, data, callback)
+    suspend fun updateRequest(): DNSRecordResponse =
+        DNSRecordRequest(context).update(domainId, data)
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
         when (parent.id) {

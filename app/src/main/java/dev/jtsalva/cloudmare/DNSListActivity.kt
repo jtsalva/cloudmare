@@ -23,7 +23,8 @@ class DNSListActivity : CloudMareActivity() {
     enum class Request(
         val code: Int
     ) {
-        EDIT_RECORD(0)
+        EDIT_RECORD(0),
+        CREATE_RECORD(1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -36,29 +37,30 @@ class DNSListActivity : CloudMareActivity() {
 
         when (requestCode) {
             Request.EDIT_RECORD.code -> {
-                if (resultCode == DNSRecordActivity.Result.CHANGES_MADE.code) {
+                if (resultCode == DNSRecordActivity.Result.CHANGES_MADE.code) launch {
                     val position = data.getIntExtra("position", -1)
                     val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
-                    DNSRecordRequest(this).get(domainId, dnsRecordId) { response ->
-                        if (response.failure || response.result == null) {
-                            Log.e(TAG, "can't fetch DNS Record")
-                            return@get
-                        }
-
-                        records[position] = response.result
-                        dns_list.adapter?.notifyItemChanged(position) ?: Log.e(TAG, "Can't notify change")
+                    val response = DNSRecordRequest(this@DNSListActivity).get(domainId, dnsRecordId)
+                    if (response.failure || response.result == null) {
+                        Log.e(TAG, "can't fetch DNS Record")
+                        return@launch
                     }
+
+                    records[position] = response.result
+                    dns_list.adapter?.notifyItemChanged(position) ?: Log.e(TAG, "Can't notify change")
                 }
             }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        // TODO: start activity to add record
         R.id.action_add -> {
             Log.d(TAG, "add action clicked")
-
+            startActivityWithExtrasForResult(DNSRecordActivity::class.java, Request.CREATE_RECORD.code,
+                "domain_id" to domainId,
+                "domain_name" to domainName
+            )
             true
         }
 
@@ -76,17 +78,20 @@ class DNSListActivity : CloudMareActivity() {
         setLayout(R.layout.activity_dns_list)
         setToolbarTitle("$domainName | DNS Records")
 
-        DNSRecordRequest(this).list(domainId) { response ->
-            if (response.failure || response.result == null) {
-                Log.e(TAG, "can't list DNS Records")
-                return@list
-            }
+        renderList()
+    }
 
-            records = response.result as MutableList<DNSRecord>
-
-            dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
-            dns_list.layoutManager = LinearLayoutManager(this)
+    private fun renderList() = launch {
+        val response = DNSRecordRequest(this@DNSListActivity).list(domainId)
+        if (response.failure || response.result == null) {
+            Log.e(TAG, "can't list DNS Records")
+            return@launch
         }
+
+        records = response.result as MutableList<DNSRecord>
+
+        dns_list.adapter = DNSListAdapter(this@DNSListActivity, domainId, domainName, records)
+        dns_list.layoutManager = LinearLayoutManager(this@DNSListActivity)
     }
 
 

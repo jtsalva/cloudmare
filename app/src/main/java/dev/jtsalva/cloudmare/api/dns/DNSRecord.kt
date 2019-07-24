@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
+import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.DateString
 
@@ -15,9 +16,14 @@ data class DNSRecord(
     var locked: Boolean,
     var zoneId: String,
     var zoneName: String,
-    var createdOn: DateString,
-    var modifiedOn: DateString,
-    var priority: Int
+
+    @Json(name = "created_on")
+    var createdOn: DateString? = null,
+
+    @Json(name = "modified_on")
+    var modifiedOn: DateString? = null,
+
+    var priority: Int? = null
 ) {
     enum class Type {
         A, AAAA, CNAME, MX,

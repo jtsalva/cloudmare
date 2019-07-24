@@ -25,10 +25,12 @@ class AppSettingsActivity : CloudMareActivity() {
             Auth.apiKey = api_key_input.text.toString()
             Auth.save(this)
 
-            UserRequest(this).getDetails { response ->
+            launch {
+                val response = UserRequest(this@AppSettingsActivity).getDetails()
                 if (response.success) finish()
                 else longToast(response.firstErrorMessage)
             }
+
         }
     }
 

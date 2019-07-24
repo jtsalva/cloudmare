@@ -37,28 +37,31 @@ class DomainDashActivity : CloudMareActivity() {
         binding = setLayoutBinding(R.layout.activity_domain_dash)
         setToolbarTitle(domainName)
 
-        viewModel = DomainDashViewModel(this, domainId)
+        renderDash()
+    }
 
-        SecurityLevelRequest(this).get(domainId) { response ->
-            if (response.failure || response.result == null) {
-                Log.e(TAG, "can't fetch security level")
-                return@get
-            }
+    private fun renderDash() = launch {
+        viewModel = DomainDashViewModel(this@DomainDashActivity, domainId)
 
-            viewModel.apply {
-                setUnderAttackModeEnabled(response.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
-            }
+        val securityLevelResponse = SecurityLevelRequest(this@DomainDashActivity).get(domainId)
+        val developmentMoveResponse = DevelopmentModeRequest(this@DomainDashActivity).get(domainId)
+
+        if (securityLevelResponse.failure || securityLevelResponse.result == null) {
+            Log.e(TAG, "can't fetch security level")
+            return@launch
         }
 
-        DevelopmentModeRequest(this).get(domainId) { response ->
-            if (response.failure || response.result == null) {
-                Log.e(TAG, "can't fetch development mode")
-                return@get
-            }
+        if (developmentMoveResponse.failure || developmentMoveResponse.result == null) {
+            Log.e(TAG, "can't fetch development mode")
+            return@launch
+        }
 
-            viewModel.apply {
-                setDevelopmentModeEnabled(response.result.value == DevelopmentMode.Value.ON.toString())
-            }
+        viewModel.apply {
+            setUnderAttackModeEnabled(securityLevelResponse.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
+        }
+
+        viewModel.apply {
+            setDevelopmentModeEnabled(developmentMoveResponse.result.value == DevelopmentMode.Value.ON.toString())
         }
 
         binding.viewModel = viewModel
