@@ -3,9 +3,10 @@ package dev.jtsalva.cloudmare.api.zonesettings
 import android.content.Context
 import android.util.Log
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.ResponseListener
 import dev.jtsalva.cloudmare.api.endpointUrl
 import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class SecurityLevelRequest(context: Context) : Request(context, "zones") {
 
@@ -13,24 +14,25 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
         private const val TAG = "SecurityLevelRequest"
     }
 
-    fun get(zoneId: String, callback: ResponseListener<SecurityLevelResponse>) =
+    suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
         super.get(null, endpointUrl(endpoint, zoneId, "settings/security_level")) {
             Log.d(TAG, it.toString())
 
-            callback(
-                getAdapter(SecurityLevelResponse::class.java).
-                    fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
+            cont.resume(
+                getAdapter(SecurityLevelResponse::class.java).fromJson(it.toString())
+                    ?: SecurityLevelResponse(success = false)
             )
         }
+    }
 
-    fun set(zoneId: String, value: SecurityLevel.Value, callback: ResponseListener<SecurityLevelResponse>) {
+    suspend fun set(zoneId: String, value: SecurityLevel.Value) = suspendCoroutine<SecurityLevelResponse> { cont ->
         val data = JSONObject()
         data.put("value", value.toString())
 
         super.patch(data, endpointUrl(endpoint, zoneId, "settings/security_level")) {
             Log.d(TAG, it.toString())
 
-            callback(
+            cont.resume(
                 getAdapter(SecurityLevelResponse::class.java).
                     fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
             )

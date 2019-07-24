@@ -3,7 +3,8 @@ package dev.jtsalva.cloudmare.api.user
 import android.content.Context
 import android.util.Log
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.ResponseListener
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class UserRequest(context: Context) : Request(context, "user") {
 
@@ -11,14 +12,15 @@ class UserRequest(context: Context) : Request(context, "user") {
         private const val TAG = "UserRequest"
     }
 
-    fun getDetails(callback: ResponseListener<UserDetailsResponse>) =
+    suspend fun getDetails() = suspendCoroutine<UserDetailsResponse> { cont ->
         super.get(null) {
             Log.d(TAG, it.toString())
 
-            callback(
-                getAdapter(UserDetailsResponse::class.java).
-                    fromJson(it.toString()) ?: UserDetailsResponse(success = false)
+            cont.resume(
+                getAdapter(UserDetailsResponse::class.java).fromJson(it.toString())
+                    ?: UserDetailsResponse(success = false)
             )
         }
+    }
 
 }

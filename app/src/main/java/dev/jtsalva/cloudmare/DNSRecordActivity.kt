@@ -32,7 +32,8 @@ class DNSRecordActivity : CloudMareActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_save -> {
-            viewModel.updateRequest { response ->
+            launch {
+                val response = viewModel.updateRequest()
                 if (response.failure || response.result == null) {
                     // TODO: tell user why unable to save
                     Log.e(TAG, "Could not save DNS Record: ${response.errors}")
@@ -70,50 +71,70 @@ class DNSRecordActivity : CloudMareActivity() {
         binding = setLayoutBinding(R.layout.activity_dns_record)
         setToolbarTitle("$domainName | Edit DNS Record")
 
-        renderForm()
+        renderForm(newRecord = dnsRecordId.isEmpty())
     }
 
-    private fun renderForm() = DNSRecordRequest(this).get(domainId, dnsRecordId) { response ->
-        if (response.failure || response.result == null) {
-            Log.e(TAG, "can't fetch DNS Record")
-            return@get
+    private fun renderForm(newRecord: Boolean) = launch {
+        val data: DNSRecord
+        if (!newRecord) {
+            val response = DNSRecordRequest(this@DNSRecordActivity).get(domainId, dnsRecordId)
+
+            if (response.failure || response.result == null) {
+                Log.e(TAG, "can't fetch DNS Record")
+                return@launch
+            }
+
+            data = response.result
+        } else {
+            data = DNSRecord(
+                id = "",
+                type = DNSRecord.Type.A.toString(),
+                name = "",
+                content = "",
+                proxiable = true,
+                proxied = false,
+                ttl = DNSRecord.Ttl.AUTOMATIC.toInt(),
+                locked = false,
+                zoneId = domainId,
+                zoneName = domainName
+            )
         }
 
-        viewModel = DNSRecordViewModel(this, domainId, domainName, response.result)
+
+        viewModel = DNSRecordViewModel(this@DNSRecordActivity, domainId, domainName, data)
 
         binding.viewModel = viewModel
 
         ArrayAdapter.createFromResource(
-            this,
+            this@DNSRecordActivity,
             R.array.entries_dns_record_type,
             R.layout.spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
-            // TODO: if request code edit
-            if (true) {
-//                type_spinner.isEnabled = false
-//                type_spinner.isClickable = false
+            if (!newRecord) {
+                type_spinner.isEnabled = false
+                type_spinner.isClickable = false
             }
 
             type_spinner.adapter = adapter
-            type_spinner.setSelection(adapter.getPosition(response.result.type))
+            type_spinner.setSelection(adapter.getPosition(data.type))
             type_spinner.onItemSelectedListener = viewModel
         }
 
         ArrayAdapter.createFromResource(
-            this,
+            this@DNSRecordActivity,
             R.array.entries_dns_record_ttl,
             R.layout.spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
-            if (response.result.proxied) {
+            if (data.proxied) {
                 ttl_spinner.isEnabled = false
                 ttl_spinner.isClickable = false
             }
 
-            val ttlString = DNSRecord.Ttl.getFromValue(response.result.ttl).toString(this)
+            val ttlString = DNSRecord.Ttl.getFromValue(data.ttl).toString(this@DNSRecordActivity)
 
             Log.d(TAG, "Ttl String: $ttlString")
 

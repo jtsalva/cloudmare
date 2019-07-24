@@ -1,11 +1,9 @@
 package dev.jtsalva.cloudmare
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
-import dev.jtsalva.cloudmare.api.zone.ZoneListResponse
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_domain_list.*
 
@@ -36,25 +34,27 @@ class DomainListActivity : CloudMareActivity() {
         when {
             Auth.notSet -> startActivity(AppSettingsActivity::class.java)
 
-            initialized -> ZoneRequest(this).list(::renderList)
+            initialized -> renderList()
 
             else -> {
                 setLayout(R.layout.activity_domain_list)
                 setToolbarTitle(R.string.title_domain_list)
 
-                ZoneRequest(this).list(::renderList)
+                renderList()
             }
         }
     }
 
-    private fun renderList(response: ZoneListResponse) {
+    private fun renderList() = launch {
+        val response = ZoneRequest(this@DomainListActivity).list()
+
         if (response.failure) {
             Log.e(TAG, "response failure: ${response.firstErrorMessage}")
             longToast(response.firstErrorMessage)
-            return
+            return@launch
         }
 
-        if (response.result == null) return
+        if (response.result == null) return@launch
 
         Log.d(TAG, "List length: ${response.result.size}")
 
@@ -65,10 +65,10 @@ class DomainListActivity : CloudMareActivity() {
         }
 
         if (initialized) domain_list.swapAdapter(
-            DomainListAdapter(this, domains), false
+            DomainListAdapter(this@DomainListActivity, domains), false
         ) else {
-            domain_list.adapter = DomainListAdapter(this, domains)
-            domain_list.layoutManager = LinearLayoutManager(this)
+            domain_list.adapter = DomainListAdapter(this@DomainListActivity, domains)
+            domain_list.layoutManager = LinearLayoutManager(this@DomainListActivity)
 
             initialized = true
         }

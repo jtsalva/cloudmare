@@ -1,21 +1,44 @@
 package dev.jtsalva.cloudmare
 
-import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch as coLaunch
 
-abstract class CloudMareActivity : AppCompatActivity() {
+abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
     protected open val TAG = "CloudMareActivity"
+
+    protected lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     protected var showSettingsMenuButton = false
     protected var showSaveMenuButton = false
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
+
+    fun launch(block: suspend () -> Unit): Job = coLaunch { block() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        job = Job()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        job.cancel()
+    }
 
     protected fun setLayout(contentViewResId: Int) {
         setContentView(contentViewResId)
@@ -32,12 +55,8 @@ abstract class CloudMareActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_settings -> {
             Log.d(TAG, "Settings clicked")
-
-            startActivity(
-                Intent(this, AppSettingsActivity::class.java)
-            )
-
-            true
+            startActivity(AppSettingsActivity::class.java)
+                true
         }
 
         else -> super.onOptionsItemSelected(item)
