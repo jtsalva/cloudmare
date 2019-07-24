@@ -26,7 +26,7 @@ class AppSettingsActivity : CloudMareActivity() {
             Auth.save(this)
 
             launch {
-                val response = UserRequest(this@AppSettingsActivity).getDetails()
+                val response = UserRequest(this).getDetails()
                 if (response.success) finish()
                 else longToast(response.firstErrorMessage)
             }

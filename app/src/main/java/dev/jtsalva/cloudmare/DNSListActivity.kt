@@ -41,7 +41,7 @@ class DNSListActivity : CloudMareActivity() {
                     val position = data.getIntExtra("position", -1)
                     val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
-                    val response = DNSRecordRequest(this@DNSListActivity).get(domainId, dnsRecordId)
+                    val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
                     if (response.failure || response.result == null) {
                         Log.e(TAG, "can't fetch DNS Record")
                         return@launch
@@ -82,7 +82,7 @@ class DNSListActivity : CloudMareActivity() {
     }
 
     private fun renderList() = launch {
-        val response = DNSRecordRequest(this@DNSListActivity).list(domainId)
+        val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Log.e(TAG, "can't list DNS Records")
             return@launch
@@ -90,8 +90,8 @@ class DNSListActivity : CloudMareActivity() {
 
         records = response.result as MutableList<DNSRecord>
 
-        dns_list.adapter = DNSListAdapter(this@DNSListActivity, domainId, domainName, records)
-        dns_list.layoutManager = LinearLayoutManager(this@DNSListActivity)
+        dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
+        dns_list.layoutManager = LinearLayoutManager(this)
     }
 
 

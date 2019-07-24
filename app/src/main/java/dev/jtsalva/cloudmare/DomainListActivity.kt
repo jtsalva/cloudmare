@@ -46,7 +46,7 @@ class DomainListActivity : CloudMareActivity() {
     }
 
     private fun renderList() = launch {
-        val response = ZoneRequest(this@DomainListActivity).list()
+        val response = ZoneRequest(this).list()
 
         if (response.failure) {
             Log.e(TAG, "response failure: ${response.firstErrorMessage}")
@@ -65,10 +65,10 @@ class DomainListActivity : CloudMareActivity() {
         }
 
         if (initialized) domain_list.swapAdapter(
-            DomainListAdapter(this@DomainListActivity, domains), false
+            DomainListAdapter(this, domains), false
         ) else {
-            domain_list.adapter = DomainListAdapter(this@DomainListActivity, domains)
-            domain_list.layoutManager = LinearLayoutManager(this@DomainListActivity)
+            domain_list.adapter = DomainListAdapter(this, domains)
+            domain_list.layoutManager = LinearLayoutManager(this)
 
             initialized = true
         }

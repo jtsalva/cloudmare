@@ -77,7 +77,7 @@ class DNSRecordActivity : CloudMareActivity() {
     private fun renderForm(newRecord: Boolean) = launch {
         val data: DNSRecord
         if (!newRecord) {
-            val response = DNSRecordRequest(this@DNSRecordActivity).get(domainId, dnsRecordId)
+            val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
 
             if (response.failure || response.result == null) {
                 Log.e(TAG, "can't fetch DNS Record")
@@ -101,12 +101,12 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
 
-        viewModel = DNSRecordViewModel(this@DNSRecordActivity, domainId, domainName, data)
+        viewModel = DNSRecordViewModel(this, domainId, domainName, data)
 
         binding.viewModel = viewModel
 
         ArrayAdapter.createFromResource(
-            this@DNSRecordActivity,
+            this,
             R.array.entries_dns_record_type,
             R.layout.spinner_item
         ).also { adapter ->
@@ -123,7 +123,7 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
         ArrayAdapter.createFromResource(
-            this@DNSRecordActivity,
+            this,
             R.array.entries_dns_record_ttl,
             R.layout.spinner_item
         ).also { adapter ->
@@ -134,7 +134,7 @@ class DNSRecordActivity : CloudMareActivity() {
                 ttl_spinner.isClickable = false
             }
 
-            val ttlString = DNSRecord.Ttl.getFromValue(data.ttl).toString(this@DNSRecordActivity)
+            val ttlString = DNSRecord.Ttl.getFromValue(data.ttl).toString(this)
 
             Log.d(TAG, "Ttl String: $ttlString")
 
