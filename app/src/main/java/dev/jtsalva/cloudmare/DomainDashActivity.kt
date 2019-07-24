@@ -41,10 +41,10 @@ class DomainDashActivity : CloudMareActivity() {
     }
 
     private fun renderDash() = launch {
-        viewModel = DomainDashViewModel(this@DomainDashActivity, domainId)
+        viewModel = DomainDashViewModel(this, domainId)
 
-        val securityLevelResponse = SecurityLevelRequest(this@DomainDashActivity).get(domainId)
-        val developmentMoveResponse = DevelopmentModeRequest(this@DomainDashActivity).get(domainId)
+        val securityLevelResponse = SecurityLevelRequest(this).get(domainId)
+        val developmentMoveResponse = DevelopmentModeRequest(this).get(domainId)
 
         if (securityLevelResponse.failure || securityLevelResponse.result == null) {
             Log.e(TAG, "can't fetch security level")
