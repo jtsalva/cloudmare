@@ -31,8 +31,10 @@ class DomainDashActivity : CloudMareActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domainId = intent.getStringExtra("domain_id") ?: ""
-        domainName = intent.getStringExtra("domain_name") ?: ""
+        with (intent) {
+            domainId = getStringExtra("domain_id") ?: ""
+            domainName = getStringExtra("domain_name") ?: ""
+        }
 
         binding = setLayoutBinding(R.layout.activity_domain_dash)
         setToolbarTitle(domainName)

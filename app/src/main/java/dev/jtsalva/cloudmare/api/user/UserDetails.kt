@@ -14,15 +14,8 @@ data class UserDetails(
     val telephone: String?,
     val country: String?,
     val zipcode: String?,
-
-    @Json(name = "created_on")
-    val createdOn: DateString,
-
-    @Json(name = "modified_on")
-    val modifiedOn: DateString,
-
-    @Json(name = "two_factor_authentication_enabled")
-    val twoFactorAuthenticationEnabled: Boolean,
-
+    @Json(name = "created_on") val createdOn: DateString,
+    @Json(name = "modified_on") val modifiedOn: DateString,
+    @Json(name = "two_factor_authentication_enabled") val twoFactorAuthenticationEnabled: Boolean,
     val suspended: Boolean
 )

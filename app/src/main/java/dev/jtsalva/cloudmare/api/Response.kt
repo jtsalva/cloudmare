@@ -18,7 +18,9 @@ open class Response(
     val firstErrorMessage: String get() = with(errors[0].mostRelevantError) {
         // Intercept and replace user obscure error messages
         when (code) {
+            6103 -> "Invalid api key format"
             9103 -> "Invalid email or api key"
+            9041 -> "This DNS record cannot be proxied"
             else -> message
         }
     }
@@ -32,9 +34,7 @@ open class Response(
         val errorChain: List<Error>?
     ) {
 
-        val mostRelevantError: Error get() {
-            return errorChain?.get(0) ?: this
-        }
+        val mostRelevantError: Error get() = errorChain?.get(0)?.mostRelevantError ?: this
 
     }
 

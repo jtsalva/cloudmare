@@ -2,11 +2,13 @@ package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.DateString
+import java.security.InvalidParameterException
 
 data class DNSRecord(
-    var id: String,
+    val id: String,
     var type: String,
     var name: String,
     var content: String,
@@ -16,14 +18,9 @@ data class DNSRecord(
     var locked: Boolean,
     var zoneId: String,
     var zoneName: String,
-
-    @Json(name = "created_on")
-    var createdOn: DateString? = null,
-
-    @Json(name = "modified_on")
-    var modifiedOn: DateString? = null,
-
-    var priority: Int? = null
+    var priority: Int? = null,
+    @Json(name = "created_on") var createdOn: DateString? = null,
+    @Json(name = "modified_on") var modifiedOn: DateString? = null
 ) {
     enum class Type {
         A, AAAA, CNAME, MX,
@@ -31,6 +28,16 @@ data class DNSRecord(
         CAA, PTR, CERT, DNSKEY,
         DS, NAPTR, SMIMEA,
         SSHFP, TLSA, URI;
+
+        companion object {
+            fun fromString(string: String): Type {
+                for (type in values()) {
+                    if (type.toString() == string) return type
+                }
+
+                throw InvalidParameterException("$string isn't a valid TTL")
+            }
+        }
     }
 
     enum class Ttl(
@@ -53,7 +60,7 @@ data class DNSRecord(
         ONE_DAYS(86400);
 
         companion object {
-            fun getFromValue(value: Int): Ttl {
+            fun fromValue(value: Int): Ttl {
                 for (ttl in values()) {
                     if (ttl.value == value) return ttl
                 }

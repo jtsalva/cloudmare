@@ -67,14 +67,14 @@
                     app:layout_constraintHorizontal_bias="0.0"/>
             <Switch
                     android:checked="@={viewModel.proxied}"
-                    android:text="Proxied"
-                    android:layout_width="wrap_content"
+                    android:text="Cloudflare Proxy"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" android:id="@+id/proxied_switch"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/ttl_spinner" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:textSize="24dp"
-            />
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
+                    app:layout_constraintEnd_toEndOf="@+id/ttl_spinner"
+                    app:layout_constraintStart_toStartOf="@+id/ttl_spinner"/>
             <TextView
                     android:text="Name"
                     android:layout_width="wrap_content"
@@ -99,6 +99,31 @@
                     app:layout_constraintStart_toStartOf="@+id/ttl_spinner"
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/content_edit_text"/>
+
+            <TextView
+                    android:text="Priority"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/priority_label"
+                    android:textSize="24dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
+                    app:layout_constraintStart_toStartOf="@+id/priority_edit_text"/>
+            <EditText
+                    android:text="@={viewModel.priority}"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="0 to 65535"
+                    android:gravity="start|top"
+                    android:ems="10"
+                    android:id="@+id/priority_edit_text"
+                    android:textSize="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/priority_label"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

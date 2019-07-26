@@ -15,8 +15,19 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
-        val data = getAdapter(DNSRecord::class.java).toJson(newDNSRecord)
-        super.post(JSONObject(data), endpointUrl(endpoint, zoneId, "dns_records")) {
+        val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
+        val data = JSONObject(
+            getAdapter(DNSRecord::class.java).toJson(newDNSRecord)
+        )
+        val payload = JSONObject()
+
+        val keys = data.keys()
+        while (keys.hasNext()) {
+            val key = keys.next()
+            if (validKeys.contains(key)) payload.put(key, data[key])
+        }
+
+        post(payload, endpointUrl(endpoint, zoneId, "dns_records")) {
             Log.d(TAG, it.toString())
 
             cont.resume(
@@ -26,8 +37,19 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
         }
     }
 
+    suspend fun delete(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
+        delete(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
+            Log.d(TAG, it.toString())
+
+            cont.resume(
+                getAdapter(DNSRecordResponse::class.java).
+                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
+            )
+        }
+    }
+
     suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
-        super.get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
+        get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
             Log.d(TAG, it.toString())
 
             cont.resume(
@@ -38,7 +60,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
 
     suspend fun list(zoneId: String) = suspendCoroutine<DNSRecordListResponse> { cont ->
-        super.get(null, endpointUrl(endpoint, zoneId, "dns_records")) {
+        get(null, endpointUrl(endpoint, zoneId, "dns_records")) {
             Log.d(TAG, it.toString())
 
             cont.resume(
@@ -49,8 +71,10 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
-        val data = getAdapter(DNSRecord::class.java).toJson(updatedDNSRecord)
-        super.put(JSONObject(data), endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
+        val payload = JSONObject(
+            getAdapter(DNSRecord::class.java).toJson(updatedDNSRecord)
+        )
+        put(payload, endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
             Log.d(TAG, it.toString())
 
             cont.resume(

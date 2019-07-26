@@ -42,21 +42,21 @@
         <item>@string/type_aaaa</item>
         <item>@string/type_cname</item>
         <item>@string/type_mx</item>
-        <!--<item>@string/type_loc</item>-->
-        <!--<item>@string/type_srv</item>-->
+        <item>@string/type_loc</item>
+        <item>@string/type_srv</item>
         <item>@string/type_spf</item>
         <item>@string/type_txt</item>
         <item>@string/type_ns</item>
-        <!--<item>@string/type_caa</item>-->
+        <item>@string/type_caa</item>
         <item>@string/type_ptr</item>
-        <!--<item>@string/type_cert</item>-->
-        <!--<item>@string/type_dnskey</item>-->
-        <!--<item>@string/type_ds</item>-->
-        <!--<item>@string/type_naptr</item>-->
-        <!--<item>@string/type_smimea</item>-->
-        <!--<item>@string/type_sshfp</item>-->
-        <!--<item>@string/type_tlsa</item>-->
-        <!--<item>@string/type_uri</item>-->
+        <item>@string/type_cert</item>
+        <item>@string/type_dnskey</item>
+        <item>@string/type_ds</item>
+        <item>@string/type_naptr</item>
+        <item>@string/type_smimea</item>
+        <item>@string/type_sshfp</item>
+        <item>@string/type_tlsa</item>
+        <item>@string/type_uri</item>
     </string-array>
 
     // DNS Record TTL Labels

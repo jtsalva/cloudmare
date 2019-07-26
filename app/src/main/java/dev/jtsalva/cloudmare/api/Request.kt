@@ -107,4 +107,17 @@ open class Request(
 
     fun post(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = post(data, endpointUrl(endpoint), callback)
 
+    fun delete(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send(
+            AuthenticatedJsonRequest(
+                VolleyRequest.Method.DELETE,
+                url,
+                data,
+                JsonResponse.Listener(callback),
+                JsonResponse.ErrorListener { error -> handleError(error, callback) }
+            )
+        )
+
+    fun delete(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = delete(data, endpointUrl(endpoint), callback)
+
 }

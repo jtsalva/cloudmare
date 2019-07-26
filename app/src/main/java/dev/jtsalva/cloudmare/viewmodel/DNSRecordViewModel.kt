@@ -1,36 +1,35 @@
 package dev.jtsalva.cloudmare.viewmodel
 
-import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
+import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Ttl
-import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
-import dev.jtsalva.cloudmare.api.dns.DNSRecordResponse
 import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
-    private val context: Context,
+    private val context: DNSRecordActivity,
     private val domainId: String,
     private val domainName: String,
-    private val data: DNSRecord
+    val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     companion object {
         private const val TAG = "DNSRecordViewModel"
     }
 
-    suspend fun updateRequest(): DNSRecordResponse =
-        DNSRecordRequest(context).update(domainId, data)
-
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
         when (parent.id) {
-            R.id.type_spinner -> data.type = parent.getItemAtPosition(pos) as String
+            R.id.type_spinner -> {
+                data.type = parent.getItemAtPosition(pos) as String
+
+                context.customizeForm()
+            }
 
             R.id.ttl_spinner -> {
                 data.ttl = when (parent.getItemAtPosition(pos) as String) {
@@ -49,7 +48,7 @@ class DNSRecordViewModel(
 
                     Ttl.ONE_DAYS.toString(context) -> Ttl.ONE_DAYS.toInt()
 
-                    else -> throw InvalidParameterException("Ttl set by user is not possible")
+                    else -> throw InvalidParameterException("Ttl is not possible")
                 }
             }
         }
@@ -67,9 +66,9 @@ class DNSRecordViewModel(
     fun getName(): String = if (data.name == domainName) "@" else data.name.substringBefore(".$domainName")
 
     fun setName(value: String) {
-        Log.d(TAG, "intercepted set name $value")
+        Log.d(TAG, "intercepted set name for $domainName: $value")
 
-        data.name = "$value.$domainName"
+        data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
         notifyPropertyChanged(BR.name)
     }
 
@@ -84,12 +83,23 @@ class DNSRecordViewModel(
     }
 
     @Bindable
+    fun getPriority(): String = if (data.priority == null) "" else data.priority.toString()
+
+    fun setPriority(value: String) {
+        Log.d(TAG, "intercepted set priority")
+
+        data.priority = value.toIntOrNull()
+        notifyPropertyChanged(BR.priority)
+    }
+
+    @Bindable
     fun getProxied(): Boolean = data.proxied
 
     fun setProxied(value: Boolean) {
         Log.d(TAG, "intercepted set proxied")
 
         data.proxied = value
+        context.customizeForm()
         notifyPropertyChanged(BR.proxied)
     }
 
