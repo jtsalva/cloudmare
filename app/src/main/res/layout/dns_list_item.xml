@@ -39,6 +39,6 @@
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/guideline2" app:layout_constraintGuide_end="258dp"/>
+            android:layout_height="wrap_content" android:id="@+id/guideline2" app:layout_constraintGuide_end="243dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

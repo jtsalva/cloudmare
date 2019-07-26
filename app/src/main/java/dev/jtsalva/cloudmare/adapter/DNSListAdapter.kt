@@ -2,15 +2,17 @@ package dev.jtsalva.cloudmare.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.*
+import dev.jtsalva.cloudmare.DNSListActivity
+import dev.jtsalva.cloudmare.DNSRecordActivity
+import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
+import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
 import java.io.InvalidObjectException
 
 class DNSListAdapter(
@@ -34,15 +36,13 @@ class DNSListAdapter(
 
         val record = records[position]
 
-        val typeText = record.type
-        val nameText = record.name.substringBefore(".$domainName")
-        val contentText = record.content
-
         holder.apply {
-            // TODO: standardise string length ans size setting
-            type.text = if (typeText.length > 22) "${typeText.subSequence(0, 20)}..." else typeText
-            name.text = if (nameText == domainName) "@" else nameText
-            content.text = if (contentText.length > 22) "${contentText.subSequence(0, 20)}..." else contentText
+            type.text = fitText(record.type)
+            name.text = record.name.substringBefore(".$domainName").let { name ->
+                if (name == domainName) "@" else fitText(name)
+            }
+            content.text = fitText(record.content)
+
         }
 
         holder.itemView.setOnClickListener {
