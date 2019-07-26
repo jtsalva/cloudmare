@@ -15,7 +15,13 @@ open class Response(
 
     val failure: Boolean get() = !success
 
-    val firstErrorMessage: String get() = errors[0].mostRelevantMessage
+    val firstErrorMessage: String get() = with(errors[0].mostRelevantError) {
+        // Intercept and replace user obscure error messages
+        when (code) {
+            9103 -> "Invalid email or api key"
+            else -> message
+        }
+    }
 
     @JsonClass(generateAdapter = true)
     data class Error(
@@ -26,7 +32,9 @@ open class Response(
         val errorChain: List<Error>?
     ) {
 
-        val mostRelevantMessage: String get() = errorChain?.get(0)?.mostRelevantMessage ?: message
+        val mostRelevantError: Error get() {
+            return errorChain?.get(0) ?: this
+        }
 
     }
 
