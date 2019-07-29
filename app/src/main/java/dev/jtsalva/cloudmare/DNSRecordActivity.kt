@@ -6,9 +6,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.LayoutMode
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Type
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest

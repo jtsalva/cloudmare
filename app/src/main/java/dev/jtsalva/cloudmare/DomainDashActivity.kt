@@ -14,11 +14,11 @@ class DomainDashActivity : CloudMareActivity() {
 
     override val TAG = "DomainDashActivity"
 
-    // TODO: properly handle null extras
     private lateinit var domainId: String
 
     private lateinit var domainName: String
 
+    // TODO: is this necessary?
     data class Category(
         val title: String,
         val info: String

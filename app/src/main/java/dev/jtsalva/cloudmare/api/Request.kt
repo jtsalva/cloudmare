@@ -21,6 +21,9 @@ open class Request(
 
     companion object {
         private lateinit var TAG: String
+
+        fun <T> getAdapter(type: Class<T>): JsonAdapter<T> =
+            Moshi.Builder().build().adapter<T>(type)
     }
 
     private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
@@ -50,10 +53,6 @@ open class Request(
 
     private fun <T> send(request: JsonRequest<T>) =
         RequestQueueSingleton.getInstance(context).addToRequestQueue(request)
-
-    // TODO: move to companion object or util
-    protected fun <T> getAdapter(type: Class<T>): JsonAdapter<T> =
-        Moshi.Builder().build().adapter<T>(type)
 
     fun get(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
         send(

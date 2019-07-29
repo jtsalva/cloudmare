@@ -3,7 +3,6 @@ package dev.jtsalva.cloudmare.api
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-// TODO: handle null response before reaching calling code
 @JsonClass(generateAdapter = true)
 open class Response(
     val success: Boolean,

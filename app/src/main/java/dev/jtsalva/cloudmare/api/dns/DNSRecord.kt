@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.DateString
 import java.security.InvalidParameterException
