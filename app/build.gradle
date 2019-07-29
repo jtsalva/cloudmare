@@ -48,4 +48,7 @@ dependencies {
     def security_version = "1.0.0-alpha02"
     implementation "androidx.security:security-crypto:$security_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC'
+
+    implementation 'com.afollestad.material-dialogs:core:3.1.0'
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.1.0'
 }
