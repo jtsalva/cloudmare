@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.JsonRequest
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.charset.Charset
 import com.android.volley.Request as VolleyRequest
@@ -51,72 +51,85 @@ open class Request(
         }
     }
 
-    private fun <T> send(request: JsonRequest<T>) =
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(request)
+    private fun <T> send(method: Int, data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(
+            when (data) {
+                null -> AuthenticatedJsonObjectRequest(
+                    method,
+                    url,
+                    null,
+                    JsonResponse.Listener(callback),
+                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                )
 
-    fun get(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send(
-            AuthenticatedJsonRequest(
-                VolleyRequest.Method.GET,
-                url,
-                data,
-                JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> handleError(error, callback) }
-            )
+                is JSONObject -> AuthenticatedJsonObjectRequest(
+                    method,
+                    url,
+                    data,
+                    JsonResponse.Listener(callback),
+                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                )
+
+                is JSONArray -> AuthenticatedJsonArrayRequest(
+                    method,
+                    url,
+                    data,
+                    JsonResponse.Listener(callback),
+                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                )
+
+                else -> throw Exception("invalid request data type")
+            }
         )
 
-    fun get(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = get(data, endpointUrl(endpoint), callback)
-
-    fun patch(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send(
-            AuthenticatedJsonRequest(
-                VolleyRequest.Method.PATCH,
-                url,
-                data,
-                JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> handleError(error, callback) }
-            )
+    fun <T> get(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send<T>(
+            VolleyRequest.Method.GET,
+            data,
+            url,
+            callback
         )
 
-    fun patch(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = patch(data, endpointUrl(endpoint), callback)
+    fun <T> get(data: T?, callback: (response: JSONObject?) -> Unit) = get(data, endpointUrl(endpoint), callback)
 
-    fun put(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send(
-            AuthenticatedJsonRequest(
-                VolleyRequest.Method.PUT,
-                url,
-                data,
-                JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> handleError(error, callback) }
-            )
+    fun <T> patch(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send<T>(
+            VolleyRequest.Method.PATCH,
+            data,
+            url,
+            callback
         )
 
-    fun put(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = patch(data, endpointUrl(endpoint), callback)
+    fun <T> patch(data: T?, callback: (response: JSONObject?) -> Unit) = patch<T>(data, endpointUrl(endpoint), callback)
 
-    fun post(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send(
-            AuthenticatedJsonRequest(
-                VolleyRequest.Method.POST,
-                url,
-                data,
-                JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> handleError(error, callback) }
-            )
+    fun <T> put(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send<T>(
+            VolleyRequest.Method.PATCH,
+            data,
+            url,
+            callback
         )
 
-    fun post(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = post(data, endpointUrl(endpoint), callback)
+    fun <T> put(data: T?, callback: (response: JSONObject?) -> Unit) = patch<T>(data, endpointUrl(endpoint), callback)
 
-    fun delete(data: JSONObject?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send(
-            AuthenticatedJsonRequest(
-                VolleyRequest.Method.DELETE,
-                url,
-                data,
-                JsonResponse.Listener(callback),
-                JsonResponse.ErrorListener { error -> handleError(error, callback) }
-            )
+    fun <T> post(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send<T>(
+            VolleyRequest.Method.POST,
+            data,
+            url,
+            callback
         )
 
-    fun delete(data: JSONObject?, callback: (response: JSONObject?) -> Unit) = delete(data, endpointUrl(endpoint), callback)
+    fun <T> post(data: T?, callback: (response: JSONObject?) -> Unit) = post<T>(data, endpointUrl(endpoint), callback)
+
+    fun <T> delete(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+        send<T>(
+            VolleyRequest.Method.DELETE,
+            data,
+            url,
+            callback
+        )
+
+    fun <T> delete(data: T?, callback: (response: JSONObject?) -> Unit) = delete<T>(data, endpointUrl(endpoint), callback)
 
 }

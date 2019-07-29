@@ -15,7 +15,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
-        super.get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
+        get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Log.d(TAG, it.toString())
 
             cont.resume(
@@ -30,7 +30,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
         val data = JSONObject()
         data.put("value", value.toString())
 
-        super.patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
+        patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Log.d(TAG, it.toString())
 
             cont.resume(

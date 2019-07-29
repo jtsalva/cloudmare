@@ -13,7 +13,7 @@ class UserRequest(context: Context) : Request(context, "user") {
     }
 
     suspend fun getDetails() = suspendCoroutine<UserDetailsResponse> { cont ->
-        super.get(null) {
+        get(null) {
             Log.d(TAG, it.toString())
 
             cont.resume(
