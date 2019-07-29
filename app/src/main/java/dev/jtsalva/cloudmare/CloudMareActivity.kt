@@ -21,7 +21,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    protected var showSettingsMenuButton = false
+    protected var showUserActivityMenuButton = false
     protected var showSaveMenuButton = false
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
@@ -53,9 +53,9 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_settings -> {
+        R.id.action_user_activity -> {
             Log.d(TAG, "Settings clicked")
-            startActivity(AppSettingsActivity::class.java)
+            startActivity(UserActivity::class.java)
                 true
         }
 
@@ -66,7 +66,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         with(menu) {
             menuInflater.inflate(R.menu.main_menu, this)
 
-            if (showSettingsMenuButton) findItem(R.id.action_settings).isVisible = true
+            if (showUserActivityMenuButton) findItem(R.id.action_user_activity).isVisible = true
 
             if (showSaveMenuButton) findItem(R.id.action_save).isVisible = true
 

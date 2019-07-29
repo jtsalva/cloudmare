@@ -18,7 +18,7 @@ class DomainListActivity : CloudMareActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        showSettingsMenuButton = true
+        showUserActivityMenuButton = true
     }
 
     override fun onResume() {
@@ -32,13 +32,13 @@ class DomainListActivity : CloudMareActivity() {
         Log.d(TAG, "Checking auth - redirecting: ${Auth.notSet}")
 
         when {
-            Auth.notSet -> startActivity(AppSettingsActivity::class.java)
+            Auth.notSet -> startActivity(UserActivity::class.java)
 
             initialized -> renderList()
 
             else -> {
                 setLayout(R.layout.activity_domain_list)
-                setToolbarTitle(R.string.title_domain_list)
+                setToolbarTitle(R.string.title_domain_list_activity)
 
                 renderList()
             }

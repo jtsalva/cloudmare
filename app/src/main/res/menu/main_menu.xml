@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/action_settings"
-            android:icon="@drawable/baseline_settings_white_48"
-            android:title="Settings"
+            android:id="@+id/action_user_activity"
+            android:icon="@drawable/baseline_account_circle_white_48"
+            android:title="User"
             android:visible="false"
             app:showAsAction="ifRoom" />
     <item

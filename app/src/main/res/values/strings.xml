@@ -2,9 +2,8 @@
     <string name="app_name">CloudMare</string>
 
     // Activity titles
-    <string name="title_domain_list">Domains</string>
-    <string name="title_domain_dash">Domain Dash</string>
-    <string name="title_app_settings">Settings</string>
+    <string name="title_domain_list_activity">Domains</string>
+    <string name="title_user_activity">User</string>
 
     // Domain Dash categories
     <string name="category_under_attack_mode">Under Attack Mode</string>
