@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".DomainDashActivity">
         </activity>
-        <activity android:name=".AppSettingsActivity">
+        <activity android:name=".UserActivity">
         </activity>
     </application>
 

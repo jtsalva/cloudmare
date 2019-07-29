@@ -2,17 +2,17 @@ package dev.jtsalva.cloudmare
 
 import android.os.Bundle
 import dev.jtsalva.cloudmare.api.user.UserRequest
-import kotlinx.android.synthetic.main.activity_app_settings.*
+import kotlinx.android.synthetic.main.activity_user.*
 
-class AppSettingsActivity : CloudMareActivity() {
+class UserActivity : CloudMareActivity() {
 
-    override val TAG = "AppSettingsActivity"
+    override val TAG = "UserActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setLayout(R.layout.activity_app_settings)
-        setToolbarTitle(R.string.title_app_settings)
+        setLayout(R.layout.activity_user)
+        setToolbarTitle(R.string.title_user_activity)
 
         Auth.load(this)
         if (Auth.isSet) {
