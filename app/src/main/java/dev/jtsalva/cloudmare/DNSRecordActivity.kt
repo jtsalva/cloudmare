@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Type
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
@@ -63,15 +66,16 @@ class DNSRecordActivity : CloudMareActivity() {
         R.id.action_delete -> {
             if (isNewRecord) finish()
 
-            else launch {
-                val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
+            else Dialog(this).confirm(positive = "Yes delete") { confirmed ->
+                if (confirmed) launch {
+                    val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
 
-                // TODO: pass back data to allow calling activity to remove deleted record
-                if (response.success) {
-                    setResult(Result.DELETED.code, intent)
-                    finish()
+                    if (response.success) {
+                        setResult(Result.DELETED.code, intent)
+                        finish()
+                    }
+                    else longToast(response.firstErrorMessage)
                 }
-                else longToast(response.firstErrorMessage)
             }
 
             true
