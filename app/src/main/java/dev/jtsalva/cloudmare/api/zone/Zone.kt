@@ -24,5 +24,4 @@ data class Zone(
     val betas: List<String>,
     val deactivationReason: String,
     val meta: ZoneMeta
-    // TODO: val account: Account
 )
