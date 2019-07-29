@@ -71,7 +71,7 @@ class DNSRecordActivity : CloudMareActivity() {
                         setResult(Result.DELETED.code, intent)
                         finish()
                     }
-                    else longToast(response.firstErrorMessage)
+                    else Dialog(this).error(message = response.firstErrorMessage)
                 }
             }
 
@@ -212,7 +212,7 @@ class DNSRecordActivity : CloudMareActivity() {
         if (response.failure || response.result == null) {
             Log.e(TAG, "Could not save DNS Record: ${response.errors}")
 
-            longToast(response.firstErrorMessage)
+            Dialog(this).error(message = response.firstErrorMessage)
         } else {
             if (isNewRecord)
                 setResult(Result.CREATED.code, Intent().putExtras(
