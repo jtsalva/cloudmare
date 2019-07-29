@@ -94,7 +94,7 @@ class DNSRecordActivity : CloudMareActivity() {
         showDeleteMenuButton = true
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
-        setToolbarTitle("$domainName | ${if (isNewRecord) "Create" else "Edit"} DNS Record")
+        setToolbarTitle("$domainName | ${if (isNewRecord) "Create" else "Edit"}")
 
         renderForm()
     }
