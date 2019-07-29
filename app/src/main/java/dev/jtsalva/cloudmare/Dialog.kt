@@ -6,11 +6,26 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 
 class Dialog(private val context: Context) {
+    private val bottomSheet: MaterialDialog get() = MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT))
+
+    fun error(title: String = "Oops",
+              message: String = "Something went wrong",
+              positive: String = "Try again",
+              onAcknowledge: () -> Unit = {}) =
+        bottomSheet.show {
+            title(text = title)
+            message(text = message)
+            positiveButton(text = positive) { dialog ->
+                onAcknowledge()
+                dialog.hide()
+            }
+        }
+
     fun confirm(title: String = "Are you sure?",
                 positive: String = "Yes",
                 negative: String = "Cancel",
                 onResult: (confirmed: Boolean) -> Unit) =
-        MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+        bottomSheet.show {
             title(text = title)
 
             positiveButton(text = positive) { dialog ->

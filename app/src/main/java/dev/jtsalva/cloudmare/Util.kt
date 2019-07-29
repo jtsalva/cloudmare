@@ -7,11 +7,11 @@ import android.widget.Toast
 import java.io.InvalidClassException
 import java.security.InvalidParameterException
 
-fun Context.toast(message: CharSequence) =
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-fun Context.longToast(message: CharSequence) =
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+//fun Context.toast(message: CharSequence) =
+//    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//
+//fun Context.longToast(message: CharSequence) =
+//    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 fun <T : Activity> Context.startActivity(activityClass: Class<T>) = startActivity(Intent(this, activityClass))
 

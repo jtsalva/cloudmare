@@ -50,11 +50,13 @@ class DomainDashActivity : CloudMareActivity() {
 
         if (securityLevelResponse.failure || securityLevelResponse.result == null) {
             Log.e(TAG, "can't fetch security level")
+            Dialog(this).error(message = securityLevelResponse.firstErrorMessage, onAcknowledge = ::recreate)
             return@launch
         }
 
         if (developmentMoveResponse.failure || developmentMoveResponse.result == null) {
             Log.e(TAG, "can't fetch development mode")
+            Dialog(this).error(message = developmentMoveResponse.firstErrorMessage, onAcknowledge = ::recreate)
             return@launch
         }
 
