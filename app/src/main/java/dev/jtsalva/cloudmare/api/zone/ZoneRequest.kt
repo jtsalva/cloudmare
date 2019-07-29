@@ -13,7 +13,7 @@ class ZoneRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun list() = suspendCoroutine<ZoneListResponse> { cont ->
-        super.get(null) {
+        get(null) {
             Log.d(TAG, it.toString())
 
             cont.resume(

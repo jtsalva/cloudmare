@@ -15,6 +15,13 @@ object Auth {
     val isSet: Boolean get() = !notSet
     val notSet: Boolean get() = email == "" || apiKey == ""
 
+    val headers: MutableMap<String, String> get() =
+        mutableMapOf(
+            "Content-Type" to "application/json",
+            "X-Auth-Email" to email,
+            "X-Auth-Key" to apiKey
+        )
+
     private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     private fun getPrefs(context: Context): SharedPreferences =

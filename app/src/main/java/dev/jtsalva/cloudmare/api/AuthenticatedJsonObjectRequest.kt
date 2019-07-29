@@ -5,7 +5,7 @@ import dev.jtsalva.cloudmare.Auth
 import org.json.JSONObject
 import com.android.volley.Response as JsonResponse
 
-class AuthenticatedJsonRequest(
+class AuthenticatedJsonObjectRequest(
     method: Int,
     url: String,
     jsonRequest: JSONObject?,
@@ -13,10 +13,6 @@ class AuthenticatedJsonRequest(
     errorListener: JsonResponse.ErrorListener?
 ) : JsonObjectRequest(method, url, jsonRequest, listener, errorListener) {
 
-    override fun getHeaders(): MutableMap<String, String> = mutableMapOf(
-        Pair("Content-Type", "application/json"),
-        Pair("X-Auth-Email", Auth.email),
-        Pair("X-Auth-Key", Auth.apiKey)
-    )
+    override fun getHeaders(): MutableMap<String, String> = Auth.headers
 
 }
