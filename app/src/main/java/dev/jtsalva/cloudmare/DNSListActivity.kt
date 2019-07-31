@@ -109,7 +109,7 @@ class DNSListActivity : CloudMareActivity() {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Log.e(TAG, "can't list DNS Records")
-            return@launch
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
         }
 
         Log.d(TAG, response.result.toString())

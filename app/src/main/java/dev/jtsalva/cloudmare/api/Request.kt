@@ -21,6 +21,11 @@ open class Request(
         private lateinit var TAG: String
     }
 
+    protected open var requestTAG: String = "*"
+
+    protected fun cancelAll(tag: String, method: String) =
+        RequestQueueSingleton(context).requestQueue.cancelAll("$tag.$method")
+
     private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
         Log.e(TAG, error.message ?: error.toString())
 
@@ -68,7 +73,7 @@ open class Request(
                     null,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                )
+                ).apply { TAG = requestTAG }
 
                 is JSONObject -> AuthenticatedJsonObjectRequest(
                     method,
@@ -76,7 +81,7 @@ open class Request(
                     data,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                )
+                ).apply { TAG = requestTAG }
 
                 is JSONArray -> AuthenticatedJsonArrayRequest(
                     method,
@@ -84,7 +89,7 @@ open class Request(
                     data,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                )
+                ).apply { TAG = requestTAG }
 
                 else -> throw Exception("invalid request data type")
             }

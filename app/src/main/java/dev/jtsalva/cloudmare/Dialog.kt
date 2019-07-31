@@ -5,8 +5,8 @@ import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 
-class Dialog(private val context: Context) {
-    private val bottomSheet: MaterialDialog get() = MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT))
+class Dialog(context: Context) {
+    private val bottomSheet: MaterialDialog = MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT))
 
     fun error(title: String = "Oops",
               message: String = "Something went wrong",
@@ -17,7 +17,7 @@ class Dialog(private val context: Context) {
             message(text = message)
             positiveButton(text = positive) { dialog ->
                 onAcknowledge()
-                dialog.hide()
+                dialog.dismiss()
             }
         }
 
@@ -30,12 +30,12 @@ class Dialog(private val context: Context) {
 
             positiveButton(text = positive) { dialog ->
                 onResult(true)
-                dialog.hide()
+                dialog.dismiss()
             }
 
             negativeButton(text = negative) { dialog ->
                 onResult(false)
-                dialog.hide()
+                dialog.dismiss()
             }
         }
 }
