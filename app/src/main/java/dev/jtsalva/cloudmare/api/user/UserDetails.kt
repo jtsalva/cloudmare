@@ -6,16 +6,16 @@ import dev.jtsalva.cloudmare.api.DateString
 
 @JsonClass(generateAdapter = true)
 data class UserDetails(
-    val id: String,
-    val email: String,
-    val firstName: String?,
-    val lastName: String?,
-    val username: String,
-    val telephone: String?,
-    val country: String?,
-    val zipcode: String?,
-    @Json(name = "created_on") val createdOn: DateString,
-    @Json(name = "modified_on") val modifiedOn: DateString,
-    @Json(name = "two_factor_authentication_enabled") val twoFactorAuthenticationEnabled: Boolean,
-    val suspended: Boolean
+    @field:Json(name = "id") val id: String,
+    @field:Json(name = "email") val email: String,
+    @field:Json(name = "first_name") val firstName: String?,
+    @field:Json(name = "last_name") val lastName: String?,
+    @field:Json(name = "username") val username: String,
+    @field:Json(name = "telephone") val telephone: String?,
+    @field:Json(name = "country") val country: String?,
+    @field:Json(name = "zipcode") val zipcode: String?,
+    @field:Json(name = "created_on") val createdOn: DateString,
+    @field:Json(name = "modified_on") val modifiedOn: DateString,
+    @field:Json(name = "two_factor_authentication_enabled") val twoFactorAuthenticationEnabled: Boolean,
+    @field:Json(name = "suspended") val suspended: Boolean
 )
