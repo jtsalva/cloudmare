@@ -55,7 +55,7 @@ class DomainDashActivity : CloudMareActivity() {
                     Log.e(TAG, "can't fetch security level")
                     Dialog(this).error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
                 } else viewModel.apply {
-                    setUnderAttackModeEnabled(response.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
+                    setUnderAttackModeEnabledNoSync(response.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
                 }
             }
         }
@@ -65,7 +65,7 @@ class DomainDashActivity : CloudMareActivity() {
                 Log.e(TAG, "can't fetch development mode")
                 Dialog(this).error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
             } else viewModel.apply {
-                setDevelopmentModeEnabled(response.result.value == DevelopmentMode.Value.ON.toString())
+                setDevelopmentModeEnabledNoSync(response.result.value == DevelopmentMode.Value.ON.toString())
             }
         }
     }
