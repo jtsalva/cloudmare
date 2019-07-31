@@ -19,15 +19,10 @@ class DomainDashViewModel(
         private const val TAG = "DomainDashViewModel"
     }
 
-    data class Data(
-        var underAttackModeEnabled: Boolean,
-        var developmentModeEnabled: Boolean
-    )
-
-    private val data = Data(
-        underAttackModeEnabled = false,
-        developmentModeEnabled = false
-    )
+    private val data = object {
+        var underAttackModeEnabled = false
+        var developmentModeEnabled = false
+    }
 
     @Bindable
     fun getUnderAttackModeEnabled(): Boolean {
