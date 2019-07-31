@@ -7,19 +7,19 @@ import dev.jtsalva.cloudmare.api.DateString
 import java.security.InvalidParameterException
 
 data class DNSRecord(
-    val id: String,
-    var type: String,
-    var name: String,
-    var content: String,
-    var proxiable: Boolean,
-    var proxied: Boolean,
-    var ttl: Int,
-    var locked: Boolean,
-    var zoneId: String,
-    var zoneName: String,
-    var priority: Int? = null,
-    @Json(name = "created_on") var createdOn: DateString? = null,
-    @Json(name = "modified_on") var modifiedOn: DateString? = null
+    @field:Json(name = "id") val id: String,
+    @field:Json(name = "type") var type: String,
+    @field:Json(name = "name") var name: String,
+    @field:Json(name = "content") var content: String,
+    @field:Json(name = "proxiable") var proxiable: Boolean,
+    @field:Json(name = "proxied") var proxied: Boolean,
+    @field:Json(name = "ttl") var ttl: Int,
+    @field:Json(name = "locked") var locked: Boolean,
+    @field:Json(name = "zoneId") var zoneId: String,
+    @field:Json(name = "zone_name") var zoneName: String,
+    @field:Json(name = "priority") var priority: Int? = null,
+    @field:Json(name = "created_on") var createdOn: DateString? = null,
+    @field:Json(name = "modified_on") var modifiedOn: DateString? = null
 ) {
     enum class Type {
         A, AAAA, CNAME, MX,
