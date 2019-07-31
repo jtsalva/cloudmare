@@ -35,42 +35,39 @@ class DomainDashActivity : CloudMareActivity() {
             domainId = getStringExtra("domain_id") ?: ""
             domainName = getStringExtra("domain_name") ?: ""
         }
-
-        binding = setLayoutBinding(R.layout.activity_domain_dash)
-        setToolbarTitle(domainName)
-
         renderDash()
+
+        setToolbarTitle(domainName)
     }
 
     private fun renderDash() = launch {
-        viewModel = DomainDashViewModel(this, domainId)
+        launch {
+            viewModel = DomainDashViewModel(this, domainId)
+            binding = setLayoutBinding(R.layout.activity_domain_dash)
+            binding.viewModel = viewModel
 
-        val securityLevelResponse = SecurityLevelRequest(this).get(domainId)
-        val developmentMoveResponse = DevelopmentModeRequest(this).get(domainId)
-
-        if (securityLevelResponse.failure || securityLevelResponse.result == null) {
-            Log.e(TAG, "can't fetch security level")
-            Dialog(this).error(message = securityLevelResponse.firstErrorMessage, onAcknowledge = ::recreate)
-            return@launch
+            setOnClickListeners()
         }
 
-        if (developmentMoveResponse.failure || developmentMoveResponse.result == null) {
-            Log.e(TAG, "can't fetch development mode")
-            Dialog(this).error(message = developmentMoveResponse.firstErrorMessage, onAcknowledge = ::recreate)
-            return@launch
+        launch {
+            SecurityLevelRequest(this).get(domainId).let { response ->
+                if (response.failure || response.result == null) {
+                    Log.e(TAG, "can't fetch security level")
+                    Dialog(this).error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+                } else viewModel.apply {
+                    setUnderAttackModeEnabled(response.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
+                }
+            }
         }
 
-        viewModel.apply {
-            setUnderAttackModeEnabled(securityLevelResponse.result.value == SecurityLevel.Value.UNDER_ATTACK.toString())
+        DevelopmentModeRequest(this).get(domainId).let { response ->
+            if (response.failure || response.result == null) {
+                Log.e(TAG, "can't fetch development mode")
+                Dialog(this).error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+            } else viewModel.apply {
+                setDevelopmentModeEnabled(response.result.value == DevelopmentMode.Value.ON.toString())
+            }
         }
-
-        viewModel.apply {
-            setDevelopmentModeEnabled(developmentMoveResponse.result.value == DevelopmentMode.Value.ON.toString())
-        }
-
-        binding.viewModel = viewModel
-
-        setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
