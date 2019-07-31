@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -21,9 +19,6 @@ open class Request(
 
     companion object {
         private lateinit var TAG: String
-
-        fun <T> getAdapter(type: Class<T>): JsonAdapter<T> =
-            Moshi.Builder().build().adapter<T>(type)
     }
 
     private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
@@ -38,16 +33,29 @@ open class Request(
                 )
                 Log.d(TAG, "Res: $res")
                 callback(JSONObject(res))
-            } catch (e: Exception) {
-                val failedResponse = getAdapter(Response::class.java).
-                    toJson(
-                        Response(success = false)
+            } catch (e: Throwable) {
+                val failedResponse = Response.withErrors(
+                    Response.Error(
+                        code = 0,
+                        message = "Something wen't wrong decoding error response"
                     )
+                )
 
                 callback(JSONObject(failedResponse))
                 Log.e(TAG, "Something wen't wrong decoding error response")
                 e.printStackTrace()
             }
+        } else {
+            Log.e(TAG, error.localizedMessage ?: "null error response")
+
+            val failedResponse = Response.withErrors(
+                Response.Error(
+                    code = 0,
+                    message = "Are you connected to the internet?"
+                )
+            )
+
+            callback(JSONObject(failedResponse))
         }
     }
 

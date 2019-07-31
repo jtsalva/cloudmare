@@ -3,7 +3,6 @@ package dev.jtsalva.cloudmare.api
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonRequest
 import dev.jtsalva.cloudmare.Auth
 import org.json.JSONArray

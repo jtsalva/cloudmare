@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.endpointUrl
+import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

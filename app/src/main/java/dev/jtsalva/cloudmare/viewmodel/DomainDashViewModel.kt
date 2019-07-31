@@ -5,6 +5,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.CloudMareActivity
+import dev.jtsalva.cloudmare.Dialog
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
@@ -41,7 +42,10 @@ class DomainDashViewModel(
 
         val response = SecurityLevelRequest(context).set(domainId, newSecurityLevelValue)
         if (response.success) Log.d(TAG, "Changed security level")
-        else Log.e(TAG, "Failed to change security level")
+        else {
+            Dialog(context).error(title = "Can't set under attack mode", message = response.firstErrorMessage)
+            Log.e(TAG, "Failed to change security level")
+        }
 
         data.underAttackModeEnabled = value
         notifyPropertyChanged(BR.underAttackModeEnabled)
@@ -62,7 +66,10 @@ class DomainDashViewModel(
 
         val response = DevelopmentModeRequest(context).set(domainId, newDevelopmentModeValue)
         if (response.success) Log.d(TAG, "Changed development mode")
-        else Log.e(TAG, "Failed to change development mode")
+        else {
+            Dialog(context).error(title = "Can't set development mode", message = response.firstErrorMessage)
+            Log.e(TAG, "Failed to change development mode")
+        }
 
         data.developmentModeEnabled = value
         notifyPropertyChanged(BR.developmentModeEnabled)
