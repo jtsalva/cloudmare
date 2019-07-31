@@ -3,7 +3,6 @@ package dev.jtsalva.cloudmare
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import java.io.InvalidClassException
 import java.security.InvalidParameterException
 

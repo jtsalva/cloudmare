@@ -10,6 +10,17 @@ open class Response(
     val messages: List<String> = emptyList()
 ) {
 
+    companion object {
+        fun withErrors(vararg errors: Error): String =
+            getAdapter(Response::class.java).toJson(
+                Response(success = false, errors = errors.run {
+                    mutableListOf<Error>().apply {
+                        for (err in this@run) add(err)
+                    }
+                })
+            )
+    }
+
     open val result: Any? = null
 
     val failure: Boolean get() = !success
@@ -29,8 +40,8 @@ open class Response(
         val code: Int,
         val message: String,
 
-        @Json(name = "error_chain")
-        val errorChain: List<Error>?
+        @field:Json(name = "error_chain")
+        val errorChain: List<Error>? = null
     ) {
 
         val mostRelevantError: Error get() = errorChain?.get(0)?.mostRelevantError ?: this

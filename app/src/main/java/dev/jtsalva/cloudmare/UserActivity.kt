@@ -29,7 +29,7 @@ class UserActivity : CloudMareActivity() {
                 val response = UserRequest(this).getDetails()
                 if (response.success) finish()
                 else Dialog(this).
-                    error(title = "Incorrect User Settings", message = response.firstErrorMessage)
+                    error(message = response.firstErrorMessage)
             }
 
         }

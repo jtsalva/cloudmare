@@ -1,5 +1,7 @@
 package dev.jtsalva.cloudmare.api
 
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,3 +26,6 @@ fun DateString.toDate(): Date =
     DateTimeFormat.parse(this) ?: Calendar.getInstance().time
 
 //fun dateToString(datetime: Date): String = DateTimeFormat.format(datetime)
+
+fun <T> getAdapter(type: Class<T>): JsonAdapter<T> =
+    Moshi.Builder().build().adapter<T>(type)
