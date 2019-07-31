@@ -26,6 +26,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
 
+    val dialog: Dialog get() = Dialog(this)
+
     fun launch(block: suspend () -> Unit): Job = coLaunch { block() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

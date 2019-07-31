@@ -13,8 +13,8 @@ android {
         applicationId "dev.jtsalva.cloudmare"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 3
-        versionName "0.1"
+        versionCode 4
+        versionName "0.15"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,6 +23,11 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+//        debug {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
     }
     dataBinding {
         enabled = true

@@ -50,7 +50,7 @@ class DomainListActivity : CloudMareActivity() {
 
         if (response.failure) {
             Log.e(TAG, "response failure: ${response.firstErrorMessage}")
-            Dialog(this).error(message = response.firstErrorMessage, onAcknowledge = ::checkAuthAndContinue)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::checkAuthAndContinue)
             return@launch
         }
 

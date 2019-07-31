@@ -63,7 +63,7 @@ class DNSRecordActivity : CloudMareActivity() {
         R.id.action_delete -> {
             if (isNewRecord) finish()
 
-            else Dialog(this).confirm(positive = "Yes delete") { confirmed ->
+            else dialog.confirm(positive = "Yes delete") { confirmed ->
                 if (confirmed) launch {
                     val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
 
@@ -71,7 +71,7 @@ class DNSRecordActivity : CloudMareActivity() {
                         setResult(Result.DELETED.code, intent)
                         finish()
                     }
-                    else Dialog(this).error(message = response.firstErrorMessage)
+                    else dialog.error(message = response.firstErrorMessage)
                 }
             }
 
@@ -164,7 +164,9 @@ class DNSRecordActivity : CloudMareActivity() {
                 locked = false,
                 zoneId = domainId,
                 zoneName = domainName
-            ) else DNSRecordRequest(this).get(domainId, dnsRecordId).result ?: return@launch
+            ) else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
+                response.result ?: dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate).run { return@launch }
+            }
 
         Log.d(TAG, "Data: $data")
 
@@ -212,7 +214,7 @@ class DNSRecordActivity : CloudMareActivity() {
         if (response.failure || response.result == null) {
             Log.e(TAG, "Could not save DNS Record: ${response.errors}")
 
-            Dialog(this).error(message = response.firstErrorMessage)
+            dialog.error(message = response.firstErrorMessage)
         } else {
             if (isNewRecord)
                 setResult(Result.CREATED.code, Intent().putExtras(

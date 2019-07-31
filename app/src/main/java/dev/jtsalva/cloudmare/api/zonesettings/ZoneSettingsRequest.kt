@@ -15,7 +15,15 @@ class ZoneSettingsRequest(context: Context) : Request(context, "zones") {
         private const val TAG = "SecurityLevelRequest"
     }
 
+    override var requestTAG: String = TAG
+        set(value) {
+            field = "$TAG.$value"
+        }
+
+    fun cancelAll(method: String) = cancelAll(TAG, method)
+
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
+        requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "settings")) {
             Log.d(TAG, it.toString())
 
@@ -27,8 +35,11 @@ class ZoneSettingsRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun update(zoneId: String, zoneSettings: List<ZoneSetting>) = suspendCoroutine<ZoneSettingsResponse> { cont ->
+        cancelAll("update")
+
         val data = JSONArray(zoneSettings.toString())
 
+        requestTAG = "update"
         patch(data, endpointUrl(endpoint, zoneId, "settings")) {
             Log.d(TAG, it.toString())
 

@@ -15,7 +15,15 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
         private const val TAG = "DevelopmentModeRequest"
     }
 
+    override var requestTAG: String = TAG
+        set(value) {
+            field = "$TAG.$value"
+        }
+
+    fun cancelAll(method: String) = cancelAll(TAG, method)
+
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
+        requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Log.d(TAG, it.toString())
 
@@ -28,9 +36,12 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun set(zoneId: String, value: DevelopmentMode.Value) = suspendCoroutine<DevelopmentModeResponse> { cont ->
+        cancelAll("set")
+
         val data = JSONObject()
         data.put("value", value.toString())
 
+        requestTAG = "set"
         patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Log.d(TAG, it.toString())
 
