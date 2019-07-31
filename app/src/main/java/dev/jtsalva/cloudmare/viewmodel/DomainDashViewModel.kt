@@ -34,6 +34,11 @@ class DomainDashViewModel(
         return data.underAttackModeEnabled
     }
 
+    fun setUnderAttackModeEnabledNoSync(value: Boolean) {
+        data.underAttackModeEnabled = value
+        notifyPropertyChanged(BR.underAttackModeEnabled)
+    }
+
     fun setUnderAttackModeEnabled(value: Boolean) = context.launch {
         val newSecurityLevelValue =
             if (value) SecurityLevel.Value.UNDER_ATTACK
@@ -49,6 +54,11 @@ class DomainDashViewModel(
 
     @Bindable
     fun getDevelopmentModeEnabled(): Boolean = data.developmentModeEnabled
+
+    fun setDevelopmentModeEnabledNoSync(value: Boolean) {
+        data.developmentModeEnabled = value
+        notifyPropertyChanged(BR.developmentModeEnabled)
+    }
 
     fun setDevelopmentModeEnabled(value: Boolean) = context.launch {
         val newDevelopmentModeValue =
