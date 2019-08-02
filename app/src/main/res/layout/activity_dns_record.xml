@@ -18,112 +18,122 @@
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar"
             />
-            <TextView
-                    android:text="Type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/type_label" android:textSize="24dp"
-                    app:layout_constraintStart_toStartOf="@+id/type_spinner" android:layout_marginTop="31dp"
-                    app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
-            <Spinner
-                    android:entries="@array/entries_dns_record_type"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp" android:id="@+id/type_spinner"
-                    app:layout_constraintStart_toStartOf="@+id/name_label"
-                    app:layout_constraintTop_toBottomOf="@+id/type_label"
-                    app:layout_constraintEnd_toEndOf="@+id/name_edit_text"/>
-            <EditText
-                    android:text="@={viewModel.name}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Name"
-                    android:ems="10"
-                    android:id="@+id/name_edit_text"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:textSize="24dp"
-                    app:layout_constraintHorizontal_bias="0.504"
-                    app:layout_constraintTop_toBottomOf="@+id/name_label"/>
-            <EditText
-                    android:text="@={viewModel.content}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:hint="Content"
-                    android:gravity="start|top"
-                    android:ems="10"
-                    android:id="@+id/content_edit_text"
-                    app:layout_constraintTop_toBottomOf="@+id/content_label" android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:textSize="24dp"
-                    app:layout_constraintHorizontal_bias="0.504"/>
-            <Spinner
-                    android:entries="@array/entries_dns_record_ttl"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp" android:id="@+id/ttl_spinner"
-                    app:layout_constraintTop_toBottomOf="@+id/ttl_label"
-                    app:layout_constraintStart_toStartOf="@+id/content_edit_text"
-                    app:layout_constraintEnd_toEndOf="@+id/content_edit_text"
-                    app:layout_constraintHorizontal_bias="0.0"/>
-            <Switch
-                    android:checked="@={viewModel.proxied}"
-                    android:text="Cloudflare Proxy"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" android:id="@+id/proxied_switch"
-                    android:textSize="24dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
-                    app:layout_constraintEnd_toEndOf="@+id/ttl_spinner"
-                    app:layout_constraintStart_toStartOf="@+id/ttl_spinner"/>
-            <TextView
-                    android:text="Name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/name_label"
-                    android:textSize="24dp" app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-                    android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/type_spinner"/>
-            <TextView
-                    android:text="Content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/content_label"
-                    android:textSize="24dp"
-                    app:layout_constraintStart_toStartOf="@+id/content_edit_text"
-                    android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/name_edit_text"/>
-            <TextView
-                    android:text="TTL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ttl_label"
-                    android:textSize="24dp"
-                    app:layout_constraintStart_toStartOf="@+id/ttl_spinner"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_edit_text"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dns_record_form_group"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <TextView
-                    android:text="Priority"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/priority_label"
-                    android:textSize="24dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
-                    app:layout_constraintStart_toStartOf="@+id/priority_edit_text"/>
-            <EditText
-                    android:text="@={viewModel.priority}"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="0 to 65535"
-                    android:gravity="start|top"
-                    android:ems="10"
-                    android:id="@+id/priority_edit_text"
-                    android:textSize="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/priority_label"
-                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            />
+                <TextView
+                        android:text="Type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/type_label" android:textSize="24dp"
+                        app:layout_constraintStart_toStartOf="@+id/type_spinner" android:layout_marginTop="31dp"
+                        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+                <Spinner
+                        android:entries="@array/entries_dns_record_type"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp" android:id="@+id/type_spinner"
+                        app:layout_constraintStart_toStartOf="@+id/name_label"
+                        app:layout_constraintTop_toBottomOf="@+id/type_label"
+                        app:layout_constraintEnd_toEndOf="@+id/name_edit_text"/>
+                <EditText
+                        android:text="@={viewModel.name}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Name"
+                        android:ems="10"
+                        android:id="@+id/name_edit_text"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:textSize="24dp"
+                        app:layout_constraintHorizontal_bias="0.504"
+                        app:layout_constraintTop_toBottomOf="@+id/name_label"/>
+                <EditText
+                        android:text="@={viewModel.content}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:hint="Content"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:id="@+id/content_edit_text"
+                        app:layout_constraintTop_toBottomOf="@+id/content_label" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:textSize="24dp"
+                        app:layout_constraintHorizontal_bias="0.504"/>
+                <Spinner
+                        android:entries="@array/entries_dns_record_ttl"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp" android:id="@+id/ttl_spinner"
+                        app:layout_constraintTop_toBottomOf="@+id/ttl_label"
+                        app:layout_constraintStart_toStartOf="@+id/content_edit_text"
+                        app:layout_constraintEnd_toEndOf="@+id/content_edit_text"
+                        app:layout_constraintHorizontal_bias="0.0"/>
+                <Switch
+                        android:checked="@={viewModel.proxied}"
+                        android:text="Cloudflare Proxy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:id="@+id/proxied_switch"
+                        android:textSize="24dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
+                        app:layout_constraintEnd_toEndOf="@+id/ttl_spinner"
+                        app:layout_constraintStart_toStartOf="@+id/ttl_spinner"/>
+                <TextView
+                        android:text="Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name_label"
+                        android:textSize="24dp" app:layout_constraintStart_toStartOf="@+id/name_edit_text"
+                        android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/type_spinner"/>
+                <TextView
+                        android:text="Content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/content_label"
+                        android:textSize="24dp"
+                        app:layout_constraintStart_toStartOf="@+id/content_edit_text"
+                        android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/name_edit_text"/>
+                <TextView
+                        android:text="TTL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ttl_label"
+                        android:textSize="24dp"
+                        app:layout_constraintStart_toStartOf="@+id/ttl_spinner"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/content_edit_text"/>
+
+                <TextView
+                        android:text="Priority"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/priority_label"
+                        android:textSize="24dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/ttl_spinner"
+                        app:layout_constraintStart_toStartOf="@+id/priority_edit_text"/>
+                <EditText
+                        android:text="@={viewModel.priority}"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="0 to 65535"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:id="@+id/priority_edit_text"
+                        android:textSize="24dp"
+                        app:layout_constraintTop_toBottomOf="@+id/priority_label"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
