@@ -176,6 +176,8 @@ class DNSRecordActivity : CloudMareActivity() {
 
         binding.viewModel = viewModel
 
+        dns_record_form_group.isVisible = true
+
         dnsRecordTypeAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 

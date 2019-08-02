@@ -35,9 +35,8 @@ class DomainDashActivity : CloudMareActivity() {
             domainId = getStringExtra("domain_id") ?: ""
             domainName = getStringExtra("domain_name") ?: ""
         }
-        renderDash()
 
-        setToolbarTitle(domainName)
+        renderDash()
     }
 
     private fun renderDash() = launch {
@@ -46,6 +45,7 @@ class DomainDashActivity : CloudMareActivity() {
             binding = setLayoutBinding(R.layout.activity_domain_dash)
             binding.viewModel = viewModel
 
+            setToolbarTitle(domainName)
             setOnClickListeners()
         }
 
