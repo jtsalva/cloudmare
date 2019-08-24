@@ -73,7 +73,7 @@ open class Request(
                     null,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                ).apply { TAG = requestTAG }
+                )
 
                 is JSONObject -> AuthenticatedJsonObjectRequest(
                     method,
@@ -81,7 +81,7 @@ open class Request(
                     data,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                ).apply { TAG = requestTAG }
+                )
 
                 is JSONArray -> AuthenticatedJsonArrayRequest(
                     method,
@@ -89,10 +89,11 @@ open class Request(
                     data,
                     JsonResponse.Listener(callback),
                     JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                ).apply { TAG = requestTAG }
+                )
 
                 else -> throw Exception("invalid request data type")
-            }
+
+            }.apply { TAG = requestTAG }
         )
 
     fun <T> get(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =

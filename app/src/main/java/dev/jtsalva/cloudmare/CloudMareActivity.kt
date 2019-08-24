@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -44,12 +45,12 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
     protected fun setLayout(contentViewResId: Int) {
         setContentView(contentViewResId)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(toolbar)
     }
 
     protected fun <T : ViewDataBinding> setLayoutBinding(contentViewResId: Int): T {
         val binding: T = DataBindingUtil.setContentView(this, contentViewResId)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(toolbar)
 
         return binding
     }
@@ -58,7 +59,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         R.id.action_user_activity -> {
             Log.d(TAG, "Settings clicked")
             startActivity(UserActivity::class.java)
-                true
+            true
         }
 
         else -> super.onOptionsItemSelected(item)
