@@ -21,22 +21,26 @@ data class DNSRecord(
     @field:Json(name = "created_on") var createdOn: DateString? = null,
     @field:Json(name = "modified_on") var modifiedOn: DateString? = null
 ) {
-    enum class Type {
-        A, AAAA, CNAME, MX,
-        LOC, SRV, SPF, TXT, NS,
-        CAA, PTR, CERT, DNSKEY,
-        DS, NAPTR, SMIMEA,
-        SSHFP, TLSA, URI;
-
-        companion object {
-            fun fromString(string: String): Type {
-                for (type in values()) {
-                    if (type.toString() == string) return type
-                }
-
-                throw InvalidParameterException("$string isn't a valid TTL")
-            }
-        }
+    companion object Type {
+        const val A = "A"
+        const val AAAA = "AAAA"
+        const val CNAME = "CNAME"
+        const val MX = "MX"
+        const val LOC = "LOC"
+        const val SRV = "SRV"
+        const val SPF = "SPF"
+        const val TXT = "TXT"
+        const val NS = "NS"
+        const val CAA = "CAA"
+        const val PTR = "PTR"
+        const val CERT = "CERT"
+        const val DNSKEY = "DNSKEY"
+        const val DS = "DS"
+        const val NAPTR = "NAPTR"
+        const val SMIMEA = "SMIMEA"
+        const val SSHFP = "SSHFP"
+        const val TLSA = "TLSA"
+        const val URI = "URI"
     }
 
     enum class Ttl(

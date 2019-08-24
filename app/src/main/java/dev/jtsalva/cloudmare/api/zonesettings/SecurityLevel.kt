@@ -9,13 +9,11 @@ data class SecurityLevel(
     @field:Json(name = "editable") val editable: Boolean,
     @field:Json(name = "modified_on") val modifiedOn: DateString
 ) {
-    enum class Value {
-        ESSENTIALLY_OFF,
-        LOW,
-        MEDIUM,
-        HIGH,
-        UNDER_ATTACK;
-
-        override fun toString(): String = super.toString().toLowerCase()
+    companion object Value {
+        const val ESSENTIALLY_OFF = "essentially_off"
+        const val LOW = "low"
+        const val MEDIUM = "medium"
+        const val HIGH = "high"
+        const val UNDER_ATTACK = "under_attack"
     }
 }

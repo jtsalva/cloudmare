@@ -35,11 +35,11 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
         }
     }
 
-    suspend fun set(zoneId: String, value: DevelopmentMode.Value) = suspendCoroutine<DevelopmentModeResponse> { cont ->
+    suspend fun set(zoneId: String, value: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
         cancelAll("set")
 
         val data = JSONObject()
-        data.put("value", value.toString())
+        data.put("value", value)
 
         requestTAG = "set"
         patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {

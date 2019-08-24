@@ -111,7 +111,7 @@ class DNSRecordActivity : CloudMareActivity() {
 
         fun setContentHint(hint: String) = content_edit_text.apply { setHint(hint) }
 
-        when (Type.fromString(type)) {
+        when (type) {
             Type.A -> {
                 setContentHint("IPv4 address")
                 setPriorityVisibility(false)
