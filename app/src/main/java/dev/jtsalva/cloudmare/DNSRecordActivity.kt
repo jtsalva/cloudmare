@@ -51,6 +51,15 @@ class DNSRecordActivity : CloudMareActivity() {
         const val DELETED = 2
     }
 
+    override fun onBackPressed() {
+        if (viewModel.dataHasChanged)
+            dialog.confirm(message = "Changes will be lost", positive = "Yes, go back") { confirmed ->
+                if (confirmed) super.onBackPressed()
+            }
+
+        else super.onBackPressed()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_save -> {
             saveRecord()

@@ -19,6 +19,10 @@ class DNSRecordViewModel(
     val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
+    private val originalHash = data.hashCode()
+
+    val dataHasChanged: Boolean get() = data.hashCode() != originalHash
+
     companion object {
         private const val TAG = "DNSRecordViewModel"
     }
