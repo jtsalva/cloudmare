@@ -18,8 +18,8 @@ class Dialog(context: Context) {
             title(text = title)
             message(text = message)
             positiveButton(text = positive) { dialog ->
-                onAcknowledge()
                 dialog.dismiss()
+                onAcknowledge()
             }
         }
 
@@ -27,20 +27,22 @@ class Dialog(context: Context) {
     }
 
     fun confirm(title: String = "Are you sure?",
+                message: String = "",
                 positive: String = "Yes",
                 negative: String = "Cancel",
                 onResult: (confirmed: Boolean) -> Unit): Dialog {
         bottomSheet.show {
             title(text = title)
+            message(text = message)
 
             positiveButton(text = positive) { dialog ->
-                onResult(true)
                 dialog.dismiss()
+                onResult(true)
             }
 
             negativeButton(text = negative) { dialog ->
-                onResult(false)
                 dialog.dismiss()
+                onResult(false)
             }
         }
 
