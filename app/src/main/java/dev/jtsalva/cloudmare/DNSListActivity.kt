@@ -20,11 +20,9 @@ class DNSListActivity : CloudMareActivity() {
 
     private lateinit var records: MutableList<DNSRecord>
 
-    enum class Request(
-        val code: Int
-    ) {
-        EDIT_RECORD(0),
-        CREATE_RECORD(1)
+    companion object Request {
+        const val EDIT_RECORD = 0
+        const val CREATE_RECORD = 1
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -36,7 +34,7 @@ class DNSListActivity : CloudMareActivity() {
         }
 
         when (resultCode) {
-            DNSRecordActivity.Result.CHANGES_MADE.code -> launch {
+            DNSRecordActivity.Result.CHANGES_MADE -> launch {
                 val position = data.getIntExtra("position", -1)
                 val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
@@ -50,7 +48,7 @@ class DNSListActivity : CloudMareActivity() {
                 dns_list.adapter?.notifyItemChanged(position) ?: Log.e(TAG, "Can't notify change")
             }
 
-            DNSRecordActivity.Result.CREATED.code -> launch {
+            DNSRecordActivity.Result.CREATED -> launch {
                 val dnsRecordId = data.getStringExtra("dns_record_id") ?: throw Exception("dns_record_id must be set")
 
                 val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
@@ -64,7 +62,7 @@ class DNSListActivity : CloudMareActivity() {
                 dns_list.layoutManager?.scrollToPosition(0) ?: Log.e(TAG, "Can't scroll to top")
             }
 
-            DNSRecordActivity.Result.DELETED.code -> {
+            DNSRecordActivity.Result.DELETED -> {
                 val position = data.getIntExtra("position", -1)
 
                 records.removeAt(position)
@@ -79,7 +77,7 @@ class DNSListActivity : CloudMareActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             Log.d(TAG, "add action clicked")
-            startActivityWithExtrasForResult(DNSRecordActivity::class.java, Request.CREATE_RECORD.code,
+            startActivityWithExtrasForResult(DNSRecordActivity::class.java, Request.CREATE_RECORD,
                 "domain_id" to domainId,
                 "domain_name" to domainName
             )

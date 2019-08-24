@@ -45,12 +45,10 @@ class DNSRecordActivity : CloudMareActivity() {
         )
     }
 
-    enum class Result(
-        val code: Int
-    ) {
-        CHANGES_MADE(0),
-        CREATED(1),
-        DELETED(2)
+    companion object Result {
+        const val CHANGES_MADE = 0
+        const val CREATED = 1
+        const val DELETED = 2
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -68,7 +66,7 @@ class DNSRecordActivity : CloudMareActivity() {
                     val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
 
                     if (response.success) {
-                        setResult(Result.DELETED.code, intent)
+                        setResult(Result.DELETED, intent)
                         finish()
                     }
                     else dialog.error(message = response.firstErrorMessage)
@@ -219,10 +217,10 @@ class DNSRecordActivity : CloudMareActivity() {
             dialog.error(message = response.firstErrorMessage)
         } else {
             if (isNewRecord)
-                setResult(Result.CREATED.code, Intent().putExtras(
+                setResult(Result.CREATED, Intent().putExtras(
                     "dns_record_id" to response.result.id
                 ))
-            else setResult(Result.CHANGES_MADE.code, intent)
+            else setResult(Result.CHANGES_MADE, intent)
 
             finish()
         }
