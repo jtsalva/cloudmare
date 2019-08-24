@@ -74,7 +74,7 @@
                         app:layout_constraintHorizontal_bias="0.0"/>
                 <Switch
                         android:checked="@={viewModel.proxied}"
-                        android:text="Cloudflare Proxy"
+                        android:text='@{viewModel.proxied ? "Proxied" : "DNS only"}'
                         android:layout_width="0dp"
                         android:layout_height="wrap_content" android:id="@+id/proxied_switch"
                         android:textSize="24dp"
