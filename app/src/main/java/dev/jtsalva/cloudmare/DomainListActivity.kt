@@ -1,15 +1,13 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_domain_list.*
+import timber.log.Timber
 
 class DomainListActivity : CloudMareActivity() {
-
-    override val TAG = "DomainListActivity"
 
     // first: domain.domainId, second: domain.domainName
     private val domains = mutableListOf<Pair<String, String>>()
@@ -19,6 +17,8 @@ class DomainListActivity : CloudMareActivity() {
         super.onCreate(savedInstanceState)
 
         showUserActivityMenuButton = true
+
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
     override fun onResume() {
@@ -29,7 +29,7 @@ class DomainListActivity : CloudMareActivity() {
     }
 
     private fun checkAuthAndContinue() {
-        Log.d(TAG, "Checking auth - redirecting: ${Auth.notSet}")
+        Timber.d("Checking auth - redirecting: ${Auth.notSet}")
 
         when {
             Auth.notSet -> startActivity(UserActivity::class.java)
@@ -49,18 +49,18 @@ class DomainListActivity : CloudMareActivity() {
         val response = ZoneRequest(this).list()
 
         if (response.failure) {
-            Log.e(TAG, "response failure: ${response.firstErrorMessage}")
+            Timber.e("response failure: ${response.firstErrorMessage}")
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::checkAuthAndContinue)
             return@launch
         }
 
         if (response.result == null) return@launch
 
-        Log.d(TAG, "List length: ${response.result.size}")
+        Timber.d("List length: ${response.result.size}")
 
         domains.clear()
         response.result.forEach { zone ->
-            Log.d(TAG, "Name: ${zone.name}")
+            Timber.d("Name: ${zone.name}")
             domains.add(zone.id to zone.name)
         }
 

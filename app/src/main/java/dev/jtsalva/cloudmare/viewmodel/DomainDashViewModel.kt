@@ -1,6 +1,5 @@
 package dev.jtsalva.cloudmare.viewmodel
 
-import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
@@ -9,15 +8,12 @@ import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
+import timber.log.Timber
 
 class DomainDashViewModel(
     private val context: CloudMareActivity,
     private val domainId: String
 ) : BaseObservable() {
-
-    companion object {
-        private const val TAG = "DomainDashViewModel"
-    }
 
     private val data = object {
         var underAttackModeEnabled = false
@@ -44,7 +40,7 @@ class DomainDashViewModel(
                 if (response.success) {
                     data.underAttackModeEnabled = value
 
-                    Log.d(TAG, "Changed security level")
+                    Timber.d("Changed security level")
                 }
                 else {
                     data.underAttackModeEnabled = !value
@@ -53,7 +49,7 @@ class DomainDashViewModel(
                         title = "Can't set under attack mode",
                         message = response.firstErrorMessage,
                         onAcknowledge = context::recreate)
-                    Log.e(TAG, "Failed to change security level")
+                    Timber.e("Failed to change security level")
                 }
                 notifyPropertyChanged(BR.underAttackModeEnabled)
             }
@@ -77,12 +73,12 @@ class DomainDashViewModel(
                 if (response.success) {
                     data.developmentModeEnabled = value
 
-                    Log.d(TAG, "Changed development mode")
+                    Timber.d("Changed development mode")
                 } else {
                     data.developmentModeEnabled = !value
 
                     context.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
-                    Log.e(TAG, "Failed to change development mode")
+                    Timber.e("Failed to change development mode")
                 }
                 notifyPropertyChanged(BR.developmentModeEnabled)
             }

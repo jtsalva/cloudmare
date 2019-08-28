@@ -1,6 +1,5 @@
 package dev.jtsalva.cloudmare.viewmodel
 
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.databinding.BaseObservable
@@ -10,6 +9,7 @@ import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Ttl
+import timber.log.Timber
 import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
@@ -22,10 +22,6 @@ class DNSRecordViewModel(
     private val originalHash = data.hashCode()
 
     val dataHasChanged: Boolean get() = data.hashCode() != originalHash
-
-    companion object {
-        private const val TAG = "DNSRecordViewModel"
-    }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
         when (parent.id) {
@@ -60,7 +56,7 @@ class DNSRecordViewModel(
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        Log.d(TAG, "Nothing selected")
+        Timber.d("Nothing selected")
     }
 
     @Bindable
@@ -70,7 +66,7 @@ class DNSRecordViewModel(
     fun getName(): String = if (data.name == domainName) "@" else data.name.substringBefore(".$domainName")
 
     fun setName(value: String) {
-        Log.d(TAG, "intercepted set name for $domainName: $value")
+        Timber.d("intercepted set name for $domainName: $value")
 
         data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
         notifyPropertyChanged(BR.name)
@@ -80,7 +76,7 @@ class DNSRecordViewModel(
     fun getContent(): String = data.content
 
     fun setContent(value: String) {
-        Log.d(TAG, "intercepted set content")
+        Timber.d("intercepted set content")
 
         data.content = value
         notifyPropertyChanged(BR.content)
@@ -90,7 +86,7 @@ class DNSRecordViewModel(
     fun getPriority(): String = if (data.priority == null) "" else data.priority.toString()
 
     fun setPriority(value: String) {
-        Log.d(TAG, "intercepted set priority")
+        Timber.d("intercepted set priority")
 
         data.priority = value.toIntOrNull()
         notifyPropertyChanged(BR.priority)
@@ -100,7 +96,7 @@ class DNSRecordViewModel(
     fun getProxied(): Boolean = data.proxied
 
     fun setProxied(value: Boolean) {
-        Log.d(TAG, "intercepted set proxied")
+        Timber.d("intercepted set proxied")
 
         data.proxied = value
         context.customizeForm()

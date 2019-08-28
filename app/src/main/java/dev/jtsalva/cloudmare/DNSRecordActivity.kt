@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
@@ -12,10 +11,9 @@ import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.databinding.ActivityDnsRecordBinding
 import dev.jtsalva.cloudmare.viewmodel.DNSRecordViewModel
 import kotlinx.android.synthetic.main.activity_dns_record.*
+import timber.log.Timber
 
 class DNSRecordActivity : CloudMareActivity() {
-
-    override val TAG = "DNSRecordActivity"
 
     private lateinit var domainId: String
 
@@ -175,7 +173,7 @@ class DNSRecordActivity : CloudMareActivity() {
                 response.result ?: dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate).run { return@launch }
             }
 
-        Log.d(TAG, "Data: $data")
+        Timber.d("Data: $data")
 
         viewModel = DNSRecordViewModel(this, domainId, domainName, data)
 
@@ -203,7 +201,7 @@ class DNSRecordActivity : CloudMareActivity() {
 
             val ttlString = DNSRecord.Ttl.fromValue(data.ttl).toString(this)
 
-            Log.d(TAG, "Ttl String: $ttlString")
+            Timber.d("Ttl String: $ttlString")
 
             ttl_spinner.apply {
                 setAdapter(adapter)
@@ -214,14 +212,14 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun saveRecord() = launch {
-        Log.d(TAG, "viewModel.data: ${viewModel.data}")
+        Timber.d("viewModel.data: ${viewModel.data}")
         val response = DNSRecordRequest(this).run {
             if (isNewRecord) create(domainId, viewModel.data)
             else update(domainId, viewModel.data)
         }
 
         if (response.failure || response.result == null) {
-            Log.e(TAG, "Could not save DNS Record: ${response.errors}")
+            Timber.e("Could not save DNS Record: ${response.errors}")
 
             dialog.error(message = response.firstErrorMessage)
         } else {

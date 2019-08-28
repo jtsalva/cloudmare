@@ -1,26 +1,22 @@
 package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
-import android.util.Log
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.endpointUrl
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
+import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
-    companion object {
-        private const val TAG = "DNSRecordRequest"
-    }
-
-    override var requestTAG: String = TAG
+    override var requestTAG: String = javaClass.simpleName
         set(value) {
-            field = "$TAG.$value"
+            field = "${javaClass.simpleName}.$value"
         }
 
-    fun cancelAll(method: String) = cancelAll(TAG, method)
+    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
         cancelAll("create")
@@ -39,7 +35,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "create"
         post(payload, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Log.d(TAG, it.toString())
+            Timber.d(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).
@@ -53,7 +49,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "delete"
         delete(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Log.d(TAG, it.toString())
+            Timber.d(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).
@@ -65,7 +61,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
         requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Log.d(TAG, it.toString())
+            Timber.d(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).fromJson(it.toString()) ?: DNSRecordResponse(success = false)
@@ -77,7 +73,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     suspend fun list(zoneId: String) = suspendCoroutine<DNSRecordListResponse> { cont ->
         requestTAG = "list"
         get(null, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Log.d(TAG, it.toString())
+            Timber.d(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordListResponse::class.java).fromJson(it.toString())
@@ -95,7 +91,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "update"
         put(payload, endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
-            Log.d(TAG, it.toString())
+            Timber.d(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).
