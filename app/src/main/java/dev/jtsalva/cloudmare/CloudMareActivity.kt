@@ -39,6 +39,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         super.onDestroy()
 
         job.cancel()
+        Dialog.dismissOpenDialog(hashCode())
     }
 
     override fun recreate() {
