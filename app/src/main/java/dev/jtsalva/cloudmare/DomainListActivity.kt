@@ -24,11 +24,11 @@ class DomainListActivity : CloudMareActivity() {
     override fun onResume() {
         super.onResume()
 
-        Auth.load(this)
         checkAuthAndContinue()
     }
 
     private fun checkAuthAndContinue() {
+        Auth.load(this)
         Timber.d("Checking auth - redirecting: ${Auth.notSet}")
 
         when {
