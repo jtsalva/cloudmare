@@ -36,8 +36,8 @@ class DomainDashViewModel(
 
     fun setUnderAttackModeEnabled(value: Boolean) = context.launch {
         val newSecurityLevelValue =
-            if (value) SecurityLevel.Value.UNDER_ATTACK
-            else SecurityLevel.Value.MEDIUM
+            if (value) SecurityLevel.UNDER_ATTACK
+            else SecurityLevel.MEDIUM
 
         if (value != data.underAttackModeEnabled)
             SecurityLevelRequest(context).set(domainId, newSecurityLevelValue).let { response ->
@@ -69,8 +69,8 @@ class DomainDashViewModel(
 
     fun setDevelopmentModeEnabled(value: Boolean) = context.launch {
         val newDevelopmentModeValue =
-            if (value) DevelopmentMode.Value.ON
-            else DevelopmentMode.Value.OFF
+            if (value) DevelopmentMode.ON
+            else DevelopmentMode.OFF
 
         if (value != data.developmentModeEnabled)
             DevelopmentModeRequest(context).set(domainId, newDevelopmentModeValue).let { response ->
