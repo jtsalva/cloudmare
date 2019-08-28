@@ -1,7 +1,6 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +10,11 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.launch as coLaunch
 
 abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
-
-    protected open val TAG = "CloudMareActivity"
 
     protected lateinit var job: Job
     override val coroutineContext: CoroutineContext
@@ -57,7 +55,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_user_activity -> {
-            Log.d(TAG, "Settings clicked")
+            Timber.d("Settings clicked")
             startActivity(UserActivity::class.java)
             true
         }
@@ -81,6 +79,6 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         return true
     }
 
-    protected fun setToolbarTitle(title: String) = supportActionBar?.setTitle(title) ?: Log.e(TAG, "Can't set title")
-    protected fun setToolbarTitle(resId: Int) = supportActionBar?.setTitle(resId) ?: Log.e(TAG, "Can't set title")
+    protected fun setToolbarTitle(title: String) = supportActionBar?.setTitle(title) ?: Timber.e("Can't set title")
+    protected fun setToolbarTitle(resId: Int) = supportActionBar?.setTitle(resId) ?: Timber.e("Can't set title")
 }

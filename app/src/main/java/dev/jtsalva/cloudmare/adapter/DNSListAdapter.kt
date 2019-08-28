@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
+import timber.log.Timber
 import java.io.InvalidObjectException
 
 class DNSListAdapter(
@@ -22,17 +22,13 @@ class DNSListAdapter(
     private val records: MutableList<DNSRecord>
 ) : RecyclerView.Adapter<DNSListAdapter.ViewHolder>() {
 
-    companion object {
-        private const val TAG = "DNSListAdapter"
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.dns_list_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder: called")
+        Timber.d("onBindViewHolder: called")
 
         val record = records[position]
 

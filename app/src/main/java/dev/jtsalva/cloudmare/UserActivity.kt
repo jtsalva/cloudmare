@@ -1,15 +1,13 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import dev.jtsalva.cloudmare.api.user.UserRequest
 import kotlinx.android.synthetic.main.activity_user.*
+import timber.log.Timber
 
 class UserActivity : CloudMareActivity() {
-
-    override val TAG = "UserActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +30,8 @@ class UserActivity : CloudMareActivity() {
 
     private fun onEnter(view: View, keyCode: Int, event: KeyEvent): Boolean
     {
-        Log.d(TAG, "event action: ${event.action}")
-        Log.d(TAG, "key code: $keyCode")
+        Timber.d("event action: ${event.action}")
+        Timber.d("key code: $keyCode")
 
         if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             onDone()

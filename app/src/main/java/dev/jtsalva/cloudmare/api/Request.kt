@@ -1,11 +1,11 @@
 package dev.jtsalva.cloudmare.api
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 import java.nio.charset.Charset
 import com.android.volley.Request as VolleyRequest
 import com.android.volley.Response as JsonResponse
@@ -15,19 +15,13 @@ open class Request(
     protected val endpoint: String
 ) {
 
-    init { TAG = "Request: $endpoint" }
-
-    companion object {
-        private lateinit var TAG: String
-    }
-
     protected open var requestTAG: String = "*"
 
     protected fun cancelAll(tag: String, method: String) =
         RequestQueueSingleton(context).requestQueue.cancelAll("$tag.$method")
 
     private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
-        Log.e(TAG, error.message ?: error.toString())
+        Timber.e(error.message ?: error.toString())
 
         val response = error.networkResponse
         if (response != null) {
@@ -36,7 +30,7 @@ open class Request(
                     response.data,
                     Charset.forName(HttpHeaderParser.parseCharset(response.headers, "UTF-8"))
                 )
-                Log.d(TAG, "Res: $res")
+                Timber.d("Res: $res")
                 callback(JSONObject(res))
             } catch (e: Throwable) {
                 val failedResponse = Response.withErrors(
@@ -47,11 +41,11 @@ open class Request(
                 )
 
                 callback(JSONObject(failedResponse))
-                Log.e(TAG, "Something wen't wrong decoding error response")
+                Timber.e("Something wen't wrong decoding error response")
                 e.printStackTrace()
             }
         } else {
-            Log.e(TAG, error.localizedMessage ?: "null error response")
+            Timber.e(error.localizedMessage ?: "null error response")
 
             val failedResponse = Response.withErrors(
                 Response.Error(
@@ -93,7 +87,7 @@ open class Request(
 
                 else -> throw Exception("invalid request data type")
 
-            }.apply { TAG = requestTAG }
+            }
         )
 
     fun <T> get(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =

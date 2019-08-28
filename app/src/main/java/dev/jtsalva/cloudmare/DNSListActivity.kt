@@ -2,17 +2,15 @@ package dev.jtsalva.cloudmare
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import kotlinx.android.synthetic.main.activity_dns_list.*
+import timber.log.Timber
 
 class DNSListActivity : CloudMareActivity() {
-
-    override val TAG = "DNSListActivity"
 
     private lateinit var domainId: String
 
@@ -29,7 +27,7 @@ class DNSListActivity : CloudMareActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (data == null) {
-            Log.d(TAG, "onActivityResult: null data")
+            Timber.d("onActivityResult: null data")
             return
         }
 
@@ -40,12 +38,12 @@ class DNSListActivity : CloudMareActivity() {
 
                 val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
                 if (response.failure || response.result == null) {
-                    Log.e(TAG, "can't fetch DNS Record")
+                    Timber.e("can't fetch DNS Record")
                     return@launch
                 }
 
                 records[position] = response.result
-                dns_list.adapter?.notifyItemChanged(position) ?: Log.e(TAG, "Can't notify change")
+                dns_list.adapter?.notifyItemChanged(position) ?: Timber.e("Can't notify change")
             }
 
             DNSRecordActivity.Result.CREATED -> launch {
@@ -53,13 +51,13 @@ class DNSListActivity : CloudMareActivity() {
 
                 val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
                 if (response.failure || response.result == null) {
-                    Log.e(TAG, "can't fetch DNS Record")
+                    Timber.e("can't fetch DNS Record")
                     return@launch
                 }
 
                 records.add(0, response.result)
-                dns_list.adapter?.notifyItemInserted(0) ?: Log.e(TAG, "Can't notify creation")
-                dns_list.layoutManager?.scrollToPosition(0) ?: Log.e(TAG, "Can't scroll to top")
+                dns_list.adapter?.notifyItemInserted(0) ?: Timber.e("Can't notify creation")
+                dns_list.layoutManager?.scrollToPosition(0) ?: Timber.e("Can't scroll to top")
             }
 
             DNSRecordActivity.Result.DELETED -> {
@@ -69,14 +67,14 @@ class DNSListActivity : CloudMareActivity() {
                 dns_list.adapter?.let { adapter ->
                     adapter.notifyItemRemoved(position)
                     adapter.notifyItemRangeChanged(position, records.size)
-                } ?: Log.e(TAG, "Can't notify delete")
+                } ?: Timber.e("Can't notify delete")
             }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
-            Log.d(TAG, "add action clicked")
+            Timber.d("add action clicked")
             startActivityWithExtrasForResult(DNSRecordActivity::class.java, Request.CREATE_RECORD,
                 "domain_id" to domainId,
                 "domain_name" to domainName
@@ -106,11 +104,11 @@ class DNSListActivity : CloudMareActivity() {
     private fun renderList() = launch {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
-            Log.e(TAG, "can't list DNS Records")
+            Timber.e("can't list DNS Records")
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
         }
 
-        Log.d(TAG, response.result.toString())
+        Timber.d(response.result.toString())
 
         records = response.result as MutableList<DNSRecord>
 
