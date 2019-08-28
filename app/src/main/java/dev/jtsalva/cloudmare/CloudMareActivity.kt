@@ -41,6 +41,12 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         job.cancel()
     }
 
+    override fun recreate() {
+        Auth.load(this)
+
+        super.recreate()
+    }
+
     protected fun setLayout(contentViewResId: Int) {
         setContentView(contentViewResId)
         setSupportActionBar(toolbar)
