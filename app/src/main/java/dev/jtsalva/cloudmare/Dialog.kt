@@ -33,7 +33,7 @@ class Dialog(context: Context) {
                 onResult: (confirmed: Boolean) -> Unit): Dialog {
         bottomSheet.show {
             title(text = title)
-            message(text = message)
+            if (message != "") message(text = message)
 
             positiveButton(text = positive) { dialog ->
                 dialog.dismiss()
@@ -56,7 +56,7 @@ class Dialog(context: Context) {
             setCanceledOnTouchOutside(false)
 
             title(text = title)
-            message(text = message)
+            if (message != "") message(text = message)
         }
 
         return this
