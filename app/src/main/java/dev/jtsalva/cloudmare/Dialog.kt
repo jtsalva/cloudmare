@@ -5,8 +5,24 @@ import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 
-class Dialog(context: Context) {
+class Dialog(val context: Context) {
     private val bottomSheet: MaterialDialog = MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT))
+
+    companion object {
+
+        private val openDialogs = mutableMapOf<Int, MaterialDialog>()
+
+        private fun setOpenDialog(activityHash: Int, dialog: MaterialDialog) {
+            openDialogs[activityHash]?.dismiss()
+            openDialogs[activityHash] = dialog
+        }
+
+        fun dismissOpenDialog(activityHash: Int) {
+            openDialogs[activityHash]?.dismiss()
+            openDialogs.remove(activityHash)
+        }
+
+    }
 
     fun dismiss() = bottomSheet.dismiss()
 
@@ -31,20 +47,20 @@ class Dialog(context: Context) {
                 positive: String = "Yes",
                 negative: String = "Cancel",
                 onResult: (confirmed: Boolean) -> Unit): Dialog {
-        bottomSheet.show {
+        val dialog = bottomSheet.show {
             title(text = title)
             if (message != "") message(text = message)
 
             positiveButton(text = positive) { dialog ->
-                dialog.dismiss()
                 onResult(true)
             }
 
             negativeButton(text = negative) { dialog ->
-                dialog.dismiss()
                 onResult(false)
             }
         }
+
+        openDialogs[context.hashCode()] = dialog
 
         return this
     }
