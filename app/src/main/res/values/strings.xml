@@ -8,11 +8,24 @@
     // Domain Dash categories
     <string name="category_under_attack_mode">Under Attack Mode</string>
     <string name="category_development_mode">Development Mode</string>
+    <string name="category_dns">DNS</string>
+    <string name="category_crypto">Crypto</string>
+    <string name="category_access">Access</string>
+    <string name="category_speed">Speed</string>
+    <string name="category_caching">Caching</string>
+    <string name="category_workers">Workers</string>
+    <string name="category_traffic">Traffic</string>
 
     // Domain Dash category info
     <string name="info_under_attack_mode">Show visitors a JavaScript challenge when visiting your site.</string>
-    <string name="info_development_mode">Temporarily bypass cache. See changes to your origin server in realtime.
-    </string>
+    <string name="info_development_mode">Temporarily bypass cache. See changes to your origin server in realtime.</string>
+    <string name="info_dns">Manage your Domain Name System (DNS) settings</string>
+    <string name="info_crypto">Manage cryptography settings for your website</string>
+    <string name="info_access">Manage access to your applications</string>
+    <string name="info_speed">Manage performance settings for your website</string>
+    <string name="info_caching">Manage caching settings for your website</string>
+    <string name="info_workers">Run JavaScript on the edge</string>
+    <string name="info_traffic">Control and manage your traffic</string>
 
     // DNS Record Type Labels
     <string name="type_a">A</string>

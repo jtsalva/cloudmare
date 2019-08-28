@@ -67,7 +67,7 @@
                                                                android:layout_marginEnd="40dp">
                 <TextView
                         android:id="@+id/dns_title_text_view"
-                        android:text="DNS"
+                        android:text="@string/category_dns"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
@@ -75,170 +75,14 @@
                         app:layout_constraintStart_toStartOf="parent"/>
                 <TextView
                         android:id="@+id/dns_info_text_view"
-                        android:text="Manage your Domain Name System (DNS) settings"
+                        android:text="@string/info_dns"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/dns_title_text_view"
                         app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/crypto_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/dns_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/crypto_title_text_view"
-                        android:text="Crypto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/crypto_info_text_view"
-                        android:text="Manage cryptography settings for your website"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/crypto_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/access_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/crypto_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/access_title_text_view"
-                        android:text="Access"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/access_info_text_view"
-                        android:text="Manage access to your applications"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/access_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/speed_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/access_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/speed_title_text_view"
-                        android:text="Speed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/speed_info_text_view"
-                        android:text="Manage performance settings for your website"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/speed_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/caching_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/speed_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/caching_title_text_view"
-                        android:text="Caching"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/caching_info_text_view"
-                        android:text="Manage caching settings for your website"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/caching_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/workers_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/caching_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/workers_title_text_view"
-                        android:text="Workers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/workers_info_text_view"
-                        android:text="Run JavaScript on the edge"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/workers_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/traffic_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/workers_item"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/traffic_title_text_view"
-                        android:text="Traffic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/traffic_info_text_view"
-                        android:text="Control and manage your traffic"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/traffic_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:paddingBottom="20dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
