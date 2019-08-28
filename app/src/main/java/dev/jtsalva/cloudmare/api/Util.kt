@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val BASE_URL = "https://api.cloudflare.com/client/v4/"
+const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'"
 
 fun endpointUrl(vararg endpoints: String): String {
     var url = BASE_URL
@@ -17,10 +18,7 @@ fun endpointUrl(vararg endpoints: String): String {
 
 typealias DateString = String
 
-typealias ResponseListener<Response> = (Response) -> Unit
-
-
-val DateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ENGLISH)
+val DateTimeFormat = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
 
 fun DateString.toDate(): Date =
     DateTimeFormat.parse(this) ?: Calendar.getInstance().time
