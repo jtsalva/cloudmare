@@ -28,7 +28,6 @@ class DomainListActivity : CloudMareActivity() {
     }
 
     private fun checkAuthAndContinue() {
-        Auth.load(this)
         Timber.d("Checking auth - redirecting: ${Auth.notSet}")
 
         when {
