@@ -3,7 +3,7 @@ package dev.jtsalva.cloudmare.viewmodel
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
-import dev.jtsalva.cloudmare.CloudMareActivity
+import dev.jtsalva.cloudmare.DomainDashActivity
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
@@ -11,7 +11,7 @@ import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
 import timber.log.Timber
 
 class DomainDashViewModel(
-    private val context: CloudMareActivity,
+    private val activity: DomainDashActivity,
     private val domainId: String
 ) : BaseObservable() {
 
@@ -30,13 +30,13 @@ class DomainDashViewModel(
         notifyPropertyChanged(BR.underAttackModeEnabled)
     }
 
-    fun setUnderAttackModeEnabled(value: Boolean) = context.launch {
+    fun setUnderAttackModeEnabled(value: Boolean) = activity.launch {
         val newSecurityLevelValue =
             if (value) SecurityLevel.UNDER_ATTACK
             else SecurityLevel.MEDIUM
 
         if (value != data.underAttackModeEnabled)
-            SecurityLevelRequest(context).set(domainId, newSecurityLevelValue).let { response ->
+            SecurityLevelRequest(activity).set(domainId, newSecurityLevelValue).let { response ->
                 if (response.success) {
                     data.underAttackModeEnabled = value
 
@@ -45,10 +45,10 @@ class DomainDashViewModel(
                 else {
                     data.underAttackModeEnabled = !value
 
-                    context.dialog.error(
+                    activity.dialog.error(
                         title = "Can't set under attack mode",
                         message = response.firstErrorMessage,
-                        onAcknowledge = context::recreate)
+                        onAcknowledge = activity::recreate)
                     Timber.e("Failed to change security level")
                 }
                 notifyPropertyChanged(BR.underAttackModeEnabled)
@@ -63,13 +63,13 @@ class DomainDashViewModel(
         notifyPropertyChanged(BR.developmentModeEnabled)
     }
 
-    fun setDevelopmentModeEnabled(value: Boolean) = context.launch {
+    fun setDevelopmentModeEnabled(value: Boolean) = activity.launch {
         val newDevelopmentModeValue =
             if (value) DevelopmentMode.ON
             else DevelopmentMode.OFF
 
         if (value != data.developmentModeEnabled)
-            DevelopmentModeRequest(context).set(domainId, newDevelopmentModeValue).let { response ->
+            DevelopmentModeRequest(activity).set(domainId, newDevelopmentModeValue).let { response ->
                 if (response.success) {
                     data.developmentModeEnabled = value
 
@@ -77,7 +77,7 @@ class DomainDashViewModel(
                 } else {
                     data.developmentModeEnabled = !value
 
-                    context.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
+                    activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
                     Timber.e("Failed to change development mode")
                 }
                 notifyPropertyChanged(BR.developmentModeEnabled)
