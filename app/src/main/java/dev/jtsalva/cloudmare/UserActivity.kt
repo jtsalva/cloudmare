@@ -15,15 +15,18 @@ class UserActivity : CloudMareActivity() {
         setLayout(R.layout.activity_user)
         setToolbarTitle(R.string.title_user_activity)
 
-        Auth.load(this)
+        email_input.setOnKeyListener(::onEnter)
+        api_key_input.setOnKeyListener(::onEnter)
+        save_button.setOnClickListener(::onSave)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         if (Auth.isSet) {
             email_input.setText(Auth.email)
             api_key_input.setText(Auth.apiKey)
         }
-
-        email_input.setOnKeyListener(::onEnter)
-        api_key_input.setOnKeyListener(::onEnter)
-        save_button.setOnClickListener(::onSave)
     }
 
     private fun onEnter(view: View, keyCode: Int, event: KeyEvent): Boolean

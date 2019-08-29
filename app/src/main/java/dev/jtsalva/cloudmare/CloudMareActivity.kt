@@ -35,17 +35,17 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         job = Job()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        Auth.load(this)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
         job.cancel()
         Dialog.dismissOpenDialog(hashCode())
-    }
-
-    override fun recreate() {
-        Auth.load(this)
-
-        super.recreate()
     }
 
     protected fun setLayout(contentViewResId: Int) {
