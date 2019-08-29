@@ -69,6 +69,8 @@ class DNSRecordViewModel(
         Timber.d("intercepted set name for $domainName: $value")
 
         data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.name)
     }
 
@@ -79,6 +81,8 @@ class DNSRecordViewModel(
         Timber.d("intercepted set content")
 
         data.content = value
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.content)
     }
 
@@ -89,6 +93,8 @@ class DNSRecordViewModel(
         Timber.d("intercepted set priority")
 
         data.priority = value.toIntOrNull()
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.priority)
     }
 
@@ -100,6 +106,8 @@ class DNSRecordViewModel(
 
         data.proxied = value
         activity.customizeForm()
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.proxied)
     }
 
