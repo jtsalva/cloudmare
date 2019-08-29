@@ -33,7 +33,7 @@ open class Request(
                 Timber.d("Res: $res")
                 callback(JSONObject(res))
             } catch (e: Throwable) {
-                val failedResponse = Response.withErrors(
+                val failedResponse = Response.createWithErrors(
                     Response.Error(
                         code = 0,
                         message = "Something wen't wrong decoding error response"
@@ -47,7 +47,7 @@ open class Request(
         } else {
             Timber.e(error.localizedMessage ?: "null error response")
 
-            val failedResponse = Response.withErrors(
+            val failedResponse = Response.createWithErrors(
                 Response.Error(
                     code = 0,
                     message = "Are you connected to the internet?"

@@ -11,7 +11,18 @@ open class Response(
 ) {
 
     companion object {
-        fun withErrors(vararg errors: Error): String =
+        object Status {
+            const val OK = 200
+            const val NOT_MODIFIED = 304
+            const val BAD_REQUEST = 400
+            const val UNAUTHORIZED = 401
+            const val FORBIDDEN = 403
+            const val TOO_MANY_REQUESTS = 429
+            const val METHOD_NOT_ALLOWED = 405
+            const val UNSUPPORTED_MEDIA_TYPE = 415
+        }
+
+        fun createWithErrors(vararg errors: Error): String =
             getAdapter(Response::class.java).toJson(
                 Response(success = false, errors = errors.run {
                     mutableListOf<Error>().apply {
@@ -46,19 +57,6 @@ open class Response(
 
         val mostRelevantError: Error get() = errorChain?.get(0)?.mostRelevantError ?: this
 
-    }
-
-    enum class Status(
-        val code: Int
-    ) {
-        OK(200),
-        NOT_MODIFIED(304),
-        BAD_REQUEST(400),
-        UNAUTHORIZED(401),
-        FORBIDDEN(403),
-        TOO_MANY_REQUESTS(429),
-        METHOD_NOT_ALLOWED(405),
-        UNSUPPORTED_MEDIA_TYPE(415)
     }
 
 }
