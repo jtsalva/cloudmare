@@ -27,6 +27,8 @@ class DomainDashViewModel(
 
     fun initUnderAttackModeEnabled(value: Boolean) {
         data.underAttackModeEnabled = value
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.underAttackModeEnabled)
     }
 
@@ -51,6 +53,8 @@ class DomainDashViewModel(
                         onAcknowledge = activity::recreate)
                     Timber.e("Failed to change security level")
                 }
+
+                @Suppress("UNRESOLVED_REFERENCE")
                 notifyPropertyChanged(BR.underAttackModeEnabled)
             }
     }
@@ -60,6 +64,8 @@ class DomainDashViewModel(
 
     fun initDevelopmentModeEnabled(value: Boolean) {
         data.developmentModeEnabled = value
+
+        @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.developmentModeEnabled)
     }
 
@@ -80,6 +86,8 @@ class DomainDashViewModel(
                     activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
                     Timber.e("Failed to change development mode")
                 }
+
+                @Suppress("UNRESOLVED_REFERENCE")
                 notifyPropertyChanged(BR.developmentModeEnabled)
             }
     }
