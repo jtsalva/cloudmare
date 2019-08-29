@@ -61,25 +61,11 @@ class DNSRecordActivity : CloudMareActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_save -> {
             saveRecord()
-
             true
         }
 
         R.id.action_delete -> {
-            if (isNewRecord) finish()
-
-            else dialog.confirm(positive = "Yes delete") { confirmed ->
-                if (confirmed) launch {
-                    val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
-
-                    if (response.success) {
-                        setResult(DELETED, intent)
-                        finish()
-                    }
-                    else dialog.error(message = response.firstErrorMessage)
-                }
-            }
-
+            deleteRecord()
             true
         }
 
@@ -160,7 +146,7 @@ class DNSRecordActivity : CloudMareActivity() {
         val data: DNSRecord =
             if (isNewRecord) DNSRecord(
                 id = "",
-                type = DNSRecord.Type.A.toString(),
+                type = DNSRecord.A,
                 name = "",
                 content = "",
                 proxiable = true,
@@ -211,8 +197,28 @@ class DNSRecordActivity : CloudMareActivity() {
         }
     }
 
+    private fun deleteRecord() {
+        if (isNewRecord) finish()
+
+        else dialog.confirm(positive = "Yes delete") { confirmed ->
+            if (confirmed) launch {
+                dialog.loading(title = "Deleting...")
+
+                val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
+
+                if (response.success) {
+                    setResult(DELETED, intent)
+                    finish()
+                }
+                else dialog.error(message = response.firstErrorMessage)
+            }
+        }
+    }
+
     private fun saveRecord() = launch {
         Timber.d("viewModel.data: ${viewModel.data}")
+        dialog.loading(title = "Saving...")
+
         val response = DNSRecordRequest(this).run {
             if (isNewRecord) create(domainId, viewModel.data)
             else update(domainId, viewModel.data)
