@@ -1,18 +1,18 @@
 package dev.jtsalva.cloudmare.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.jtsalva.cloudmare.DomainDashActivity
+import dev.jtsalva.cloudmare.DomainListActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.startActivityWithExtras
 import timber.log.Timber
 
 class DomainListAdapter(
-    private val context: Context,
+    private val activity: DomainListActivity,
     private val domains: MutableList<Pair<String, String>>
 ) : RecyclerView.Adapter<DomainListAdapter.ViewHolder>() {
 
@@ -26,7 +26,7 @@ class DomainListAdapter(
 
         holder.name.text = domains[position].second
         holder.itemView.setOnClickListener {
-            context.startActivityWithExtras(DomainDashActivity::class.java,
+            activity.startActivityWithExtras(DomainDashActivity::class.java,
                 "domain_id" to domains[position].first,
                 "domain_name" to domains[position].second
             )

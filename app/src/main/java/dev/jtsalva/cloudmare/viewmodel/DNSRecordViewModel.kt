@@ -13,7 +13,7 @@ import timber.log.Timber
 import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
-    private val context: DNSRecordActivity,
+    private val activity: DNSRecordActivity,
     private val domainId: String,
     private val domainName: String,
     val data: DNSRecord
@@ -28,25 +28,25 @@ class DNSRecordViewModel(
             R.id.type_spinner -> {
                 data.type = parent.getItemAtPosition(pos) as String
 
-                context.customizeForm()
+                activity.customizeForm()
             }
 
             R.id.ttl_spinner -> {
                 data.ttl = when (parent.getItemAtPosition(pos) as String) {
-                    Ttl.AUTOMATIC.toString(context) -> Ttl.AUTOMATIC.toInt()
+                    Ttl.AUTOMATIC.toString(activity) -> Ttl.AUTOMATIC.toInt()
 
-                    Ttl.TWO_MINUTES.toString(context) -> Ttl.TWO_MINUTES.toInt()
-                    Ttl.FIVE_MINUTES.toString(context) -> Ttl.FIVE_MINUTES.toInt()
-                    Ttl.TEN_MINUTES.toString(context) -> Ttl.TEN_MINUTES.toInt()
-                    Ttl.FIFTEEN_MINUTES.toString(context) -> Ttl.FIFTEEN_MINUTES.toInt()
-                    Ttl.THIRTY_MINUTES.toString(context) -> Ttl.THIRTY_MINUTES.toInt()
+                    Ttl.TWO_MINUTES.toString(activity) -> Ttl.TWO_MINUTES.toInt()
+                    Ttl.FIVE_MINUTES.toString(activity) -> Ttl.FIVE_MINUTES.toInt()
+                    Ttl.TEN_MINUTES.toString(activity) -> Ttl.TEN_MINUTES.toInt()
+                    Ttl.FIFTEEN_MINUTES.toString(activity) -> Ttl.FIFTEEN_MINUTES.toInt()
+                    Ttl.THIRTY_MINUTES.toString(activity) -> Ttl.THIRTY_MINUTES.toInt()
 
-                    Ttl.ONE_HOURS.toString(context) -> Ttl.ONE_HOURS.toInt()
-                    Ttl.TWO_HOURS.toString(context) -> Ttl.TWO_HOURS.toInt()
-                    Ttl.FIVE_HOURS.toString(context) -> Ttl.FIVE_HOURS.toInt()
-                    Ttl.TWELVE_HOURS.toString(context) -> Ttl.TWELVE_HOURS.toInt()
+                    Ttl.ONE_HOURS.toString(activity) -> Ttl.ONE_HOURS.toInt()
+                    Ttl.TWO_HOURS.toString(activity) -> Ttl.TWO_HOURS.toInt()
+                    Ttl.FIVE_HOURS.toString(activity) -> Ttl.FIVE_HOURS.toInt()
+                    Ttl.TWELVE_HOURS.toString(activity) -> Ttl.TWELVE_HOURS.toInt()
 
-                    Ttl.ONE_DAYS.toString(context) -> Ttl.ONE_DAYS.toInt()
+                    Ttl.ONE_DAYS.toString(activity) -> Ttl.ONE_DAYS.toInt()
 
                     else -> throw InvalidParameterException("Ttl is not possible")
                 }
@@ -99,7 +99,7 @@ class DNSRecordViewModel(
         Timber.d("intercepted set proxied")
 
         data.proxied = value
-        context.customizeForm()
+        activity.customizeForm()
         notifyPropertyChanged(BR.proxied)
     }
 
