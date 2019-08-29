@@ -23,10 +23,8 @@ class UserActivity : CloudMareActivity() {
 
         email_input.setOnKeyListener(::onEnter)
         api_key_input.setOnKeyListener(::onEnter)
-        done_button.setOnClickListener(::onDone)
+        save_button.setOnClickListener(::onSave)
     }
-
-    override fun onBackPressed() = onDone()
 
     private fun onEnter(view: View, keyCode: Int, event: KeyEvent): Boolean
     {
@@ -34,13 +32,13 @@ class UserActivity : CloudMareActivity() {
         Timber.d("key code: $keyCode")
 
         if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-            onDone()
+            onSave()
             return true
         }
         return false
     }
 
-    private fun onDone(view: View? = null) {
+    private fun onSave(view: View? = null) {
         Auth.email = email_input.text.toString()
         Auth.apiKey = api_key_input.text.toString()
         Auth.save(this)
