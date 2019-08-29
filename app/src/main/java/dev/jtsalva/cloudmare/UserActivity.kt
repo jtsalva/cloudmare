@@ -29,6 +29,7 @@ class UserActivity : CloudMareActivity() {
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onEnter(view: View, keyCode: Int, event: KeyEvent): Boolean
     {
         Timber.d("event action: ${event.action}")
@@ -41,6 +42,7 @@ class UserActivity : CloudMareActivity() {
         return false
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onSave(view: View? = null) {
         dialog.loading(title = "Validating...")
 
