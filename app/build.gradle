@@ -14,7 +14,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 8
-        versionName "0.18"
+        versionName "Asperitas"
     }
     buildTypes {
         release {
