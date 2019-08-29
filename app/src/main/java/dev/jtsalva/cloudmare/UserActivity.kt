@@ -42,15 +42,14 @@ class UserActivity : CloudMareActivity() {
     }
 
     private fun onSave(view: View? = null) {
+        dialog.loading(title = "Validating...")
+
         Auth.email = email_input.text.toString()
         Auth.apiKey = api_key_input.text.toString()
         Auth.save(this)
 
-        val validationDialog = Dialog(this).validating()
-
         launch {
             val response = UserRequest(this).getDetails()
-            validationDialog.dismiss()
 
             if (response.success) finish()
             else dialog.
