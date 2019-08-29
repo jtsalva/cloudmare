@@ -43,7 +43,7 @@ class DNSListAdapter(
 
         holder.itemView.setOnClickListener {
             if (context is Activity) context.startActivityWithExtrasForResult(
-                DNSRecordActivity::class.java,  DNSListActivity.Request.EDIT_RECORD,
+                DNSRecordActivity::class.java,  DNSListActivity.EDIT_RECORD,
                     "domain_id" to domainId,
                     "domain_name" to domainName,
                     "dns_record_id" to record.id,

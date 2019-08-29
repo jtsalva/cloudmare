@@ -32,7 +32,7 @@ class DNSListActivity : CloudMareActivity() {
         }
 
         when (resultCode) {
-            DNSRecordActivity.Result.CHANGES_MADE -> launch {
+            DNSRecordActivity.CHANGES_MADE -> launch {
                 val position = data.getIntExtra("position", -1)
                 val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
@@ -46,7 +46,7 @@ class DNSListActivity : CloudMareActivity() {
                 dns_list.adapter?.notifyItemChanged(position) ?: Timber.e("Can't notify change")
             }
 
-            DNSRecordActivity.Result.CREATED -> launch {
+            DNSRecordActivity.CREATED -> launch {
                 val dnsRecordId = data.getStringExtra("dns_record_id") ?: throw Exception("dns_record_id must be set")
 
                 val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
@@ -60,7 +60,7 @@ class DNSListActivity : CloudMareActivity() {
                 dns_list.layoutManager?.scrollToPosition(0) ?: Timber.e("Can't scroll to top")
             }
 
-            DNSRecordActivity.Result.DELETED -> {
+            DNSRecordActivity.DELETED -> {
                 val position = data.getIntExtra("position", -1)
 
                 records.removeAt(position)
@@ -75,7 +75,7 @@ class DNSListActivity : CloudMareActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             Timber.d("add action clicked")
-            startActivityWithExtrasForResult(DNSRecordActivity::class.java, Request.CREATE_RECORD,
+            startActivityWithExtrasForResult(DNSRecordActivity::class.java, CREATE_RECORD,
                 "domain_id" to domainId,
                 "domain_name" to domainName
             )
