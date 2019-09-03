@@ -31,7 +31,7 @@ class DomainListActivity : CloudMareActivity() {
         Timber.d("Checking auth - redirecting: ${Auth.notSet}")
 
         when {
-            Auth.notSet -> startActivity(UserActivity::class.java)
+            Auth.notSet -> startActivity(UserActivity::class)
 
             initialized -> renderList()
 

@@ -26,7 +26,7 @@ class DomainListAdapter(
 
         holder.name.text = domains[position].second
         holder.itemView.setOnClickListener {
-            activity.startActivityWithExtras(DomainDashActivity::class.java,
+            activity.startActivityWithExtras(DomainDashActivity::class,
                 "domain_id" to domains[position].first,
                 "domain_name" to domains[position].second
             )
