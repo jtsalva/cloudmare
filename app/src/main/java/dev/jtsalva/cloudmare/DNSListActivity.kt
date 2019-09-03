@@ -75,7 +75,7 @@ class DNSListActivity : CloudMareActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             Timber.d("add action clicked")
-            startActivityWithExtrasForResult(DNSRecordActivity::class.java, CREATE_RECORD,
+            startActivityWithExtrasForResult(DNSRecordActivity::class, CREATE_RECORD,
                 "domain_id" to domainId,
                 "domain_name" to domainName
             )

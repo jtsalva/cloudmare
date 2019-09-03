@@ -70,7 +70,7 @@ class DomainDashActivity : CloudMareActivity() {
 
     private fun setOnClickListeners() {
         dns_item.setOnClickListener {
-            startActivityWithExtras(DNSListActivity::class.java,
+            startActivityWithExtras(DNSListActivity::class,
                     "domain_id" to domainId,
                     "domain_name" to domainName
             )

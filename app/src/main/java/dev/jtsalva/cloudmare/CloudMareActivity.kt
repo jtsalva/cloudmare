@@ -63,7 +63,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_user_activity -> {
             Timber.d("Settings clicked")
-            startActivity(UserActivity::class.java)
+            startActivity(UserActivity::class)
             true
         }
 
