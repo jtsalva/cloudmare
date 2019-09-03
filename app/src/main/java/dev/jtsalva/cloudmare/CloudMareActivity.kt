@@ -6,7 +6,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import kotlinx.android.synthetic.main.toolbar.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +25,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected var showSaveMenuButton = false
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
+
+    private val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
 
     val dialog: Dialog get() = Dialog(this)
 
@@ -51,6 +54,14 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected fun setLayout(contentViewResId: Int) {
         setContentView(contentViewResId)
         setSupportActionBar(toolbar)
+
+        if (this is SwipeRefreshable) swipeRefreshLayout.apply {
+            setOnRefreshListener {
+                Timber.d("Refreshing")
+                onSwipeRefresh()
+                isRefreshing = false
+            }
+        }
     }
 
     protected fun <T : ViewDataBinding> setLayoutBinding(contentViewResId: Int): T {

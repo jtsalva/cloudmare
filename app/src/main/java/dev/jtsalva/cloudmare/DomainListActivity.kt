@@ -7,9 +7,10 @@ import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_domain_list.*
 import timber.log.Timber
 
-class DomainListActivity : CloudMareActivity() {
+class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     // first: domain.domainId, second: domain.domainName
+    // TODO: use data class instead of pairs
     private val domains = mutableListOf<Pair<String, String>>()
     private var initialized = false
 
@@ -26,6 +27,8 @@ class DomainListActivity : CloudMareActivity() {
 
         checkAuthAndContinue()
     }
+
+    override fun onSwipeRefresh() = checkAuthAndContinue()
 
     private fun checkAuthAndContinue() {
         Timber.d("Checking auth - redirecting: ${Auth.notSet}")
