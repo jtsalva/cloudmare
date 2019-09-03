@@ -21,7 +21,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
         requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DevelopmentModeResponse::class.java).fromJson(it.toString()) ?: DevelopmentModeResponse(
@@ -39,7 +39,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "set"
         patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DevelopmentModeResponse::class.java).

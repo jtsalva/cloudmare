@@ -30,7 +30,7 @@ open class Request(
                     response.data,
                     Charset.forName(HttpHeaderParser.parseCharset(response.headers, "UTF-8"))
                 )
-                Timber.d("Res: $res")
+                Timber.v("Response: $res")
                 callback(JSONObject(res))
             } catch (e: Throwable) {
                 val failedResponse = Response.createWithErrors(

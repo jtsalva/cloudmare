@@ -35,7 +35,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "create"
         post(payload, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).
@@ -49,7 +49,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "delete"
         delete(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).
@@ -61,7 +61,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
         requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).fromJson(it.toString()) ?: DNSRecordResponse(success = false)
@@ -73,7 +73,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     suspend fun list(zoneId: String) = suspendCoroutine<DNSRecordListResponse> { cont ->
         requestTAG = "list"
         get(null, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordListResponse::class.java).fromJson(it.toString())
@@ -91,7 +91,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "update"
         put(payload, endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(DNSRecordResponse::class.java).

@@ -11,7 +11,7 @@ class UserRequest(context: Context) : Request(context, "user") {
 
     suspend fun getDetails() = suspendCoroutine<UserDetailsResponse> { cont ->
         get(null) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(UserDetailsResponse::class.java).fromJson(it.toString())
