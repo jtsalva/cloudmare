@@ -48,22 +48,22 @@ class DomainDashActivity : CloudMareActivity() {
         }
 
         launch {
-            SecurityLevelRequest(this).get(domainId).let { response ->
+            DevelopmentModeRequest(this).get(domainId).let { response ->
                 if (response.failure || response.result == null) {
-                    Timber.e("can't fetch security level")
+                    Timber.e("can't fetch development mode")
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
                 } else viewModel.apply {
-                    initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
+                    initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
                 }
             }
         }
 
-        DevelopmentModeRequest(this).get(domainId).let { response ->
+        SecurityLevelRequest(this).get(domainId).let { response ->
             if (response.failure || response.result == null) {
-                Timber.e("can't fetch development mode")
+                Timber.e("can't fetch security level")
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
             } else viewModel.apply {
-                initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
+                initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
             }
         }
     }
