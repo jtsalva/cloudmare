@@ -8,80 +8,46 @@
                 name="viewModel"
                 type="dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel" />
     </data>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                           android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <include
                     android:id="@+id/toolbar"
-                    layout="@layout/toolbar"
-            />
-            <Switch
-                    android:text="@string/category_under_attack_mode"
-                    android:checked="@={viewModel.underAttackModeEnabled}"
-                    android:layout_width="0dp"
+                    layout="@layout/toolbar" />
+
+            <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/under_attack_switch" android:textSize="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="40dp" android:layout_marginEnd="40dp"
-                    app:layout_constraintTop_toBottomOf="@+id/toolbar" android:layout_marginTop="20dp"/>
-            <TextView
-                    android:text="@string/info_under_attack_mode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/under_attack_info" android:layout_marginEnd="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
-                    app:layout_constraintHorizontal_bias="0.0" android:textSize="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/under_attack_switch"/>
-            <Switch
-                    android:text="@string/category_development_mode"
-                    android:checked="@={viewModel.developmentModeEnabled}"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/development_switch" android:textSize="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="40dp" android:layout_marginEnd="40dp"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toBottomOf="@+id/under_attack_info" android:layout_marginTop="20dp"/>
-            <TextView
-                    android:text="@string/info_development_mode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/developmnent_info" android:layout_marginEnd="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
-                    app:layout_constraintHorizontal_bias="0.0" android:textSize="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/development_switch"/>
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp"
-                                                               android:layout_height="wrap_content"
-                                                               android:id="@+id/dns_item"
-                                                               android:layout_marginTop="20dp"
-                                                               app:layout_constraintTop_toBottomOf="@+id/developmnent_info"
-                                                               app:layout_constraintStart_toStartOf="parent"
-                                                               android:layout_marginStart="40dp"
-                                                               app:layout_constraintEnd_toEndOf="parent"
-                                                               android:layout_marginEnd="40dp">
-                <TextView
-                        android:id="@+id/dns_title_text_view"
-                        android:text="@string/category_dns"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="24dp" app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="#000"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                        android:id="@+id/dns_info_text_view"
-                        android:text="@string/info_dns"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dns_title_text_view"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                <dev.jtsalva.cloudmare.view.SwitchOptionView
+                        android:id="@+id/under_attack_mode_item"
+                        app:checked="@={viewModel.underAttackModeEnabled}"
+                        app:info="@string/info_under_attack_mode"
+                        app:title="@string/category_under_attack_mode" />
+
+                <dev.jtsalva.cloudmare.view.SwitchOptionView
+                        android:id="@+id/development_mode_item"
+                        app:checked="@={viewModel.developmentModeEnabled}"
+                        app:info="@string/info_development_mode"
+                        app:title="@string/category_development_mode" />
+
+                <dev.jtsalva.cloudmare.view.ButtonOptionView
+                        android:id="@+id/dns_item"
+                        app:info="@string/info_dns"
+                        app:title="@string/category_dns" />
+
+            </TableLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="title" format="string" />
+    <attr name="info" format="string" />
+    <attr name="checked" format="boolean" />
+
+    <declare-styleable name="SwitchOptionView">
+        <attr name="title" />
+        <attr name="info" />
+        <attr name="checked" />
+    </declare-styleable>
+
+    <declare-styleable name="ButtonOptionView">
+        <attr name="title" />
+        <attr name="info" />
+    </declare-styleable>
+</resources>
