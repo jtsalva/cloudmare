@@ -21,7 +21,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
         requestTAG = "get"
         get(null, endpointUrl(endpoint, zoneId, "settings/security_level")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(SecurityLevelResponse::class.java).fromJson(it.toString())
@@ -38,7 +38,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
 
         requestTAG = "set"
         patch(data, endpointUrl(endpoint, zoneId, "settings/security_level")) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(SecurityLevelResponse::class.java).

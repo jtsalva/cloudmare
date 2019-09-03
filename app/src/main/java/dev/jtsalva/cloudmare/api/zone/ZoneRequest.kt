@@ -11,7 +11,7 @@ class ZoneRequest(context: Context) : Request(context, "zones") {
 
     suspend fun list() = suspendCoroutine<ZoneListResponse> { cont ->
         get(null) {
-            Timber.d(it.toString())
+            Timber.v(it.toString())
 
             cont.resume(
                 getAdapter(ZoneListResponse::class.java).fromJson(it.toString()) ?: ZoneListResponse(success = false)
