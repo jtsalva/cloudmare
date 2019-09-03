@@ -10,7 +10,7 @@ import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import kotlinx.android.synthetic.main.activity_dns_list.*
 import timber.log.Timber
 
-class DNSListActivity : CloudMareActivity() {
+class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var domainId: String
 
@@ -101,19 +101,35 @@ class DNSListActivity : CloudMareActivity() {
         renderList()
     }
 
-    private fun renderList() = launch {
+    override fun onSwipeRefresh() {
+        renderList(refresh = true)
+    }
+
+    private fun renderList(refresh: Boolean = false) = launch {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Timber.e("can't list DNS Records")
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
         }
 
-        Timber.d(response.result.toString())
+        (response.result as MutableList<DNSRecord>).also { result ->
+            if (refresh && result != records) {
+                Timber.d("reloading dns list")
 
-        records = response.result as MutableList<DNSRecord>
+                records.apply {
+                    clear()
+                    addAll(0, result)
+                }
+                dns_list.adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload dns list")
+            } else if (!refresh) {
+                Timber.d("initializing dns list")
 
-        dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
-        dns_list.layoutManager = LinearLayoutManager(this)
+                records = result
+                dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
+                dns_list.layoutManager = LinearLayoutManager(this)
+            }
+        }
+
     }
 
 
