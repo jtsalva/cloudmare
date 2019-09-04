@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
-import dev.jtsalva.cloudmare.api.dns.DNSRecord.Type
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.databinding.ActivityDnsRecordBinding
 import dev.jtsalva.cloudmare.viewmodel.DNSRecordViewModel
@@ -50,7 +49,7 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     override fun onBackPressed() {
-        if (viewModel.dataHasChanged)
+        if (::viewModel.isInitialized && viewModel.dataHasChanged)
             dialog.confirm(message = "Changes will be lost", positive = "Yes, go back") { confirmed ->
                 if (confirmed) super.onBackPressed()
             }
@@ -103,25 +102,25 @@ class DNSRecordActivity : CloudMareActivity() {
         fun setContentHint(hint: String) = content_edit_text.apply { setHint(hint) }
 
         when (type) {
-            Type.A -> {
+            DNSRecord.A -> {
                 setContentHint("IPv4 address")
                 setPriorityVisibility(false)
                 setProxiedVisibility(true)
             }
 
-            Type.AAAA -> {
+            DNSRecord.AAAA -> {
                 setContentHint("IPv6 address")
                 setPriorityVisibility(false)
                 setProxiedVisibility(true)
             }
 
-            Type.CNAME -> {
+            DNSRecord.CNAME -> {
                 setContentHint("Domain name")
                 setPriorityVisibility(false)
                 setProxiedVisibility(true)
             }
 
-            Type.MX -> {
+            DNSRecord.MX -> {
                 setContentHint("Content")
                 setPriorityVisibility(true)
                 setProxiedVisibility(false)
@@ -134,8 +133,10 @@ class DNSRecordActivity : CloudMareActivity() {
             }
         }
 
-        ttl_spinner.isEnabled = !proxied
-        ttl_spinner.isClickable = !proxied
+        ttl_spinner.apply {
+            isEnabled = !proxied
+            isClickable = !proxied
+        }
         if (proxied) {
             val ttlString = DNSRecord.Ttl.AUTOMATIC.toString(this@DNSRecordActivity)
             ttl_spinner.setSelection(dnsRecordTtlAdapter.getPosition(ttlString))
@@ -144,22 +145,14 @@ class DNSRecordActivity : CloudMareActivity() {
 
     private fun renderForm() = launch {
         val data: DNSRecord =
-            if (isNewRecord) DNSRecord(
-                id = "",
-                type = DNSRecord.A,
-                name = "",
-                content = "",
-                proxiable = true,
-                proxied = false,
-                ttl = DNSRecord.Ttl.AUTOMATIC.toInt(),
-                locked = false,
-                zoneId = domainId,
-                zoneName = domainName
-            ) else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
-                response.result ?: dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate).run { return@launch }
+            if (isNewRecord) DNSRecord.default.apply { zoneName = domainName }
+            else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
+                response.result ?: DNSRecord.default.also {
+                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+                }
             }
 
-        Timber.d("Data: $data")
+        Timber.d("DNSRecord: $data")
 
         viewModel = DNSRecordViewModel(this, domainId, domainName, data)
 
@@ -186,8 +179,6 @@ class DNSRecordActivity : CloudMareActivity() {
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
             val ttlString = DNSRecord.Ttl.fromValue(data.ttl).toString(this)
-
-            Timber.d("Ttl String: $ttlString")
 
             ttl_spinner.apply {
                 setAdapter(adapter)
@@ -224,18 +215,16 @@ class DNSRecordActivity : CloudMareActivity() {
             else update(domainId, viewModel.data)
         }
 
-        if (response.failure || response.result == null) {
-            Timber.e("Could not save DNS Record: ${response.errors}")
+        if (response.failure || response.result == null)
+            dialog.error(message = response.firstErrorMessage).also {
+                Timber.e("Could not save DNS Record: ${response.errors}")
+            }
+        else if (isNewRecord)
+            setResult(CREATED, Intent().putExtras(
+                "dns_record_id" to response.result.id
+            ))
+        else setResult(CHANGES_MADE, intent)
 
-            dialog.error(message = response.firstErrorMessage)
-        } else {
-            if (isNewRecord)
-                setResult(CREATED, Intent().putExtras(
-                    "dns_record_id" to response.result.id
-                ))
-            else setResult(CHANGES_MADE, intent)
-
-            finish()
-        }
+        finish()
     }
 }
