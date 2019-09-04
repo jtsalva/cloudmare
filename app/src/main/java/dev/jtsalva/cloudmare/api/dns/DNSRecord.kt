@@ -20,7 +20,7 @@ data class DNSRecord(
     @field:Json(name = "created_on") var createdOn: DateString? = null,
     @field:Json(name = "modified_on") var modifiedOn: DateString? = null
 ) {
-    companion object Type {
+    companion object {
         const val A = "A"
         const val AAAA = "AAAA"
         const val CNAME = "CNAME"
@@ -40,6 +40,20 @@ data class DNSRecord(
         const val SSHFP = "SSHFP"
         const val TLSA = "TLSA"
         const val URI = "URI"
+
+        val default: DNSRecord get() =
+            DNSRecord(
+                id = "",
+                type = A,
+                name = "",
+                content = "",
+                proxiable = true,
+                proxied = false,
+                ttl = Ttl.AUTOMATIC.toInt(),
+                locked = false,
+                zoneId = "",
+                zoneName = ""
+            )
     }
 
     enum class Ttl(
