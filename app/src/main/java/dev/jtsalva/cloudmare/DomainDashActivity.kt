@@ -10,7 +10,7 @@ import dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel
 import kotlinx.android.synthetic.main.activity_domain_dash.*
 import timber.log.Timber
 
-class DomainDashActivity : CloudMareActivity() {
+class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var domainId: String
 
@@ -31,8 +31,12 @@ class DomainDashActivity : CloudMareActivity() {
         renderDash()
     }
 
-    private fun renderDash() = launch {
-        launch {
+    override fun onSwipeRefresh() {
+        renderDash(refresh = true)
+    }
+
+    private fun renderDash(refresh: Boolean = false) = launch {
+        if (!refresh) launch {
             viewModel = DomainDashViewModel(this, domainId)
             binding = setLayoutBinding(R.layout.activity_domain_dash)
             binding.viewModel = viewModel
