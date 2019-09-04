@@ -31,14 +31,10 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         super.onResume()
 
         if (Auth.notSet) startActivity(UserActivity::class)
-        else renderList()
+        else render()
     }
 
-    override fun onSwipeRefresh() {
-        renderList()
-    }
-
-    private fun renderList() = launch {
+    override fun render() = launch {
         val response = ZoneRequest(this).list()
         if (response.failure || response.result == null) {
             Timber.e("response failure: ${response.firstErrorMessage}")
