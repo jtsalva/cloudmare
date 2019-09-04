@@ -92,7 +92,7 @@ class DNSRecordActivity : CloudMareActivity() {
     override fun onResume() {
         super.onResume()
 
-        renderForm()
+        render()
     }
 
     fun customizeForm() = with (viewModel.data) {
@@ -149,7 +149,7 @@ class DNSRecordActivity : CloudMareActivity() {
         }
     }
 
-    private fun renderForm() = launch {
+    private fun render() = launch {
         val data: DNSRecord =
             if (isNewRecord) DNSRecord.default.apply { zoneName = domainName }
             else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->

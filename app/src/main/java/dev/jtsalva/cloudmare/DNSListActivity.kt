@@ -104,14 +104,10 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onResume() {
         super.onResume()
 
-        renderList()
+        render()
     }
 
-    override fun onSwipeRefresh() {
-        renderList()
-    }
-
-    private fun renderList() = launch {
+    override fun render() = launch {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Timber.e("can't list DNS Records")

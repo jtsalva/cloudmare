@@ -1,5 +1,9 @@
 package dev.jtsalva.cloudmare
 
+import java.lang.Exception
+
 interface SwipeRefreshable {
-    fun onSwipeRefresh()
+    fun render(): Any = throw Exception("Stub!")
+
+    fun onSwipeRefresh(): Any = render()
 }
