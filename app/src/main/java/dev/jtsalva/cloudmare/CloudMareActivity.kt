@@ -51,10 +51,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         Dialog.dismissOpenDialog(hashCode())
     }
 
-    protected fun setLayout(contentViewResId: Int) {
-        setContentView(contentViewResId)
-        setSupportActionBar(toolbar)
-
+    private fun setSwipeRefreshListener() {
         if (this is SwipeRefreshable) swipeRefreshLayout.apply {
             setOnRefreshListener {
                 Timber.d("Refreshing")
@@ -64,9 +61,16 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    protected fun setLayout(contentViewResId: Int) {
+        setContentView(contentViewResId)
+        setSupportActionBar(toolbar)
+        setSwipeRefreshListener()
+    }
+
     protected fun <T : ViewDataBinding> setLayoutBinding(contentViewResId: Int): T {
         val binding: T = DataBindingUtil.setContentView(this, contentViewResId)
         setSupportActionBar(toolbar)
+        setSwipeRefreshListener()
 
         return binding
     }
