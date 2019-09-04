@@ -54,8 +54,7 @@ class UserActivity : CloudMareActivity() {
             val response = UserRequest(this).getDetails()
 
             if (response.success) finish()
-            else dialog.
-                error(message = response.firstErrorMessage)
+            else dialog.error(message = response.firstErrorMessage)
         }
     }
 

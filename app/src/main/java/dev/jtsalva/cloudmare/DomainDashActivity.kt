@@ -20,6 +20,8 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var viewModel: DomainDashViewModel
 
+    private val initialized: Boolean get() = ::viewModel.isInitialized
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,16 +29,20 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             domainId = getStringExtra("domain_id") ?: ""
             domainName = getStringExtra("domain_name") ?: ""
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         renderDash()
     }
 
     override fun onSwipeRefresh() {
-        renderDash(refresh = true)
+        renderDash()
     }
 
-    private fun renderDash(refresh: Boolean = false) = launch {
-        if (!refresh) launch {
+    private fun renderDash() = launch {
+        if (!initialized) launch {
             viewModel = DomainDashViewModel(this, domainId)
             binding = setLayoutBinding(R.layout.activity_domain_dash)
             binding.viewModel = viewModel
@@ -45,23 +51,22 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             setOnClickListeners()
         }
 
-        launch {
-            DevelopmentModeRequest(this).get(domainId).let { response ->
-                if (response.failure || response.result == null) {
-                    Timber.e("can't fetch development mode")
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
-                } else viewModel.apply {
-                    initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
-                }
-            }
-        }
-
         SecurityLevelRequest(this).get(domainId).let { response ->
             if (response.failure || response.result == null) {
                 Timber.e("can't fetch security level")
-                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+                return@launch
             } else viewModel.apply {
                 initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
+            }
+        }
+
+        DevelopmentModeRequest(this).get(domainId).let { response ->
+            if (response.failure || response.result == null) {
+                Timber.e("can't fetch development mode")
+                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+            } else viewModel.apply {
+                initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
             }
         }
     }

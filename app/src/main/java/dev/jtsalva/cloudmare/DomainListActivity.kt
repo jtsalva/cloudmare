@@ -7,57 +7,54 @@ import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_domain_list.*
 import timber.log.Timber
 
+typealias DomainPair = Pair<String, String>
+
 class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     // first: domain.domainId, second: domain.domainName
     // TODO: use data class instead of pairs
-    private val domains = mutableListOf<Pair<String, String>>()
-    private val initialized get() = domain_list?.adapter is DomainListAdapter
+    private val domains = mutableListOf<DomainPair>()
+    private val initialized get() = domain_list.adapter is DomainListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+
         showUserActivityMenuButton = true
 
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        setLayout(R.layout.activity_domain_list)
+        setToolbarTitle(R.string.title_domain_list_activity)
     }
 
     override fun onResume() {
         super.onResume()
 
-        checkAuthAndContinue()
+        if (Auth.notSet) startActivity(UserActivity::class)
+        else renderList()
     }
 
-    override fun onSwipeRefresh() = checkAuthAndContinue()
-
-    private fun checkAuthAndContinue() {
-        Timber.d("Checking auth - redirecting: ${Auth.notSet}")
-
-        when {
-            Auth.notSet -> startActivity(UserActivity::class)
-
-            initialized -> renderList()
-
-            else -> {
-                setLayout(R.layout.activity_domain_list)
-                setToolbarTitle(R.string.title_domain_list_activity)
-
-                renderList()
-            }
-        }
+    override fun onSwipeRefresh() {
+        renderList()
     }
 
     private fun renderList() = launch {
         val response = ZoneRequest(this).list()
         if (response.failure || response.result == null) {
             Timber.e("response failure: ${response.firstErrorMessage}")
-            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::checkAuthAndContinue)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
         }
 
         else domain_list.apply {
-            domains.clear()
-            response.result.forEach { zone ->
-                domains.add(zone.id to zone.name)
+            mutableListOf<DomainPair>().apply {
+                response.result.forEach { zone ->
+                    add(zone.id to zone.name)
+                }
+            }.let { result ->
+                if (result != domains) {
+                    domains.clear()
+                    domains.addAll(0, result)
+                }
             }
 
             if (initialized)

@@ -41,7 +41,7 @@ class DomainDashViewModel(
                             activity.dialog.error(
                                 title = "Can't set under attack mode",
                                 message = response.firstErrorMessage,
-                                onAcknowledge = activity::recreate)
+                                onAcknowledge = activity::onResume)
                             Timber.e("Failed to change security level")
                         }
 
