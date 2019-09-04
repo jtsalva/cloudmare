@@ -112,7 +112,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
         }
 
-        (response.result as MutableList<DNSRecord>).also { result ->
+        else (response.result as MutableList<DNSRecord>).also { result ->
             if (refresh && result != records) {
                 Timber.d("reloading dns list")
 
@@ -129,7 +129,6 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 dns_list.layoutManager = LinearLayoutManager(this)
             }
         }
-
     }
 
 
