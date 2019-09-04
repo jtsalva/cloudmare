@@ -168,6 +168,8 @@ class DNSRecordActivity : CloudMareActivity() {
 
         dns_record_form_group.isVisible = true
 
+        hideProgressBar()
+
         dnsRecordTypeAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
@@ -222,7 +224,7 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
         if (response.failure || response.result == null)
-            dialog.error(message = response.firstErrorMessage, positive = "Understood").also {
+            dialog.error(message = response.firstErrorMessage, positive = "Okay").also {
                 Timber.e("Could not save DNS Record: ${response.errors}")
                 return@launch
             }

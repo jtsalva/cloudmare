@@ -60,5 +60,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                 layoutManager = LinearLayoutManager(this@DomainListActivity)
             }
         }
+
+        hideProgressBar()
     }
 }
