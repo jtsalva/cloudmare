@@ -16,12 +16,6 @@ class DomainDashActivity : CloudMareActivity() {
 
     private lateinit var domainName: String
 
-    // TODO: is this necessary?
-    data class Category(
-        val title: String,
-        val info: String
-    )
-
     private lateinit var binding: ActivityDomainDashBinding
 
     private lateinit var viewModel: DomainDashViewModel
