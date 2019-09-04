@@ -50,6 +50,9 @@ class Dialog(private val activity: CloudMareActivity) {
     fun loading(title: String = "Loading...",
                 message: String = ""): Dialog {
         setOpenDialog(activity.hashCode(), bottomSheet.show {
+            cancelable(false)
+            cancelOnTouchOutside(false)
+
             title(text = title)
             if (message != "") message(text = message)
         })
