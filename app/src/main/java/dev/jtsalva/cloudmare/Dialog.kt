@@ -1,11 +1,9 @@
 package dev.jtsalva.cloudmare
 
-import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 
 class Dialog(private val activity: CloudMareActivity) {
-    private val bottomSheet: MaterialDialog = MaterialDialog(activity, BottomSheet(LayoutMode.WRAP_CONTENT))
+    private val bottomSheet: MaterialDialog = MaterialDialog(activity)
 
     companion object {
 
@@ -23,7 +21,7 @@ class Dialog(private val activity: CloudMareActivity) {
 
     }
 
-    fun dismiss() = bottomSheet.dismiss()
+    fun dismiss() = dismissOpenDialog(activity.hashCode())
 
     fun error(title: String = "Oops",
               message: String = "Something went wrong",
@@ -52,9 +50,6 @@ class Dialog(private val activity: CloudMareActivity) {
     fun loading(title: String = "Loading...",
                 message: String = ""): Dialog {
         setOpenDialog(activity.hashCode(), bottomSheet.show {
-            cancelable(false)
-            setCanceledOnTouchOutside(false)
-
             title(text = title)
             if (message != "") message(text = message)
         })

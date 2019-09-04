@@ -18,6 +18,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var records: MutableList<DNSRecord>
 
+    private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
+
     companion object Request {
         const val EDIT_RECORD = 0
         const val CREATE_RECORD = 1
@@ -97,23 +99,27 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
         setLayout(R.layout.activity_dns_list)
         setToolbarTitle("$domainName | DNS Records")
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         renderList()
     }
 
     override fun onSwipeRefresh() {
-        renderList(refresh = true)
+        renderList()
     }
 
-    private fun renderList(refresh: Boolean = false) = launch {
+    private fun renderList() = launch {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Timber.e("can't list DNS Records")
-            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
         }
 
         else (response.result as MutableList<DNSRecord>).also { result ->
-            if (refresh && result != records) {
+            if (initialized && result != records) {
                 Timber.d("reloading dns list")
 
                 records.apply {
@@ -121,7 +127,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                     addAll(0, result)
                 }
                 dns_list.adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload dns list")
-            } else if (!refresh) {
+            } else {
                 Timber.d("initializing dns list")
 
                 records = result

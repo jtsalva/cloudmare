@@ -38,7 +38,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         job = Job()
     }
 
-    override fun onResume() {
+    public override fun onResume() {
         super.onResume()
 
         Auth.load(this)
@@ -86,6 +86,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
         with(menu) {
             menuInflater.inflate(R.menu.main_menu, this)
 

@@ -26,6 +26,8 @@ class DNSRecordActivity : CloudMareActivity() {
 
     private lateinit var viewModel: DNSRecordViewModel
 
+    private val initialized: Boolean get() = ::viewModel.isInitialized
+
     private val dnsRecordTypeAdapter by lazy {
         ArrayAdapter.createFromResource(
             this,
@@ -49,7 +51,7 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     override fun onBackPressed() {
-        if (::viewModel.isInitialized && viewModel.dataHasChanged)
+        if (initialized && viewModel.dataHasChanged)
             dialog.confirm(message = "Changes will be lost", positive = "Yes, go back") { confirmed ->
                 if (confirmed) super.onBackPressed()
             }
@@ -85,6 +87,10 @@ class DNSRecordActivity : CloudMareActivity() {
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
         setToolbarTitle("$domainName | ${if (isNewRecord) "Create" else "Edit"}")
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         renderForm()
     }
@@ -148,7 +154,7 @@ class DNSRecordActivity : CloudMareActivity() {
             if (isNewRecord) DNSRecord.default.apply { zoneName = domainName }
             else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
                 response.result ?: DNSRecord.default.also {
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::recreate)
+                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
                 }
             }
 
@@ -216,8 +222,9 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
         if (response.failure || response.result == null)
-            dialog.error(message = response.firstErrorMessage).also {
+            dialog.error(message = response.firstErrorMessage, positive = "Understood").also {
                 Timber.e("Could not save DNS Record: ${response.errors}")
+                return@launch
             }
         else if (isNewRecord)
             setResult(CREATED, Intent().putExtras(
