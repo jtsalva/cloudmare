@@ -23,6 +23,43 @@ class DNSRecordViewModel(
 
     val dataHasChanged: Boolean get() = data.hashCode() != originalHash
 
+    var name: String
+        @Bindable get() = if (data.name == domainName) "@" else data.name.substringBefore(".$domainName")
+        set(value) {
+            data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
+
+            @Suppress("UNRESOLVED_REFERENCE")
+            notifyPropertyChanged(BR.name)
+        }
+
+    var content: String
+        @Bindable get() = data.content
+        set(value) {
+            data.content = value
+
+            @Suppress("UNRESOLVED_REFERENCE")
+            notifyPropertyChanged(BR.content)
+        }
+
+    var priority: String
+        @Bindable get() = if (data.priority == null) "" else data.priority.toString()
+        set(value) {
+            data.priority = value.toIntOrNull()
+
+            @Suppress("UNRESOLVED_REFERENCE")
+            notifyPropertyChanged(BR.priority)
+        }
+
+    var proxied: Boolean
+        @Bindable get() = data.proxied
+        set(value) {
+            data.proxied = value
+            activity.customizeForm()
+
+            @Suppress("UNRESOLVED_REFERENCE")
+            notifyPropertyChanged(BR.proxied)
+        }
+
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
         when (parent.id) {
             R.id.type_spinner -> {
@@ -57,58 +94,6 @@ class DNSRecordViewModel(
 
     override fun onNothingSelected(parent: AdapterView<*>) {
         Timber.d("Nothing selected")
-    }
-
-    @Bindable
-    fun getType(): String = "${data.type} Record"
-
-    @Bindable
-    fun getName(): String = if (data.name == domainName) "@" else data.name.substringBefore(".$domainName")
-
-    fun setName(value: String) {
-        Timber.d("intercepted set name for $domainName: $value")
-
-        data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.name)
-    }
-
-    @Bindable
-    fun getContent(): String = data.content
-
-    fun setContent(value: String) {
-        Timber.d("intercepted set content")
-
-        data.content = value
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.content)
-    }
-
-    @Bindable
-    fun getPriority(): String = if (data.priority == null) "" else data.priority.toString()
-
-    fun setPriority(value: String) {
-        Timber.d("intercepted set priority")
-
-        data.priority = value.toIntOrNull()
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.priority)
-    }
-
-    @Bindable
-    fun getProxied(): Boolean = data.proxied
-
-    fun setProxied(value: Boolean) {
-        Timber.d("intercepted set proxied")
-
-        data.proxied = value
-        activity.customizeForm()
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.proxied)
     }
 
 }
