@@ -12,7 +12,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
     // first: domain.domainId, second: domain.domainName
     // TODO: use data class instead of pairs
     private val domains = mutableListOf<Pair<String, String>>()
-    private var initialized = false
+    private val initialized get() = domain_list?.adapter is DomainListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,30 +49,23 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private fun renderList() = launch {
         val response = ZoneRequest(this).list()
-
-        if (response.failure) {
+        if (response.failure || response.result == null) {
             Timber.e("response failure: ${response.firstErrorMessage}")
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::checkAuthAndContinue)
-            return@launch
         }
 
-        if (response.result == null) return@launch
+        else domain_list.apply {
+            domains.clear()
+            response.result.forEach { zone ->
+                domains.add(zone.id to zone.name)
+            }
 
-        Timber.d("List length: ${response.result.size}")
-
-        domains.clear()
-        response.result.forEach { zone ->
-            Timber.d("Name: ${zone.name}")
-            domains.add(zone.id to zone.name)
-        }
-
-        if (initialized) domain_list.swapAdapter(
-            DomainListAdapter(this, domains), false
-        ) else {
-            domain_list.adapter = DomainListAdapter(this, domains)
-            domain_list.layoutManager = LinearLayoutManager(this)
-
-            initialized = true
+            if (initialized)
+                adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload domain list")
+            else {
+                adapter = DomainListAdapter(this@DomainListActivity, domains)
+                layoutManager = LinearLayoutManager(this@DomainListActivity)
+            }
         }
     }
 }
