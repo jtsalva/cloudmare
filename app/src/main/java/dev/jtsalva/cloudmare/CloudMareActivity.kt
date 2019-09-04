@@ -3,6 +3,8 @@ package dev.jtsalva.cloudmare
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -27,6 +29,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected var showAddMenuButton = false
 
     private val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
+    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
 
     val dialog: Dialog get() = Dialog(this)
 
@@ -101,6 +104,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
         return true
     }
+
+    protected fun hideProgressBar() { progressBar.apply { visibility = View.GONE } }
 
     protected fun setToolbarTitle(title: String) = supportActionBar?.setTitle(title) ?: Timber.e("Can't set title")
     protected fun setToolbarTitle(resId: Int) = supportActionBar?.setTitle(resId) ?: Timber.e("Can't set title")

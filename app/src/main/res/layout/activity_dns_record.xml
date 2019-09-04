@@ -18,6 +18,8 @@
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar"
             />
+            <include
+                    layout="@layout/progress_bar" />
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dns_record_form_group"
                     android:visibility="invisible"

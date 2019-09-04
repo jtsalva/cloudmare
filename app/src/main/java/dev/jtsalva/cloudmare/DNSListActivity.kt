@@ -131,6 +131,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 dns_list.layoutManager = LinearLayoutManager(this)
             }
         }
+
+        hideProgressBar()
     }
 
 
