@@ -1,7 +1,10 @@
 package dev.jtsalva.cloudmare.view
 
 import android.widget.CompoundButton
-import androidx.databinding.*
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingListener
+import androidx.databinding.InverseBindingMethod
+import androidx.databinding.InverseBindingMethods
 
 @InverseBindingMethods(
     InverseBindingMethod(
