@@ -50,7 +50,7 @@ open class Request(
             val failedResponse = Response.createWithErrors(
                 Response.Error(
                     code = 0,
-                    message = "Are you connected to the internet?"
+                    message = "Make sure you're connected to the internet"
                 )
             )
 
