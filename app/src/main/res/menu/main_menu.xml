@@ -14,7 +14,7 @@
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_save"
-            android:icon="@drawable/baseline_save_white_48"
+            android:icon="@drawable/baseline_backup_white_48"
             android:title="Save"
             android:visible="false"
             app:showAsAction="ifRoom" />

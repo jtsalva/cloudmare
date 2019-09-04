@@ -7,7 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="md_corner_radius">16dp</item>
+        // Material Dialogs
+        <item name="md_corner_radius">5dp</item>
     </style>
 
 </resources>
