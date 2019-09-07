@@ -27,8 +27,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         setToolbarTitle(R.string.title_domain_list_activity)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         if (Auth.notSet) startActivity(UserActivity::class)
         else render()
@@ -38,7 +38,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         val response = ZoneRequest(this).list()
         if (response.failure || response.result == null) {
             Timber.e("response failure: ${response.firstErrorMessage}")
-            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
         }
 
         else domain_list.apply {

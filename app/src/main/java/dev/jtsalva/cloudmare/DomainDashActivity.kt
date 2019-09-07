@@ -40,8 +40,8 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         render()
     }
@@ -54,7 +54,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             developmentModeRequest.get(domainId).let { response ->
                 if (response.failure || response.result == null) {
                     Timber.e("can't fetch development mode")
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll("get")
                 } else viewModel.apply {
                     initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
@@ -65,7 +65,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         securityLevelRequest.get(domainId).let { response ->
             if (response.failure || response.result == null) {
                 Timber.e("can't fetch security level")
-                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                 developmentModeRequest.cancelAll("get")
             } else viewModel.apply {
                 initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)

@@ -20,8 +20,8 @@ class UserActivity : CloudMareActivity() {
         save_button.setOnClickListener(::onSave)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         if (Auth.isSet) {
             email_input.setText(Auth.email)

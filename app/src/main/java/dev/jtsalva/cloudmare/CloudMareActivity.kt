@@ -41,8 +41,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         job = Job()
     }
 
-    public override fun onResume() {
-        super.onResume()
+    public override fun onStart() {
+        super.onStart()
 
         Auth.load(this)
     }

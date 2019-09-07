@@ -89,8 +89,8 @@ class DNSRecordActivity : CloudMareActivity() {
         setToolbarTitle("$domainName | ${if (isNewRecord) "Create" else "Edit"}")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         render()
     }
@@ -154,7 +154,7 @@ class DNSRecordActivity : CloudMareActivity() {
             if (isNewRecord) DNSRecord.default.apply { zoneName = domainName }
             else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
                 response.result ?: DNSRecord.default.also {
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                 }
             }
 
