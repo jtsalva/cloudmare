@@ -101,8 +101,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         setToolbarTitle("$domainName | DNS Records")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         render()
     }
@@ -111,7 +111,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         val response = DNSRecordRequest(this).list(domainId)
         if (response.failure || response.result == null) {
             Timber.e("can't list DNS Records")
-            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onResume)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
         }
 
         else (response.result as MutableList<DNSRecord>).also { result ->
