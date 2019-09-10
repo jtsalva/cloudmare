@@ -17,6 +17,13 @@ open class Request(
 
     protected open var requestTAG: String = "*"
 
+    protected fun urlParams(vararg params: Pair<String, Any>): String = params.run {
+        var urlParamsString = "?"
+        forEach { urlParamsString += "${it.first}=${it.second}&" }
+        Timber.d("=========================== ${urlParamsString.substring(0, urlParamsString.length - 1)}")
+        return urlParamsString.substring(0, urlParamsString.length - 1)
+    }
+
     protected fun cancelAll(tag: String, method: String) =
         RequestQueueSingleton(context).requestQueue.cancelAll("$tag.$method")
 

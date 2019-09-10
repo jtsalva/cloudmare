@@ -28,6 +28,12 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
 
+    protected var showProgressBar = true
+        set(value) {
+            progressBar.apply { visibility = if (value) View.VISIBLE else View.GONE }
+            field = value
+        }
+
     private val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
 
@@ -104,8 +110,6 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
         return true
     }
-
-    protected fun hideProgressBar() { progressBar.apply { visibility = View.GONE } }
 
     protected fun setToolbarTitle(title: String) = supportActionBar?.setTitle(title) ?: Timber.e("Can't set title")
     protected fun setToolbarTitle(resId: Int) = supportActionBar?.setTitle(resId) ?: Timber.e("Can't set title")

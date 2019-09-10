@@ -61,6 +61,6 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
             }
         }
 
-        hideProgressBar()
+        showProgressBar = false
     }
 }
