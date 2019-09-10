@@ -28,7 +28,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     protected var showDeleteMenuButton = false
     protected var showAddMenuButton = false
 
-    protected var showProgressBar = true
+    var showProgressBar = true
         set(value) {
             progressBar.apply { visibility = if (value) View.VISIBLE else View.GONE }
             field = value
