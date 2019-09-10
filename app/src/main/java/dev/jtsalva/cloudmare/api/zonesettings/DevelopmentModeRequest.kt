@@ -24,7 +24,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DevelopmentModeResponse::class.java).fromJson(it.toString()) ?: DevelopmentModeResponse(
+                getAdapter(DevelopmentModeResponse::class).fromJson(it.toString()) ?: DevelopmentModeResponse(
                     success = false
                 )
             )
@@ -43,7 +43,7 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DevelopmentModeResponse::class.java).
+                getAdapter(DevelopmentModeResponse::class).
                     fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
             )
         }

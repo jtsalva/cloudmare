@@ -24,7 +24,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(SecurityLevelResponse::class.java).fromJson(it.toString())
+                getAdapter(SecurityLevelResponse::class).fromJson(it.toString())
                     ?: SecurityLevelResponse(success = false)
             )
         }
@@ -42,7 +42,7 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(SecurityLevelResponse::class.java).
+                getAdapter(SecurityLevelResponse::class).
                     fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
             )
         }

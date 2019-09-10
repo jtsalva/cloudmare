@@ -18,7 +18,7 @@ class ZoneRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(ZoneListResponse::class.java).fromJson(it.toString()) ?: ZoneListResponse(success = false)
+                getAdapter(ZoneListResponse::class).fromJson(it.toString()) ?: ZoneListResponse(success = false)
             )
         }
     }
