@@ -168,7 +168,7 @@ class DNSRecordActivity : CloudMareActivity() {
 
         dns_record_form_group.isVisible = true
 
-        hideProgressBar()
+        showProgressBar = false
 
         dnsRecordTypeAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)

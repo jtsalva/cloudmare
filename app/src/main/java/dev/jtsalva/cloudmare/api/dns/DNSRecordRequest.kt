@@ -70,17 +70,21 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
 
-    suspend fun list(zoneId: String) = suspendCoroutine<DNSRecordListResponse> { cont ->
-        requestTAG = "list"
-        get(null, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Timber.v(it.toString())
+    suspend fun list(zoneId: String, pageNumber: Int = 1, perPage: Int = 20) =
+        suspendCoroutine<DNSRecordListResponse> { cont ->
+            val params = urlParams("page" to pageNumber, "per_page" to perPage)
+            val url = endpointUrl(endpoint, zoneId, "dns_records", params)
 
-            cont.resume(
-                getAdapter(DNSRecordListResponse::class.java).fromJson(it.toString())
-                    ?: DNSRecordListResponse(success = false)
-            )
+            requestTAG = "list"
+            get(null, url) {
+                Timber.v(it.toString())
+
+                cont.resume(
+                    getAdapter(DNSRecordListResponse::class.java).fromJson(it.toString())
+                        ?: DNSRecordListResponse(success = false)
+                )
+            }
         }
-    }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
         cancelAll("update")
