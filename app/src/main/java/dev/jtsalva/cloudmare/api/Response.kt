@@ -23,7 +23,7 @@ open class Response(
         }
 
         fun createWithErrors(vararg errors: Error): String =
-            getAdapter(Response::class.java).toJson(
+            getAdapter(Response::class).toJson(
                 Response(success = false, errors = errors.run {
                     mutableListOf<Error>().apply {
                         for (err in this@run) add(err)

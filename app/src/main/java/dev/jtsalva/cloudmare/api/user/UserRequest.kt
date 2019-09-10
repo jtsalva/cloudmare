@@ -14,7 +14,7 @@ class UserRequest(context: Context) : Request(context, "user") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(UserDetailsResponse::class.java).fromJson(it.toString())
+                getAdapter(UserDetailsResponse::class).fromJson(it.toString())
                     ?: UserDetailsResponse(success = false)
             )
         }

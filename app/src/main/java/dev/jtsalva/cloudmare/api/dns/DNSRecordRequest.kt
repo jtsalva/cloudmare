@@ -23,7 +23,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
         val data = JSONObject(
-            getAdapter(DNSRecord::class.java).toJson(newDNSRecord)
+            getAdapter(DNSRecord::class).toJson(newDNSRecord)
         )
         val payload = JSONObject()
 
@@ -38,7 +38,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DNSRecordResponse::class.java).
+                getAdapter(DNSRecordResponse::class).
                         fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
@@ -52,7 +52,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DNSRecordResponse::class.java).
+                getAdapter(DNSRecordResponse::class).
                     fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
@@ -64,7 +64,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DNSRecordResponse::class.java).fromJson(it.toString()) ?: DNSRecordResponse(success = false)
+                getAdapter(DNSRecordResponse::class).fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
     }
@@ -80,7 +80,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
                 Timber.v(it.toString())
 
                 cont.resume(
-                    getAdapter(DNSRecordListResponse::class.java).fromJson(it.toString())
+                    getAdapter(DNSRecordListResponse::class).fromJson(it.toString())
                         ?: DNSRecordListResponse(success = false)
                 )
             }
@@ -90,7 +90,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
         cancelAll("update")
 
         val payload = JSONObject(
-            getAdapter(DNSRecord::class.java).toJson(updatedDNSRecord)
+            getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
         )
 
         requestTAG = "update"
@@ -98,7 +98,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             Timber.v(it.toString())
 
             cont.resume(
-                getAdapter(DNSRecordResponse::class.java).
+                getAdapter(DNSRecordResponse::class).
                     fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
