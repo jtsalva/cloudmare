@@ -69,10 +69,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun render() = launch {
         val response = ZoneRequest(this).list()
-        if (response.failure || response.result == null) {
-            Timber.e("response failure: ${response.firstErrorMessage}")
+        if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-        }
 
         else domain_list.apply {
             response.result.toDomainPairs().let { result ->
