@@ -48,7 +48,6 @@ open class Request(
                 )
 
                 callback(JSONObject(failedResponse))
-                Timber.e("Something wen't wrong decoding error response")
                 e.printStackTrace()
             }
         } else {

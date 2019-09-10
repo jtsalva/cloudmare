@@ -42,7 +42,6 @@ class DomainDashViewModel(
                                 title = "Can't set under attack mode",
                                 message = response.firstErrorMessage,
                                 onAcknowledge = activity::onStart)
-                            Timber.e("Failed to change security level")
                         }
 
                         @Suppress("UNRESOLVED_REFERENCE")
@@ -69,7 +68,6 @@ class DomainDashViewModel(
                             data.developmentModeEnabled = !value
 
                             activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
-                            Timber.e("Failed to change development mode")
                         }
 
                         @Suppress("UNRESOLVED_REFERENCE")

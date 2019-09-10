@@ -53,7 +53,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         launch {
             developmentModeRequest.get(domainId).let { response ->
                 if (response.failure || response.result == null) {
-                    Timber.e("can't fetch development mode")
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll("get")
                 } else viewModel.apply {
@@ -64,7 +63,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
         securityLevelRequest.get(domainId).let { response ->
             if (response.failure || response.result == null) {
-                Timber.e("can't fetch security level")
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                 developmentModeRequest.cancelAll("get")
             } else viewModel.apply {

@@ -136,10 +136,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun render() = launch {
         val response = DNSRecordRequest(this).list(domainId)
-        if (response.failure || response.result == null) {
-            Timber.e("can't list DNS Records")
+        if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-        }
 
         else (response.result as MutableList<DNSRecord>).also { result ->
             if (initialized && result != records) {

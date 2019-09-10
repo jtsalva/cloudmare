@@ -224,16 +224,15 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
         if (response.failure || response.result == null)
-            dialog.error(message = response.firstErrorMessage, positive = "Okay").also {
-                Timber.e("Could not save DNS Record: ${response.errors}")
-                return@launch
-            }
-        else if (isNewRecord)
-            setResult(CREATED, Intent().putExtras(
-                "dns_record_id" to response.result.id
-            ))
-        else setResult(CHANGES_MADE, intent)
+            dialog.error(message = response.firstErrorMessage, positive = "Okay")
+        else {
+            if (isNewRecord)
+                setResult(CREATED, Intent().putExtras(
+                    "dns_record_id" to response.result.id
+                ))
+            else setResult(CHANGES_MADE, intent)
 
-        finish()
+            finish()
+        }
     }
 }

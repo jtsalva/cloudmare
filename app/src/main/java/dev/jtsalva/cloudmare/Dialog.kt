@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import com.afollestad.materialdialogs.MaterialDialog
+import timber.log.Timber
 
 class Dialog(private val activity: CloudMareActivity) {
     private val bottomSheet: MaterialDialog = MaterialDialog(activity)
@@ -31,7 +32,13 @@ class Dialog(private val activity: CloudMareActivity) {
             title(text = title)
             message(text = message)
             positiveButton(text = positive) { onAcknowledge() }
-        })
+        }).also {
+            Throwable().run {
+                stackTrace[2].let { caller ->
+                    Timber.e("${caller.className}: $message")
+                }
+            }
+        }
 
     fun confirm(title: String = "Are you sure?",
                 message: String = "",

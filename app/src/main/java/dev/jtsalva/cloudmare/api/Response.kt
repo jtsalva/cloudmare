@@ -48,8 +48,8 @@ open class Response(
 
     @JsonClass(generateAdapter = true)
     data class Error(
-        val code: Int,
-        val message: String,
+        @field:Json(name = "code") val code: Int,
+        @field:Json(name = "message") val message: String,
 
         @field:Json(name = "error_chain")
         val errorChain: List<Error>? = null
