@@ -21,56 +21,25 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
-    private val pagination = object : RecyclerView.OnScrollListener() {
+    private val pagination by lazy {
+        object : Pagination(this, dns_list) {
 
-        private var fetchingNextPage: Boolean = false
-            set(value) {
-                showProgressBar = value
-                field = value
+            override fun fetchNextPage(pageNumber: Int) = launch {
+                DNSRecordRequest(this@DNSListActivity).
+                    list(domainId, pageNumber).run {
+                    if (failure || result == null)
+                        dialog.error(message = firstErrorMessage)
+                    else if (result.isNotEmpty()) result.let { nextPage ->
+                        val positionStart = records.size
+                        records.addAll(nextPage)
+                        dns_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
+                    } else reachedLastPage = true
+                }
+
+                fetchingNextPage = false
             }
 
-        private val reachedBottom: Boolean get() =
-            (dns_list.layoutManager as LinearLayoutManager).run {
-                (childCount + findFirstVisibleItemPosition()) >= itemCount
-            }
-
-        private var reachedLastPage = false
-
-        private var currentPage = 1
-
-        fun nextPage(): Int {
-            currentPage += 1
-            return currentPage
         }
-
-        fun resetPage() {
-            currentPage = 1
-            reachedLastPage = false
-        }
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (dy > 0 && !fetchingNextPage && reachedBottom && !reachedLastPage)
-                fetchNextPage()
-        }
-
-        private fun fetchNextPage() = launch {
-            fetchingNextPage = true
-
-            DNSRecordRequest(this@DNSListActivity).
-                list(domainId, nextPage()).also {
-                if (it.failure || it.result == null) {
-                    Timber.e("can't list DNS Records")
-                    dialog.error(message = it.firstErrorMessage)
-                } else if (it.result.isNotEmpty()) it.result.also { nextPage ->
-                    val positionStart = records.size
-                    records.addAll(nextPage)
-                    dns_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
-                } else reachedLastPage = true
-            }
-
-            fetchingNextPage = false
-        }
-
     }
 
     companion object Request {
