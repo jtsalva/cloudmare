@@ -11,16 +11,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class DNSRecordRequest(context: Context) : Request(context, "zones") {
 
-    override var requestTAG: String = javaClass.simpleName
-        set(value) {
-            field = "${javaClass.simpleName}.$value"
-        }
-
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
-        cancelAll("create")
-
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
         val data = JSONObject(
             getAdapter(DNSRecord::class).toJson(newDNSRecord)
@@ -33,7 +24,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             if (validKeys.contains(key)) payload.put(key, data[key])
         }
 
-        requestTAG = "create"
+        requestTAG = Request.CREATE
         post(payload, endpointUrl(endpoint, zoneId, "dns_records")) {
             Timber.v(it.toString())
 
@@ -45,9 +36,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun delete(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
-        cancelAll("delete")
-
-        requestTAG = "delete"
+        requestTAG = Request.DELETE
         delete(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
             Timber.v(it.toString())
 
@@ -59,7 +48,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
-        requestTAG = "get"
+        requestTAG = Request.GET
         get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
             Timber.v(it.toString())
 
@@ -75,7 +64,7 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             val params = urlParams("page" to pageNumber, "per_page" to perPage)
             val url = endpointUrl(endpoint, zoneId, "dns_records", params)
 
-            requestTAG = "list"
+            requestTAG = Request.LIST
             get(null, url) {
                 Timber.v(it.toString())
 
@@ -87,13 +76,11 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
         }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
-        cancelAll("update")
-
         val payload = JSONObject(
             getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
         )
 
-        requestTAG = "update"
+        requestTAG = Request.UPDATE
         put(payload, endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
             Timber.v(it.toString())
 

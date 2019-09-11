@@ -11,15 +11,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class ZoneSettingsRequest(context: Context) : Request(context, "zones") {
 
-    override var requestTAG: String = javaClass.simpleName
-        set(value) {
-            field = "${javaClass.simpleName}.$value"
-        }
-
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
-        requestTAG = "get"
+        requestTAG = Request.GET
         get(null, endpointUrl(endpoint, zoneId, "settings")) {
             Timber.v(it.toString())
 
@@ -31,11 +24,9 @@ class ZoneSettingsRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun update(zoneId: String, zoneSettings: List<ZoneSetting>) = suspendCoroutine<ZoneSettingsResponse> { cont ->
-        cancelAll("update")
-
         val data = JSONArray(zoneSettings.toString())
 
-        requestTAG = "update"
+        requestTAG = Request.UPDATE
         patch(data, endpointUrl(endpoint, zoneId, "settings")) {
             Timber.v(it.toString())
 

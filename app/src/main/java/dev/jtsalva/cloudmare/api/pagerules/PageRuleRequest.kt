@@ -11,18 +11,11 @@ import kotlin.coroutines.suspendCoroutine
 
 class PageRuleRequest(context: Context) : Request(context, "zones") {
 
-    override var requestTAG: String = javaClass.simpleName
-        set(value) {
-            field = "${javaClass.simpleName}.$value"
-        }
-
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
     suspend fun list(zoneId: String) =
         suspendCoroutine<PageRuleListResponse> { cont ->
             val url = endpointUrl(endpoint, zoneId, "pagerules")
 
-            requestTAG = "list"
+            requestTAG = Request.LIST
             get(null, url) {
                 Timber.v(it.toString())
 
@@ -35,13 +28,11 @@ class PageRuleRequest(context: Context) : Request(context, "zones") {
 
     suspend fun create(zoneId: String, newPageRule: PageRule) =
         suspendCoroutine<PageRuleResponse> { cont ->
-            cancelAll("create")
-
             val data = JSONObject(
                 getAdapter(PageRule::class).toJson(newPageRule)
             )
 
-            requestTAG = "create"
+            requestTAG = Request.CREATE
             post(data, endpointUrl(endpoint, zoneId, "pagerules")) {
                 Timber.v(it.toString())
 
@@ -54,13 +45,11 @@ class PageRuleRequest(context: Context) : Request(context, "zones") {
 
     suspend fun update(zoneId: String, updatedPageRule: PageRule) =
         suspendCoroutine<PageRuleResponse> { cont ->
-            cancelAll("update")
-
             val data = JSONObject(
                 getAdapter(PageRule::class).toJson(updatedPageRule)
             )
 
-            requestTAG = "update"
+            requestTAG = Request.UPDATE
             put(data, endpointUrl(endpoint, zoneId, "pagerules", updatedPageRule.id)) {
                 Timber.v(it.toString())
 
@@ -73,9 +62,7 @@ class PageRuleRequest(context: Context) : Request(context, "zones") {
 
     suspend fun delete(zoneId: String, pageRuleId: String) =
         suspendCoroutine<PageRuleResponse> { cont ->
-            cancelAll("delete")
-
-            requestTAG = "delete"
+            requestTAG = Request.DELETE
             delete(null, endpointUrl(endpoint, zoneId, "pagerules", pageRuleId)) {
                 Timber.v(it.toString())
 
