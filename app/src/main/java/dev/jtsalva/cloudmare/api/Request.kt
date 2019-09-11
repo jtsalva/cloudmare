@@ -20,7 +20,6 @@ open class Request(
     protected fun urlParams(vararg params: Pair<String, Any>): String = params.run {
         var urlParamsString = "?"
         forEach { urlParamsString += "${it.first}=${it.second}&" }
-        Timber.d("=========================== ${urlParamsString.substring(0, urlParamsString.length - 1)}")
         return urlParamsString.substring(0, urlParamsString.length - 1)
     }
 
