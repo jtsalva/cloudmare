@@ -15,7 +15,22 @@ open class Request(
     protected val endpoint: String
 ) {
 
-    protected open var requestTAG: String = "*"
+    companion object {
+        const val CREATE = "create"
+        const val GET = "get"
+        const val LIST = "list"
+        const val UPDATE = "update"
+        const val DELETE = "delete"
+    }
+
+    protected var requestTAG: String = javaClass.simpleName
+        set(value) {
+            val className = javaClass.simpleName
+            if (!(value == GET || value == LIST))
+                cancelAll(className, value)
+
+            field = "$className.$value"
+        }
 
     protected fun urlParams(vararg params: Pair<String, Any>): String = params.run {
         var urlParamsString = "?"
@@ -23,8 +38,10 @@ open class Request(
         return urlParamsString.substring(0, urlParamsString.length - 1)
     }
 
-    protected fun cancelAll(tag: String, method: String) =
-        RequestQueueSingleton(context).requestQueue.cancelAll("$tag.$method")
+    private fun cancelAll(requestDomain: String, method: String) =
+        RequestQueueSingleton(context).requestQueue.cancelAll("$requestDomain.$method")
+
+    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
 
     private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
         Timber.e(error.message ?: error.toString())
@@ -47,7 +64,7 @@ open class Request(
                 )
 
                 callback(JSONObject(failedResponse))
-                e.printStackTrace()
+                Timber.e(e)
             }
         } else {
             Timber.e(error.localizedMessage ?: "null error response")
@@ -92,7 +109,7 @@ open class Request(
 
                 else -> throw Exception("invalid request data type")
 
-            }
+            }.apply { setTag(requestTAG) }
         )
 
     fun <T> get(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =

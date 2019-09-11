@@ -11,15 +11,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class SecurityLevelRequest(context: Context) : Request(context, "zones") {
 
-    override var requestTAG: String = javaClass.simpleName
-        set(value) {
-            field = "${javaClass.simpleName}.$value"
-        }
-
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
-        requestTAG = "get"
+        requestTAG = Request.GET
         get(null, endpointUrl(endpoint, zoneId, "settings/security_level")) {
             Timber.v(it.toString())
 
@@ -30,14 +23,12 @@ class SecurityLevelRequest(context: Context) : Request(context, "zones") {
         }
     }
 
-    suspend fun set(zoneId: String, value: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
-        cancelAll("set")
-
+    suspend fun update(zoneId: String, value: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
         val data = JSONObject().apply {
             put("value", value)
         }
 
-        requestTAG = "set"
+        requestTAG = Request.UPDATE
         patch(data, endpointUrl(endpoint, zoneId, "settings/security_level")) {
             Timber.v(it.toString())
 

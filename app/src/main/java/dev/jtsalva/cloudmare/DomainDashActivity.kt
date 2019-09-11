@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
+import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
@@ -8,7 +9,6 @@ import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
 import dev.jtsalva.cloudmare.databinding.ActivityDomainDashBinding
 import dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel
 import kotlinx.android.synthetic.main.activity_domain_dash.*
-import timber.log.Timber
 
 class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
@@ -54,7 +54,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             developmentModeRequest.get(domainId).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    securityLevelRequest.cancelAll("get")
+                    securityLevelRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
                     initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
                 }
@@ -64,7 +64,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         securityLevelRequest.get(domainId).let { response ->
             if (response.failure || response.result == null) {
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                developmentModeRequest.cancelAll("get")
+                developmentModeRequest.cancelAll(Request.GET)
             } else viewModel.apply {
                 initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
             }

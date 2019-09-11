@@ -11,15 +11,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
 
-    override var requestTAG: String = javaClass.simpleName
-        set(value) {
-            field = "${javaClass.simpleName}.$value"
-        }
-
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
-        requestTAG = "get"
+        requestTAG = Request.GET
         get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Timber.v(it.toString())
 
@@ -31,14 +24,12 @@ class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
         }
     }
 
-    suspend fun set(zoneId: String, value: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
-        cancelAll("set")
-
+    suspend fun update(zoneId: String, value: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
         val data = JSONObject().apply {
             put("value", value)
         }
 
-        requestTAG = "set"
+        requestTAG = Request.UPDATE
         patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
             Timber.v(it.toString())
 

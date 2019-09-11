@@ -29,7 +29,7 @@ class DomainDashViewModel(
                     else SecurityLevel.MEDIUM
 
                 if (value != data.underAttackModeEnabled)
-                    SecurityLevelRequest(activity).set(domainId, newSecurityLevelValue).let { response ->
+                    SecurityLevelRequest(activity).update(domainId, newSecurityLevelValue).let { response ->
                         if (response.success) {
                             data.underAttackModeEnabled = value
 
@@ -59,7 +59,7 @@ class DomainDashViewModel(
                     else DevelopmentMode.OFF
 
                 if (value != data.developmentModeEnabled)
-                    DevelopmentModeRequest(activity).set(domainId, newDevelopmentModeValue).let { response ->
+                    DevelopmentModeRequest(activity).update(domainId, newDevelopmentModeValue).let { response ->
                         if (response.success) {
                             data.developmentModeEnabled = value
 
