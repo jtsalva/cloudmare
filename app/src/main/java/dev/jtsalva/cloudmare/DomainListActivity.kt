@@ -8,13 +8,11 @@ import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_domain_list.*
 import timber.log.Timber
 
-typealias DomainPair = Pair<String, String>
-
 class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     // first: domain.domainId, second: domain.domainName
     // TODO: use data class instead of pairs
-    private val domains = mutableListOf<DomainPair>()
+    private val domains = mutableListOf<Zone>()
 
     private val initialized get() = domain_list.adapter is DomainListAdapter
 
@@ -27,20 +25,14 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                         dialog.error(message = firstErrorMessage)
                     else if (result.isNotEmpty()) result.let { nextPage ->
                         val positionStart = domains.size
-                        domains.addAll(nextPage.toDomainPairs())
-                        domain_list.adapter?.notifyItemRangeChanged(positionStart, positionStart)
+                        domains.addAll(nextPage)
+                        domain_list.adapter?.notifyItemRangeChanged(positionStart, domains.size)
                     } else reachedLastPage = true
                 }
 
                 fetchingNextPage = false
             }
 
-        }
-    }
-
-    private fun List<Zone>.toDomainPairs() = mutableListOf<DomainPair>().apply {
-        this@toDomainPairs.forEach { zone ->
-            add(zone.id to zone.name)
         }
     }
 
@@ -72,21 +64,17 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-        else domain_list.apply {
-            response.result.toDomainPairs().let { result ->
-                if (result != domains) {
-                    domains.clear()
-                    domains.addAll(0, result)
-                }
-            }
+        else if (response.result != domains) domain_list.apply {
+                domains.clear()
+                domains.addAll(0, response.result)
 
-            if (initialized)
-                adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload domain list")
-            else {
-                adapter = DomainListAdapter(this@DomainListActivity, domains)
-                layoutManager = LinearLayoutManager(this@DomainListActivity)
-                addOnScrollListener(pagination)
-            }
+                if (initialized)
+                    adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload domain list")
+                else {
+                    adapter = DomainListAdapter(this@DomainListActivity, domains)
+                    layoutManager = LinearLayoutManager(this@DomainListActivity)
+                    addOnScrollListener(pagination)
+                }
         }
 
         showProgressBar = false
