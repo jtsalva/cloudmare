@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare.api.user
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dev.jtsalva.cloudmare.api.DateString
 
 @JsonClass(generateAdapter = true)
 data class UserDetails(
@@ -14,8 +13,8 @@ data class UserDetails(
     @field:Json(name = "telephone") val telephone: String?,
     @field:Json(name = "country") val country: String?,
     @field:Json(name = "zipcode") val zipcode: String?,
-    @field:Json(name = "created_on") val createdOn: DateString,
-    @field:Json(name = "modified_on") val modifiedOn: DateString,
+    @field:Json(name = "created_on") val createdOn: String,
+    @field:Json(name = "modified_on") val modifiedOn: String,
     @field:Json(name = "two_factor_authentication_enabled") val twoFactorAuthenticationEnabled: Boolean,
     @field:Json(name = "suspended") val suspended: Boolean
 )

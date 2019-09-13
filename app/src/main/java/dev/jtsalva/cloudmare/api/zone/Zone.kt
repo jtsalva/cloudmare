@@ -1,7 +1,6 @@
 package dev.jtsalva.cloudmare.api.zone
 
 import com.squareup.moshi.Json
-import dev.jtsalva.cloudmare.api.DateString
 
 data class Zone(
     @field:Json(name = "id") val id: String,
@@ -10,8 +9,8 @@ data class Zone(
     @field:Json(name = "original_name_servers") val originalNameServers: List<String>,
     @field:Json(name = "original_registrar") val originalRegistrar: String,
     @field:Json(name = "original_dns_host") val originalDnshost: String,
-    @field:Json(name = "created_on") val createdOn: DateString,
-    @field:Json(name = "modified_on") val modifiedOn: DateString,
+    @field:Json(name = "created_on") val createdOn: String,
+    @field:Json(name = "modified_on") val modifiedOn: String,
     @field:Json(name = "name_servers") val nameServers: List<String>,
     @field:Json(name = "owner") val owner: Owner,
     @field:Json(name = "permissions") val permissions: List<String>,

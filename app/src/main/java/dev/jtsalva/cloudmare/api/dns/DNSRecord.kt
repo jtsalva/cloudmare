@@ -3,7 +3,6 @@ package dev.jtsalva.cloudmare.api.dns
 import android.content.Context
 import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.R
-import dev.jtsalva.cloudmare.api.DateString
 
 data class DNSRecord(
     @field:Json(name = "id") val id: String,
@@ -17,8 +16,8 @@ data class DNSRecord(
     @field:Json(name = "zoneId") var zoneId: String,
     @field:Json(name = "zone_name") var zoneName: String,
     @field:Json(name = "priority") var priority: Int? = null,
-    @field:Json(name = "created_on") var createdOn: DateString? = null,
-    @field:Json(name = "modified_on") var modifiedOn: DateString? = null
+    @field:Json(name = "created_on") var createdOn: String? = null,
+    @field:Json(name = "modified_on") var modifiedOn: String? = null
 ) {
     companion object {
         const val A = "A"

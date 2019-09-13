@@ -10,10 +10,9 @@ import java.nio.charset.Charset
 import com.android.volley.Request as VolleyRequest
 import com.android.volley.Response as JsonResponse
 
-open class Request(
-    private val context: Context,
-    protected val endpoint: String
-) {
+typealias ResponseCallback = (response: JSONObject?) -> Unit
+
+open class Request(private val context: Context) {
 
     companion object {
         const val CREATE = "create"
@@ -23,13 +22,19 @@ open class Request(
         const val DELETE = "delete"
     }
 
-    protected var requestTAG: String = javaClass.simpleName
-        set(value) {
-            val className = javaClass.simpleName
-            if (!(value == GET || value == LIST))
-                cancelAll(className, value)
+    private fun ResponseCallback.logResponse(): ResponseCallback = { response ->
+        Timber.v(response.toString())
+        invoke(response)
+    }
 
-            field = "$className.$value"
+    private val className = javaClass.simpleName
+
+    protected var requestTAG: String = className
+        set(method) {
+            if (!(method == GET || method == LIST))
+                cancelAll(method)
+
+            field = "$className.$method"
         }
 
     protected fun urlParams(vararg params: Pair<String, Any>): String = params.run {
@@ -38,12 +43,10 @@ open class Request(
         return urlParamsString.substring(0, urlParamsString.length - 1)
     }
 
-    private fun cancelAll(requestDomain: String, method: String) =
-        RequestQueueSingleton(context).requestQueue.cancelAll("$requestDomain.$method")
+    fun cancelAll(method: String) =
+        RequestQueueSingleton(context).requestQueue.cancelAll("$className.$method")
 
-    fun cancelAll(method: String) = cancelAll(javaClass.simpleName, method)
-
-    private fun handleError(error: VolleyError, callback: (response: JSONObject?) -> Unit) {
+    private fun handleError(error: VolleyError, callback: ResponseCallback) {
         Timber.e(error.message ?: error.toString())
 
         val response = error.networkResponse
@@ -80,86 +83,71 @@ open class Request(
         }
     }
 
-    private fun <T> send(method: Int, data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
+    private fun send(method: Int, data: Any?, path: String, callback: ResponseCallback) {
+        val url = "$BASE_URL/$path"
+
         RequestQueueSingleton.getInstance(context).addToRequestQueue(
             when (data) {
-                null -> AuthenticatedJsonObjectRequest(
+                null, is JSONObject -> AuthenticatedJsonObjectRequest(
                     method,
                     url,
-                    null,
-                    JsonResponse.Listener(callback),
-                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
-                )
-
-                is JSONObject -> AuthenticatedJsonObjectRequest(
-                    method,
-                    url,
-                    data,
-                    JsonResponse.Listener(callback),
-                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                    data as? JSONObject,
+                    JsonResponse.Listener(callback.logResponse()),
+                    JsonResponse.ErrorListener { error -> handleError(error, callback.logResponse()) }
                 )
 
                 is JSONArray -> AuthenticatedJsonArrayRequest(
                     method,
                     url,
                     data,
-                    JsonResponse.Listener(callback),
-                    JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                    JsonResponse.Listener(callback.logResponse()),
+                    JsonResponse.ErrorListener { error -> handleError(error, callback.logResponse()) }
                 )
 
-                else -> throw Exception("invalid request data type")
+                else -> throw Exception("invalid request data type must be either JSONObject or JSONArray")
 
             }.apply { setTag(requestTAG) }
         )
+    }
 
-    fun <T> get(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send<T>(
+    fun get(path: String, data: Any? = null, callback: ResponseCallback) =
+        send(
             VolleyRequest.Method.GET,
             data,
-            url,
+            path,
             callback
         )
 
-    fun <T> get(data: T?, callback: (response: JSONObject?) -> Unit) = get(data, endpointUrl(endpoint), callback)
-
-    fun <T> patch(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send<T>(
+    fun patch(path: String, data: Any? = null, callback: ResponseCallback) =
+        send(
             VolleyRequest.Method.PATCH,
             data,
-            url,
+            path,
             callback
         )
 
-    fun <T> patch(data: T?, callback: (response: JSONObject?) -> Unit) = patch<T>(data, endpointUrl(endpoint), callback)
-
-    fun <T> put(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send<T>(
+    fun put(path: String, data: Any? = null, callback: ResponseCallback) =
+        send(
             VolleyRequest.Method.PATCH,
             data,
-            url,
+            path,
             callback
         )
 
-    fun <T> put(data: T?, callback: (response: JSONObject?) -> Unit) = patch<T>(data, endpointUrl(endpoint), callback)
-
-    fun <T> post(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send<T>(
+    fun post(path: String, data: Any? = null, callback: ResponseCallback) =
+        send(
             VolleyRequest.Method.POST,
             data,
-            url,
+            path,
             callback
         )
 
-    fun <T> post(data: T?, callback: (response: JSONObject?) -> Unit) = post<T>(data, endpointUrl(endpoint), callback)
-
-    fun <T> delete(data: T?, url: String, callback: (response: JSONObject?) -> Unit) =
-        send<T>(
+    fun delete(path: String, data: Any? = null, callback: ResponseCallback) =
+        send(
             VolleyRequest.Method.DELETE,
             data,
-            url,
+            path,
             callback
         )
-
-    fun <T> delete(data: T?, callback: (response: JSONObject?) -> Unit) = delete<T>(data, endpointUrl(endpoint), callback)
 
 }

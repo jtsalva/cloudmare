@@ -2,37 +2,30 @@ package dev.jtsalva.cloudmare.api.zonesettings
 
 import android.content.Context
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.endpointUrl
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DevelopmentModeRequest(context: Context) : Request(context, "zones") {
+class DevelopmentModeRequest(context: Context) : Request(context) {
 
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
-        requestTAG = Request.GET
-        get(null, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
-            Timber.v(it.toString())
-
+        requestTAG = GET
+        get("zones/$zoneId/settings/development_mode") {
             cont.resume(
-                getAdapter(DevelopmentModeResponse::class).fromJson(it.toString()) ?: DevelopmentModeResponse(
-                    success = false
-                )
+                getAdapter(DevelopmentModeResponse::class).
+                    fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
             )
         }
     }
 
     suspend fun update(zoneId: String, value: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
-        val data = JSONObject().apply {
+        val payload = JSONObject().apply {
             put("value", value)
         }
 
-        requestTAG = Request.UPDATE
-        patch(data, endpointUrl(endpoint, zoneId, "settings/development_mode")) {
-            Timber.v(it.toString())
-
+        requestTAG = UPDATE
+        patch("zones/$zoneId/settings/development_mode", payload) {
             cont.resume(
                 getAdapter(DevelopmentModeResponse::class).
                     fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
