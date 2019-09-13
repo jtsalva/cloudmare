@@ -54,6 +54,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             return
         }
 
+        // TODO: see why reloading dns list on result
         when (resultCode) {
             DNSRecordActivity.CHANGES_MADE -> launch {
                 val position = data.getIntExtra("position", -1)
@@ -69,19 +70,19 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 dns_list.adapter?.notifyItemChanged(position) ?: Timber.e("Can't notify change")
             }
 
-            DNSRecordActivity.CREATED -> launch {
-                val dnsRecordId = data.getStringExtra("dns_record_id") ?: throw Exception("dns_record_id must be set")
-
-                val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
-                if (response.failure || response.result == null) {
-                    Timber.e("can't fetch DNS Record")
-                    return@launch
-                }
-
-                records.add(0, response.result)
-                dns_list.adapter?.notifyItemInserted(0) ?: Timber.e("Can't notify creation")
-                dns_list.layoutManager?.scrollToPosition(0) ?: Timber.e("Can't scroll to top")
-            }
+//            DNSRecordActivity.CREATED -> launch {
+//                val dnsRecordId = data.getStringExtra("dns_record_id") ?: throw Exception("dns_record_id must be set")
+//
+//                val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
+//                if (response.failure || response.result == null) {
+//                    Timber.e("can't fetch DNS Record")
+//                    return@launch
+//                }
+//
+//                records.add(0, response.result)
+//                dns_list.adapter?.notifyItemInserted(0) ?: Timber.e("Can't notify creation")
+//                dns_list.layoutManager?.scrollToPosition(0) ?: Timber.e("Can't scroll to top")
+//            }
 
             DNSRecordActivity.DELETED -> {
                 val position = data.getIntExtra("position", -1)
