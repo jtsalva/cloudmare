@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jtsalva.cloudmare.DomainDashActivity
 import dev.jtsalva.cloudmare.DomainListActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtras
 import timber.log.Timber
 
 class DomainListAdapter(
     private val activity: DomainListActivity,
-    private val domains: MutableList<Pair<String, String>>
+    private val domains: MutableList<Zone>
 ) : RecyclerView.Adapter<DomainListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -24,11 +25,11 @@ class DomainListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Timber.d("onBindViewHolder: called")
 
-        holder.name.text = domains[position].second
+        holder.name.text = domains[position].name
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtras(DomainDashActivity::class,
-                "domain_id" to domains[position].first,
-                "domain_name" to domains[position].second
+                "domain_id" to domains[position].id,
+                "domain_name" to domains[position].name
             )
         }
     }
