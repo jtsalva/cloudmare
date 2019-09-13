@@ -2,14 +2,12 @@ package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.endpointUrl
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DNSRecordRequest(context: Context) : Request(context, "zones") {
+class DNSRecordRequest(context: Context) : Request(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
@@ -24,10 +22,8 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             if (validKeys.contains(key)) payload.put(key, data[key])
         }
 
-        requestTAG = Request.CREATE
-        post(payload, endpointUrl(endpoint, zoneId, "dns_records")) {
-            Timber.v(it.toString())
-
+        requestTAG = CREATE
+        post("zones/$zoneId/dns_records", payload) {
             cont.resume(
                 getAdapter(DNSRecordResponse::class).
                         fromJson(it.toString()) ?: DNSRecordResponse(success = false)
@@ -36,10 +32,8 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun delete(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
-        requestTAG = Request.DELETE
-        delete(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Timber.v(it.toString())
-
+        requestTAG = DELETE
+        delete("zones/$zoneId/dns_records/$dnsRecordId") {
             cont.resume(
                 getAdapter(DNSRecordResponse::class).
                     fromJson(it.toString()) ?: DNSRecordResponse(success = false)
@@ -48,12 +42,11 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     }
 
     suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
-        requestTAG = Request.GET
-        get(null, endpointUrl(endpoint, zoneId, "dns_records", dnsRecordId)) {
-            Timber.v(it.toString())
-
+        requestTAG = GET
+        get("zones/$zoneId/dns_records/$dnsRecordId") {
             cont.resume(
-                getAdapter(DNSRecordResponse::class).fromJson(it.toString()) ?: DNSRecordResponse(success = false)
+                getAdapter(DNSRecordResponse::class).
+                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
             )
         }
     }
@@ -62,15 +55,12 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
     suspend fun list(zoneId: String, pageNumber: Int = 1, perPage: Int = 20) =
         suspendCoroutine<DNSRecordListResponse> { cont ->
             val params = urlParams("page" to pageNumber, "per_page" to perPage)
-            val url = endpointUrl(endpoint, zoneId, "dns_records", params)
 
-            requestTAG = Request.LIST
-            get(null, url) {
-                Timber.v(it.toString())
-
+            requestTAG = LIST
+            get("zones/$zoneId/dns_records/$params") {
                 cont.resume(
-                    getAdapter(DNSRecordListResponse::class).fromJson(it.toString())
-                        ?: DNSRecordListResponse(success = false)
+                    getAdapter(DNSRecordListResponse::class).
+                        fromJson(it.toString()) ?: DNSRecordListResponse(success = false)
                 )
             }
         }
@@ -80,10 +70,8 @@ class DNSRecordRequest(context: Context) : Request(context, "zones") {
             getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
         )
 
-        requestTAG = Request.UPDATE
-        put(payload, endpointUrl(endpoint, zoneId, "dns_records", updatedDNSRecord.id)) {
-            Timber.v(it.toString())
-
+        requestTAG = UPDATE
+        put("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload) {
             cont.resume(
                 getAdapter(DNSRecordResponse::class).
                     fromJson(it.toString()) ?: DNSRecordResponse(success = false)

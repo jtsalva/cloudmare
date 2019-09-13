@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare.api.pagerules
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dev.jtsalva.cloudmare.api.DateString
 
 data class PageRule(
     @field:Json(name = "id") val id: String,
@@ -10,8 +9,8 @@ data class PageRule(
     @field:Json(name = "actions") val actions: List<Action>,
     @field:Json(name = "priority") val priority: Int,
     @field:Json(name = "status") val status: String,
-    @field:Json(name = "modified_on") val modifiedOn: DateString,
-    @field:Json(name = "created_on") val createdOn: DateString
+    @field:Json(name = "modified_on") val modifiedOn: String,
+    @field:Json(name = "created_on") val createdOn: String
 ) {
 
     @JsonClass(generateAdapter = true)
