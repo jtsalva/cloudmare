@@ -17,6 +17,9 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var records: MutableList<DNSRecord>
 
+    private var fromActivityResult = false
+        get() = field.also { field = false }
+
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
     private val pagination by lazy {
@@ -57,7 +60,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         when (resultCode) {
             DNSRecordActivity.CHANGES_MADE -> launch {
                 val position = data.getIntExtra("position", -1)
-                val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
+                val dnsRecordId = records[position].id
 
                 val response = DNSRecordRequest(this).get(domain.id, dnsRecordId)
                 if (response.failure || response.result == null) {
@@ -66,31 +69,25 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 }
 
                 records[position] = response.result
-                dns_list.adapter?.notifyItemChanged(position) ?: Timber.e("Can't notify change")
+                dns_list.adapter!!.notifyItemChanged(position)
             }
 
-//            DNSRecordActivity.CREATED -> launch {
-//                val dnsRecordId = data.getStringExtra("dns_record_id") ?: throw Exception("dns_record_id must be set")
-//
-//                val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
-//                if (response.failure || response.result == null) {
-//                    Timber.e("can't fetch DNS Record")
-//                    return@launch
-//                }
-//
-//                records.add(0, response.result)
-//                dns_list.adapter?.notifyItemInserted(0) ?: Timber.e("Can't notify creation")
-//                dns_list.layoutManager?.scrollToPosition(0) ?: Timber.e("Can't scroll to top")
-//            }
+            DNSRecordActivity.CREATED -> launch {
+                val dnsRecord = data.getParcelableExtra<DNSRecord>("dns_record")!!
+
+                records.add(0, dnsRecord)
+                dns_list.adapter!!.notifyItemInserted(0)
+                dns_list.layoutManager!!.scrollToPosition(0)
+            }
 
             DNSRecordActivity.DELETED -> {
                 val position = data.getIntExtra("position", -1)
 
                 records.removeAt(position)
-                dns_list.adapter?.let { adapter ->
-                    adapter.notifyItemRemoved(position)
-                    adapter.notifyItemRangeChanged(position, records.size)
-                } ?: Timber.e("Can't notify delete")
+                dns_list.adapter!!.run {
+                    notifyItemRemoved(position)
+                    notifyItemRangeChanged(position, records.size)
+                }
             }
         }
     }
@@ -121,7 +118,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onStart() {
         super.onStart()
 
-        render()
+        if (!fromActivityResult) render()
     }
 
     override fun onSwipeRefresh() {

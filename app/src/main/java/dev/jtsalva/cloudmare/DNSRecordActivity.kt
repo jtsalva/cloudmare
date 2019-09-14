@@ -223,7 +223,7 @@ class DNSRecordActivity : CloudMareActivity() {
         else {
             if (isNewRecord)
                 setResult(CREATED, Intent().putExtras(
-                    "dns_record_id" to response.result.id
+                    "dns_record" to response.result
                 ))
             else setResult(CHANGES_MADE, intent)
 
