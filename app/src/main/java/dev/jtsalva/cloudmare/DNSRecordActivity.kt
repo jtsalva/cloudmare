@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
+import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.databinding.ActivityDnsRecordBinding
 import dev.jtsalva.cloudmare.viewmodel.DNSRecordViewModel
 import kotlinx.android.synthetic.main.activity_dns_record.*
@@ -14,13 +15,11 @@ import timber.log.Timber
 
 class DNSRecordActivity : CloudMareActivity() {
 
-    private lateinit var domainId: String
+    private lateinit var domain: Zone
 
-    private lateinit var domainName: String
+    private lateinit var dnsRecord: DNSRecord
 
-    private lateinit var dnsRecordId: String
-
-    private val isNewRecord: Boolean get() = dnsRecordId.isEmpty()
+    private var isNewRecord = false
 
     private lateinit var binding: ActivityDnsRecordBinding
 
@@ -77,16 +76,20 @@ class DNSRecordActivity : CloudMareActivity() {
         super.onCreate(savedInstanceState)
 
         with (intent) {
-            domainId = getStringExtra("domain_id") ?: ""
-            domainName = getStringExtra("domain_name") ?: ""
-            dnsRecordId = getStringExtra("dns_record_id") ?: ""
+            domain = getParcelableExtra("domain")!!
+
+            dnsRecord = getParcelableExtra("dns_record") ?:
+                    DNSRecord.default.apply {
+                        zoneName = domain.name
+                        isNewRecord = true
+                    }
         }
 
         showSaveMenuButton = true
         showDeleteMenuButton = true
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
-        setToolbarTitle("$domainName | ${if (isNewRecord) "Create" else "Edit"}")
+        setToolbarTitle("${domain.name} | ${if (isNewRecord) "Create" else "Edit"}")
     }
 
     override fun onStart() {
@@ -150,17 +153,9 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun render() = launch {
-        val data: DNSRecord =
-            if (isNewRecord) DNSRecord.default.apply { zoneName = domainName }
-            else DNSRecordRequest(this).get(domainId, dnsRecordId).let { response ->
-                response.result ?: DNSRecord.default.also {
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                }
-            }
+        Timber.d("DNSRecord: $dnsRecord")
 
-        Timber.d("DNSRecord: $data")
-
-        viewModel = DNSRecordViewModel(this, domainId, domainName, data)
+        viewModel = DNSRecordViewModel(this, domain, dnsRecord)
 
         customizeForm()
 
@@ -178,7 +173,7 @@ class DNSRecordActivity : CloudMareActivity() {
                 isClickable = isNewRecord
 
                 setAdapter(adapter)
-                setSelection(adapter.getPosition(data.type))
+                setSelection(adapter.getPosition(dnsRecord.type))
                 onItemSelectedListener = viewModel
             }
         }
@@ -186,7 +181,7 @@ class DNSRecordActivity : CloudMareActivity() {
         dnsRecordTtlAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
-            val ttlString = DNSRecord.Ttl.fromValue(data.ttl).toString(this)
+            val ttlString = DNSRecord.Ttl.fromValue(dnsRecord.ttl).toString(this)
 
             ttl_spinner.apply {
                 setAdapter(adapter)
@@ -203,7 +198,7 @@ class DNSRecordActivity : CloudMareActivity() {
             if (confirmed) launch {
                 dialog.loading(title = "Deleting...")
 
-                val response = DNSRecordRequest(this).delete(domainId, dnsRecordId)
+                val response = DNSRecordRequest(this).delete(domain.id, dnsRecord.id)
 
                 if (response.success) {
                     setResult(DELETED, intent)
@@ -219,8 +214,8 @@ class DNSRecordActivity : CloudMareActivity() {
         dialog.loading(title = "Saving...")
 
         val response = DNSRecordRequest(this).run {
-            if (isNewRecord) create(domainId, viewModel.data)
-            else update(domainId, viewModel.data)
+            if (isNewRecord) create(domain.id, viewModel.data)
+            else update(domain.id, viewModel.data)
         }
 
         if (response.failure || response.result == null)

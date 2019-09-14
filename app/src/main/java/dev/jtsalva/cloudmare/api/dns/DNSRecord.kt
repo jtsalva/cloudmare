@@ -1,8 +1,11 @@
 package dev.jtsalva.cloudmare.api.dns
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.readStringOrBlank
 
 data class DNSRecord(
     @field:Json(name = "id") val id: String,
@@ -18,7 +21,24 @@ data class DNSRecord(
     @field:Json(name = "priority") var priority: Int? = null,
     @field:Json(name = "created_on") var createdOn: String? = null,
     @field:Json(name = "modified_on") var modifiedOn: String? = null
-) {
+) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readStringOrBlank(),
+        parcel.readStringOrBlank(),
+        parcel.readStringOrBlank(),
+        parcel.readStringOrBlank(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readStringOrBlank(),
+        parcel.readStringOrBlank(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString()
+    )
+
     companion object {
         const val A = "A"
         const val AAAA = "AAAA"
@@ -53,6 +73,12 @@ data class DNSRecord(
                 zoneId = "",
                 zoneName = ""
             )
+
+        @JvmField val CREATOR = object : Parcelable.Creator<DNSRecord> {
+            override fun createFromParcel(parcel: Parcel) = DNSRecord(parcel)
+
+            override fun newArray(size: Int): Array<DNSRecord?> = arrayOfNulls(size)
+        }
     }
 
     enum class Ttl(
@@ -105,4 +131,25 @@ data class DNSRecord(
             }
         )
     }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(type)
+        parcel.writeString(name)
+        parcel.writeString(content)
+        parcel.writeByte(if (proxiable) 1 else 0)
+        parcel.writeByte(if (proxied) 1 else 0)
+        parcel.writeInt(ttl)
+        parcel.writeByte(if (locked) 1 else 0)
+        parcel.writeString(zoneId)
+        parcel.writeString(zoneName)
+        parcel.writeValue(priority)
+        parcel.writeString(createdOn)
+        parcel.writeString(modifiedOn)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
 }

@@ -9,13 +9,13 @@ import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecord.Ttl
+import dev.jtsalva.cloudmare.api.zone.Zone
 import timber.log.Timber
 import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
     private val activity: DNSRecordActivity,
-    private val domainId: String,
-    private val domainName: String,
+    private val domain: Zone,
     val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
@@ -24,9 +24,9 @@ class DNSRecordViewModel(
     val dataHasChanged: Boolean get() = data.hashCode() != originalHash
 
     var name: String
-        @Bindable get() = if (data.name == domainName) "@" else data.name.substringBefore(".$domainName")
+        @Bindable get() = if (data.name == domain.name) "@" else data.name.substringBefore(".${domain.name}")
         set(value) {
-            data.name = if (value in setOf(domainName, "@")) domainName else "$value.$domainName"
+            data.name = if (value in setOf(domain.name, "@")) domain.name else "$value.${domain.name}"
 
             @Suppress("UNRESOLVED_REFERENCE")
             notifyPropertyChanged(BR.name)

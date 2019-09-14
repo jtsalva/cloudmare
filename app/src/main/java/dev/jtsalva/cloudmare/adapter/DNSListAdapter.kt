@@ -9,13 +9,13 @@ import dev.jtsalva.cloudmare.DNSListActivity
 import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
+import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
 import timber.log.Timber
 
 class DNSListAdapter(
     private val activity: DNSListActivity,
-    private val domainId: String,
-    private val domainName: String,
+    private val domain: Zone,
     private val records: MutableList<DNSRecord>
 ) : RecyclerView.Adapter<DNSListAdapter.ViewHolder>() {
 
@@ -25,14 +25,12 @@ class DNSListAdapter(
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Timber.d("onBindViewHolder: called")
-
         val record = records[position]
 
         holder.apply {
             type.text = fitText(record.type)
-            name.text = record.name.substringBefore(".$domainName").let { name ->
-                if (name == domainName) "@" else fitText(name)
+            name.text = record.name.substringBefore(".${domain.name}").let { name ->
+                if (name == domain.name) "@" else fitText(name)
             }
             content.text = fitText(record.content)
 
@@ -41,9 +39,8 @@ class DNSListAdapter(
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtrasForResult(
                 DNSRecordActivity::class,  DNSListActivity.EDIT_RECORD,
-                    "domain_id" to domainId,
-                    "domain_name" to domainName,
-                    "dns_record_id" to record.id,
+                    "domain" to domain,
+                    "dns_record" to record,
                     "position" to position
             )
         }

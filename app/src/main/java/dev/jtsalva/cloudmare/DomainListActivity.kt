@@ -10,8 +10,6 @@ import timber.log.Timber
 
 class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
-    // first: domain.domainId, second: domain.domainName
-    // TODO: use data class instead of pairs
     private val domains = mutableListOf<Zone>()
 
     private val initialized get() = domain_list.adapter is DomainListAdapter
