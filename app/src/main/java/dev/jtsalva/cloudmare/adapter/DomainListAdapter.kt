@@ -10,7 +10,6 @@ import dev.jtsalva.cloudmare.DomainListActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtras
-import timber.log.Timber
 
 class DomainListAdapter(
     private val activity: DomainListActivity,

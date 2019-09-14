@@ -11,7 +11,6 @@ import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
-import timber.log.Timber
 
 class DNSListAdapter(
     private val activity: DNSListActivity,
