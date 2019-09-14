@@ -23,13 +23,12 @@ class DomainListAdapter(
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Timber.d("onBindViewHolder: called")
+        val domain = domains[position]
 
-        holder.name.text = domains[position].name
+        holder.name.text = domain.name
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtras(DomainDashActivity::class,
-                "domain_id" to domains[position].id,
-                "domain_name" to domains[position].name
+                "domain" to domain
             )
         }
     }

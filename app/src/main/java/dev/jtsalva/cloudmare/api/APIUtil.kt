@@ -1,5 +1,6 @@
 package dev.jtsalva.cloudmare.api
 
+import android.os.Parcel
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import java.text.SimpleDateFormat

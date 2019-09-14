@@ -7,14 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
+import dev.jtsalva.cloudmare.api.zone.Zone
 import kotlinx.android.synthetic.main.activity_dns_list.*
 import timber.log.Timber
 
 class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domainId: String
-
-    private lateinit var domainName: String
+    private lateinit var domain: Zone
 
     private lateinit var records: MutableList<DNSRecord>
 
@@ -25,7 +24,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
             override fun fetchNextPage(pageNumber: Int) = launch {
                 DNSRecordRequest(this@DNSListActivity).
-                    list(domainId, pageNumber).run {
+                    list(domain.id, pageNumber).run {
                     if (failure || result == null)
                         dialog.error(message = firstErrorMessage)
                     else if (result.isNotEmpty()) result.let { nextPage ->
@@ -60,7 +59,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 val position = data.getIntExtra("position", -1)
                 val dnsRecordId = data.getStringExtra("dns_record_id") ?: records[position].id
 
-                val response = DNSRecordRequest(this).get(domainId, dnsRecordId)
+                val response = DNSRecordRequest(this).get(domain.id, dnsRecordId)
                 if (response.failure || response.result == null) {
                     Timber.e("can't fetch DNS Record")
                     return@launch
@@ -100,8 +99,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         R.id.action_add -> {
             Timber.d("add action clicked")
             startActivityWithExtrasForResult(DNSRecordActivity::class, CREATE_RECORD,
-                "domain_id" to domainId,
-                "domain_name" to domainName
+                "domain" to domain
             )
             true
         }
@@ -112,15 +110,12 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with (intent) {
-            domainId = getStringExtra("domain_id") ?: ""
-            domainName = getStringExtra("domain_name") ?: ""
-        }
+        domain = intent.getParcelableExtra("domain")!!
 
         showAddMenuButton = true
 
         setLayout(R.layout.activity_dns_list)
-        setToolbarTitle("$domainName | DNS Records")
+        setToolbarTitle("${domain.name} | DNS Records")
     }
 
     override fun onStart() {
@@ -135,7 +130,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = launch {
-        val response = DNSRecordRequest(this).list(domainId)
+        val response = DNSRecordRequest(this).list(domain.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
@@ -152,7 +147,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 Timber.d("initializing dns list")
 
                 records = result
-                dns_list.adapter = DNSListAdapter(this, domainId, domainName, records)
+                dns_list.adapter = DNSListAdapter(this, domain, records)
                 dns_list.layoutManager = LinearLayoutManager(this)
                 dns_list.addOnScrollListener(pagination)
             }

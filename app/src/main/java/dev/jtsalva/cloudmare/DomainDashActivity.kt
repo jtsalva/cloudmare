@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare
 
 import android.os.Bundle
 import dev.jtsalva.cloudmare.api.Request
+import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
@@ -12,9 +13,7 @@ import kotlinx.android.synthetic.main.activity_domain_dash.*
 
 class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domainId: String
-
-    private lateinit var domainName: String
+    private lateinit var domain: Zone
 
     private lateinit var binding: ActivityDomainDashBinding
 
@@ -25,17 +24,14 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with (intent) {
-            domainId = getStringExtra("domain_id") ?: ""
-            domainName = getStringExtra("domain_name") ?: ""
-        }
+        domain = intent.getParcelableExtra("domain")!!
 
         launch {
-            viewModel = DomainDashViewModel(this, domainId)
+            viewModel = DomainDashViewModel(this, domain.id)
             binding = setLayoutBinding(R.layout.activity_domain_dash)
             binding.viewModel = viewModel
 
-            setToolbarTitle(domainName)
+            setToolbarTitle(domain.name)
             setOnClickListeners()
         }
     }
@@ -51,7 +47,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         val developmentModeRequest = DevelopmentModeRequest(this)
 
         launch {
-            developmentModeRequest.get(domainId).let { response ->
+            developmentModeRequest.get(domain.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll(Request.GET)
@@ -61,7 +57,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             }
         }
 
-        securityLevelRequest.get(domainId).let { response ->
+        securityLevelRequest.get(domain.id).let { response ->
             if (response.failure || response.result == null) {
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                 developmentModeRequest.cancelAll(Request.GET)
@@ -74,8 +70,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
     private fun setOnClickListeners() {
         dns_item.setOnClickListener {
             startActivityWithExtras(DNSListActivity::class,
-                    "domain_id" to domainId,
-                    "domain_name" to domainName
+                    "domain" to domain
             )
         }
     }
