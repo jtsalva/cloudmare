@@ -201,7 +201,9 @@ class DNSRecordActivity : CloudMareActivity() {
                 val response = DNSRecordRequest(this).delete(domain.id, dnsRecord.id)
 
                 if (response.success) {
-                    setResult(DELETED, intent)
+                    setResult(DELETED, Intent().putExtras(
+                        "dns_record" to dnsRecord
+                    ))
                     finish()
                 }
                 else dialog.error(message = response.firstErrorMessage)
@@ -221,11 +223,12 @@ class DNSRecordActivity : CloudMareActivity() {
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, positive = "Okay")
         else {
-            if (isNewRecord)
-                setResult(CREATED, Intent().putExtras(
+            setResult(
+                if (isNewRecord) CREATED else CHANGES_MADE,
+                Intent().putExtras(
                     "dns_record" to response.result
-                ))
-            else setResult(CHANGES_MADE, intent)
+                )
+            )
 
             finish()
         }

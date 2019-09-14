@@ -18,7 +18,11 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     private lateinit var records: MutableList<DNSRecord>
 
     private var fromActivityResult = false
-        get() = field.also { field = false }
+        get() {
+            val current = field
+            field = false
+            return current
+        }
 
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
@@ -51,28 +55,23 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        fromActivityResult = true
+
         if (data == null) {
             Timber.d("onActivityResult: null data")
             return
         }
 
-        // TODO: see why reloading dns list on result
         when (resultCode) {
-            DNSRecordActivity.CHANGES_MADE -> launch {
-                val position = data.getIntExtra("position", -1)
-                val dnsRecordId = records[position].id
+            DNSRecordActivity.CHANGES_MADE -> {
+                val dnsRecord = data.getParcelableExtra<DNSRecord>("dns_record")!!
+                val position = records.indexOfFirst { it.id == dnsRecord.id }
 
-                val response = DNSRecordRequest(this).get(domain.id, dnsRecordId)
-                if (response.failure || response.result == null) {
-                    Timber.e("can't fetch DNS Record")
-                    return@launch
-                }
-
-                records[position] = response.result
+                records[position] = dnsRecord
                 dns_list.adapter!!.notifyItemChanged(position)
             }
 
-            DNSRecordActivity.CREATED -> launch {
+            DNSRecordActivity.CREATED -> {
                 val dnsRecord = data.getParcelableExtra<DNSRecord>("dns_record")!!
 
                 records.add(0, dnsRecord)
@@ -81,7 +80,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             }
 
             DNSRecordActivity.DELETED -> {
-                val position = data.getIntExtra("position", -1)
+                val dnsRecord = data.getParcelableExtra<DNSRecord>("dns_record")!!
+                val position = records.indexOfFirst { it.id == dnsRecord.id }
 
                 records.removeAt(position)
                 dns_list.adapter!!.run {
