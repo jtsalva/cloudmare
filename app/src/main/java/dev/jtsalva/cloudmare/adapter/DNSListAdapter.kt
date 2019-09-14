@@ -39,8 +39,7 @@ class DNSListAdapter(
             activity.startActivityWithExtrasForResult(
                 DNSRecordActivity::class,  DNSListActivity.EDIT_RECORD,
                     "domain" to domain,
-                    "dns_record" to record,
-                    "position" to position
+                    "dns_record" to record
             )
         }
     }
