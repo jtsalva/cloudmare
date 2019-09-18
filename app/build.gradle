@@ -8,12 +8,12 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "dev.jtsalva.cloudmare"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 12
+        versionCode 13
         versionName "Asperitas"
     }
     buildTypes {
