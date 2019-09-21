@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:background="@drawable/bottom_border_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bottom_border_background"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
@@ -12,11 +12,10 @@
             android:id="@+id/priority"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:textSize="24dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="1" />
 
     <Switch
@@ -24,39 +23,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/priority"
-            app:layout_constraintVertical_bias="0.421"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.36"
             tools:checked="false"
             tools:text="" />
 
     <TextView
             android:id="@+id/target"
-            tools:text="jtsalva.dev/*"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintBottom_toTopOf="@+id/info"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="jtsalva.dev/*" />
+
     <TextView
             android:id="@+id/info"
-            tools:text="Forwading Url: ..."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            android:layout_marginStart="8dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/target" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/target"
+            tools:text="Forwading Url: ..." />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="310dp" />
+            app:layout_constraintGuide_end="103dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
