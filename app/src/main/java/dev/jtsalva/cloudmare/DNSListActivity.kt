@@ -132,7 +132,14 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else (response.result as MutableList<DNSRecord>).also { result ->
-            if (initialized && result != records) {
+            if (!initialized) {
+                Timber.d("initializing dns list")
+
+                records = result
+                dns_list.adapter = DNSListAdapter(this, domain, records)
+                dns_list.layoutManager = LinearLayoutManager(this)
+                dns_list.addOnScrollListener(pagination)
+            } else if (result != records) {
                 Timber.d("reloading dns list")
 
                 records.apply {
@@ -140,13 +147,6 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                     addAll(0, result)
                 }
                 dns_list.adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload dns list")
-            } else {
-                Timber.d("initializing dns list")
-
-                records = result
-                dns_list.adapter = DNSListAdapter(this, domain, records)
-                dns_list.layoutManager = LinearLayoutManager(this)
-                dns_list.addOnScrollListener(pagination)
             }
         }
 
