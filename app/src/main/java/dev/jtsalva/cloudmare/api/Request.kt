@@ -1,8 +1,8 @@
 package dev.jtsalva.cloudmare.api
 
-import android.content.Context
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
+import dev.jtsalva.cloudmare.CloudMareActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
@@ -12,7 +12,7 @@ import com.android.volley.Response as JsonResponse
 
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
-open class Request(private val context: Context) {
+open class Request(protected val context: CloudMareActivity) {
 
     companion object {
         const val CREATE = "create"
