@@ -53,6 +53,11 @@
                                 app:info="@string/info_dns"
                                 app:title="@string/category_dns" />
 
+                        <dev.jtsalva.cloudmare.view.ButtonOptionView
+                                android:id="@+id/page_rules_item"
+                                app:info="@string/info_page_rules"
+                                app:title="@string/category_page_rules" />
+
                     </TableLayout>
 
             </ScrollView>
