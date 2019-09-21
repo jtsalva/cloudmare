@@ -1,13 +1,13 @@
 package dev.jtsalva.cloudmare.api.zonesettings
 
-import android.content.Context
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONArray
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ZoneSettingsRequest(context: Context) : Request(context) {
+class ZoneSettingsRequest(context: CloudMareActivity) : Request(context) {
 
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
         requestTAG = GET

@@ -1,13 +1,15 @@
 package dev.jtsalva.cloudmare.api.pagerules
 
-import android.content.Context
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class PageRuleRequest(context: Context) : Request(context) {
+class PageRuleRequest(context: CloudMareActivity) : Request(context) {
+
+    fun launch(block: suspend PageRuleRequest.() -> Unit) = context.launch { this.block() }
 
     suspend fun list(zoneId: String) =
         suspendCoroutine<PageRuleListResponse> { cont ->
