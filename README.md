@@ -6,6 +6,8 @@ Simple & Quick Cloudflare tool for:
  
  * Managing DNS records
  
+ * Toggle Page Rules
+ 
  * More features on it's way
 
 Unofficial app, not endorsed by Cloudflare.
