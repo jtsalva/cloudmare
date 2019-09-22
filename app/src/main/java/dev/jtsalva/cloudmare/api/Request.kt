@@ -20,6 +20,12 @@ open class Request(protected val context: CloudMareActivity) {
         const val LIST = "list"
         const val UPDATE = "update"
         const val DELETE = "delete"
+
+        const val DIRECTION_ASCENDING = "asc"
+        const val DIRECTION_DESCENDING = "desc"
+
+        const val ORDER_STATUS = "status"
+        const val ORDER_PRIORITY = "priority"
     }
 
     private fun ResponseCallback.logResponse(): ResponseCallback = { response ->
