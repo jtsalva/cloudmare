@@ -18,6 +18,10 @@ class PageRulesAdapter(
     private val pageRules: MutableList<PageRule>
 ) : RecyclerView.Adapter<PageRulesAdapter.ViewHolder>() {
 
+    companion object {
+        const val MAX_TEXT_LENGTH = 26
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.page_rules_item, parent, false)
@@ -44,10 +48,15 @@ class PageRulesAdapter(
                 }
             }
 
-            target.text = pageRule.targets[0].constraint.value.fit(maxLength = 28)
+            target.text = pageRule.targets[0].constraint.value.fit(MAX_TEXT_LENGTH)
 
-            info.text = pageRule.actions[0].run {
-                "$id: $value".fit(maxLength = 28)
+            info.text = pageRule.actions.run {
+                var text = ""
+                forEach { action ->
+                    text += "$action, "
+                    if (text.length >= MAX_TEXT_LENGTH) return@forEach
+                }
+                text.dropLast(2).fit(MAX_TEXT_LENGTH)
             }
         }
 
@@ -62,7 +71,5 @@ class PageRulesAdapter(
         val status: Switch = itemView.findViewById(R.id.status_switch)
         val target: TextView = itemView.findViewById(R.id.target)
         val info: TextView = itemView.findViewById(R.id.info)
-
     }
-
 }

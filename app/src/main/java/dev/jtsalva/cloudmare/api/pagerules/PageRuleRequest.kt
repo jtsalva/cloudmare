@@ -11,10 +11,14 @@ class PageRuleRequest(context: CloudMareActivity) : Request(context) {
 
     fun launch(block: suspend PageRuleRequest.() -> Unit) = context.launch { this.block() }
 
-    suspend fun list(zoneId: String) =
+    suspend fun list(zoneId: String,
+                     order: String = ORDER_PRIORITY,
+                     direction: String = DIRECTION_ASCENDING) =
         suspendCoroutine<PageRuleListResponse> { cont ->
+            val params = urlParams("order" to order, "direction" to direction)
+
             requestTAG = LIST
-            get("zones/$zoneId/pagerules") {
+            get("zones/$zoneId/pagerules$params") {
                 cont.resume(
                     getAdapter(PageRuleListResponse::class).
                         fromJson(it.toString()) ?: PageRuleListResponse(success = false)

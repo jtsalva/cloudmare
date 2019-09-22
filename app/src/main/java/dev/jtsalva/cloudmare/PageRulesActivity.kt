@@ -14,12 +14,15 @@ class PageRulesActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var pageRules: MutableList<PageRule>
 
+    private val initialized: Boolean get() = page_rules.adapter is PageRulesAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         domain = intent.getParcelableExtra("domain")!!
 
-        showAddMenuButton = true
+//        TODO: add ability to create page rules
+//        showAddMenuButton = true
 
         setLayout(R.layout.activity_page_rules)
         setToolbarTitle("${domain.name} | Page Rules")
@@ -36,17 +39,20 @@ class PageRulesActivity : CloudMareActivity(), SwipeRefreshable {
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-        else (response.result as MutableList<PageRule>).let { result ->
-            pageRules = result
+        else (response.result as MutableList<PageRule>).also { result ->
+            if (!initialized) page_rules.apply {
+                pageRules = result
 
-            page_rules.apply {
                 adapter = PageRulesAdapter(this@PageRulesActivity, domain, pageRules)
                 layoutManager = LinearLayoutManager(this@PageRulesActivity)
-                // TODO: add pagination listener
+            } else if (result != pageRules) pageRules.apply {
+                clear()
+                addAll(result)
+
+                page_rules.adapter!!.notifyDataSetChanged()
             }
         }
 
         showProgressBar = false
     }
-
 }
