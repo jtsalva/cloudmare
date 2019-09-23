@@ -11,17 +11,6 @@ open class Response(
 ) {
 
     companion object {
-        object Status {
-            const val OK = 200
-            const val NOT_MODIFIED = 304
-            const val BAD_REQUEST = 400
-            const val UNAUTHORIZED = 401
-            const val FORBIDDEN = 403
-            const val TOO_MANY_REQUESTS = 429
-            const val METHOD_NOT_ALLOWED = 405
-            const val UNSUPPORTED_MEDIA_TYPE = 415
-        }
-
         fun createWithErrors(vararg errors: Error): String =
             getAdapter(Response::class).toJson(
                 Response(success = false, errors = errors.run {
