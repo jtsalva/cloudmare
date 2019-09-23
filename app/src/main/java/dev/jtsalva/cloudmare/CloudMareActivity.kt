@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -34,8 +35,15 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
             field = value
         }
 
+    var showNonFoundMessage = false
+        set(value) {
+            nonFoundMessage.apply { visibility = if (value) View.VISIBLE else View.GONE }
+            field = value
+        }
+
     private val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
+    private val nonFoundMessage by lazy { findViewById<TextView>(R.id.non_found_message) }
 
     val dialog: Dialog get() = Dialog(this)
 

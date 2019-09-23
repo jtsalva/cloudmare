@@ -62,7 +62,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-        else if (response.result != domains) domain_list.apply {
+        else {
+            if (response.result != domains) domain_list.apply {
                 domains.clear()
                 domains.addAll(0, response.result)
 
@@ -73,6 +74,9 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                     layoutManager = LinearLayoutManager(this@DomainListActivity)
                     addOnScrollListener(pagination)
                 }
+            }
+
+            showNonFoundMessage = response.result.isEmpty()
         }
 
         showProgressBar = false
