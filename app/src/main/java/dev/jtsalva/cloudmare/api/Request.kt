@@ -28,7 +28,7 @@ open class Request(protected val context: CloudMareActivity) {
         const val ORDER_PRIORITY = "priority"
     }
 
-    private fun ResponseCallback.logResponse(): ResponseCallback = { response ->
+    private inline fun ResponseCallback.logResponse(): ResponseCallback = { response ->
         Timber.v(response.toString())
         invoke(response)
     }
@@ -62,7 +62,7 @@ open class Request(protected val context: CloudMareActivity) {
                     response.data,
                     Charset.forName(HttpHeaderParser.parseCharset(response.headers, "UTF-8"))
                 )
-                Timber.v("Response: $res")
+                Timber.e("Error Response: $res")
                 callback(JSONObject(res))
             } catch (e: Throwable) {
                 val failedResponse = Response.createWithErrors(
