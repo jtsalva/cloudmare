@@ -57,7 +57,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request(context) {
             val params = urlParams("page" to pageNumber, "per_page" to perPage)
 
             requestTAG = LIST
-            get("zones/$zoneId/dns_records/$params") {
+            get("zones/$zoneId/dns_records$params") {
                 cont.resume(
                     getAdapter(DNSRecordListResponse::class).
                         fromJson(it.toString()) ?: DNSRecordListResponse(success = false)
