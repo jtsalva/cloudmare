@@ -1,18 +1,24 @@
 package dev.jtsalva.cloudmare.api.pagerules
 
-import android.content.Context
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class PageRuleRequest(context: Context) : Request(context) {
+class PageRuleRequest(context: CloudMareActivity) : Request(context) {
 
-    suspend fun list(zoneId: String) =
+    fun launch(block: suspend PageRuleRequest.() -> Unit) = context.launch { this.block() }
+
+    suspend fun list(zoneId: String,
+                     order: String = ORDER_PRIORITY,
+                     direction: String = DIRECTION_ASCENDING) =
         suspendCoroutine<PageRuleListResponse> { cont ->
+            val params = urlParams("order" to order, "direction" to direction)
+
             requestTAG = LIST
-            get("zones/$zoneId/pagerules") {
+            get("zones/$zoneId/pagerules$params") {
                 cont.resume(
                     getAdapter(PageRuleListResponse::class).
                         fromJson(it.toString()) ?: PageRuleListResponse(success = false)
