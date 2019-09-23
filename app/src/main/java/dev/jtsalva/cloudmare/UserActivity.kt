@@ -32,9 +32,6 @@ class UserActivity : CloudMareActivity() {
     @Suppress("UNUSED_PARAMETER")
     private fun onEnter(view: View, keyCode: Int, event: KeyEvent): Boolean
     {
-        Timber.d("event action: ${event.action}")
-        Timber.d("key code: $keyCode")
-
         if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             onSave()
             return true
