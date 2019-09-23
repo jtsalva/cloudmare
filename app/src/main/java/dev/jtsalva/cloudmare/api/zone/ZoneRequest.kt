@@ -12,7 +12,7 @@ class ZoneRequest(context: CloudMareActivity) : Request(context) {
         val params = urlParams("page" to pageNumber, "per_page" to perPage)
 
         requestTAG = LIST
-        get("zones/$params") {
+        get("zones$params") {
             cont.resume(
                 getAdapter(ZoneListResponse::class).fromJson(it.toString()) ?: ZoneListResponse(success = false)
             )
