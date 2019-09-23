@@ -1,13 +1,13 @@
 package dev.jtsalva.cloudmare.api.dns
 
-import android.content.Context
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DNSRecordRequest(context: Context) : Request(context) {
+class DNSRecordRequest(context: CloudMareActivity) : Request(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")

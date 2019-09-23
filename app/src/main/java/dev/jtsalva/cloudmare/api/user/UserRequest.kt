@@ -1,12 +1,12 @@
 package dev.jtsalva.cloudmare.api.user
 
-import android.content.Context
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class UserRequest(context: Context) : Request(context) {
+class UserRequest(context: CloudMareActivity) : Request(context) {
 
     suspend fun getDetails() = suspendCoroutine<UserDetailsResponse> { cont ->
         requestTAG = GET

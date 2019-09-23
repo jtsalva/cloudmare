@@ -9,7 +9,6 @@ import kotlin.reflect.KClass
 const val BASE_URL = "https://api.cloudflare.com/client/v4"
 const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'"
 
-
 val DateTimeFormat = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
 
 fun String.toDate(): Date =
@@ -18,5 +17,5 @@ fun String.toDate(): Date =
 fun Date.toString(): String =
     DateTimeFormat.format(this)
 
-fun <T : Any> getAdapter(type: KClass<T>): JsonAdapter<T> =
-    Moshi.Builder().build().adapter<T>(type.java)
+inline fun <T : Any> getAdapter(type: KClass<T>, vararg adapters: Any): JsonAdapter<T> =
+    Moshi.Builder().apply { adapters.forEach { add(it) } }.build().adapter<T>(type.java)
