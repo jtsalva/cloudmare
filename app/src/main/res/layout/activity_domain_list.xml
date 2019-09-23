@@ -14,6 +14,18 @@
     <include
             layout="@layout/progress_bar" />
 
+    <TextView
+            android:id="@+id/non_found_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No domains found"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/swipe_refresh" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"

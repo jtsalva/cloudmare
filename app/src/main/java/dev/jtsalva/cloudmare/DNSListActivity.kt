@@ -77,6 +77,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 records.add(0, dnsRecord)
                 dns_list.adapter!!.notifyItemInserted(0)
                 dns_list.layoutManager!!.scrollToPosition(0)
+
+                showNonFoundMessage = false
             }
 
             DNSRecordActivity.DELETED -> {
@@ -88,6 +90,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                     notifyItemRemoved(position)
                     notifyItemRangeChanged(position, records.size)
                 }
+
+                showNonFoundMessage = records.isEmpty()
             }
         }
     }
@@ -144,6 +148,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
                 dns_list.adapter!!.notifyDataSetChanged()
             }
+
+            showNonFoundMessage = result.isEmpty()
         }
 
         showProgressBar = false

@@ -51,6 +51,8 @@ class PageRulesActivity : CloudMareActivity(), SwipeRefreshable {
 
                 page_rules.adapter!!.notifyDataSetChanged()
             }
+
+            showNonFoundMessage = result.isEmpty()
         }
 
         showProgressBar = false
