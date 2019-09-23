@@ -67,7 +67,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                 domains.addAll(0, response.result)
 
                 if (initialized)
-                    adapter?.notifyDataSetChanged() ?: Timber.e("Can't reload domain list")
+                    adapter!!.notifyDataSetChanged()
                 else {
                     adapter = DomainListAdapter(this@DomainListActivity, domains)
                     layoutManager = LinearLayoutManager(this@DomainListActivity)
