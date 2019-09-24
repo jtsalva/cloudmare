@@ -2,7 +2,7 @@ package dev.jtsalva.cloudmare.api.pagerules
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dev.jtsalva.cloudmare.api.roundedHours
+import dev.jtsalva.cloudmare.api.toTtlString
 
 data class PageRule(
     @field:Json(name = "id") val id: String,
@@ -131,9 +131,11 @@ data class PageRule(
                 Actions.getValue(id)
 
             ActionId.BROWSER_CACHE_TTL, ActionId.EDGE_CACHE_TTL ->
-                (value as Double).roundedHours.let { hours ->
-                    "${Actions.getValue(id)}: $hours hours"
-                }
+            {
+                val seconds = value as Double
+
+                "${seconds.toTtlString()} ${Actions.getValue(id)}"
+            }
 
             else -> "${Actions.getValue(id)}: $value"
         }
