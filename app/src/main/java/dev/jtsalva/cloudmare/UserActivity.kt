@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import android.view.View
 import dev.jtsalva.cloudmare.api.user.UserRequest
 import kotlinx.android.synthetic.main.activity_user.*
-import timber.log.Timber
 
 class UserActivity : CloudMareActivity() {
 
