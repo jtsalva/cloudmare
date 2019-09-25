@@ -3,6 +3,7 @@ package dev.jtsalva.cloudmare.api.pagerules
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.toTtlString
+import java.net.URI
 
 data class PageRule(
     @field:Json(name = "id") val id: String,
@@ -117,7 +118,9 @@ data class PageRule(
         override fun toString(): String = when (id) {
             ActionId.FORWARDING_URL ->
                 ForwardingUrl.fromMap(value!!).let { forwardingUrl ->
-                    "Forward: ${forwardingUrl.statusCode}: ${forwardingUrl.url}"
+                    val domain = URI(forwardingUrl.url).host
+                    
+                    "Forward: ${forwardingUrl.statusCode}: $domain"
                 }
 
             ActionId.MINIFY ->
