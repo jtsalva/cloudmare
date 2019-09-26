@@ -27,11 +27,11 @@ class DNSListAdapter(
         val record = records[position]
 
         holder.apply {
-            type.text = fitText(record.type)
+            type.text = record.type.fit()
             name.text = record.name.substringBefore(".${domain.name}").let { name ->
-                if (name == domain.name) "@" else fitText(name)
+                if (name == domain.name) "@" else name.fit()
             }
-            content.text = fitText(record.content)
+            content.text = record.content.fit()
 
         }
 
