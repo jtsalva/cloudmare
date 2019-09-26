@@ -24,7 +24,7 @@ class DomainListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val domain = domains[position]
 
-        holder.name.text = domain.name
+        holder.name.text = domain.name.fit(75)
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtras(DomainDashActivity::class,
                 "domain" to domain

@@ -48,7 +48,7 @@ class PageRulesAdapter(
                 }
             }
 
-            target.text = pageRule.targets[0].constraint.value.fit(MAX_TEXT_LENGTH)
+            target.text = pageRule.targets[0].constraint.value.fit()
 
             info.text = pageRule.actions.run {
                 var text = ""
@@ -56,7 +56,7 @@ class PageRulesAdapter(
                     text += "$action, "
                     if (text.length >= MAX_TEXT_LENGTH) return@forEach
                 }
-                text.dropLast(2).fit(MAX_TEXT_LENGTH)
+                text.dropLast(2).fit()
             }
         }
 
