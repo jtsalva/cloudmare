@@ -118,9 +118,11 @@ data class PageRule(
         override fun toString(): String = when (id) {
             ActionId.FORWARDING_URL ->
                 ForwardingUrl.fromMap(value!!).let { forwardingUrl ->
-                    val domain = URI(forwardingUrl.url).host
+                    val domain = URI(forwardingUrl.url).run {
+                        "$host$path"
+                    }
                     
-                    "Forward: ${forwardingUrl.statusCode}: $domain"
+                    "${forwardingUrl.statusCode}: $domain"
                 }
 
             ActionId.MINIFY ->
