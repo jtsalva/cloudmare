@@ -33,7 +33,7 @@ open class Response(
             6103 -> "Invalid api key format"
             9103 -> "Invalid email or api key"
             9041 -> "This DNS record cannot be proxied"
-            else -> message.fit()
+            else -> message.fit(100)
         }
     }
 
