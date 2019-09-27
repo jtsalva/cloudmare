@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare.api
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import dev.jtsalva.cloudmare.adapter.fit
 
 @JsonClass(generateAdapter = true)
 open class Response(
@@ -27,11 +28,12 @@ open class Response(
 
     val firstErrorMessage: String get() = with(errors[0].mostRelevantError) {
         // Intercept and replace user obscure error messages
+        // TODO: find more messages and make them more understandable
         when (code) {
             6103 -> "Invalid api key format"
             9103 -> "Invalid email or api key"
             9041 -> "This DNS record cannot be proxied"
-            else -> message
+            else -> message.fit()
         }
     }
 
