@@ -13,9 +13,18 @@
             android:supportsRtl="false"
             android:theme="@style/AppTheme"
             tools:replace="android:supportsRtl">
-        <activity android:name=".PageRulesActivity"></activity>
-        <activity android:name=".DNSRecordActivity"></activity>
-        <activity android:name=".DNSListActivity"></activity>
+        <activity
+                android:name=".PageRulesActivity"
+                android:launchMode = "singleTop">
+        </activity>
+        <activity
+                android:name=".DNSRecordActivity"
+                android:launchMode = "singleTop">>
+        </activity>
+        <activity
+                android:name=".DNSListActivity"
+                android:launchMode = "singleTop">
+        </activity>
         <activity android:name=".DomainListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DomainDashActivity"></activity>
-        <activity android:name=".UserActivity"></activity>
+        <activity
+                android:name=".DomainDashActivity"
+                android:launchMode = "singleTop">
+        </activity>
+        <activity
+                android:name=".UserActivity"
+                android:launchMode = "singleTop"
+                ></activity>
     </application>
 
 </manifest>
