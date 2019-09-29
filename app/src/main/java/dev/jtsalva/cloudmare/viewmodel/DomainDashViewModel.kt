@@ -4,11 +4,12 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.DomainDashActivity
+import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
-import timber.log.Timber
+import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class DomainDashViewModel(
     private val activity: DomainDashActivity,
@@ -20,59 +21,82 @@ class DomainDashViewModel(
         var developmentModeEnabled = false
     }
 
+    private val underAttackModeSwitch by lazy {
+        activity.findViewById<SwitchOptionView>(R.id.under_attack_mode_item)
+    }
+
+    private val developmentModeSwitch by lazy {
+        activity.findViewById<SwitchOptionView>(R.id.development_mode_item)
+    }
+
     var underAttackModeEnabled: Boolean
         @Bindable get() = data.underAttackModeEnabled
         set(value) {
-            activity.launch {
-                val newSecurityLevelValue =
-                    if (value) SecurityLevel.UNDER_ATTACK
-                    else SecurityLevel.MEDIUM
+            underAttackModeSwitch.switchIsEnabled = false
+            activity.itemsLoaded -= 1
 
-                if (value != data.underAttackModeEnabled)
-                    SecurityLevelRequest(activity).update(domainId, newSecurityLevelValue).let { response ->
-                        if (response.success) {
-                            data.underAttackModeEnabled = value
+            val newSecurityLevelValue =
+                if (value) SecurityLevel.UNDER_ATTACK
+                else SecurityLevel.MEDIUM
 
-                            Timber.d("Changed security level")
-                        }
-                        else {
-                            data.underAttackModeEnabled = !value
+            if (value != data.underAttackModeEnabled)
+                SecurityLevelRequest(activity).launch {
+                    val response = update(domainId, newSecurityLevelValue)
 
-                            activity.dialog.error(
-                                title = "Can't set under attack mode",
-                                message = response.firstErrorMessage,
-                                onAcknowledge = activity::onStart)
-                        }
+                    activity.itemsLoaded += 1
+                    underAttackModeSwitch.switchIsEnabled = true
 
-                        @Suppress("UNRESOLVED_REFERENCE")
-                        notifyPropertyChanged(BR.underAttackModeEnabled)
+                    if (response.success) data.underAttackModeEnabled = value
+                    else {
+                        data.underAttackModeEnabled = !value
+
+                        activity.dialog.error(
+                            title = "Can't set under attack mode",
+                            message = response.firstErrorMessage,
+                            onAcknowledge = activity::onStart)
                     }
+
+                    @Suppress("UNRESOLVED_REFERENCE")
+                    notifyPropertyChanged(BR.underAttackModeEnabled)
+                }
+
+            else {
+                activity.itemsLoaded += 1
+                underAttackModeSwitch.switchIsEnabled = true
             }
         }
 
     var developmentModeEnabled: Boolean
         @Bindable get() = data.developmentModeEnabled
         set(value) {
-            activity.launch {
-                val newDevelopmentModeValue =
-                    if (value) DevelopmentMode.ON
-                    else DevelopmentMode.OFF
+            developmentModeSwitch.switchIsEnabled = false
+            activity.itemsLoaded -= 1
 
-                if (value != data.developmentModeEnabled)
-                    DevelopmentModeRequest(activity).update(domainId, newDevelopmentModeValue).let { response ->
-                        if (response.success) {
-                            data.developmentModeEnabled = value
+            val newDevelopmentModeValue =
+                if (value) DevelopmentMode.ON
+                else DevelopmentMode.OFF
 
-                            Timber.d("Changed development mode")
-                        } else {
-                            data.developmentModeEnabled = !value
+            if (value != data.developmentModeEnabled)
+                DevelopmentModeRequest(activity).launch {
+                    val response = update(domainId, newDevelopmentModeValue)
 
-                            activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
-                        }
+                    activity.itemsLoaded += 1
+                    developmentModeSwitch.switchIsEnabled = true
 
-                        @Suppress("UNRESOLVED_REFERENCE")
-                        notifyPropertyChanged(BR.developmentModeEnabled)
+                    if (response.success) data.developmentModeEnabled = value
+                    else {
+                        data.developmentModeEnabled = !value
+
+                        activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
                     }
+
+                    @Suppress("UNRESOLVED_REFERENCE")
+                    notifyPropertyChanged(BR.developmentModeEnabled)
+                }
+
+            else {
+                activity.itemsLoaded += 1
+                developmentModeSwitch.switchIsEnabled = true
             }
         }
 
