@@ -7,7 +7,7 @@ import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DNSRecordRequest(context: CloudMareActivity) : Request(context) {
+class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")

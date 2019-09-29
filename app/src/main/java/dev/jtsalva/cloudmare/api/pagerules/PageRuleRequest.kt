@@ -7,9 +7,9 @@ import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class PageRuleRequest(context: CloudMareActivity) : Request(context) {
+class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(context) {
 
-    fun launch(block: suspend PageRuleRequest.() -> Unit) = context.launch { this.block() }
+//    fun launch(block: suspend PageRuleRequest.() -> Unit) = context.launch { this.block() }
 
     suspend fun list(zoneId: String,
                      order: String = ORDER_PRIORITY,

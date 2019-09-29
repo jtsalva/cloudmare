@@ -6,7 +6,7 @@ import dev.jtsalva.cloudmare.api.getAdapter
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ZoneRequest(context: CloudMareActivity) : Request(context) {
+class ZoneRequest(context: CloudMareActivity) : Request<ZoneRequest>(context) {
 
     suspend fun list(pageNumber: Int = 1, perPage: Int = 20) = suspendCoroutine<ZoneListResponse> { cont ->
         val params = urlParams("page" to pageNumber, "per_page" to perPage)

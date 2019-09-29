@@ -17,19 +17,20 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
     private val pagination by lazy {
         object : Pagination(this, domain_list) {
 
-            override fun fetchNextPage(pageNumber: Int) = launch {
-                ZoneRequest(this@DomainListActivity).list(pageNumber).run {
-                    if (failure || result == null)
-                        dialog.error(message = firstErrorMessage)
-                    else if (result.isNotEmpty()) result.let { nextPage ->
-                        val positionStart = domains.size
-                        domains.addAll(nextPage)
-                        domain_list.adapter?.notifyItemRangeChanged(positionStart, domains.size)
-                    } else reachedLastPage = true
-                }
+            override fun fetchNextPage(pageNumber: Int) =
+                ZoneRequest(this@DomainListActivity).launch {
+                    list(pageNumber).run {
+                        if (failure || result == null)
+                            dialog.error(message = firstErrorMessage)
+                        else if (result.isNotEmpty()) result.let { nextPage ->
+                            val positionStart = domains.size
+                            domains.addAll(nextPage)
+                            domain_list.adapter?.notifyItemRangeChanged(positionStart, domains.size)
+                        } else reachedLastPage = true
+                    }
 
-                fetchingNextPage = false
-            }
+                    fetchingNextPage = false
+                }
 
         }
     }
@@ -57,8 +58,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         pagination.resetPage()
     }
 
-    override fun render() = launch {
-        val response = ZoneRequest(this).list()
+    override fun render() = ZoneRequest(this).launch {
+        val response = list()
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 

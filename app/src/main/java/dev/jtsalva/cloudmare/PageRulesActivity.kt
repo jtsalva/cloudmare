@@ -34,8 +34,8 @@ class PageRulesActivity : CloudMareActivity(), SwipeRefreshable {
         render()
     }
 
-    override fun render() = launch {
-        val response = PageRuleRequest(this).list(domain.id)
+    override fun render() = PageRuleRequest(this).launch {
+        val response = list(domain.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 

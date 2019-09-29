@@ -12,7 +12,7 @@ import com.android.volley.Response as JsonResponse
 
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
-open class Request(protected val context: CloudMareActivity) {
+open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
     companion object {
         const val CREATE = "create"
@@ -27,6 +27,9 @@ open class Request(protected val context: CloudMareActivity) {
         const val ORDER_STATUS = "status"
         const val ORDER_PRIORITY = "priority"
     }
+
+    @Suppress("UNCHECKED_CAST")
+    fun launch(block: suspend R.() -> Unit) = context.launch { block.invoke(this as R) }
 
     private inline fun ResponseCallback.logResponse(): ResponseCallback = { response ->
         Timber.v(response.toString())
