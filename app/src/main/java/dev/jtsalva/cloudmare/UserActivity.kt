@@ -46,8 +46,8 @@ class UserActivity : CloudMareActivity() {
         Auth.apiKey = api_key_input.text.toString()
         Auth.save(this)
 
-        launch {
-            val response = UserRequest(this).getDetails()
+        UserRequest(this).launch {
+            val response = getDetails()
 
             if (response.success) finish()
             else dialog.error(message = response.firstErrorMessage)

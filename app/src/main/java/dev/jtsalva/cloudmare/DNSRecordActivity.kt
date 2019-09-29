@@ -152,7 +152,7 @@ class DNSRecordActivity : CloudMareActivity() {
         }
     }
 
-    private fun render() = launch {
+    private fun render() {
         Timber.d("DNSRecord: $dnsRecord")
 
         viewModel = DNSRecordViewModel(this, domain, dnsRecord)
@@ -195,10 +195,10 @@ class DNSRecordActivity : CloudMareActivity() {
         if (isNewRecord) finish()
 
         else dialog.confirm(positive = "Yes delete") { confirmed ->
-            if (confirmed) launch {
+            if (confirmed) DNSRecordRequest(this).launch {
                 dialog.loading(title = "Deleting...")
 
-                val response = DNSRecordRequest(this).delete(domain.id, dnsRecord.id)
+                val response = delete(domain.id, dnsRecord.id)
 
                 if (response.success) {
                     setResult(DELETED, Intent().putExtras(
@@ -211,14 +211,13 @@ class DNSRecordActivity : CloudMareActivity() {
         }
     }
 
-    private fun saveRecord() = launch {
+    private fun saveRecord() = DNSRecordRequest(this).launch {
         Timber.d("viewModel.data: ${viewModel.data}")
         dialog.loading(title = "Saving...")
 
-        val response = DNSRecordRequest(this).run {
+        val response =
             if (isNewRecord) create(domain.id, viewModel.data)
             else update(domain.id, viewModel.data)
-        }
 
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, positive = "Okay")

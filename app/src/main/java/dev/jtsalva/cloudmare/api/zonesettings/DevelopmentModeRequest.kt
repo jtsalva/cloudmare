@@ -7,7 +7,7 @@ import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DevelopmentModeRequest(context: CloudMareActivity) : Request(context) {
+class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentModeRequest>(context) {
 
     suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
         requestTAG = GET

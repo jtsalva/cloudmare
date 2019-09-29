@@ -7,7 +7,7 @@ import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class SecurityLevelRequest(context: CloudMareActivity) : Request(context) {
+class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRequest>(context) {
 
     suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
         requestTAG = GET

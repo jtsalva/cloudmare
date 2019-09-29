@@ -29,20 +29,20 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     private val pagination by lazy {
         object : Pagination(this, dns_list) {
 
-            override fun fetchNextPage(pageNumber: Int) = launch {
-                DNSRecordRequest(this@DNSListActivity).
+            override fun fetchNextPage(pageNumber: Int) =
+                DNSRecordRequest(this@DNSListActivity).launch {
                     list(domain.id, pageNumber).run {
-                    if (failure || result == null)
-                        dialog.error(message = firstErrorMessage)
-                    else if (result.isNotEmpty()) result.let { nextPage ->
-                        val positionStart = records.size
-                        records.addAll(nextPage)
-                        dns_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
-                    } else reachedLastPage = true
-                }
+                        if (failure || result == null)
+                            dialog.error(message = firstErrorMessage)
+                        else if (result.isNotEmpty()) result.let { nextPage ->
+                            val positionStart = records.size
+                            records.addAll(nextPage)
+                            dns_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
+                        } else reachedLastPage = true
+                    }
 
-                fetchingNextPage = false
-            }
+                    fetchingNextPage = false
+                }
 
         }
     }
@@ -130,8 +130,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         pagination.resetPage()
     }
 
-    override fun render() = launch {
-        val response = DNSRecordRequest(this).list(domain.id)
+    override fun render() = DNSRecordRequest(this).launch {
+        val response = list(domain.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
