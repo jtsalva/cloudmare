@@ -17,9 +17,13 @@ class SwitchOptionView(context: Context, attrs: AttributeSet) : ConstraintLayout
         get() = info_text_view.text.toString()
         set(value) { info_text_view.text = value }
 
-    var checked: Boolean
+    var switchIsChecked: Boolean
         get() = title_switch.isChecked
         set(value) { title_switch.isChecked = value }
+
+    var switchIsEnabled: Boolean
+        get() = title_switch.isEnabled
+        set(value) { title_switch.isEnabled = value }
 
     init {
         inflate(context, R.layout.switch_option_view, this)
@@ -27,7 +31,7 @@ class SwitchOptionView(context: Context, attrs: AttributeSet) : ConstraintLayout
         context.obtainStyledAttributes(attrs, R.styleable.SwitchOptionView).apply {
             title = getString(R.styleable.SwitchOptionView_title)
             info = getString(R.styleable.SwitchOptionView_info)
-            checked = getBoolean(R.styleable.SwitchOptionView_checked, false)
+            switchIsChecked = getBoolean(R.styleable.SwitchOptionView_checked, false)
         }.recycle()
     }
 

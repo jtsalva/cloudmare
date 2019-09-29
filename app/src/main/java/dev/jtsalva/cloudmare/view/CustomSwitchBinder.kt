@@ -10,7 +10,7 @@ import androidx.databinding.InverseBindingMethods
     InverseBindingMethod(
         type = SwitchOptionView::class,
         attribute = "app:checked",
-        method = "getChecked"
+        method = "switchIsChecked"
     )
 )
 
@@ -30,8 +30,8 @@ object CustomSwitchBinder {
     @JvmStatic
     @BindingAdapter("app:checked")
     fun setChecked(switchOptionView: SwitchOptionView, checked: Boolean) {
-        if (checked != switchOptionView.checked)
-            switchOptionView.checked = checked
+        if (checked != switchOptionView.switchIsChecked)
+            switchOptionView.switchIsChecked = checked
     }
 
 }
