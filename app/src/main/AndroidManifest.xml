@@ -19,7 +19,7 @@
         </activity>
         <activity
                 android:name=".DNSRecordActivity"
-                android:launchMode = "singleTop">>
+                android:launchMode = "singleTop">
         </activity>
         <activity
                 android:name=".DNSListActivity"
