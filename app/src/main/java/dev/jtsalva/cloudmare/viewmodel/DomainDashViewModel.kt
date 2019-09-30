@@ -33,7 +33,6 @@ class DomainDashViewModel(
         @Bindable get() = data.underAttackModeEnabled
         set(value) {
             underAttackModeSwitch.switchIsEnabled = false
-            activity.itemsLoaded -= 1
 
             val newSecurityLevelValue =
                 if (value) SecurityLevel.UNDER_ATTACK
@@ -43,7 +42,6 @@ class DomainDashViewModel(
                 SecurityLevelRequest(activity).launch {
                     val response = update(domainId, newSecurityLevelValue)
 
-                    activity.itemsLoaded += 1
                     underAttackModeSwitch.switchIsEnabled = true
 
                     if (response.success) data.underAttackModeEnabled = value
@@ -60,17 +58,13 @@ class DomainDashViewModel(
                     notifyPropertyChanged(BR.underAttackModeEnabled)
                 }
 
-            else {
-                activity.itemsLoaded += 1
-                underAttackModeSwitch.switchIsEnabled = true
-            }
+            else underAttackModeSwitch.switchIsEnabled = true
         }
 
     var developmentModeEnabled: Boolean
         @Bindable get() = data.developmentModeEnabled
         set(value) {
             developmentModeSwitch.switchIsEnabled = false
-            activity.itemsLoaded -= 1
 
             val newDevelopmentModeValue =
                 if (value) DevelopmentMode.ON
@@ -80,7 +74,6 @@ class DomainDashViewModel(
                 DevelopmentModeRequest(activity).launch {
                     val response = update(domainId, newDevelopmentModeValue)
 
-                    activity.itemsLoaded += 1
                     developmentModeSwitch.switchIsEnabled = true
 
                     if (response.success) data.developmentModeEnabled = value
@@ -94,10 +87,7 @@ class DomainDashViewModel(
                     notifyPropertyChanged(BR.developmentModeEnabled)
                 }
 
-            else {
-                activity.itemsLoaded += 1
-                developmentModeSwitch.switchIsEnabled = true
-            }
+            else developmentModeSwitch.switchIsEnabled = true
         }
 
     fun initUnderAttackModeEnabled(value: Boolean) {
