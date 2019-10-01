@@ -21,14 +21,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized: Boolean get() = ::viewModel.isInitialized
 
-    var itemsLoaded = 0
-        set(value) {
-            val numItemsToLoad = 2
-            showProgressBar = value < numItemsToLoad
-
-            field = value
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,12 +42,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         render()
     }
 
-    override fun onSwipeRefresh() {
-        super.onSwipeRefresh()
-
-        itemsLoaded = 0
-    }
-
     override fun render() {
         val securityLevelRequest = SecurityLevelRequest(this)
         val developmentModeRequest = DevelopmentModeRequest(this)
@@ -68,8 +54,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                 } else viewModel.apply {
                     initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
                 }
-
-                itemsLoaded += 1
             }
         }
 
@@ -81,8 +65,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                 } else viewModel.apply {
                     initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
                 }
-
-                itemsLoaded += 1
             }
         }
     }
