@@ -95,6 +95,8 @@ class DomainDashViewModel(
 
         @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.underAttackModeEnabled)
+
+        underAttackModeSwitch.switchIsEnabled = true
     }
 
     fun initDevelopmentModeEnabled(value: Boolean) {
@@ -102,6 +104,8 @@ class DomainDashViewModel(
 
         @Suppress("UNRESOLVED_REFERENCE")
         notifyPropertyChanged(BR.developmentModeEnabled)
+
+        developmentModeSwitch.switchIsEnabled = true
     }
 
 }
