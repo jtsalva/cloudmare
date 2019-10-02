@@ -13,7 +13,7 @@ android {
         applicationId "dev.jtsalva.cloudmare"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 19
+        versionCode 21
         versionName "Contrail"
     }
     buildTypes {
@@ -51,6 +51,5 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC'
 
     implementation 'com.afollestad.material-dialogs:core:3.1.0'
-//    implementation 'com.afollestad.material-dialogs:bottomsheets:3.1.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
 }
