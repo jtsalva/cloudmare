@@ -11,10 +11,10 @@ const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'"
 
 val DateTimeFormat = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
 
-fun String.toDate(): Date =
+inline fun String.toDate(): Date =
     DateTimeFormat.parse(this) ?: Calendar.getInstance().time
 
-fun Date.toString(): String =
+inline fun Date.toString(): String =
     DateTimeFormat.format(this)
 
 inline fun <T : Any> getAdapter(type: KClass<T>, vararg adapters: Any): JsonAdapter<T> =
