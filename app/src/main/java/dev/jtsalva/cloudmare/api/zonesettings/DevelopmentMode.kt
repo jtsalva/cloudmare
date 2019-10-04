@@ -9,13 +9,6 @@ data class DevelopmentMode(
     @field:Json(name = "modified_on") val modifiedOn: String,
     @field:Json(name = "time_remaining") val timeRemaining: Int
 ) {
-//    enum class Value {
-//        OFF,
-//        ON;
-//
-//        override fun toString(): String = super.toString().toLowerCase()
-//    }
-
     companion object Value {
         const val OFF = "off"
         const val ON = "on"
