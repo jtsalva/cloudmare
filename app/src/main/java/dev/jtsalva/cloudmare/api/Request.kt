@@ -46,7 +46,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
             field = "$className.$method"
         }
 
-    protected fun urlParams(vararg params: Pair<String, Any>): String = params.run {
+    protected inline fun urlParams(vararg params: Pair<String, Any>): String = params.run {
         var urlParamsString = "?"
         forEach { urlParamsString += "${it.first}=${it.second}&" }
         return urlParamsString.substring(0, urlParamsString.length - 1)
@@ -55,7 +55,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
     fun cancelAll(method: String) =
         RequestQueueSingleton(context).requestQueue.cancelAll("$className.$method")
 
-    private fun handleError(error: VolleyError, callback: ResponseCallback) {
+    private inline fun handleError(error: VolleyError, callback: ResponseCallback) {
         Timber.e(error.message ?: error.toString())
 
         val response = error.networkResponse
@@ -92,7 +92,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
         }
     }
 
-    private fun send(method: Int, data: Any?, path: String, callback: ResponseCallback) {
+    private inline fun send(method: Int, data: Any?, path: String, crossinline callback: ResponseCallback) {
         val url = "$BASE_URL/$path"
 
         RequestQueueSingleton.getInstance(context).addToRequestQueue(
