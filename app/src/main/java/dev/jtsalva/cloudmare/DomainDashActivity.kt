@@ -50,7 +50,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             get(domain.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    cancelAll(Request.GET)
+                    securityLevelRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
                     initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
                 }
@@ -61,7 +61,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             get(domain.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    cancelAll(Request.GET)
+                    developmentModeRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
                     initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
                 }
