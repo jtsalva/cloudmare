@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.DomainDashActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
@@ -13,7 +14,7 @@ import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class DomainDashViewModel(
     private val activity: DomainDashActivity,
-    private val domainId: String
+    private val domain: Zone
 ) : BaseObservable() {
 
     private val data = object {
@@ -40,7 +41,7 @@ class DomainDashViewModel(
 
             if (value != data.underAttackModeEnabled)
                 SecurityLevelRequest(activity).launch {
-                    val response = update(domainId, newSecurityLevelValue)
+                    val response = update(domain.id, newSecurityLevelValue)
 
                     underAttackModeSwitch.switchIsEnabled = true
 
@@ -72,7 +73,7 @@ class DomainDashViewModel(
 
             if (value != data.developmentModeEnabled)
                 DevelopmentModeRequest(activity).launch {
-                    val response = update(domainId, newDevelopmentModeValue)
+                    val response = update(domain.id, newDevelopmentModeValue)
 
                     developmentModeSwitch.switchIsEnabled = true
 

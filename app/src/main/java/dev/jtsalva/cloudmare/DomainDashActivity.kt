@@ -19,15 +19,13 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var viewModel: DomainDashViewModel
 
-    private val initialized: Boolean get() = ::viewModel.isInitialized
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         domain = intent.getParcelableExtra("domain")!!
 
         launch {
-            viewModel = DomainDashViewModel(this, domain.id)
+            viewModel = DomainDashViewModel(this, domain)
             binding = setLayoutBinding(R.layout.activity_domain_dash)
             binding.viewModel = viewModel
 
