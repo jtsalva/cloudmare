@@ -9,6 +9,7 @@ import dev.jtsalva.cloudmare.api.zonesettings.ZoneSettingRequest
 import dev.jtsalva.cloudmare.databinding.ActivitySslBindingImpl
 import dev.jtsalva.cloudmare.viewmodel.SSLViewModel
 import kotlinx.android.synthetic.main.activity_ssl.*
+import timber.log.Timber
 
 class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
@@ -18,7 +19,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var viewModel: SSLViewModel
 
-    private val sslModeAdapter by lazy {
+    val sslModeAdapter by lazy {
         ArrayAdapter.createFromResource(
             this,
             R.array.entries_ssl_settings,
@@ -33,7 +34,6 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
         viewModel = SSLViewModel(this, domain)
         binding = setLayoutBinding(R.layout.activity_ssl)
-        binding.viewModel = viewModel
 
         setToolbarTitle("${domain.name} | SSL / TLS")
     }
@@ -52,7 +52,8 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
     private inline fun List<ZoneSetting>.oneWithId(id: String) = find { it.id == id }!!
 
-    private inline fun List<ZoneSetting>.valueAsBoolean(id: String) = oneWithId(id).value == "on"
+    private inline fun List<ZoneSetting>.valueAsBoolean(id: String) =
+        oneWithId(id).value as String == "on"
 
     override fun render() = launch {
         val response = ZoneSettingRequest(this).list(domain.id)
@@ -85,6 +86,8 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
                 automaticHttpsRewrites =
                     settings.valueAsBoolean(ZoneSetting.ID_AUTOMATIC_HTTPS_REWRITES)
             }
+
+            binding.viewModel = viewModel
 
             viewModel.isFinishedInitializing = true
             swipe_refresh.visibility = View.VISIBLE
