@@ -40,7 +40,7 @@
                             android:id="@+id/ssl_setting_item">
 
                         <TextView
-                                android:id="@+id/ssl_mode_title"
+                                android:id="@+id/ssl_mode_title_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:textColor="#000"
@@ -55,7 +55,46 @@
                                 android:layout_height="50dp"
                                 android:entries="@array/entries_ssl_settings"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_title" />
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_title_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_off_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/ssl_info_off"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_spinner" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_flexible_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_flexible"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_off_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_full_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_full"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_flexible_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_full_strict_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_full_strict"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_full_text_view" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </TableLayout>

@@ -116,8 +116,8 @@
     </string-array>
     
     // SSL Setting Info
-    <string name="ssl_info_off">No encryption applied</string>
-    <string name="ssl_info_flexible">Encrypts traffic between the browser and Cloudflare</string>
-    <string name="ssl_info_full">Encrypts end-to-end, using a self signed certificate on the server</string>
-    <string name="ssl_info_full_strict">Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
+    <string name="ssl_info_off">Off - No encryption applied</string>
+    <string name="ssl_info_flexible">Flexible - Encrypts traffic between the browser and Cloudflare</string>
+    <string name="ssl_info_full">Full - Encrypts end-to-end, using a self signed certificate on the server</string>
+    <string name="ssl_info_full_strict">Full (strict) - Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
 </resources>
