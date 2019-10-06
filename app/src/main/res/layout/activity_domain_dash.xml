@@ -58,6 +58,11 @@
                                 app:info="@string/info_page_rules"
                                 app:title="@string/category_page_rules" />
 
+                        <dev.jtsalva.cloudmare.view.ButtonOptionView
+                                android:id="@+id/ssl_item"
+                                app:info="@string/info_ssl"
+                                app:title="@string/category_ssl" />
+
                     </TableLayout>
 
             </ScrollView>

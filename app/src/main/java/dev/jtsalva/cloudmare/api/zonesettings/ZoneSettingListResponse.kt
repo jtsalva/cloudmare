@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.Response
 
 @JsonClass(generateAdapter = true)
-class ZoneSettingsResponse(
+class ZoneSettingListResponse(
     success: Boolean,
     errors: List<Error> = emptyList(),
     messages: List<String> = emptyList(),
