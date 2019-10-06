@@ -7,6 +7,7 @@
 
     <application
             android:allowBackup="true"
+            android:fullBackupContent="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -14,17 +15,17 @@
             android:theme="@style/AppTheme"
             tools:replace="android:supportsRtl">
         <activity
+                android:name=".SSLActivity"
+                android:launchMode="singleTop" />
+        <activity
                 android:name=".PageRulesActivity"
-                android:launchMode = "singleTop">
-        </activity>
+                android:launchMode="singleTop" />
         <activity
                 android:name=".DNSRecordActivity"
-                android:launchMode = "singleTop">
-        </activity>
+                android:launchMode="singleTop" />
         <activity
                 android:name=".DNSListActivity"
-                android:launchMode = "singleTop">
-        </activity>
+                android:launchMode="singleTop" />
         <activity android:name=".DomainListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,12 +35,10 @@
         </activity>
         <activity
                 android:name=".DomainDashActivity"
-                android:launchMode = "singleTop">
-        </activity>
+                android:launchMode="singleTop" />
         <activity
                 android:name=".UserActivity"
-                android:launchMode = "singleTop"
-                ></activity>
+                android:launchMode="singleTop" />
     </application>
 
 </manifest>

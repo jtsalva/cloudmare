@@ -70,12 +70,17 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
     private fun setOnClickListeners() {
         dns_item.setOnClickListener {
             startActivityWithExtras(DNSListActivity::class,
-                    "domain" to domain
+                "domain" to domain
             )
         }
 
         page_rules_item.setOnClickListener {
             startActivityWithExtras(PageRulesActivity::class,
+                "domain" to domain)
+        }
+
+        ssl_item.setOnClickListener {
+            startActivityWithExtras(SSLActivity::class,
                 "domain" to domain)
         }
     }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".SSLActivity">
+    <data>
+        <variable
+                name="viewModel"
+                type="dev.jtsalva.cloudmare.viewmodel.SSLViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <include
+                layout="@layout/progress_bar" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ssl_setting_item">
+
+                        <TextView
+                                android:id="@+id/ssl_mode_title_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="#000"
+                                android:textSize="24dp"
+                                android:text="SSL Encryption Mode"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/ssl_mode_spinner"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:entries="@array/entries_ssl_settings"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_title_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_off_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/ssl_info_off"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_spinner" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_flexible_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_flexible"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_off_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_full_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_full"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_flexible_text_view" />
+
+                        <TextView
+                                android:id="@+id/ssl_mode_info_full_strict_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/ssl_info_full_strict"
+                                android:textSize="16dp"
+                                app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_full_text_view" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/always_use_https_item"
+                            app:checked="@={viewModel.alwaysUseHttps}"
+                            app:info="Redirect all requests with scheme “http” to “https”. This applies to all http requests to the zone."
+                            app:title="Always use HTTPS" />
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/opportunistic_encryption_item"
+                            app:checked="@={viewModel.opportunisticEncryption}"
+                            app:info='Opportunistic Encryption allows browsers to benefit from the improved performance of HTTP/2 by letting them know that your site is available over an encrypted connection. Browsers will continue to show “http” in the address bar, not “https”.'
+                            app:title="Opportunistic Encryption" />
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/opportunistic_onion_item"
+                            app:checked="@={viewModel.opportunisticOnion}"
+                            app:info="Onion Routing allows routing traffic from legitimate users on the Tor network through Cloudflare’s onion services rather than exit nodes, thereby improving privacy of the users and enabling more fine-grained protection."
+                            app:title="Onion Routing" />
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/automatic_https_rewrites_item"
+                            app:checked="@={viewModel.automaticHttpsRewrites}"
+                            app:info="Automatic HTTPS Rewrites helps fix mixed content by changing “http” to “https” for all resources or links on your web site that can be served with HTTPS."
+                            app:title="Automatic HTTPS Rewrites" />
+
+                </TableLayout>
+
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -10,7 +10,7 @@
     <string name="category_development_mode">Development Mode</string>
     <string name="category_dns">DNS</string>
     <string name="category_page_rules">Page Rules</string>
-    <string name="category_crypto">Crypto</string>
+    <string name="category_ssl">SSL / TLS</string>
     <string name="category_access">Access</string>
     <string name="category_speed">Speed</string>
     <string name="category_caching">Caching</string>
@@ -22,7 +22,7 @@
     <string name="info_development_mode">Temporarily bypass cache. See changes to your origin server in realtime.</string>
     <string name="info_dns">Manage your Domain Name System (DNS) settings</string>
     <string name="info_page_rules">Toggle on and off settings by URL</string>
-    <string name="info_crypto">Manage cryptography settings for your website</string>
+    <string name="info_ssl">Manage cryptography settings for your website</string>
     <string name="info_access">Manage access to your applications</string>
     <string name="info_speed">Manage performance settings for your website</string>
     <string name="info_caching">Manage caching settings for your website</string>
@@ -100,4 +100,24 @@
         <item>@string/ttl_twelve_hours</item>
         <item>@string/ttl_one_days</item>
     </string-array>
+    
+    // SSL Setting Labels
+    <string name="ssl_off">Off (not secure)</string>
+    <string name="ssl_flexible">Flexible</string>
+    <string name="ssl_full">Full</string>
+    <string name="ssl_full_strict">Full (strict)</string>
+
+    // SSL Setting Options
+    <string-array name="entries_ssl_settings">
+        <item>@string/ssl_off</item>
+        <item>@string/ssl_flexible</item>
+        <item>@string/ssl_full</item>
+        <item>@string/ssl_full_strict</item>
+    </string-array>
+    
+    // SSL Setting Info
+    <string name="ssl_info_off">Off - No encryption applied</string>
+    <string name="ssl_info_flexible">Flexible - Encrypts traffic between the browser and Cloudflare</string>
+    <string name="ssl_info_full">Full - Encrypts end-to-end, using a self signed certificate on the server</string>
+    <string name="ssl_info_full_strict">Full (strict) - Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
 </resources>
