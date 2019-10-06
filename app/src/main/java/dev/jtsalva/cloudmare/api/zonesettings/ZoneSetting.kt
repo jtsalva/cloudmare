@@ -19,6 +19,11 @@ data class ZoneSetting(
         const val SSL_MODE_STRICT = "strict"
 
         const val ID_SSL = "ssl"
+        const val ID_ALWAYS_USE_HTTPS = "always_use_https"
+        const val ID_OPPORTUNISTIC_ENCRYPTION = "opportunistic_encryption"
+        const val ID_OPPORTUNISTIC_ONION = "opportunistic_onion"
+        const val ID_AUTOMATIC_HTTPS_REWRITES = "automatic_https_rewrites"
+
     }
 
     class SSLModeTranslator(private val activity: CloudMareActivity) {
