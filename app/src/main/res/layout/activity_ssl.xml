@@ -40,14 +40,14 @@
                             android:id="@+id/ssl_setting_item">
 
                         <TextView
-                                android:id="@+id/textView"
+                                android:id="@+id/ssl_mode_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:textColor="#000"
                                 android:textSize="24dp"
+                                android:text="SSL Encryption Mode"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="SSL Encryption Mode" />
+                                app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/ssl_mode_spinner"
@@ -55,7 +55,7 @@
                                 android:layout_height="50dp"
                                 android:entries="@array/entries_ssl_settings"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                                app:layout_constraintTop_toBottomOf="@+id/ssl_mode_title" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </TableLayout>
