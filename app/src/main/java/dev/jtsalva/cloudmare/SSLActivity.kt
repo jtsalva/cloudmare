@@ -9,7 +9,6 @@ import dev.jtsalva.cloudmare.api.zonesettings.ZoneSettingRequest
 import dev.jtsalva.cloudmare.databinding.ActivitySslBindingImpl
 import dev.jtsalva.cloudmare.viewmodel.SSLViewModel
 import kotlinx.android.synthetic.main.activity_ssl.*
-import timber.log.Timber
 
 class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 

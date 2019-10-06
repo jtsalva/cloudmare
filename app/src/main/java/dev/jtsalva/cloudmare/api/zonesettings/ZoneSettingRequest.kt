@@ -3,9 +3,7 @@ package dev.jtsalva.cloudmare.api.zonesettings
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
-import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
