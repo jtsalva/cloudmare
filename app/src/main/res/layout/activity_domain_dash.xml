@@ -60,8 +60,8 @@
 
                         <dev.jtsalva.cloudmare.view.ButtonOptionView
                                 android:id="@+id/ssl_item"
-                                app:info="@string/info_crypto"
-                                app:title="@string/category_crypto" />
+                                app:info="@string/info_ssl"
+                                app:title="@string/category_ssl" />
 
                     </TableLayout>
 
