@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
@@ -74,6 +75,9 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
             viewModel.isFinishedInitializing = true
         }
+
+        showProgressBar = false
+        swipe_refresh.visibility = View.VISIBLE
     }
 
 }
