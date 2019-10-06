@@ -23,13 +23,63 @@ class SSLViewModel(
         set(value) {
             if (value != field && isFinishedInitializing)
                 ZoneSettingRequest(activity).launch {
-                    val response = update(domain.id, ZoneSetting("ssl", value))
+                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_SSL, value))
 
                     if (response.success) field = value
                     else activity.dialog.
                         error(title = "Can't set ssl mode", message = response.firstErrorMessage)
                 }
             else field = value
+        }
+
+    var alwaysUseHttps = false
+        set(value) {
+            if (value != field && isFinishedInitializing)
+                ZoneSettingRequest(activity).launch {
+                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_ALWAYS_USE_HTTPS, value))
+
+                    if (response.success) field = value
+                    else activity.dialog.
+                        error(title = "Can't set always use HTTPS", message = response.firstErrorMessage)
+                }
+            else field = value
+        }
+
+    var opportunisticEncryption = false
+        set(value) {
+            if (value != field && isFinishedInitializing)
+                ZoneSettingRequest(activity).launch {
+                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_OPPORTUNISTIC_ENCRYPTION, value))
+
+                    if (response.success) field = value
+                    else activity.dialog.
+                        error(title = "Can't set opportunistic encryption", message = response.firstErrorMessage)
+                }
+            else field = value
+        }
+
+    var opportunisticOnion = false
+        set(value) {
+            if (value != field && isFinishedInitializing)
+                ZoneSettingRequest(activity).launch {
+                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_OPPORTUNISTIC_ONION, value))
+
+                    if (response.success) field = value
+                    else activity.dialog.
+                        error(title = "Can't set onion routing", message = response.firstErrorMessage)
+                }
+        }
+
+    var automaticHttpsRewrites = false
+        set(value) {
+            if (value != field && isFinishedInitializing)
+                ZoneSettingRequest(activity).launch {
+                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_AUTOMATIC_HTTPS_REWRITES, value))
+
+                    if (response.success) field = value
+                    else activity.dialog.
+                        error(title = "Can't set automatic HTTPS rewrites", message = response.firstErrorMessage)
+                }
         }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {

@@ -52,6 +52,8 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
     private inline fun List<ZoneSetting>.oneWithId(id: String) = find { it.id == id }!!
 
+    private inline fun List<ZoneSetting>.valueAsBoolean(id: String) = oneWithId(id).value == "on"
+
     override fun render() = launch {
         val response = ZoneSettingRequest(this).list(domain.id)
         if (response.failure || response.result == null)
@@ -73,11 +75,22 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
                 }
             }
 
+            viewModel.apply {
+                alwaysUseHttps =
+                    settings.valueAsBoolean(ZoneSetting.ID_ALWAYS_USE_HTTPS)
+                opportunisticEncryption =
+                    settings.valueAsBoolean(ZoneSetting.ID_OPPORTUNISTIC_ENCRYPTION)
+                opportunisticOnion =
+                    settings.valueAsBoolean(ZoneSetting.ID_OPPORTUNISTIC_ONION)
+                automaticHttpsRewrites =
+                    settings.valueAsBoolean(ZoneSetting.ID_AUTOMATIC_HTTPS_REWRITES)
+            }
+
             viewModel.isFinishedInitializing = true
+            swipe_refresh.visibility = View.VISIBLE
         }
 
         showProgressBar = false
-        swipe_refresh.visibility = View.VISIBLE
     }
 
 }
