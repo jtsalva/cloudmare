@@ -100,4 +100,24 @@
         <item>@string/ttl_twelve_hours</item>
         <item>@string/ttl_one_days</item>
     </string-array>
+    
+    // SSL Setting Labels
+    <string name="ssl_off">Off (not secure)</string>
+    <string name="ssl_flexible">Flexible</string>
+    <string name="ssl_full">Full</string>
+    <string name="ssl_full_strict">Full (strict)</string>
+
+    // SSL Setting Options
+    <string-array name="entries_ssl_settings">
+        <item>@string/ssl_off</item>
+        <item>@string/ssl_flexible</item>
+        <item>@string/ssl_full</item>
+        <item>@string/ssl_full_strict</item>
+    </string-array>
+    
+    // SSL Setting Info
+    <string name="ssl_info_off">No encryption applied</string>
+    <string name="ssl_info_flexible">Encrypts traffic between the browser and Cloudflare</string>
+    <string name="ssl_info_full">Encrypts end-to-end, using a self signed certificate on the server</string>
+    <string name="ssl_info_full_strict">Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
 </resources>

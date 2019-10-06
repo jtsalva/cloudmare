@@ -19,7 +19,7 @@ class ZoneSettingsRequest(context: CloudMareActivity) : Request<ZoneSettingsRequ
         }
     }
 
-    suspend fun update(zoneId: String, zoneSettings: List<ZoneSetting>) = suspendCoroutine<ZoneSettingsResponse> { cont ->
+    suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting) = suspendCoroutine<ZoneSettingsResponse> { cont ->
         val payload = JSONArray(zoneSettings.toString())
 
         requestTAG = UPDATE
