@@ -44,17 +44,6 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         val securityLevelRequest = SecurityLevelRequest(this)
         val developmentModeRequest = DevelopmentModeRequest(this)
 
-        developmentModeRequest.launch {
-            get(domain.id).let { response ->
-                if (response.failure || response.result == null) {
-                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    securityLevelRequest.cancelAll(Request.GET)
-                } else viewModel.apply {
-                    initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
-                }
-            }
-        }
-
         securityLevelRequest.launch {
             get(domain.id).let { response ->
                 if (response.failure || response.result == null) {
@@ -62,6 +51,17 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                     developmentModeRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
                     initUnderAttackModeEnabled(response.result.value == SecurityLevel.UNDER_ATTACK)
+                }
+            }
+        }
+
+        developmentModeRequest.launch {
+            get(domain.id).let { response ->
+                if (response.failure || response.result == null) {
+                    dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
+                    securityLevelRequest.cancelAll(Request.GET)
+                } else viewModel.apply {
+                    initDevelopmentModeEnabled(response.result.value == DevelopmentMode.ON)
                 }
             }
         }
