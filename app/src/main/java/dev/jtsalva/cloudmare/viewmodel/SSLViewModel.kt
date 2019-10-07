@@ -50,6 +50,8 @@ class SSLViewModel(
 
             if (value != field && isFinishedInitializing)
                 ZoneSettingRequest(activity).launch {
+                    sslModeSpinner.isEnabled = false
+
                     val response = update(domain.id, ZoneSetting(ZoneSetting.ID_SSL, value))
 
                     if (response.success) field = value
@@ -67,8 +69,12 @@ class SSLViewModel(
                             message = response.firstErrorMessage)
                     }
 
+                    sslModeSpinner.isEnabled = true
                 }
-            else field = value
+            else {
+                field = value
+                sslModeSpinner.isEnabled = true
+            }
         }
 
     @Bindable var alwaysUseHttps = false
