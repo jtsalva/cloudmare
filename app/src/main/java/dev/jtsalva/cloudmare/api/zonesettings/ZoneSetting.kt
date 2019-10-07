@@ -26,7 +26,7 @@ data class ZoneSetting(
 
     }
 
-    class SSLModeTranslator(private val activity: CloudMareActivity) {
+    class SSLModeTranslator(activity: CloudMareActivity) {
 
         val idToReadable = activity.run {
             mapOf(

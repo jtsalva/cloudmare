@@ -1,9 +1,9 @@
 package dev.jtsalva.cloudmare.api.dns
 
-import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
+import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.readStringOrBlank
 
@@ -60,6 +60,18 @@ data class DNSRecord(
         const val TLSA = "TLSA"
         const val URI = "URI"
 
+        const val TTL_AUTOMATIC = 1
+        const val TTL_TWO_MINUTES = 120
+        const val TTL_FIVE_MINUTES = 300
+        const val TTL_TEN_MINUTES = 600
+        const val TTL_FIFTEEN_MINUTES = 900
+        const val TTL_THIRTY_MINUTES = 1800
+        const val TTL_ONE_HOURS = 3600
+        const val TTL_TWO_HOURS = 7200
+        const val TTL_FIVE_HOURS = 18000
+        const val TTL_TWELVE_HOURS = 43200
+        const val TTL_ONE_DAYS = 86400
+
         val default: DNSRecord get() =
             DNSRecord(
                 id = "",
@@ -68,7 +80,7 @@ data class DNSRecord(
                 content = "",
                 proxiable = true,
                 proxied = false,
-                ttl = Ttl.AUTOMATIC.toInt(),
+                ttl = TTL_AUTOMATIC,
                 locked = false,
                 zoneId = "",
                 zoneName = ""
@@ -81,55 +93,33 @@ data class DNSRecord(
         }
     }
 
-    enum class Ttl(
-        // 1 for automatic otherwise in seconds
-        val value: Int
-    ) {
-        AUTOMATIC(1),
+    class TtlTranslator(activity: CloudMareActivity) {
 
-        TWO_MINUTES(120),
-        FIVE_MINUTES(300),
-        TEN_MINUTES(600),
-        FIFTEEN_MINUTES(900),
-        THIRTY_MINUTES(1800),
+        val valueToReadable = activity.run {
+            mapOf(
+                TTL_AUTOMATIC to getString(R.string.ttl_automatic),
 
-        ONE_HOURS(3600),
-        TWO_HOURS(7200),
-        FIVE_HOURS(18000),
-        TWELVE_HOURS(43200),
+                TTL_TWO_MINUTES to getString(R.string.ttl_two_minutes),
+                TTL_FIVE_MINUTES to getString(R.string.ttl_five_minutes),
+                TTL_TEN_MINUTES to getString(R.string.ttl_ten_minutes),
+                TTL_FIFTEEN_MINUTES to getString(R.string.ttl_fifteen_minutes),
+                TTL_THIRTY_MINUTES to getString(R.string.ttl_thirty_minutes),
 
-        ONE_DAYS(86400);
+                TTL_ONE_HOURS to getString(R.string.ttl_one_hours),
+                TTL_TWO_HOURS to getString(R.string.ttl_two_hours),
+                TTL_FIVE_HOURS to getString(R.string.ttl_five_hours),
+                TTL_TWELVE_HOURS to getString(R.string.ttl_twelve_hours),
 
-        companion object {
-            fun fromValue(value: Int): Ttl {
-                for (ttl in values()) {
-                    if (ttl.value == value) return ttl
-                }
-
-                return AUTOMATIC
-            }
+                TTL_ONE_DAYS to getString(R.string.ttl_one_days)
+            )
         }
 
-        fun toInt(): Int = value
+        inline fun getReadable(value: Int): String =
+            valueToReadable.getValue(value)
 
-        fun toString(context: Context): String = context.getString(
-            when (this) {
-                AUTOMATIC -> R.string.ttl_automatic
+        inline fun getValue(readable: String): Int =
+            valueToReadable.filterValues { it == readable }.keys.first()
 
-                TWO_MINUTES -> R.string.ttl_two_minutes
-                FIVE_MINUTES -> R.string.ttl_five_minutes
-                TEN_MINUTES -> R.string.ttl_ten_minutes
-                FIFTEEN_MINUTES -> R.string.ttl_fifteen_minutes
-                THIRTY_MINUTES -> R.string.ttl_thirty_minutes
-
-                ONE_HOURS -> R.string.ttl_one_hours
-                TWO_HOURS -> R.string.ttl_twelve_hours
-                FIVE_HOURS -> R.string.ttl_five_hours
-                TWELVE_HOURS -> R.string.ttl_twelve_hours
-
-                ONE_DAYS -> R.string.ttl_one_days
-            }
-        )
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

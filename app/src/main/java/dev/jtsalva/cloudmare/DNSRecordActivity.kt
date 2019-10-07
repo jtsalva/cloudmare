@@ -147,7 +147,7 @@ class DNSRecordActivity : CloudMareActivity() {
             isClickable = !proxied
         }
         if (proxied) {
-            val ttlString = DNSRecord.Ttl.AUTOMATIC.toString(this@DNSRecordActivity)
+            val ttlString = viewModel.ttlTranslator.getReadable(DNSRecord.TTL_AUTOMATIC)
             ttl_spinner.setSelection(dnsRecordTtlAdapter.getPosition(ttlString))
         }
     }
@@ -181,7 +181,7 @@ class DNSRecordActivity : CloudMareActivity() {
         dnsRecordTtlAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
-            val ttlString = DNSRecord.Ttl.fromValue(dnsRecord.ttl).toString(this)
+            val ttlString = viewModel.ttlTranslator.getReadable(dnsRecord.ttl)
 
             ttl_spinner.apply {
                 setAdapter(adapter)

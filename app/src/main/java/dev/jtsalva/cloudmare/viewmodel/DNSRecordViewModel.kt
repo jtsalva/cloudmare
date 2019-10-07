@@ -8,16 +8,16 @@ import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
-import dev.jtsalva.cloudmare.api.dns.DNSRecord.Ttl
 import dev.jtsalva.cloudmare.api.zone.Zone
 import timber.log.Timber
-import java.security.InvalidParameterException
 
 class DNSRecordViewModel(
     private val activity: DNSRecordActivity,
     private val domain: Zone,
     val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
+
+    val ttlTranslator = DNSRecord.TtlTranslator(activity)
 
     private val originalHash = data.hashCode()
 
@@ -61,33 +61,17 @@ class DNSRecordViewModel(
         }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+        val selectedItem = parent.getItemAtPosition(pos)
+
         when (parent.id) {
             R.id.type_spinner -> {
-                data.type = parent.getItemAtPosition(pos) as String
+                data.type = selectedItem as String
 
                 activity.customizeForm()
             }
 
-            R.id.ttl_spinner -> {
-                data.ttl = when (parent.getItemAtPosition(pos) as String) {
-                    Ttl.AUTOMATIC.toString(activity) -> Ttl.AUTOMATIC.toInt()
-
-                    Ttl.TWO_MINUTES.toString(activity) -> Ttl.TWO_MINUTES.toInt()
-                    Ttl.FIVE_MINUTES.toString(activity) -> Ttl.FIVE_MINUTES.toInt()
-                    Ttl.TEN_MINUTES.toString(activity) -> Ttl.TEN_MINUTES.toInt()
-                    Ttl.FIFTEEN_MINUTES.toString(activity) -> Ttl.FIFTEEN_MINUTES.toInt()
-                    Ttl.THIRTY_MINUTES.toString(activity) -> Ttl.THIRTY_MINUTES.toInt()
-
-                    Ttl.ONE_HOURS.toString(activity) -> Ttl.ONE_HOURS.toInt()
-                    Ttl.TWO_HOURS.toString(activity) -> Ttl.TWO_HOURS.toInt()
-                    Ttl.FIVE_HOURS.toString(activity) -> Ttl.FIVE_HOURS.toInt()
-                    Ttl.TWELVE_HOURS.toString(activity) -> Ttl.TWELVE_HOURS.toInt()
-
-                    Ttl.ONE_DAYS.toString(activity) -> Ttl.ONE_DAYS.toInt()
-
-                    else -> throw InvalidParameterException("Ttl is not possible")
-                }
-            }
+            R.id.ttl_spinner ->
+                data.ttl = ttlTranslator.getValue(selectedItem as String)
         }
 
     }
