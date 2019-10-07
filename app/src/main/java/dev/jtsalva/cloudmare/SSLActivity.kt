@@ -89,7 +89,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
             binding.viewModel = viewModel
 
             viewModel.isFinishedInitializing = true
-            swipe_refresh.visibility = View.VISIBLE
+            ssl_settings_view_group.visibility = View.VISIBLE
         }
 
         showProgressBar = false

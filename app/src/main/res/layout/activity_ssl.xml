@@ -24,14 +24,15 @@
                 android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="invisible"
-                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
             <ScrollView
+                    android:id="@+id/ssl_settings_view_group"
+                    android:visibility="invisible"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:visibility="visible">
 
                 <TableLayout
                         android:layout_width="match_parent"
