@@ -9,17 +9,17 @@ import kotlin.coroutines.suspendCoroutine
 
 class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRequest>(context) {
 
-    suspend fun get(zoneId: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
+    suspend fun get(zoneId: String) = suspendCoroutine<ZoneSettingResponse> { cont ->
         requestTAG = GET
         get("zones/$zoneId/settings/security_level") {
             cont.resume(
-                getAdapter(SecurityLevelResponse::class).fromJson(it.toString())
-                    ?: SecurityLevelResponse(success = false)
+                getAdapter(ZoneSettingResponse::class).fromJson(it.toString())
+                    ?: ZoneSettingResponse(success = false)
             )
         }
     }
 
-    suspend fun update(zoneId: String, value: String) = suspendCoroutine<SecurityLevelResponse> { cont ->
+    suspend fun update(zoneId: String, value: String) = suspendCoroutine<ZoneSettingResponse> { cont ->
         val payload = JSONObject().apply {
             put("value", value)
         }
@@ -27,8 +27,8 @@ class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRe
         requestTAG = UPDATE
         patch("zones/$zoneId/settings/security_level", payload) {
             cont.resume(
-                getAdapter(SecurityLevelResponse::class).
-                    fromJson(it.toString()) ?: SecurityLevelResponse(success = false)
+                getAdapter(ZoneSettingResponse::class).
+                    fromJson(it.toString()) ?: ZoneSettingResponse(success = false)
             )
         }
     }

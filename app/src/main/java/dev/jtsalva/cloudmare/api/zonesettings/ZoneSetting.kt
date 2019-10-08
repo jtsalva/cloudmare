@@ -9,7 +9,8 @@ data class ZoneSetting(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "value") val value: Any,
     @field:Json(name = "editable") val editable: Boolean? = null,
-    @field:Json(name = "modified_on") val modifiedOn: String? = null
+    @field:Json(name = "modified_on") val modifiedOn: String? = null,
+    @field:Json(name = "time_remaining") val timeRemaining: Int? = null
 ) {
 
     companion object {
@@ -24,6 +25,14 @@ data class ZoneSetting(
         const val ID_OPPORTUNISTIC_ONION = "opportunistic_onion"
         const val ID_AUTOMATIC_HTTPS_REWRITES = "automatic_https_rewrites"
 
+        const val VALUE_OFF = "off"
+        const val VALUE_ON = "on"
+
+        const val SECURITY_LEVEL_ESSENTIALLY_OFF = "essentially_off"
+        const val SECURITY_LEVEL_LOW = "low"
+        const val SECURITY_LEVEL_MEDIUM = "medium"
+        const val SECURITY_LEVEL_HIGH = "high"
+        const val SECURITY_LEVEL_UNDER_ATTACK = "under_attack"
     }
 
     class SSLModeTranslator(activity: CloudMareActivity) {
