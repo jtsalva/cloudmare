@@ -9,17 +9,17 @@ import kotlin.coroutines.suspendCoroutine
 
 class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentModeRequest>(context) {
 
-    suspend fun get(zoneId: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
+    suspend fun get(zoneId: String) = suspendCoroutine<ZoneSettingResponse> { cont ->
         requestTAG = GET
         get("zones/$zoneId/settings/development_mode") {
             cont.resume(
-                getAdapter(DevelopmentModeResponse::class).
-                    fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
+                getAdapter(ZoneSettingResponse::class).
+                    fromJson(it.toString()) ?: ZoneSettingResponse(success = false)
             )
         }
     }
 
-    suspend fun update(zoneId: String, value: String) = suspendCoroutine<DevelopmentModeResponse> { cont ->
+    suspend fun update(zoneId: String, value: String) = suspendCoroutine<ZoneSettingResponse> { cont ->
         val payload = JSONObject().apply {
             put("value", value)
         }
@@ -27,8 +27,8 @@ class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentMo
         requestTAG = UPDATE
         patch("zones/$zoneId/settings/development_mode", payload) {
             cont.resume(
-                getAdapter(DevelopmentModeResponse::class).
-                    fromJson(it.toString()) ?: DevelopmentModeResponse(success = false)
+                getAdapter(ZoneSettingResponse::class).
+                    fromJson(it.toString()) ?: ZoneSettingResponse(success = false)
             )
         }
     }

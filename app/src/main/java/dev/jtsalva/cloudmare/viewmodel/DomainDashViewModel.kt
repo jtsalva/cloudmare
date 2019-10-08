@@ -6,10 +6,9 @@ import dev.jtsalva.cloudmare.BR
 import dev.jtsalva.cloudmare.DomainDashActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.zone.Zone
-import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentMode
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
-import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevel
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
+import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
 import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class DomainDashViewModel(
@@ -36,8 +35,8 @@ class DomainDashViewModel(
             underAttackModeSwitch.switchIsEnabled = false
 
             val newSecurityLevelValue =
-                if (value) SecurityLevel.UNDER_ATTACK
-                else SecurityLevel.MEDIUM
+                if (value) ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
+                else ZoneSetting.SECURITY_LEVEL_MEDIUM
 
             if (value != data.underAttackModeEnabled)
                 SecurityLevelRequest(activity).launch {
@@ -68,8 +67,8 @@ class DomainDashViewModel(
             developmentModeSwitch.switchIsEnabled = false
 
             val newDevelopmentModeValue =
-                if (value) DevelopmentMode.ON
-                else DevelopmentMode.OFF
+                if (value) ZoneSetting.VALUE_ON
+                else ZoneSetting.VALUE_OFF
 
             if (value != data.developmentModeEnabled)
                 DevelopmentModeRequest(activity).launch {
