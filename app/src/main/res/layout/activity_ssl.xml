@@ -28,7 +28,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
             <ScrollView
-                    android:id="@+id/ssl_settings_view_group"
+                    android:id="@+id/ssl_modes_view_group"
                     android:visibility="invisible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -43,7 +43,7 @@
                         android:paddingBottom="20dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ssl_setting_item">
+                            android:id="@+id/ssl_mode_item">
 
                         <TextView
                                 android:id="@+id/ssl_mode_title_text_view"
@@ -59,7 +59,7 @@
                                 android:id="@+id/ssl_mode_spinner"
                                 android:layout_width="0dp"
                                 android:layout_height="50dp"
-                                android:entries="@array/entries_ssl_settings"
+                                android:entries="@array/entries_ssl_modes"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/ssl_mode_title_text_view" />
 
@@ -67,7 +67,7 @@
                                 android:id="@+id/ssl_mode_info_off_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="@string/ssl_info_off"
+                                android:text="@string/ssl_mode_info_off"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
                                 app:layout_constraintTop_toBottomOf="@+id/ssl_mode_spinner" />
@@ -77,7 +77,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
-                                android:text="@string/ssl_info_flexible"
+                                android:text="@string/ssl_mode_info_flexible"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
                                 app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_off_text_view" />
@@ -87,7 +87,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
-                                android:text="@string/ssl_info_full"
+                                android:text="@string/ssl_mode_info_full"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
                                 app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_flexible_text_view" />
@@ -97,7 +97,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
-                                android:text="@string/ssl_info_full_strict"
+                                android:text="@string/ssl_mode_info_full_strict"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="@+id/ssl_mode_spinner"
                                 app:layout_constraintTop_toBottomOf="@+id/ssl_mode_info_full_text_view" />
