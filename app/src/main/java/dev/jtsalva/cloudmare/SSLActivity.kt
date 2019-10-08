@@ -21,7 +21,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
     val sslModeAdapter by lazy {
         ArrayAdapter.createFromResource(
             this,
-            R.array.entries_ssl_settings,
+            R.array.entries_ssl_modes,
             R.layout.spinner_item
         )
     }
@@ -89,7 +89,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
             binding.viewModel = viewModel
 
             viewModel.isFinishedInitializing = true
-            ssl_settings_view_group.visibility = View.VISIBLE
+            ssl_modes_view_group.visibility = View.VISIBLE
         }
 
         showProgressBar = false

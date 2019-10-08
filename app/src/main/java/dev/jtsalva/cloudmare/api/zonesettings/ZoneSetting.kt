@@ -4,7 +4,6 @@ import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
 
-// TODO: security level and development mode should use this model
 data class ZoneSetting(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "value") val value: Any,
@@ -39,10 +38,10 @@ data class ZoneSetting(
 
         val idToReadable = activity.run {
             mapOf(
-                SSL_MODE_OFF to getString(R.string.ssl_off),
-                SSL_MODE_FLEXIBLE to getString(R.string.ssl_flexible),
-                SSL_MODE_FULL to getString(R.string.ssl_full),
-                SSL_MODE_STRICT to getString(R.string.ssl_full_strict)
+                SSL_MODE_OFF to getString(R.string.ssl_mode_off),
+                SSL_MODE_FLEXIBLE to getString(R.string.ssl_mode_flexible),
+                SSL_MODE_FULL to getString(R.string.ssl_mode_full),
+                SSL_MODE_STRICT to getString(R.string.ssl_mode_full_strict)
             )
         }
 
