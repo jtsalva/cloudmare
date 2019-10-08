@@ -52,7 +52,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
     private inline fun List<ZoneSetting>.oneWithId(id: String) = find { it.id == id }!!
 
     private inline fun List<ZoneSetting>.valueAsBoolean(id: String) =
-        oneWithId(id).value as String == "on"
+        oneWithId(id).value as String == ZoneSetting.VALUE_ON
 
     override fun render() = launch {
         val response = ZoneSettingRequest(this).list(domain.id)
