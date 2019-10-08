@@ -104,6 +104,9 @@ class SSLViewModel(
             else {
                 field = value
                 alwaysUseHttpsSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.alwaysUseHttps)
             }
         }
 
@@ -134,6 +137,9 @@ class SSLViewModel(
             else {
                 field = value
                 opportunisticEncryptionSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.opportunisticEncryption)
             }
         }
 
@@ -164,6 +170,9 @@ class SSLViewModel(
             else {
                 field = value
                 opportunisticOnionSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.opportunisticOnion)
             }
         }
 
@@ -194,6 +203,9 @@ class SSLViewModel(
             else {
                 field = value
                 automaticHttpsRewritesSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.automaticHttpsRewrites)
             }
         }
 
