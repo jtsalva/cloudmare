@@ -39,6 +39,15 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         render()
     }
 
+    override fun onSwipeRefresh() {
+        super.onSwipeRefresh()
+
+        viewModel.apply {
+            underAttackModeInitialized = false
+            developmentModeInitialized = false
+        }
+    }
+
     override fun render() {
         val securityLevelRequest = SecurityLevelRequest(this)
         val developmentModeRequest = DevelopmentModeRequest(this)
@@ -49,7 +58,8 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     developmentModeRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
-                    initUnderAttackModeEnabled(response.result.value == ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK)
+                    viewModel.underAttackModeEnabled = response.result.value.toString() == ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
+                    viewModel.underAttackModeInitialized = true
                 }
             }
         }
@@ -60,7 +70,8 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll(Request.GET)
                 } else viewModel.apply {
-                    initDevelopmentModeEnabled(response.result.value == ZoneSetting.VALUE_ON)
+                    viewModel.developmentModeEnabled = response.result.value.toString() == ZoneSetting.VALUE_ON
+                    viewModel.developmentModeInitialized = true
                 }
             }
         }

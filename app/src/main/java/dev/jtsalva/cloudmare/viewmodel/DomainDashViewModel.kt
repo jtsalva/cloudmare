@@ -16,11 +16,6 @@ class DomainDashViewModel(
     private val domain: Zone
 ) : BaseObservable() {
 
-    private val data = object {
-        var underAttackModeEnabled = false
-        var developmentModeEnabled = false
-    }
-
     private val underAttackModeSwitch by lazy {
         activity.findViewById<SwitchOptionView>(R.id.under_attack_mode_item)
     }
@@ -29,8 +24,10 @@ class DomainDashViewModel(
         activity.findViewById<SwitchOptionView>(R.id.development_mode_item)
     }
 
-    var underAttackModeEnabled: Boolean
-        @Bindable get() = data.underAttackModeEnabled
+    var underAttackModeInitialized = false
+    var developmentModeInitialized = false
+
+    @Bindable var underAttackModeEnabled = false
         set(value) {
             underAttackModeSwitch.switchIsEnabled = false
 
@@ -38,15 +35,15 @@ class DomainDashViewModel(
                 if (value) ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
                 else ZoneSetting.SECURITY_LEVEL_MEDIUM
 
-            if (value != data.underAttackModeEnabled)
+            if (value != field && underAttackModeInitialized)
                 SecurityLevelRequest(activity).launch {
                     val response = update(domain.id, newSecurityLevelValue)
 
                     underAttackModeSwitch.switchIsEnabled = true
 
-                    if (response.success) data.underAttackModeEnabled = value
+                    if (response.success) field = value
                     else {
-                        data.underAttackModeEnabled = !value
+                        field = !value
 
                         activity.dialog.error(
                             title = "Can't set under attack mode",
@@ -58,11 +55,16 @@ class DomainDashViewModel(
                     notifyPropertyChanged(BR.underAttackModeEnabled)
                 }
 
-            else underAttackModeSwitch.switchIsEnabled = true
+            else {
+                field = value
+                underAttackModeSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.developmentModeEnabled)
+            }
         }
 
-    var developmentModeEnabled: Boolean
-        @Bindable get() = data.developmentModeEnabled
+    @Bindable var developmentModeEnabled = false
         set(value) {
             developmentModeSwitch.switchIsEnabled = false
 
@@ -70,15 +72,15 @@ class DomainDashViewModel(
                 if (value) ZoneSetting.VALUE_ON
                 else ZoneSetting.VALUE_OFF
 
-            if (value != data.developmentModeEnabled)
+            if (value != field && developmentModeInitialized)
                 DevelopmentModeRequest(activity).launch {
                     val response = update(domain.id, newDevelopmentModeValue)
 
                     developmentModeSwitch.switchIsEnabled = true
 
-                    if (response.success) data.developmentModeEnabled = value
+                    if (response.success) field = value
                     else {
-                        data.developmentModeEnabled = !value
+                        field = !value
 
                         activity.dialog.error(title = "Can't set development mode", message = response.firstErrorMessage)
                     }
@@ -87,25 +89,13 @@ class DomainDashViewModel(
                     notifyPropertyChanged(BR.developmentModeEnabled)
                 }
 
-            else developmentModeSwitch.switchIsEnabled = true
+            else {
+                field = value
+                developmentModeSwitch.switchIsEnabled = true
+
+                @Suppress("UNRESOLVED_REFERENCE")
+                notifyPropertyChanged(BR.developmentModeEnabled)
+            }
         }
-
-    fun initUnderAttackModeEnabled(value: Boolean) {
-        data.underAttackModeEnabled = value
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.underAttackModeEnabled)
-
-        underAttackModeSwitch.switchIsEnabled = true
-    }
-
-    fun initDevelopmentModeEnabled(value: Boolean) {
-        data.developmentModeEnabled = value
-
-        @Suppress("UNRESOLVED_REFERENCE")
-        notifyPropertyChanged(BR.developmentModeEnabled)
-
-        developmentModeSwitch.switchIsEnabled = true
-    }
 
 }
