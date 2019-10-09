@@ -8,6 +8,8 @@ Simple & Quick Cloudflare tool for:
  
  * Toggle Page Rules
  
+ * Manage some SSL settings
+ 
  * More features on it's way
 
 Unofficial app, not endorsed by Cloudflare.
