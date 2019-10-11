@@ -1,10 +1,13 @@
 package dev.jtsalva.cloudmare
 
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.SingleChoiceListener
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import timber.log.Timber
 
-class Dialog(private val activity: CloudMareActivity) {
-    private val bottomSheet: MaterialDialog = MaterialDialog(activity)
+class Dialog(activity: CloudMareActivity) {
+    private val activityHashCode = activity.hashCode()
+    private val materialDialog: MaterialDialog = MaterialDialog(activity)
 
     companion object {
 
@@ -22,13 +25,24 @@ class Dialog(private val activity: CloudMareActivity) {
 
     }
 
-    fun dismiss() = dismissOpenDialog(activity.hashCode())
+    fun multiChoice(title: String = "Choose one",
+                    resId: Int = -1,
+                    initialSelection: Int = -1,
+                    onSelection: SingleChoiceListener) =
+        setOpenDialog(activityHashCode, materialDialog.show {
+            title(text = title)
+            listItemsSingleChoice(
+                resId,
+                initialSelection = initialSelection,
+                selection = onSelection
+            )
+        })
 
     fun error(title: String = "Oops",
               message: String = "Something went wrong",
               positive: String = "Try again",
               onAcknowledge: () -> Unit = {}) =
-        setOpenDialog(activity.hashCode(), bottomSheet.show {
+        setOpenDialog(activityHashCode, materialDialog.show {
             title(text = title)
             message(text = message)
             positiveButton(text = positive) { onAcknowledge() }
@@ -45,7 +59,7 @@ class Dialog(private val activity: CloudMareActivity) {
                 positive: String = "Yes",
                 negative: String = "Cancel",
                 onResult: (confirmed: Boolean) -> Unit) =
-        setOpenDialog(activity.hashCode(), bottomSheet.show {
+        setOpenDialog(activityHashCode, materialDialog.show {
             title(text = title)
             if (message != "") message(text = message)
 
@@ -56,7 +70,7 @@ class Dialog(private val activity: CloudMareActivity) {
 
     fun loading(title: String = "Loading...",
                 message: String = ""): Dialog {
-        setOpenDialog(activity.hashCode(), bottomSheet.show {
+        setOpenDialog(activityHashCode, materialDialog.show {
             cancelable(false)
             cancelOnTouchOutside(false)
 

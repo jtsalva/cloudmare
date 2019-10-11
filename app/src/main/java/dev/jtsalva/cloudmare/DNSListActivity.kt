@@ -17,12 +17,42 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var records: MutableList<DNSRecord>
 
+    private var sortBy = DNSRecord.SORT_BY_TYPE
+
     private var fromActivityResult = false
         get() {
             val current = field
             field = false
             return current
         }
+
+    private val sortByTranslator by lazy {
+        object {
+
+            val idToReadable = mapOf(
+                DNSRecord.SORT_BY_TYPE to getString(R.string.dns_list_sort_by_type),
+                DNSRecord.SORT_BY_NAME to getString(R.string.dns_list_sort_by_name),
+                DNSRecord.SORT_BY_CONTENT to getString(R.string.dns_list_sort_by_content),
+                DNSRecord.SORT_BY_TTL to getString(R.string.dns_list_sort_by_ttl),
+                DNSRecord.SORT_BY_PROXIED to getString(R.string.dns_list_sort_by_proxied)
+            )
+
+            fun indexOfValue(value: String): Int =
+                idToReadable.run {
+                    var index = 0
+                    forEach {
+                        if (it.key == value) return index
+                        index += 1
+                    }
+
+                    return -1
+                }
+
+            fun getValue(readable: String): String =
+                idToReadable.filterValues { it == readable }.keys.first()
+
+        }
+    }
 
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
@@ -31,7 +61,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
             override fun fetchNextPage(pageNumber: Int) =
                 DNSRecordRequest(this@DNSListActivity).launch {
-                    list(domain.id, pageNumber).run {
+                    list(domain.id, pageNumber = pageNumber, order = sortBy).run {
                         if (failure || result == null)
                             dialog.error(message = firstErrorMessage)
                         else if (result.isNotEmpty()) result.let { nextPage ->
@@ -98,10 +128,21 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
-            Timber.d("add action clicked")
             startActivityWithExtrasForResult(DNSRecordActivity::class, CREATE_RECORD,
                 "domain" to domain
             )
+            true
+        }
+
+        R.id.action_sort_by -> {
+            val selectedItemIndex = sortByTranslator.indexOfValue(sortBy)
+            dialog.multiChoice(
+                title = "Sort By",
+                resId = R.array.entries_dns_list_sort_by,
+                initialSelection = selectedItemIndex) { _, _, text ->
+                sortBy = sortByTranslator.getValue(text)
+                onSwipeRefresh()
+            }
             true
         }
 
@@ -113,6 +154,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
         domain = intent.getParcelableExtra("domain")!!
 
+        showSortByMenuButton = true
         showAddMenuButton = true
 
         setLayout(R.layout.activity_dns_list)
@@ -131,7 +173,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = DNSRecordRequest(this).launch {
-        val response = list(domain.id)
+        val response = list(domain.id, order = sortBy)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 

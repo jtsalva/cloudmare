@@ -72,6 +72,12 @@ data class DNSRecord(
         const val TTL_TWELVE_HOURS = 43200
         const val TTL_ONE_DAYS = 86400
 
+        const val SORT_BY_TYPE = "type"
+        const val SORT_BY_NAME = "name"
+        const val SORT_BY_CONTENT = "content"
+        const val SORT_BY_TTL = "ttl"
+        const val SORT_BY_PROXIED = "proxied"
+
         val default: DNSRecord get() =
             DNSRecord(
                 id = "",

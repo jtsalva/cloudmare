@@ -52,9 +52,13 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
     }
 
 
-    suspend fun list(zoneId: String, pageNumber: Int = 1, perPage: Int = 20) =
+    suspend fun list(zoneId: String, pageNumber: Int = 1, perPage: Int = 20, order: String = DNSRecord.SORT_BY_TYPE) =
         suspendCoroutine<DNSRecordListResponse> { cont ->
-            val params = urlParams("page" to pageNumber, "per_page" to perPage)
+            val params = urlParams(
+                "page" to pageNumber,
+                "per_page" to perPage,
+                "order" to order
+            )
 
             requestTAG = LIST
             get("zones/$zoneId/dns_records$params") {
