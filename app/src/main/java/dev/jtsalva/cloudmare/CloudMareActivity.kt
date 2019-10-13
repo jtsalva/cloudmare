@@ -24,12 +24,6 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    protected var showUserActivityMenuButton = false
-    protected var showSortByMenuButton = false
-    protected var showSaveMenuButton = false
-    protected var showDeleteMenuButton = false
-    protected var showAddMenuButton = false
-
     var showProgressBar = true
         set(value) {
             progressBar.apply { visibility = if (value) View.VISIBLE else View.GONE }
@@ -47,6 +41,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     private val nonFoundMessage by lazy { findViewById<TextView>(R.id.non_found_message) }
 
     val dialog: Dialog get() = Dialog(this)
+    val menuButtonInitializer = MenuButtonInitializer()
 
     fun launch(block: suspend () -> Unit): Job = coLaunch { block() }
 
@@ -104,20 +99,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
-        with(menu) {
-            menuInflater.inflate(R.menu.main_menu, this)
-
-            if (showUserActivityMenuButton) findItem(R.id.action_user_activity).isVisible = true
-
-            if (showSortByMenuButton) findItem(R.id.action_sort_by).isVisible = true
-
-            if (showSaveMenuButton) findItem(R.id.action_save).isVisible = true
-
-            if (showDeleteMenuButton) findItem(R.id.action_delete).isVisible = true
-
-            if (showAddMenuButton) findItem(R.id.action_add).isVisible = true
-        }
+        menuInflater.inflate(R.menu.main_menu, menu)
+        menuButtonInitializer.inflate(menu)
 
         return true
     }

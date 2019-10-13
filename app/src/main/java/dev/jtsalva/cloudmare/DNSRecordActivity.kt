@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.DELETE_ACTION
+import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.SAVE_ACTION
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
@@ -85,8 +87,10 @@ class DNSRecordActivity : CloudMareActivity() {
                     }
         }
 
-        showSaveMenuButton = true
-        showDeleteMenuButton = true
+        menuButtonInitializer.onInflateSetVisible(
+            SAVE_ACTION,
+            DELETE_ACTION
+        )
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
         setToolbarTitle("${domain.name} | ${if (isNewRecord) "Create" else "Edit"}")
