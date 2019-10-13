@@ -122,6 +122,9 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         return true
     }
 
-    protected fun setToolbarTitle(title: String) = supportActionBar?.setTitle(title) ?: Timber.e("Can't set title")
-    protected fun setToolbarTitle(resId: Int) = supportActionBar?.setTitle(resId) ?: Timber.e("Can't set title")
+    protected fun setToolbarTitle(title: String) =
+        supportActionBar?.setTitle(title) ?: throw Exception("supportActionBar is null, setLayout first")
+
+    protected fun setToolbarTitle(resId: Int) =
+        supportActionBar?.setTitle(resId) ?: throw Exception("supportActionBar is null, setLayout first")
 }
