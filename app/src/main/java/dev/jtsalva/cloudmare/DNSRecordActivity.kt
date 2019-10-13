@@ -157,8 +157,6 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun render() {
-        Timber.d("DNSRecord: $dnsRecord")
-
         viewModel = DNSRecordViewModel(this, domain, dnsRecord)
 
         customizeForm()
@@ -216,7 +214,6 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun saveRecord() = DNSRecordRequest(this).launch {
-        Timber.d("viewModel.data: ${viewModel.data}")
         dialog.loading(title = "Saving...")
 
         val response =
