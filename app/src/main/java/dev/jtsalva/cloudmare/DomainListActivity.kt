@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.USER_ACTIVITY_ACTION
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
@@ -40,7 +41,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
-        showUserActivityMenuButton = true
+        menuButtonInitializer.onInflateSetVisible(USER_ACTIVITY_ACTION)
 
         setLayout(R.layout.activity_domain_list)
         setToolbarTitle(R.string.title_domain_list_activity)
