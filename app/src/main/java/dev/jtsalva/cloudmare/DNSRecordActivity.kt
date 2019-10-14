@@ -13,7 +13,6 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.databinding.ActivityDnsRecordBinding
 import dev.jtsalva.cloudmare.viewmodel.DNSRecordViewModel
 import kotlinx.android.synthetic.main.activity_dns_record.*
-import timber.log.Timber
 
 class DNSRecordActivity : CloudMareActivity() {
 

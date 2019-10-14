@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".CachingActivity">
+    <data>
+        <variable
+                name="viewModel"
+                type="dev.jtsalva.cloudmare.viewmodel.CachingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+
+        <include
+                layout="@layout/progress_bar" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <ScrollView
+                    android:id="@+id/caching_view_group"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:visibility="visible">
+
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cache_level_item">
+                        <TextView
+                                android:id="@+id/cache_level_title_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="#000"
+                                android:textSize="24dp"
+                                android:text="Caching Level"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/cache_level_spinner"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:entries="@array/entries_cache_level"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/cache_level_title_text_view" />
+                        <TextView
+                                android:id="@+id/cache_level_info_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textSize="16dp"
+                                android:text="Determine how much of your website’s static content you want Cloudflare to cache. Increased caching can speed up page load time."
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/cache_level_spinner" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </TableLayout>
+
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

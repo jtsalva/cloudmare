@@ -49,18 +49,13 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
         viewModel.isFinishedInitializing = false
     }
 
-    private inline fun List<ZoneSetting>.oneWithId(id: String) = find { it.id == id }!!
-
-    private inline fun List<ZoneSetting>.valueAsBoolean(id: String) =
-        oneWithId(id).value as String == ZoneSetting.VALUE_ON
-
     override fun render() = launch {
         val response = ZoneSettingRequest(this).list(domain.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else response.result.let { settings ->
-            viewModel.sslMode = settings.oneWithId(ZoneSetting.ID_SSL).value as String
+            viewModel.sslMode = settings.valueAsString(ZoneSetting.ID_SSL)
 
             sslModeAdapter.let { adapter ->
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)

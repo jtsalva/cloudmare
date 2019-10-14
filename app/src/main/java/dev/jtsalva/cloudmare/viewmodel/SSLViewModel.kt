@@ -213,7 +213,7 @@ class SSLViewModel(
         val selectedItem = parent.getItemAtPosition(pos)
 
         when (parent.id) {
-            R.id.ssl_mode_spinner -> with (activity) {
+            R.id.ssl_mode_spinner -> {
                 sslMode = sslModeTranslator.getId(selectedItem.toString())
             }
         }

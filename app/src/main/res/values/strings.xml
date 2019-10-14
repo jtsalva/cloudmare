@@ -100,7 +100,7 @@
         <item>@string/ttl_twelve_hours</item>
         <item>@string/ttl_one_days</item>
     </string-array>
-    
+
     // SSL Mode Labels
     <string name="ssl_mode_off">Off (not secure)</string>
     <string name="ssl_mode_flexible">Flexible</string>
@@ -114,13 +114,13 @@
         <item>@string/ssl_mode_full</item>
         <item>@string/ssl_mode_full_strict</item>
     </string-array>
-    
+
     // SSL Mode Info
     <string name="ssl_mode_info_off">Off - No encryption applied</string>
     <string name="ssl_mode_info_flexible">Flexible - Encrypts traffic between the browser and Cloudflare</string>
     <string name="ssl_mode_info_full">Full - Encrypts end-to-end, using a self signed certificate on the server</string>
     <string name="ssl_mode_info_full_strict">Full (strict) - Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
-    
+
     // DNS List Sort By Labels
     <string name="dns_list_sort_by_type">Type</string>
     <string name="dns_list_sort_by_name">Name</string>
@@ -135,5 +135,17 @@
         <item>@string/dns_list_sort_by_content</item>
         <item>@string/dns_list_sort_by_ttl</item>
         <item>@string/dns_list_sort_by_proxied</item>
+    </string-array>
+
+    // Caching Level Labels
+    <string name="cache_level_basic">No query string</string>
+    <string name="cache_level_simplified">Ignore query string</string>
+    <string name="cache_level_aggressive">Standard</string>
+
+    // Caching Level Options
+    <string-array name="entries_cache_level">
+        <item>@string/cache_level_basic</item>
+        <item>@string/cache_level_simplified</item>
+        <item>@string/cache_level_aggressive</item>
     </string-array>
 </resources>
