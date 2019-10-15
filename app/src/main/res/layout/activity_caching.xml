@@ -71,6 +71,41 @@
                                 app:layout_constraintTop_toBottomOf="@+id/cache_level_spinner" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/browser_cache_expiration_item">
+                        <TextView
+                                android:id="@+id/browser_cache_expiration_title_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="#000"
+                                android:textSize="24dp"
+                                android:text="Browser Cache Expiration"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/browser_cache_ttl_spinner"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:entries="@array/entries_cache_level"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/browser_cache_expiration_title_text_view" />
+                        <TextView
+                                android:id="@+id/browser_cache_ttl_info_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textSize="16dp"
+                                android:text="Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads."
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/browser_cache_ttl_spinner" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/always_online_item"
+                            app:checked="@={viewModel.alwaysOnline}"
+                            app:info="If your server goes down, Cloudflare will serve your website’s static pages from our cache."
+                            app:title="Always Online™"/>
+
                 </TableLayout>
 
             </ScrollView>

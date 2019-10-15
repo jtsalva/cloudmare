@@ -73,7 +73,8 @@
         <item>@string/type_uri</item>
     </string-array>
 
-    // DNS Record TTL Labels
+    // TTL Labels
+    <string name="ttl_respect_existing_headers">Respect Existing Headers</string>
     <string name="ttl_automatic">AUTOMATIC</string>
     <string name="ttl_two_minutes">2 minutes</string>
     <string name="ttl_five_minutes">5 minutes</string>
@@ -82,9 +83,25 @@
     <string name="ttl_thirty_minutes">30 minutes</string>
     <string name="ttl_one_hours">1 hour</string>
     <string name="ttl_two_hours">2 hours</string>
+    <string name="ttl_three_hours">3 hours</string>
+    <string name="ttl_four_hours">4 hours</string>
     <string name="ttl_five_hours">5 hours</string>
+    <string name="ttl_eight_hours">8 hours</string>
     <string name="ttl_twelve_hours">12 hour</string>
+    <string name="ttl_sixteen_hours">16 hours</string>
+    <string name="ttl_twenty_hours">20 hours</string>
     <string name="ttl_one_days">1 day</string>
+    <string name="ttl_two_days">2 days</string>
+    <string name="ttl_three_days">3 days</string>
+    <string name="ttl_four_days">4 days</string>
+    <string name="ttl_five_days">5 days</string>
+    <string name="ttl_eight_days">8 days</string>
+    <string name="ttl_sixteen_days">16 days</string>
+    <string name="ttl_twenty_four_days">24 days</string>
+    <string name="ttl_one_months">1 month</string>
+    <string name="ttl_two_months">2 months</string>
+    <string name="ttl_six_months">6 months</string>
+    <string name="ttl_one_years">1 year</string>
 
     // DNS Record TTL Options
     <string-array name="entries_dns_record_ttl">
@@ -147,5 +164,32 @@
         <item>@string/cache_level_basic</item>
         <item>@string/cache_level_simplified</item>
         <item>@string/cache_level_aggressive</item>
+    </string-array>
+    
+    // Browser Cache TTL Options
+    <string-array name="entried_browser_cache_ttl">
+        <item>@string/ttl_respect_existing_headers</item>
+        <item>@string/ttl_thirty_minutes</item>
+        <item>@string/ttl_one_hours</item>
+        <item>@string/ttl_two_hours</item>
+        <item>@string/ttl_three_hours</item>
+        <item>@string/ttl_four_hours</item>
+        <item>@string/ttl_five_hours</item>
+        <item>@string/ttl_eight_hours</item>
+        <item>@string/ttl_twelve_hours</item>
+        <item>@string/ttl_sixteen_hours</item>
+        <item>@string/ttl_twenty_hours</item>
+        <item>@string/ttl_one_days</item>
+        <item>@string/ttl_two_days</item>
+        <item>@string/ttl_three_days</item>
+        <item>@string/ttl_four_days</item>
+        <item>@string/ttl_five_days</item>
+        <item>@string/ttl_eight_days</item>
+        <item>@string/ttl_sixteen_days</item>
+        <item>@string/ttl_twenty_four_days</item>
+        <item>@string/ttl_one_months</item>
+        <item>@string/ttl_two_months</item>
+        <item>@string/ttl_six_months</item>
+        <item>@string/ttl_one_years</item>
     </string-array>
 </resources>
