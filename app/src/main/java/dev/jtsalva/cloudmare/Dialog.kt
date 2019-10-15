@@ -5,8 +5,7 @@ import com.afollestad.materialdialogs.list.SingleChoiceListener
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import timber.log.Timber
 
-class Dialog(activity: CloudMareActivity) {
-    private val activityHashCode = activity.hashCode()
+class Dialog(private val activity: CloudMareActivity) {
     private val materialDialog: MaterialDialog = MaterialDialog(activity)
 
     companion object {
@@ -28,8 +27,8 @@ class Dialog(activity: CloudMareActivity) {
     fun multiChoice(title: String = "Choose one",
                     resId: Int = -1,
                     initialSelection: Int = -1,
-                    onSelection: SingleChoiceListener) =
-        setOpenDialog(activityHashCode, materialDialog.show {
+                    onSelection: SingleChoiceListener) {
+        if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             listItemsSingleChoice(
                 resId,
@@ -37,12 +36,13 @@ class Dialog(activity: CloudMareActivity) {
                 selection = onSelection
             )
         })
+    }
 
     fun error(title: String = "Oops",
               message: String = "Something went wrong",
               positive: String = "Try again",
-              onAcknowledge: () -> Unit = {}) =
-        setOpenDialog(activityHashCode, materialDialog.show {
+              onAcknowledge: () -> Unit = {}) {
+        if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             message(text = message)
             positiveButton(text = positive) { onAcknowledge() }
@@ -53,13 +53,14 @@ class Dialog(activity: CloudMareActivity) {
                 }
             }
         }
+    }
 
     fun confirm(title: String = "Are you sure?",
                 message: String = "",
                 positive: String = "Yes",
                 negative: String = "Cancel",
-                onResult: (confirmed: Boolean) -> Unit) =
-        setOpenDialog(activityHashCode, materialDialog.show {
+                onResult: (confirmed: Boolean) -> Unit) {
+        if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             if (message != "") message(text = message)
 
@@ -67,10 +68,11 @@ class Dialog(activity: CloudMareActivity) {
 
             negativeButton(text = negative) { onResult(false) }
         })
+    }
 
     fun loading(title: String = "Loading...",
                 message: String = ""): Dialog {
-        setOpenDialog(activityHashCode, materialDialog.show {
+        if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             cancelable(false)
             cancelOnTouchOutside(false)
 
