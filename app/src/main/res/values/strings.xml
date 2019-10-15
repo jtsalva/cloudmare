@@ -167,7 +167,7 @@
     </string-array>
     
     // Browser Cache TTL Options
-    <string-array name="entried_browser_cache_ttl">
+    <string-array name="entries_browser_cache_ttl">
         <item>@string/ttl_respect_existing_headers</item>
         <item>@string/ttl_thirty_minutes</item>
         <item>@string/ttl_one_hours</item>
