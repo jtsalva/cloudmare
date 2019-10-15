@@ -60,6 +60,7 @@ data class DNSRecord(
         const val TLSA = "TLSA"
         const val URI = "URI"
 
+        const val TTL_RESPECT_EXISTING_HEADERS = 0
         const val TTL_AUTOMATIC = 1
         const val TTL_TWO_MINUTES = 120
         const val TTL_FIVE_MINUTES = 300
@@ -68,9 +69,25 @@ data class DNSRecord(
         const val TTL_THIRTY_MINUTES = 1800
         const val TTL_ONE_HOURS = 3600
         const val TTL_TWO_HOURS = 7200
+        const val TTL_THREE_HOURS = 10800
+        const val TTL_FOUR_HOURS = 14400
         const val TTL_FIVE_HOURS = 18000
+        const val TTL_EIGHT_HOURS = 28800
         const val TTL_TWELVE_HOURS = 43200
+        const val TTL_SIXTEEN_HOURS = 57600
+        const val TTL_TWENTY_HOURS = 72000
         const val TTL_ONE_DAYS = 86400
+        const val TTL_TWO_DAYS = 172800
+        const val TTL_THREE_DAYS = 259200
+        const val TTL_FOUR_DAYS = 345600
+        const val TTL_FIVE_DAYS = 432000
+        const val TTL_EIGHT_DAYS = 691200
+        const val TTL_SIXTEEN_DAYS = 1382400
+        const val TTL_TWENTY_FOUR_DAYS = 2073600
+        const val TTL_ONE_MONTHS = 2678400
+        const val TTL_TWO_MONTHS = 5356800
+        const val TTL_SIX_MONTHS = 16070400
+        const val TTL_ONE_YEARS = 31536000
 
         const val SORT_BY_TYPE = "type"
         const val SORT_BY_NAME = "name"
@@ -103,6 +120,7 @@ data class DNSRecord(
 
         val valueToReadable = activity.run {
             mapOf(
+                TTL_RESPECT_EXISTING_HEADERS to getString(R.string.ttl_respect_existing_headers),
                 TTL_AUTOMATIC to getString(R.string.ttl_automatic),
 
                 TTL_TWO_MINUTES to getString(R.string.ttl_two_minutes),
@@ -113,10 +131,27 @@ data class DNSRecord(
 
                 TTL_ONE_HOURS to getString(R.string.ttl_one_hours),
                 TTL_TWO_HOURS to getString(R.string.ttl_two_hours),
+                TTL_THREE_HOURS to getString(R.string.ttl_three_hours),
+                TTL_FOUR_HOURS to getString(R.string.ttl_four_hours),
                 TTL_FIVE_HOURS to getString(R.string.ttl_five_hours),
+                TTL_EIGHT_HOURS to getString(R.string.ttl_eight_hours),
                 TTL_TWELVE_HOURS to getString(R.string.ttl_twelve_hours),
+                TTL_SIXTEEN_HOURS to getString(R.string.ttl_sixteen_hours),
+                TTL_TWENTY_HOURS to getString(R.string.ttl_twelve_hours),
 
-                TTL_ONE_DAYS to getString(R.string.ttl_one_days)
+                TTL_ONE_DAYS to getString(R.string.ttl_one_days),
+                TTL_TWO_DAYS to getString(R.string.ttl_two_days),
+                TTL_THREE_DAYS to getString(R.string.ttl_three_days),
+                TTL_FOUR_DAYS to getString(R.string.ttl_four_days),
+                TTL_FIVE_DAYS to getString(R.string.ttl_five_days),
+                TTL_EIGHT_DAYS to getString(R.string.ttl_eight_days),
+                TTL_SIXTEEN_DAYS to getString(R.string.ttl_sixteen_days),
+                TTL_TWENTY_FOUR_DAYS to getString(R.string.ttl_twenty_four_days),
+
+                TTL_ONE_MONTHS to getString(R.string.ttl_one_months),
+                TTL_TWO_MONTHS to getString(R.string.ttl_two_months),
+                TTL_SIX_MONTHS to getString(R.string.ttl_six_months),
+                TTL_ONE_YEARS to getString(R.string.ttl_one_years)
             )
         }
 

@@ -15,6 +15,9 @@
             android:theme="@style/AppTheme"
             tools:replace="android:supportsRtl">
         <activity
+                android:name=".CachingActivity"
+                android:launchMode="singleTop" />
+        <activity
                 android:name=".SSLActivity"
                 android:launchMode="singleTop" />
         <activity
