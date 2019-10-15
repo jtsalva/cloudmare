@@ -26,6 +26,14 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
         )
     }
 
+    val browserCacheTtlAdapter by lazy {
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.entries_browser_cache_ttl,
+            R.layout.spinner_item
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +64,7 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
 
         else response.result.let { settings ->
             viewModel.cacheLevel = settings.valueAsString(ZoneSetting.ID_CACHE_LEVEL)
+            viewModel.browserCacheTtl = settings.valueAsDouble(ZoneSetting.ID_BROWSER_CACHE_TTL).toInt()
 
             cacheLevelAdapter.let { adapter ->
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -69,6 +78,21 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
                     onItemSelectedListener = viewModel
                 }
             }
+
+            browserCacheTtlAdapter.let { adapter ->
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+
+                browser_cache_ttl_spinner.apply {
+                    setAdapter(adapter)
+
+                    val currentBrowserCacheTtl = viewModel.run { ttlTranslator.getReadable(browserCacheTtl) }
+                    setSelection(adapter.getPosition(currentBrowserCacheTtl))
+
+                    onItemSelectedListener = viewModel
+                }
+            }
+
+            viewModel.alwaysOnline = settings.valueAsBoolean(ZoneSetting.ID_ALWAYS_ONLINE)
 
             binding.viewModel = viewModel
 

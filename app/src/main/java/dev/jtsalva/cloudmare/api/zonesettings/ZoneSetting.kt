@@ -25,6 +25,8 @@ data class ZoneSetting(
         const val ID_AUTOMATIC_HTTPS_REWRITES = "automatic_https_rewrites"
 
         const val ID_CACHE_LEVEL = "cache_level"
+        const val ID_ALWAYS_ONLINE = "always_online"
+        const val ID_BROWSER_CACHE_TTL = "browser_cache_ttl"
 
         const val VALUE_OFF = "off"
         const val VALUE_ON = "on"

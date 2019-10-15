@@ -59,6 +59,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="50dp"
                                 android:entries="@array/entries_cache_level"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/cache_level_title_text_view" />
                         <TextView
@@ -73,13 +74,15 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/browser_cache_expiration_item">
+
                         <TextView
                                 android:id="@+id/browser_cache_expiration_title_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:text="Browser Cache Expiration"
                                 android:textColor="#000"
                                 android:textSize="24dp"
-                                android:text="Browser Cache Expiration"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,6 +91,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="50dp"
                                 android:entries="@array/entries_cache_level"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/browser_cache_expiration_title_text_view" />
                         <TextView
