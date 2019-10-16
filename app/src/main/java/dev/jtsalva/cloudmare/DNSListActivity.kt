@@ -142,6 +142,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 title = "Sort By",
                 resId = R.array.entries_dns_list_sort_by,
                 initialSelection = selectedItemIndex) { _, _, text ->
+                showProgressBar = true
                 sortBy = sortByTranslator.getValue(text)
                 onSwipeRefresh()
             }
