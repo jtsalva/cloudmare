@@ -165,7 +165,7 @@
         <item>@string/cache_level_simplified</item>
         <item>@string/cache_level_aggressive</item>
     </string-array>
-    
+
     // Browser Cache TTL Options
     <string-array name="entries_browser_cache_ttl">
         <item>@string/ttl_respect_existing_headers</item>
