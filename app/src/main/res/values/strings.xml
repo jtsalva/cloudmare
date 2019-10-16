@@ -11,7 +11,7 @@
     <string name="category_dns">DNS</string>
     <string name="category_page_rules">Page Rules</string>
     <string name="category_ssl">SSL / TLS</string>
-    <string name="category_access">Access</string>
+    <string name="category_analytics">Analytics</string>
     <string name="category_speed">Speed</string>
     <string name="category_caching">Caching</string>
     <string name="category_workers">Workers</string>
@@ -23,7 +23,7 @@
     <string name="info_dns">Manage your Domain Name System (DNS) settings</string>
     <string name="info_page_rules">Toggle on and off settings by URL</string>
     <string name="info_ssl">Manage cryptography settings for your website</string>
-    <string name="info_access">Manage access to your applications</string>
+    <string name="info_analytics">Gain an insight on your data</string>
     <string name="info_speed">Manage performance settings for your website</string>
     <string name="info_caching">Manage caching settings for your website</string>
     <string name="info_workers">Run JavaScript on the edge</string>
