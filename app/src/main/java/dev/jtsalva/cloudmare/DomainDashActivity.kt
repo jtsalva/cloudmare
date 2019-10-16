@@ -78,6 +78,12 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun setOnClickListeners() {
+        analytics_item.setOnClickListener {
+            startActivityWithExtras(AnalyticsActivity::class,
+                "domain" to domain
+            )
+        }
+
         caching_item.setOnClickListener {
             startActivityWithExtras(CachingActivity::class,
                 "domain" to domain
