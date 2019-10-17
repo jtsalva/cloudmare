@@ -8,7 +8,9 @@ Simple & Quick Cloudflare tool for:
  
  * Toggle Page Rules
  
- * Manage some SSL settings
+ * Manage SSL Settings
+ 
+ * Caching Controls
  
  * More features on it's way
 
