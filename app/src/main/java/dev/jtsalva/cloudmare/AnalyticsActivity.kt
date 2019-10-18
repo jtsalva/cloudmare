@@ -1,28 +1,28 @@
 package dev.jtsalva.cloudmare
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import androidx.core.view.setPadding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.DataSet
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboard
 import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboardRequest
 import dev.jtsalva.cloudmare.api.toDate
-import dev.jtsalva.cloudmare.api.toDateDay
 import dev.jtsalva.cloudmare.api.toDateWeekDayAsInt
-import dev.jtsalva.cloudmare.api.toTimeAsFloat
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.databinding.ActivityAnalyticsBinding
 import dev.jtsalva.cloudmare.viewmodel.AnalyticsViewModel
 import kotlinx.android.synthetic.main.activity_analytics.*
-import timber.log.Timber
+import org.w3c.dom.Text
 
 class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
@@ -84,6 +84,15 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
+    private fun totalsTemplate(label: String, value: Int): View =
+        layoutInflater.inflate(R.layout.analytics_dashboard_totals_item, null).apply {
+            val labelTextView = findViewById<TextView>(R.id.label)
+            val valueTextView = findViewById<TextView>(R.id.value)
+
+            labelTextView.text = label
+            valueTextView.text = value.toString()
+        }
+
     private lateinit var domain: Zone
 
     private lateinit var binding: ActivityAnalyticsBinding
@@ -94,7 +103,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         super.onCreate(savedInstanceState)
 
         domain = intent.getParcelableExtra("domain")!!
-
 
         viewModel = AnalyticsViewModel(this, domain)
         binding = setLayoutBinding(R.layout.activity_analytics)
@@ -115,35 +123,49 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else response.result.let { analyticsDashboard ->
-            val entries = ArrayList<Entry>()
-            val entriesDos = ArrayList<Entry>()
-            val entriesTres = ArrayList<Entry>()
-            val dataSets = ArrayList<ILineDataSet>()
+            when (viewModel.category) {
+                AnalyticsViewModel.CATEGORY_REQUESTS -> drawRequests(analyticsDashboard)
 
-            analyticsDashboard.timeSeries.forEach { data ->
-                entries.add(Entry(data.since.toDate().time.toFloat(), data.requests.all.toFloat()))
-                entriesDos.add(Entry(data.since.toDate().time.toFloat(), data.requests.cached.toFloat()))
-                entriesTres.add(Entry(data.since.toDate().time.toFloat(), data.requests.uncached.toFloat()))
+                else -> throw Exception("Doesn't exist mate")
             }
 
-            y_axis_title.text = "Number of Requests"
+            analytics_chart.invalidate()
+        }
+    }
 
-            dataSets.add(
-                LineDataSet(entries, "All").apply(customLineDataSet(this@AnalyticsActivity))
-            )
+    private fun drawRequests(analyticsDashboard: AnalyticsDashboard) {
+        totals_table.addView(totalsTemplate("All", analyticsDashboard.totals.requests.all))
+        totals_table.addView(totalsTemplate("Cached", analyticsDashboard.totals.requests.cached))
+        totals_table.addView(totalsTemplate("Uncached", analyticsDashboard.totals.requests.uncached))
 
-            dataSets.add(
-                LineDataSet(entriesDos, "Cached").apply(customLineDataSet(this@AnalyticsActivity))
-            )
+        val all = ArrayList<Entry>()
+        val cached = ArrayList<Entry>()
+        val uncached = ArrayList<Entry>()
+        val dataSets = ArrayList<ILineDataSet>()
 
-            dataSets.add(
-                LineDataSet(entriesTres, "UnCached").apply(customLineDataSet(this@AnalyticsActivity))
-            )
+        analyticsDashboard.timeSeries.forEach { data ->
+            val time = data.since.toDate().time.toFloat()
+            all.add(Entry(time, data.requests.all.toFloat()))
+            cached.add(Entry(time, data.requests.cached.toFloat()))
+            uncached.add(Entry(time, data.requests.uncached.toFloat()))
+        }
 
-            analytics_chart.apply(customChart(entries.size)).apply {
-                data = LineData(dataSets)
-                invalidate()
-            }
+        y_axis_title.text = "Number of Requests"
+
+        dataSets.add(
+            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
+        )
+
+        dataSets.add(
+            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity))
+        )
+
+        dataSets.add(
+            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity))
+        )
+
+        analytics_chart.apply(customChart(all.size)).apply {
+            data = LineData(dataSets)
         }
     }
 }

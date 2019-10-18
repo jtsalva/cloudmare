@@ -14,10 +14,10 @@ class AnalyticsViewModel(
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     companion object {
-        private const val CATEGORY_REQUESTS = "requests"
-        private const val CATEGORY_BANDWIDTH = "bandwidth"
-        private const val CATEGORY_THREATS = "threats"
-        private const val CATEGORY_PAGEVIEWS = "pageviews"
+        const val CATEGORY_REQUESTS = "requests"
+        const val CATEGORY_BANDWIDTH = "bandwidth"
+        const val CATEGORY_THREATS = "threats"
+        const val CATEGORY_PAGEVIEWS = "pageviews"
     }
 
     private val categoryTranslator = activity.run {
