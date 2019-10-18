@@ -4,6 +4,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".AnalyticsActivity">
     <data>
+        <variable
+                name="viewModel"
+                type="dev.jtsalva.cloudmare.viewmodel.AnalyticsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
