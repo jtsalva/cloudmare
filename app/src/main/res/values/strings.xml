@@ -192,4 +192,18 @@
         <item>@string/ttl_six_months</item>
         <item>@string/ttl_one_years</item>
     </string-array>
+
+    // Analytics Dashboard Category Labels
+    <string name="analytics_dashboard_category_requests">Requests</string>
+    <string name="analytics_dashboard_category_bandwidth">Bandwidth</string>
+    <string name="analytics_dashboard_category_threats">Threats</string>
+    <string name="analytics_dashboard_category_pageviews">Pageviews</string>
+
+    // Analytics Dashboard Options
+    <string-array name="entries_analytics_dashboard_categories">
+        <item>@string/analytics_dashboard_category_requests</item>
+        <item>@string/analytics_dashboard_category_bandwidth</item>
+        <item>@string/analytics_dashboard_category_threats</item>
+        <item>@string/analytics_dashboard_category_pageviews</item>
+    </string-array>
 </resources>

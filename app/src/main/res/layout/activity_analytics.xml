@@ -16,34 +16,75 @@
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh"
-                android:layout_width="358dp"
-                android:layout_height="344dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/analytics_chart"
+            <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Spinner
+                            android:id="@+id/category_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="24dp"
+                            android:entries="@array/entries_analytics_dashboard_categories"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <Spinner
+                            android:id="@+id/time_period_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/analytics_chart"
+                            android:layout_width="0dp"
+                            android:layout_height="250dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/time_period_spinner" />
+
+                    <TextView
+                            android:id="@+id/y_axis_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:rotation="-90"
+                            android:textSize="18dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/analytics_chart"
+                            app:layout_constraintEnd_toStartOf="@+id/analytics_chart"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analytics_chart"
+                            app:layout_constraintVertical_bias="0.4"
+                            tools:text="Y Axis Title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <TextView
-                android:id="@+id/y_axis_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rotation="-90"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="@+id/swipe_refresh"
-                app:layout_constraintEnd_toStartOf="@+id/swipe_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/swipe_refresh"
-                tools:text="Y Axis Title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
