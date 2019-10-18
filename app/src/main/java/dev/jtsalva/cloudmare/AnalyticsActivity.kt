@@ -19,6 +19,8 @@ import dev.jtsalva.cloudmare.api.toDateDay
 import dev.jtsalva.cloudmare.api.toDateWeekDayAsInt
 import dev.jtsalva.cloudmare.api.toTimeAsFloat
 import dev.jtsalva.cloudmare.api.zone.Zone
+import dev.jtsalva.cloudmare.databinding.ActivityAnalyticsBinding
+import dev.jtsalva.cloudmare.viewmodel.AnalyticsViewModel
 import kotlinx.android.synthetic.main.activity_analytics.*
 import timber.log.Timber
 
@@ -84,12 +86,20 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var domain: Zone
 
+    private lateinit var binding: ActivityAnalyticsBinding
+
+    private lateinit var viewModel: AnalyticsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         domain = intent.getParcelableExtra("domain")!!
 
-        setLayout(R.layout.activity_analytics)
+
+        viewModel = AnalyticsViewModel(this, domain)
+        binding = setLayoutBinding(R.layout.activity_analytics)
+        binding.viewModel = viewModel
+
         setToolbarTitle("${domain.name} | Analytics")
     }
 
