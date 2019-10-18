@@ -109,7 +109,7 @@
                     <dev.jtsalva.cloudmare.view.SwitchOptionView
                             android:id="@+id/always_online_item"
                             app:checked="@={viewModel.alwaysOnline}"
-                            app:info="If your server goes down, Cloudflare will serve your website’s static pages from our cache."
+                            app:info="If your server goes down, Cloudflare will serve your website’s static pages from their cache."
                             app:title="Always Online™"/>
 
                 </TableLayout>
