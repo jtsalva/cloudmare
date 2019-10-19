@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.ADD_ACTION
-import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.SORT_BY_ACTION
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
@@ -160,8 +158,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         domain = intent.getParcelableExtra("domain")!!
 
         menuButtonInitializer.onInflateSetVisible(
-            SORT_BY_ACTION,
-            ADD_ACTION
+            R.id.action_sort_by,
+            R.id.action_add
         )
 
         setLayout(R.layout.activity_dns_list)
