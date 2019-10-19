@@ -6,7 +6,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AnalyticsDashboard(
     @field:Json(name = "totals") val totals: DataSlice,
-    @field:Json(name = "timeseries") val timeSeries: List<DataSlice>
+    @field:Json(name = "timeseries") val timeSeries: List<DataSlice>,
+    @field:Json(name = "query") val query: Query? = null
 ) {
 
     @JsonClass(generateAdapter = true)
@@ -14,7 +15,10 @@ data class AnalyticsDashboard(
         @field:Json(name = "since") val since: String,
         @field:Json(name = "until") val until: String,
         @field:Json(name = "requests") val requests: Requests,
-        @field:Json(name = "bandwidth") val bandwidth: Bandwidth
+        @field:Json(name = "bandwidth") val bandwidth: Bandwidth,
+        @field:Json(name = "threats") val threats: Threats,
+        @field:Json(name = "pageviews") val pageviews: PageViews,
+        @field:Json(name = "uniques") val uniques: Uniques
     ) {
 
         @JsonClass(generateAdapter = true)
