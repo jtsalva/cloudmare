@@ -209,8 +209,8 @@
 
     // Analytics Dashboard Time Period Labels
     <string name="analytics_dashboard_time_period_one_day">24 Hours</string>
-    <string name="analytics_dashboard_time_period_one_week">1 Week</string>
-    <string name="analytics_dashboard_time_period_one_month">1 Month</string>
+    <string name="analytics_dashboard_time_period_one_week">7 Days</string>
+    <string name="analytics_dashboard_time_period_one_month">30 Days</string>
 
     // Analytics Dashboard Time Period Options
     <string-array name="entries_analytics_dashboard_time_periods">
