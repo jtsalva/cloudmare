@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare.viewmodel
 
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Spinner
 import androidx.databinding.BaseObservable
 import dev.jtsalva.cloudmare.AnalyticsActivity
 import dev.jtsalva.cloudmare.R
@@ -23,6 +24,10 @@ class AnalyticsViewModel(
         const val TIME_PERIOD_ONE_DAY = -1440
         const val TIME_PERIOD_SEVEN_DAYS = -10080
         const val TIME_PERIOD_THIRTY_DAYS = -43200
+    }
+
+    private val timePeriodSpinner by lazy {
+        activity.findViewById<Spinner>(R.id.time_period_spinner)
     }
 
     private val categoryTranslator = activity.run {
@@ -69,8 +74,13 @@ class AnalyticsViewModel(
     var timePeriod: Int = TIME_PERIOD_SEVEN_DAYS
         set(value) {
             if (value != field) {
+                timePeriodSpinner.isEnabled = false
+
                 field = value
+                activity.analyticsDashboard = null
                 activity.render()
+
+                timePeriodSpinner.isEnabled = true
             }
         }
 
