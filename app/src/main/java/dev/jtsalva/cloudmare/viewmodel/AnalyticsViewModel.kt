@@ -21,8 +21,8 @@ class AnalyticsViewModel(
 
         // In minutes
         const val TIME_PERIOD_ONE_DAY = -1440
-        const val TIME_PERIOD_ONE_WEEK = -10080
-        const val TIME_PERIOD_ONE_MONTH = -40320
+        const val TIME_PERIOD_SEVEN_DAYS = -10080
+        const val TIME_PERIOD_THIRTY_DAYS = -43200
     }
 
     private val categoryTranslator = activity.run {
@@ -46,8 +46,8 @@ class AnalyticsViewModel(
         object {
             val valueToReadable = mapOf(
                 TIME_PERIOD_ONE_DAY to getString(R.string.analytics_dashboard_time_period_one_day),
-                TIME_PERIOD_ONE_WEEK to getString(R.string.analytics_dashboard_time_period_one_week),
-                TIME_PERIOD_ONE_MONTH to getString(R.string.analytics_dashboard_time_period_one_month)
+                TIME_PERIOD_SEVEN_DAYS to getString(R.string.analytics_dashboard_time_period_one_week),
+                TIME_PERIOD_THIRTY_DAYS to getString(R.string.analytics_dashboard_time_period_one_month)
             )
 
             fun getReadable(value: Int): String =
@@ -66,7 +66,7 @@ class AnalyticsViewModel(
             }
         }
 
-    var timePeriod: Int = TIME_PERIOD_ONE_WEEK
+    var timePeriod: Int = TIME_PERIOD_SEVEN_DAYS
         set(value) {
             if (value != field) {
                 field = value
