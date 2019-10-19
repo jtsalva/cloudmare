@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare.api
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.reflect.KClass

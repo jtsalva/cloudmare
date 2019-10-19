@@ -18,6 +18,11 @@ class AnalyticsViewModel(
         const val CATEGORY_BANDWIDTH = "bandwidth"
         const val CATEGORY_THREATS = "threats"
         const val CATEGORY_PAGEVIEWS = "pageviews"
+
+        // In minutes
+        const val TIME_PERIOD_ONE_DAY = -1440
+        const val TIME_PERIOD_ONE_WEEK = -10080
+        const val TIME_PERIOD_ONE_MONTH = -40320
     }
 
     private val categoryTranslator = activity.run {
@@ -29,26 +34,58 @@ class AnalyticsViewModel(
                 CATEGORY_PAGEVIEWS to getString(R.string.analytics_dashboard_category_pageviews)
             )
 
-            inline fun getReadable(value: String): String =
-                idToReadable.getValue(value)
+            fun getReadable(id: String): String =
+                idToReadable.getValue(id)
 
-            inline fun getId(readable: String): String =
+            fun getId(readable: String): String =
                 idToReadable.filterValues { it == readable }.keys.first()
+        }
+    }
+
+    private val timePeriodTranslator = activity.run {
+        object {
+            val valueToReadable = mapOf(
+                TIME_PERIOD_ONE_DAY to getString(R.string.analytics_dashboard_time_period_one_day),
+                TIME_PERIOD_ONE_WEEK to getString(R.string.analytics_dashboard_time_period_one_week),
+                TIME_PERIOD_ONE_MONTH to getString(R.string.analytics_dashboard_time_period_one_month)
+            )
+
+            fun getReadable(value: Int): String =
+                valueToReadable.getValue(value)
+
+            fun getValue(readable: String): Int =
+                valueToReadable.filterValues { it == readable }.keys.first()
         }
     }
 
     var category: String = CATEGORY_REQUESTS
         set(value) {
-            field = value
+            if (value != field) {
+                field = value
+                activity.render()
+            }
+        }
 
-            TODO("stuff init")
+    var timePeriod: Int = TIME_PERIOD_ONE_WEEK
+        set(value) {
+            if (value != field) {
+                field = value
+                activity.render()
+            }
         }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
         val selectedItem = parent.getItemAtPosition(pos)
 
-//        when (parent.id) {
-//        }
+        when (parent.id) {
+            R.id.category_spinner -> {
+                category = categoryTranslator.getId(selectedItem.toString())
+            }
+
+            R.id.time_period_spinner -> {
+                timePeriod = timePeriodTranslator.getValue(selectedItem.toString())
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
