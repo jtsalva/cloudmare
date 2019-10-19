@@ -17,7 +17,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboard
 import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboardRequest
 import dev.jtsalva.cloudmare.api.toDate
-import dev.jtsalva.cloudmare.api.toDateWeekDayAsInt
+import dev.jtsalva.cloudmare.api.toDateHourAsString
+import dev.jtsalva.cloudmare.api.toDateMonthAsString
+import dev.jtsalva.cloudmare.api.toDateWeekDayAsString
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.databinding.ActivityAnalyticsBinding
 import dev.jtsalva.cloudmare.viewmodel.AnalyticsViewModel
@@ -26,36 +28,40 @@ import kotlinx.android.synthetic.main.activity_analytics.*
 class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
     class DayAxisValueFormatter : ValueFormatter() {
-
-        private val daysOfWeek = mapOf(
-            1 to "Sun",
-            2 to "Mon",
-            3 to "Tue",
-            4 to "Wed",
-            5 to "Thu",
-            6 to "Fri",
-            7 to "Sat"
-        )
-
         override fun getAxisLabel(value: Float, axis: AxisBase?): String =
-            daysOfWeek.getValue(value.toDateWeekDayAsInt())
+            value.toDateWeekDayAsString()
+    }
 
+    class HourAxisValueFormatter : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String =
+            value.toDateHourAsString()
+    }
+
+    class MonthAxisValueFormatter : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String =
+            value.toDateMonthAsString()
     }
 
     companion object {
         private const val AXIS_LABEL_TEXT_SIZE = 15f
         private const val LINE_WIDTH = 4f
         private const val X_AXIS_LABEL_ROTATION = -45f
+        private const val MAX_NUM_OF_X_AXIS_LABELS = 7
 
-        private fun customXAxis(count: Int, forceLabelCount: Boolean = false): XAxis.() -> Unit =
+        private fun customXAxis(count: Int,
+                                formatter: ValueFormatter,
+                                forceLabelCount: Boolean = true): XAxis.() -> Unit =
             {
                 position = XAxis.XAxisPosition.BOTTOM
                 textSize = AXIS_LABEL_TEXT_SIZE
-                valueFormatter = DayAxisValueFormatter()
+                valueFormatter = formatter
                 labelRotationAngle = X_AXIS_LABEL_ROTATION
                 setDrawGridLines(false)
                 setDrawAxisLine(false)
-                setLabelCount(count, forceLabelCount)
+                setLabelCount(
+                    if (count <= MAX_NUM_OF_X_AXIS_LABELS) count else MAX_NUM_OF_X_AXIS_LABELS,
+                    forceLabelCount
+                )
             }
 
         private val customYAxis: YAxis.() -> Unit = {
@@ -65,35 +71,49 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             setDrawGridLinesBehindData(false)
         }
 
-        private fun customLineDataSet(context: Context): LineDataSet.() -> Unit = {
-            setColors(intArrayOf(R.color.colorPrimary), context)
+        private fun customLineDataSet(context: Context, lineColor: Int = R.color.colorPrimary): LineDataSet.() -> Unit = {
+            setColors(intArrayOf(lineColor), context)
             lineWidth = LINE_WIDTH
             setDrawValues(false)
+            setDrawCircles(false)
         }
 
-        private fun customChart(count: Int): LineChart.() -> Unit = {
+        private fun customChart(count: Int,
+                                formatter: ValueFormatter): LineChart.() -> Unit = {
             isAutoScaleMinMaxEnabled = true
 
             setTouchEnabled(false)
             description.isEnabled = false
             axisRight.isEnabled = false
 
-            xAxis.apply(customXAxis(count))
+            legend.textSize = 18f
+
+            setExtraOffsets(0f, 0f, 0f, 10f)
+
+            xAxis.apply(customXAxis(count, formatter))
             axisLeft.apply(customYAxis)
         }
     }
 
-    private fun totalsTemplate(label: String, value: Int): View =
+    private fun totalsTemplate(label: String, value: String): View =
         layoutInflater.inflate(R.layout.analytics_dashboard_totals_item, null).apply {
             val labelTextView = findViewById<TextView>(R.id.label)
             val valueTextView = findViewById<TextView>(R.id.value)
 
             labelTextView.text = label
-            valueTextView.text = value.toString()
+            valueTextView.text = value
         }
 
-    private fun drawTotal(label: String, value: Int) {
-        totals_table.addView(totalsTemplate(label, value))
+    private fun drawTotal(label: String, value: Int, units: String = "") {
+        totals_table.addView(totalsTemplate(label, "$value $units"))
+    }
+
+    private fun autoFormatter() = when (viewModel.timePeriod) {
+        in -900 downTo -4319 -> HourAxisValueFormatter()
+        in -4320 downTo -10080 -> DayAxisValueFormatter()
+        in -10081 downTo -525600 -> MonthAxisValueFormatter()
+
+        else -> throw Exception("Can't auto assign formatter given viewModel.timePeriod")
     }
 
     private lateinit var domain: Zone
@@ -117,6 +137,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             R.layout.spinner_item
         )
     }
+
+    var analyticsDashboard: AnalyticsDashboard? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,38 +178,49 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         render()
     }
 
-    override fun render() = AnalyticsDashboardRequest(this).launch {
-        val response = get(domain.id, since = viewModel.timePeriod)
-        if (response.failure || response.result == null)
-            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
+    override fun onSwipeRefresh() {
+        super.onSwipeRefresh()
 
-        else response.result.let { analyticsDashboard ->
-            totals_table.removeAllViews()
-
-            when (viewModel.category) {
-                AnalyticsViewModel.CATEGORY_REQUESTS -> drawRequests(analyticsDashboard)
-                AnalyticsViewModel.CATEGORY_BANDWIDTH -> drawBandwidth(analyticsDashboard)
-                AnalyticsViewModel.CATEGORY_THREATS -> drawThreats(analyticsDashboard)
-                AnalyticsViewModel.CATEGORY_PAGEVIEWS -> drawPageviews(analyticsDashboard)
-
-                else -> throw Exception("Selected category doesn't exist")
-            }
-
-            analytics_chart.invalidate()
-        }
+        analyticsDashboard = null
     }
 
-    private fun drawRequests(analyticsDashboard: AnalyticsDashboard) {
-        drawTotal("All", analyticsDashboard.totals.requests.all)
-        drawTotal("Cached", analyticsDashboard.totals.requests.cached)
-        drawTotal("Uncached", analyticsDashboard.totals.requests.uncached)
+    override fun render() = launch {
+        if (analyticsDashboard == null) {
+            val response = AnalyticsDashboardRequest(this).get(domain.id, since = viewModel.timePeriod)
+            if (response.failure || response.result == null)
+                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
+
+            else analyticsDashboard = response.result
+        }
+
+        totals_table.removeAllViews()
+
+        when (viewModel.category) {
+            AnalyticsViewModel.CATEGORY_REQUESTS -> drawRequests()
+            AnalyticsViewModel.CATEGORY_BANDWIDTH -> drawBandwidth()
+            AnalyticsViewModel.CATEGORY_THREATS -> drawThreats()
+            AnalyticsViewModel.CATEGORY_PAGEVIEWS -> drawPageviews()
+
+            else -> throw Exception("Selected category doesn't exist")
+        }
+
+        analytics_chart.invalidate()
+
+        showProgressBar = false
+        analytics_view_group.visibility = View.VISIBLE
+    }
+
+    private fun drawRequests() = with (analyticsDashboard!!) {
+        drawTotal("All", totals.requests.all)
+        drawTotal("Cached", totals.requests.cached)
+        drawTotal("Uncached", totals.requests.uncached)
 
         val all = ArrayList<Entry>()
         val cached = ArrayList<Entry>()
         val uncached = ArrayList<Entry>()
         val dataSets = ArrayList<ILineDataSet>()
 
-        analyticsDashboard.timeSeries.forEach { data ->
+        timeSeries.forEach { data ->
             val time = data.since.toDate().time.toFloat()
             all.add(Entry(time, data.requests.all.toFloat()))
             cached.add(Entry(time, data.requests.cached.toFloat()))
@@ -201,61 +234,61 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         )
 
         dataSets.add(
-            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorBlue))
         )
 
         dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorRed))
         )
 
-        analytics_chart.apply(customChart(all.size)).apply {
+        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
             data = LineData(dataSets)
         }
     }
 
-    private fun drawBandwidth(analyticsDashboard: AnalyticsDashboard) {
-        drawTotal("All", analyticsDashboard.totals.bandwidth.all)
-        drawTotal("Cached", analyticsDashboard.totals.bandwidth.cached)
-        drawTotal("Uncached", analyticsDashboard.totals.bandwidth.uncached)
+    private fun drawBandwidth() = with (analyticsDashboard!!) {
+        drawTotal("All", totals.bandwidth.all, "B")
+        drawTotal("Cached", totals.bandwidth.cached, "B")
+        drawTotal("Uncached", totals.bandwidth.uncached, "B")
 
         val all = ArrayList<Entry>()
         val cached = ArrayList<Entry>()
         val uncached = ArrayList<Entry>()
         val dataSets = ArrayList<ILineDataSet>()
 
-        analyticsDashboard.timeSeries.forEach { data ->
+        timeSeries.forEach { data ->
             val time = data.since.toDate().time.toFloat()
             all.add(Entry(time, data.bandwidth.all.toFloat()))
             cached.add(Entry(time, data.bandwidth.cached.toFloat()))
             uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
         }
 
-        y_axis_title.text = "Bandwidth Usage (MB)"
+        y_axis_title.text = "Bandwidth Usage (Bytes)"
 
         dataSets.add(
             LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
         )
 
         dataSets.add(
-            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorBlue))
         )
 
         dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorRed))
         )
 
-        analytics_chart.apply(customChart(all.size)).apply {
+        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
             data = LineData(dataSets)
         }
     }
 
-    private fun drawThreats(analyticsDashboard: AnalyticsDashboard) {
-        drawTotal("Threats", analyticsDashboard.totals.threats.all)
+    private fun drawThreats() = with (analyticsDashboard!!) {
+        drawTotal("Threats", totals.threats.all)
 
         val all = ArrayList<Entry>()
         val dataSets = ArrayList<ILineDataSet>()
 
-        analyticsDashboard.timeSeries.forEach { data ->
+        timeSeries.forEach { data ->
             val time = data.since.toDate().time.toFloat()
             all.add(Entry(time, data.threats.all.toFloat()))
         }
@@ -263,21 +296,21 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Number of Threats"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this))
+            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
         )
 
-        analytics_chart.apply(customChart(all.size)).apply {
+        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
             data = LineData(dataSets)
         }
     }
 
-    private fun drawPageviews(analyticsDashboard: AnalyticsDashboard) {
-        drawTotal("Pageviews", analyticsDashboard.totals.pageviews.all)
+    private fun drawPageviews() = with (analyticsDashboard!!) {
+        drawTotal("Pageviews", totals.pageviews.all)
 
         val all = ArrayList<Entry>()
         val dataSets = ArrayList<ILineDataSet>()
 
-        analyticsDashboard.timeSeries.forEach { data ->
+        timeSeries.forEach { data ->
             val time = data.since.toDate().time.toFloat()
             all.add(Entry(time, data.pageviews.all.toFloat()))
         }
@@ -285,10 +318,10 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Number of Pageviews"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this))
+            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
         )
 
-        analytics_chart.apply(customChart(all.size)).apply {
+        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
             data = LineData(dataSets)
         }
     }

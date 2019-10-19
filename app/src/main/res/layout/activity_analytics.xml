@@ -17,6 +17,9 @@
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar" />
 
+        <include
+                layout="@layout/progress_bar" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh"
                 android:layout_width="0dp"
@@ -32,9 +35,12 @@
                     android:fillViewport="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/analytics_view_group"
+                        android:visibility="invisible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp">
+                        android:paddingBottom="20dp"
+                        tools:visibility="visible">
 
                     <Spinner
                             android:id="@+id/category_spinner"
@@ -77,8 +83,8 @@
                     <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/analytics_chart"
                             android:layout_width="0dp"
-                            android:layout_height="250dp"
-                            android:layout_marginStart="40dp"
+                            android:layout_height="300dp"
+                            android:layout_marginStart="28dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
