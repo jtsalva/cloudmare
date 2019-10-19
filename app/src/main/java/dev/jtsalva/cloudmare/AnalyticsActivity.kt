@@ -230,7 +230,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
         }
 
-        y_axis_title.text = "Number of Requests"
+        y_axis_title.text = "Bandwidth Usage (MB)"
 
         dataSets.add(
             LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
@@ -260,6 +260,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             all.add(Entry(time, data.threats.all.toFloat()))
         }
 
+        y_axis_title.text = "Number of Threats"
+
         dataSets.add(
             LineDataSet(all, "All").apply(customLineDataSet(this))
         )
@@ -279,6 +281,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             val time = data.since.toDate().time.toFloat()
             all.add(Entry(time, data.pageviews.all.toFloat()))
         }
+
+        y_axis_title.text = "Number of Pageviews"
 
         dataSets.add(
             LineDataSet(all, "All").apply(customLineDataSet(this))
