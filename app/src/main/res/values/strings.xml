@@ -199,11 +199,23 @@
     <string name="analytics_dashboard_category_threats">Threats</string>
     <string name="analytics_dashboard_category_pageviews">Pageviews</string>
 
-    // Analytics Dashboard Options
+    // Analytics Dashboard Category Options
     <string-array name="entries_analytics_dashboard_categories">
         <item>@string/analytics_dashboard_category_requests</item>
         <item>@string/analytics_dashboard_category_bandwidth</item>
         <item>@string/analytics_dashboard_category_threats</item>
         <item>@string/analytics_dashboard_category_pageviews</item>
+    </string-array>
+
+    // Analytics Dashboard Time Period Labels
+    <string name="analytics_dashboard_time_period_one_day">24 Hours</string>
+    <string name="analytics_dashboard_time_period_one_week">1 Week</string>
+    <string name="analytics_dashboard_time_period_one_month">1 Month</string>
+
+    // Analytics Dashboard Time Period Options
+    <string-array name="entries_analytics_dashboard_time_periods">
+        <item>@string/analytics_dashboard_time_period_one_day</item>
+        <item>@string/analytics_dashboard_time_period_one_week</item>
+        <item>@string/analytics_dashboard_time_period_one_month</item>
     </string-array>
 </resources>
