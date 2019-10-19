@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
-import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.DELETE_ACTION
-import dev.jtsalva.cloudmare.MenuButtonInitializer.Companion.SAVE_ACTION
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
@@ -87,8 +85,8 @@ class DNSRecordActivity : CloudMareActivity() {
         }
 
         menuButtonInitializer.onInflateSetVisible(
-            SAVE_ACTION,
-            DELETE_ACTION
+            R.id.action_save,
+            R.id.action_delete
         )
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
