@@ -170,7 +170,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 AnalyticsViewModel.CATEGORY_THREATS -> drawThreats(analyticsDashboard)
                 AnalyticsViewModel.CATEGORY_PAGEVIEWS -> drawPageviews(analyticsDashboard)
 
-                else -> throw Exception("Doesn't exist mate")
+                else -> throw Exception("Selected category doesn't exist")
             }
 
             analytics_chart.invalidate()
