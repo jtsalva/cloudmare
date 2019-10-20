@@ -109,9 +109,10 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             valueTextView.text = value
         }
 
-    private inline fun drawTotal(label: String, value: Int, units: String = "") {
-        totals_table.addView(totalsTemplate(label, "$value $units"))
-    }
+    private inline fun drawTotals(vararg totals: Pair<String, Int>, units: String = "") =
+        totals.forEach { total ->
+            totals_table.addView(totalsTemplate(total.first, "${total.second} $units"))
+        }
 
     private inline fun autoFormatter() = when (viewModel.timePeriod) {
         in -900 downTo -4319 -> HourAxisValueFormatter()
@@ -226,9 +227,11 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun drawRequests() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("All", analyticsDashboard.totals.requests.all)
-        drawTotal("Cached", analyticsDashboard.totals.requests.cached)
-        drawTotal("Uncached", analyticsDashboard.totals.requests.uncached)
+        drawTotals(
+            "All" to analyticsDashboard.totals.requests.all,
+            "Cached" to analyticsDashboard.totals.requests.cached,
+            "Uncached" to analyticsDashboard.totals.requests.uncached
+        )
 
         if (!lines.containsKey("requests")) {
             val all = ArrayList<Entry>()
@@ -270,9 +273,12 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun drawBandwidth() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("All", analyticsDashboard.totals.bandwidth.all, "B")
-        drawTotal("Cached", analyticsDashboard.totals.bandwidth.cached, "B")
-        drawTotal("Uncached", analyticsDashboard.totals.bandwidth.uncached, "B")
+        drawTotals(
+            "All" to analyticsDashboard.totals.bandwidth.all,
+            "Cached" to analyticsDashboard.totals.bandwidth.cached,
+            "Uncached" to analyticsDashboard.totals.bandwidth.uncached,
+            units = "B"
+        )
 
         if (!lines.containsKey("bandwidth")) {
             val all = ArrayList<Entry>()
@@ -316,7 +322,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun drawThreats() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("Threats", analyticsDashboard.totals.threats.all)
+        drawTotals("Threats" to analyticsDashboard.totals.threats.all)
 
         if (!lines.containsKey("threats")) {
             val all = ArrayList<Entry>()
@@ -342,7 +348,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun drawPageviews() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("Pageviews", analyticsDashboard.totals.pageviews.all)
+        drawTotals("Pageviews" to analyticsDashboard.totals.pageviews.all)
 
         if (!lines.containsKey("pageviews")) {
             val all = ArrayList<Entry>()
