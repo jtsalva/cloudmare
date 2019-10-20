@@ -244,7 +244,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             "Uncached" to analyticsDashboard.totals.requests.uncached
         )
 
-        if (!lines.containsKey("requests")) {
+        if (!lines.containsKey(AnalyticsViewModel.CATEGORY_REQUESTS)) {
             val all = ArrayList<Entry>()
             val cached = ArrayList<Entry>()
             val uncached = ArrayList<Entry>()
@@ -256,8 +256,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 cached.add(Entry(time, data.requests.cached.toFloat()))
                 uncached.add(Entry(time, data.requests.uncached.toFloat()))
             }
-
-            y_axis_title.text = "Number of Requests"
 
             dataSets.add(
                 LineDataSet(all, "All").apply(customLineDataSet())
@@ -275,11 +273,13 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 )
             )
 
-            lines["requests"] = LineData(dataSets)
+            lines[AnalyticsViewModel.CATEGORY_REQUESTS] = LineData(dataSets)
         }
 
-        analytics_chart.apply(customChart(lines.getValue("requests").entryCount, autoFormatter())).apply {
-            data = lines.getValue("requests")
+        val requestsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_REQUESTS)
+        y_axis_title.text = "Num of Requests"
+        analytics_chart.apply(customChart(requestsLineData.entryCount, autoFormatter())).apply {
+            data = requestsLineData
         }
     }
 
@@ -291,7 +291,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             units = "B"
         )
 
-        if (!lines.containsKey("bandwidth")) {
+        if (!lines.containsKey(AnalyticsViewModel.CATEGORY_BANDWIDTH)) {
             val all = ArrayList<Entry>()
             val cached = ArrayList<Entry>()
             val uncached = ArrayList<Entry>()
@@ -303,8 +303,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 cached.add(Entry(time, data.bandwidth.cached.toFloat()))
                 uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
             }
-
-            y_axis_title.text = "Bandwidth Usage (Bytes)"
 
             dataSets.add(
                 LineDataSet(all, "All").apply(
@@ -324,18 +322,20 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 )
             )
 
-            lines["bandwidth"] = LineData(dataSets)
+            lines[AnalyticsViewModel.CATEGORY_BANDWIDTH] = LineData(dataSets)
         }
 
-        analytics_chart.apply(customChart(lines.getValue("bandwidth").entryCount, autoFormatter())).apply {
-            data = lines.getValue("bandwidth")
+        val bandwidthLineData = lines.getValue(AnalyticsViewModel.CATEGORY_BANDWIDTH)
+        y_axis_title.text = "Bandwidth (Bytes)"
+        analytics_chart.apply(customChart(bandwidthLineData.entryCount, autoFormatter())).apply {
+            data = bandwidthLineData
         }
     }
 
     private fun drawThreats() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotals("Threats" to analyticsDashboard.totals.threats.all)
 
-        if (!lines.containsKey("threats")) {
+        if (!lines.containsKey(AnalyticsViewModel.CATEGORY_THREATS)) {
             val all = ArrayList<Entry>()
             val dataSets = ArrayList<ILineDataSet>()
 
@@ -344,24 +344,24 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 all.add(Entry(time, data.threats.all.toFloat()))
             }
 
-            y_axis_title.text = "Number of Threats"
-
             dataSets.add(
                 LineDataSet(all, "All").apply(customLineDataSet())
             )
 
-            lines["threats"] = LineData(dataSets)
+            lines[AnalyticsViewModel.CATEGORY_THREATS] = LineData(dataSets)
         }
 
-        analytics_chart.apply(customChart(lines.getValue("threats").entryCount, autoFormatter())).apply {
-            data = lines.getValue("threats")
+        val threatsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_THREATS)
+        y_axis_title.text = "Num of Threats"
+        analytics_chart.apply(customChart(threatsLineData.entryCount, autoFormatter())).apply {
+            data = threatsLineData
         }
     }
 
     private fun drawPageviews() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotals("Pageviews" to analyticsDashboard.totals.pageviews.all)
 
-        if (!lines.containsKey("pageviews")) {
+        if (!lines.containsKey(AnalyticsViewModel.CATEGORY_PAGEVIEWS)) {
             val all = ArrayList<Entry>()
             val dataSets = ArrayList<ILineDataSet>()
 
@@ -370,17 +370,17 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 all.add(Entry(time, data.pageviews.all.toFloat()))
             }
 
-            y_axis_title.text = "Number of Pageviews"
-
             dataSets.add(
                 LineDataSet(all, "All").apply(customLineDataSet())
             )
 
-            lines["pageviews"] = LineData(dataSets)
+            lines[AnalyticsViewModel.CATEGORY_PAGEVIEWS] = LineData(dataSets)
         }
 
-        analytics_chart.apply(customChart(lines.getValue("pageviews").entryCount, autoFormatter())).apply {
-            data = lines.getValue("pageviews")
+        val pageviewsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_PAGEVIEWS)
+        y_axis_title.text = "Num of Pageviews"
+        analytics_chart.apply(customChart(pageviewsLineData.entryCount, autoFormatter())).apply {
+            data = pageviewsLineData
         }
     }
 }
