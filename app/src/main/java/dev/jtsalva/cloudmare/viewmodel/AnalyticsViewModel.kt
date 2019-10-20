@@ -71,7 +71,7 @@ class AnalyticsViewModel(
             }
         }
 
-    var timePeriod: Int = TIME_PERIOD_SEVEN_DAYS
+    var timePeriod: Int = TIME_PERIOD_ONE_DAY
         set(value) {
             if (value != field) {
                 timePeriodSpinner.isEnabled = false
