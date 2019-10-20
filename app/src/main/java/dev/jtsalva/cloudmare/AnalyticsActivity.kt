@@ -53,6 +53,10 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         private const val X_AXIS_LABEL_ROTATION = -45f
         private const val MAX_NUM_OF_X_AXIS_LABELS = 7
 
+        private val LAST_TWENTY_FOUR_HOURS = -900 downTo -4319
+        private val LAST_WEEK = -4320 downTo -10080
+        private val LAST_MONTH = -10081 downTo -525600
+
         private fun customXAxis(count: Int,
                                 formatter: ValueFormatter,
                                 forceLabelCount: Boolean = true): XAxis.() -> Unit =
@@ -115,9 +119,9 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
     private inline fun autoFormatter() = when (viewModel.timePeriod) {
-        in -900 downTo -4319 -> HourAxisValueFormatter()
-        in -4320 downTo -10080 -> DayAxisValueFormatter()
-        in -10081 downTo -525600 -> MonthAxisValueFormatter()
+        in LAST_TWENTY_FOUR_HOURS -> HourAxisValueFormatter()
+        in LAST_WEEK -> DayAxisValueFormatter()
+        in LAST_MONTH -> MonthAxisValueFormatter()
 
         else -> throw Exception("Can't auto assign formatter given viewModel.timePeriod")
     }
