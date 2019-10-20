@@ -1,10 +1,10 @@
 package dev.jtsalva.cloudmare
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.graphics.toColor
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -71,13 +71,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             setDrawGridLinesBehindData(false)
         }
 
-        private fun customLineDataSet(context: Context, lineColor: Int = R.color.colorPrimary): LineDataSet.() -> Unit = {
-            setColors(intArrayOf(lineColor), context)
-            lineWidth = LINE_WIDTH
-            setDrawValues(false)
-            setDrawCircles(false)
-        }
-
         private fun customChart(count: Int,
                                 formatter: ValueFormatter): LineChart.() -> Unit = {
             isAutoScaleMinMaxEnabled = true
@@ -95,7 +88,14 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun totalsTemplate(label: String, value: String): View =
+    private fun customLineDataSet(lineColor: Int = R.color.colorPrimary): LineDataSet.() -> Unit = {
+        setColors(intArrayOf(lineColor), this@AnalyticsActivity)
+        lineWidth = LINE_WIDTH
+        setDrawValues(false)
+        setDrawCircles(false)
+    }
+
+    private inline fun totalsTemplate(label: String, value: String): View =
         layoutInflater.inflate(R.layout.analytics_dashboard_totals_item, null).apply {
             val labelTextView = findViewById<TextView>(R.id.label)
             val valueTextView = findViewById<TextView>(R.id.value)
@@ -104,11 +104,11 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             valueTextView.text = value
         }
 
-    private fun drawTotal(label: String, value: Int, units: String = "") {
+    private inline fun drawTotal(label: String, value: Int, units: String = "") {
         totals_table.addView(totalsTemplate(label, "$value $units"))
     }
 
-    private fun autoFormatter() = when (viewModel.timePeriod) {
+    private inline fun autoFormatter() = when (viewModel.timePeriod) {
         in -900 downTo -4319 -> HourAxisValueFormatter()
         in -4320 downTo -10080 -> DayAxisValueFormatter()
         in -10081 downTo -525600 -> MonthAxisValueFormatter()
@@ -206,6 +206,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
         analytics_chart.invalidate()
 
+        viewModel.timePeriodSpinner.isEnabled = true
+
         showProgressBar = false
         analytics_view_group.visibility = View.VISIBLE
     }
@@ -230,15 +232,19 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Number of Requests"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(all, "All").apply(customLineDataSet())
         )
 
         dataSets.add(
-            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorBlue))
+            LineDataSet(cached, "Cached").apply(
+                customLineDataSet(R.color.colorBlue)
+            )
         )
 
         dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorRed))
+            LineDataSet(uncached, "Uncached").apply(
+                customLineDataSet(R.color.colorRed)
+            )
         )
 
         analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
@@ -266,15 +272,21 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Bandwidth Usage (Bytes)"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(all, "All").apply(
+                customLineDataSet()
+            )
         )
 
         dataSets.add(
-            LineDataSet(cached, "Cached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorBlue))
+            LineDataSet(cached, "Cached").apply(
+                customLineDataSet(R.color.colorBlue)
+            )
         )
 
         dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(customLineDataSet(this@AnalyticsActivity, R.color.colorRed))
+            LineDataSet(uncached, "Uncached").apply(
+                customLineDataSet(R.color.colorRed)
+            )
         )
 
         analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
@@ -296,7 +308,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Number of Threats"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(all, "All").apply(customLineDataSet())
         )
 
         analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
@@ -318,7 +330,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         y_axis_title.text = "Number of Pageviews"
 
         dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet(this@AnalyticsActivity))
+            LineDataSet(all, "All").apply(customLineDataSet())
         )
 
         analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
