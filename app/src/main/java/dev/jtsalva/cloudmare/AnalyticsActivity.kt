@@ -135,7 +135,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         )
     }
 
-    private val timePeriodAdapter by lazy {
+    val timePeriodAdapter by lazy {
         ArrayAdapter.createFromResource(
             this,
             R.array.entries_analytics_dashboard_time_periods,
