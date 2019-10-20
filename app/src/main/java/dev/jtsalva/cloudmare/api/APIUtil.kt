@@ -18,7 +18,7 @@ val DayDateTimeFormat = SimpleDateFormat(DAY_DATE_FORMAT, Locale.ENGLISH)
 val HourlyDateTimeFormat = SimpleDateFormat(HOURLY_DATE_FORMAT, Locale.ENGLISH)
 val MonthDateTimeFormat = SimpleDateFormat(MONTH_DATE_FORMAT, Locale.ENGLISH)
 
-fun String.toDate(): Date =
+inline fun String.toDate(): Date =
     CloudflareDateTimeFormat.parse(this) ?: Calendar.getInstance().time
 
 inline fun Float.toDateWeekDayAsString(): String =
