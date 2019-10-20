@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.graphics.toColor
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -44,6 +43,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
     companion object {
         private const val AXIS_LABEL_TEXT_SIZE = 15f
+        private const val LEGEND_TEXT_SIZE = 18f
         private const val LINE_WIDTH = 4f
         private const val X_AXIS_LABEL_ROTATION = -45f
         private const val MAX_NUM_OF_X_AXIS_LABELS = 7
@@ -79,7 +79,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             description.isEnabled = false
             axisRight.isEnabled = false
 
-            legend.textSize = 18f
+            legend.textSize = LEGEND_TEXT_SIZE
 
             setExtraOffsets(0f, 0f, 0f, 10f)
 
