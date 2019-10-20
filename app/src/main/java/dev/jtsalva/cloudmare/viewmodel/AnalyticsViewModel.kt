@@ -74,10 +74,10 @@ class AnalyticsViewModel(
     var timePeriod: Int = TIME_PERIOD_ONE_DAY
         set(value) {
             if (value != field) {
-                timePeriodSpinner.isEnabled = false
+                if (!activity.cache.containsKey(value))
+                    timePeriodSpinner.isEnabled = false
 
                 field = value
-                activity.analyticsDashboard = null
                 activity.render()
             }
         }
