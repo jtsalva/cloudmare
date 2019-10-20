@@ -6,6 +6,7 @@ import android.widget.Spinner
 import androidx.databinding.BaseObservable
 import dev.jtsalva.cloudmare.AnalyticsActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboardRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
 import timber.log.Timber
 
@@ -74,11 +75,37 @@ class AnalyticsViewModel(
     var timePeriod: Int = TIME_PERIOD_ONE_DAY
         set(value) {
             if (value != field) {
-                if (!activity.cache.containsKey(value))
+                val oldValue = field
+                field = value
+
+                if (!activity.cache.containsKey(value)) AnalyticsDashboardRequest(activity).launch {
                     timePeriodSpinner.isEnabled = false
 
-                field = value
-                activity.render()
+                    val response = get(domain.id, since = field)
+                    if (response.failure || response.result == null) {
+                        field = oldValue
+
+                        timePeriodSpinner.setSelection(
+                            activity.timePeriodAdapter.getPosition(
+                                timePeriodTranslator.getReadable(
+                                    oldValue
+                                )
+                            )
+                        )
+
+                        activity.dialog.error(message = response.firstErrorMessage)
+                    }
+
+                    else {
+                        activity.cache[field] =
+                            AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
+                    }
+
+                    timePeriodSpinner.isEnabled = true
+                    activity.render()
+                }
+
+                else activity.render()
             }
         }
 
