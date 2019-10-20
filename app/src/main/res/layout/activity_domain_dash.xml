@@ -49,6 +49,11 @@
                                 app:title="@string/category_development_mode" />
 
                         <dev.jtsalva.cloudmare.view.ButtonOptionView
+                                android:id="@+id/analytics_item"
+                                app:info="@string/info_analytics"
+                                app:title="@string/category_analytics" />
+
+                        <dev.jtsalva.cloudmare.view.ButtonOptionView
                                 android:id="@+id/caching_item"
                                 app:info="@string/info_caching"
                                 app:title="@string/category_caching" />

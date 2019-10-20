@@ -11,7 +11,7 @@
     <string name="category_dns">DNS</string>
     <string name="category_page_rules">Page Rules</string>
     <string name="category_ssl">SSL / TLS</string>
-    <string name="category_access">Access</string>
+    <string name="category_analytics">Analytics</string>
     <string name="category_speed">Speed</string>
     <string name="category_caching">Caching</string>
     <string name="category_workers">Workers</string>
@@ -23,7 +23,7 @@
     <string name="info_dns">Manage your Domain Name System (DNS) settings</string>
     <string name="info_page_rules">Toggle on and off settings by URL</string>
     <string name="info_ssl">Manage cryptography settings for your website</string>
-    <string name="info_access">Manage access to your applications</string>
+    <string name="info_analytics">Gain an insight on your data</string>
     <string name="info_speed">Manage performance settings for your website</string>
     <string name="info_caching">Manage caching settings for your website</string>
     <string name="info_workers">Run JavaScript on the edge</string>
@@ -165,7 +165,7 @@
         <item>@string/cache_level_simplified</item>
         <item>@string/cache_level_aggressive</item>
     </string-array>
-    
+
     // Browser Cache TTL Options
     <string-array name="entries_browser_cache_ttl">
         <item>@string/ttl_respect_existing_headers</item>
@@ -191,5 +191,31 @@
         <item>@string/ttl_two_months</item>
         <item>@string/ttl_six_months</item>
         <item>@string/ttl_one_years</item>
+    </string-array>
+
+    // Analytics Dashboard Category Labels
+    <string name="analytics_dashboard_category_requests">Requests</string>
+    <string name="analytics_dashboard_category_bandwidth">Bandwidth</string>
+    <string name="analytics_dashboard_category_threats">Threats</string>
+    <string name="analytics_dashboard_category_pageviews">Pageviews</string>
+
+    // Analytics Dashboard Category Options
+    <string-array name="entries_analytics_dashboard_categories">
+        <item>@string/analytics_dashboard_category_requests</item>
+        <item>@string/analytics_dashboard_category_bandwidth</item>
+        <item>@string/analytics_dashboard_category_threats</item>
+        <item>@string/analytics_dashboard_category_pageviews</item>
+    </string-array>
+
+    // Analytics Dashboard Time Period Labels
+    <string name="analytics_dashboard_time_period_one_day">24 Hours</string>
+    <string name="analytics_dashboard_time_period_one_week">7 Days</string>
+    <string name="analytics_dashboard_time_period_one_month">30 Days</string>
+
+    // Analytics Dashboard Time Period Options
+    <string-array name="entries_analytics_dashboard_time_periods">
+        <item>@string/analytics_dashboard_time_period_one_day</item>
+        <item>@string/analytics_dashboard_time_period_one_week</item>
+        <item>@string/analytics_dashboard_time_period_one_month</item>
     </string-array>
 </resources>
