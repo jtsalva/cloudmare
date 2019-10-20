@@ -138,7 +138,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         )
     }
 
-    var analyticsDashboard: AnalyticsDashboard? = null
+    val cache = mutableMapOf<Int, AnalyticsDashboard>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,16 +181,16 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onSwipeRefresh() {
         super.onSwipeRefresh()
 
-        analyticsDashboard = null
+        cache.clear()
     }
 
     override fun render() = launch {
-        if (analyticsDashboard == null) {
+        if (!cache.containsKey(viewModel.timePeriod)) {
             val response = AnalyticsDashboardRequest(this).get(domain.id, since = viewModel.timePeriod)
             if (response.failure || response.result == null)
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-            else analyticsDashboard = response.result
+            else cache[viewModel.timePeriod] = response.result
         }
 
         totals_table.removeAllViews()
@@ -212,7 +212,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         analytics_view_group.visibility = View.VISIBLE
     }
 
-    private fun drawRequests() = with (analyticsDashboard!!) {
+    private fun drawRequests() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotal("All", totals.requests.all)
         drawTotal("Cached", totals.requests.cached)
         drawTotal("Uncached", totals.requests.uncached)
@@ -252,7 +252,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawBandwidth() = with (analyticsDashboard!!) {
+    private fun drawBandwidth() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotal("All", totals.bandwidth.all, "B")
         drawTotal("Cached", totals.bandwidth.cached, "B")
         drawTotal("Uncached", totals.bandwidth.uncached, "B")
@@ -294,7 +294,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawThreats() = with (analyticsDashboard!!) {
+    private fun drawThreats() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotal("Threats", totals.threats.all)
 
         val all = ArrayList<Entry>()
@@ -316,7 +316,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawPageviews() = with (analyticsDashboard!!) {
+    private fun drawPageviews() = with (cache.getValue(viewModel.timePeriod)) {
         drawTotal("Pageviews", totals.pageviews.all)
 
         val all = ArrayList<Entry>()
