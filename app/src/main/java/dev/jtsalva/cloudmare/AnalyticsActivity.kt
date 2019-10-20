@@ -190,9 +190,18 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             if (response.failure || response.result == null)
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-            else cache[viewModel.timePeriod] = response.result
+            else {
+                cache[viewModel.timePeriod] = response.result
+                drawGraph()
+            }
         }
 
+        else drawGraph()
+
+        showProgressBar = false
+    }
+
+    private fun drawGraph() {
         totals_table.removeAllViews()
 
         when (viewModel.category) {
@@ -208,7 +217,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
         viewModel.timePeriodSpinner.isEnabled = true
 
-        showProgressBar = false
         analytics_view_group.visibility = View.VISIBLE
     }
 
