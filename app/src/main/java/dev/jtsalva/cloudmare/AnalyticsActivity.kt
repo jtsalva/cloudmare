@@ -11,6 +11,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboard
@@ -39,6 +40,11 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     class MonthAxisValueFormatter : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String =
             value.toDateMonthAsString()
+    }
+
+    class YAxisValueFormatter : LargeValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String =
+            if (value >= 1000) super.getAxisLabel(value, axis) else value.toString()
     }
 
     data class CacheItem(
@@ -75,6 +81,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
         private val customYAxis: YAxis.() -> Unit = {
             textSize = AXIS_LABEL_TEXT_SIZE
+            valueFormatter = YAxisValueFormatter()
             setDrawGridLines(true)
             setDrawAxisLine(false)
             setDrawGridLinesBehindData(false)
