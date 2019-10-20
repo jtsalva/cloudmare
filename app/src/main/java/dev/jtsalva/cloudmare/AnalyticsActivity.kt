@@ -41,6 +41,11 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             value.toDateMonthAsString()
     }
 
+    data class CacheItem(
+        val analyticsDashboard: AnalyticsDashboard,
+        var lines: MutableMap<String, LineData> = mutableMapOf()
+    )
+
     companion object {
         private const val AXIS_LABEL_TEXT_SIZE = 15f
         private const val LEGEND_TEXT_SIZE = 18f
@@ -138,7 +143,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         )
     }
 
-    val cache = mutableMapOf<Int, AnalyticsDashboard>()
+    val cache = mutableMapOf<Int, CacheItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,7 +196,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
             else {
-                cache[viewModel.timePeriod] = response.result
+                cache[viewModel.timePeriod] = CacheItem(analyticsDashboard = response.result)
                 drawGraph()
             }
         }
@@ -221,128 +226,144 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun drawRequests() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("All", totals.requests.all)
-        drawTotal("Cached", totals.requests.cached)
-        drawTotal("Uncached", totals.requests.uncached)
+        drawTotal("All", analyticsDashboard.totals.requests.all)
+        drawTotal("Cached", analyticsDashboard.totals.requests.cached)
+        drawTotal("Uncached", analyticsDashboard.totals.requests.uncached)
 
-        val all = ArrayList<Entry>()
-        val cached = ArrayList<Entry>()
-        val uncached = ArrayList<Entry>()
-        val dataSets = ArrayList<ILineDataSet>()
+        if (!lines.containsKey("requests")) {
+            val all = ArrayList<Entry>()
+            val cached = ArrayList<Entry>()
+            val uncached = ArrayList<Entry>()
+            val dataSets = ArrayList<ILineDataSet>()
 
-        timeSeries.forEach { data ->
-            val time = data.since.toDate().time.toFloat()
-            all.add(Entry(time, data.requests.all.toFloat()))
-            cached.add(Entry(time, data.requests.cached.toFloat()))
-            uncached.add(Entry(time, data.requests.uncached.toFloat()))
+            analyticsDashboard.timeSeries.forEach { data ->
+                val time = data.since.toDate().time.toFloat()
+                all.add(Entry(time, data.requests.all.toFloat()))
+                cached.add(Entry(time, data.requests.cached.toFloat()))
+                uncached.add(Entry(time, data.requests.uncached.toFloat()))
+            }
+
+            y_axis_title.text = "Number of Requests"
+
+            dataSets.add(
+                LineDataSet(all, "All").apply(customLineDataSet())
+            )
+
+            dataSets.add(
+                LineDataSet(cached, "Cached").apply(
+                    customLineDataSet(R.color.colorBlue)
+                )
+            )
+
+            dataSets.add(
+                LineDataSet(uncached, "Uncached").apply(
+                    customLineDataSet(R.color.colorRed)
+                )
+            )
+
+            lines["requests"] = LineData(dataSets)
         }
 
-        y_axis_title.text = "Number of Requests"
-
-        dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet())
-        )
-
-        dataSets.add(
-            LineDataSet(cached, "Cached").apply(
-                customLineDataSet(R.color.colorBlue)
-            )
-        )
-
-        dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(
-                customLineDataSet(R.color.colorRed)
-            )
-        )
-
-        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
-            data = LineData(dataSets)
+        analytics_chart.apply(customChart(lines.getValue("requests").entryCount, autoFormatter())).apply {
+            data = lines.getValue("requests")
         }
     }
 
     private fun drawBandwidth() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("All", totals.bandwidth.all, "B")
-        drawTotal("Cached", totals.bandwidth.cached, "B")
-        drawTotal("Uncached", totals.bandwidth.uncached, "B")
+        drawTotal("All", analyticsDashboard.totals.bandwidth.all, "B")
+        drawTotal("Cached", analyticsDashboard.totals.bandwidth.cached, "B")
+        drawTotal("Uncached", analyticsDashboard.totals.bandwidth.uncached, "B")
 
-        val all = ArrayList<Entry>()
-        val cached = ArrayList<Entry>()
-        val uncached = ArrayList<Entry>()
-        val dataSets = ArrayList<ILineDataSet>()
+        if (!lines.containsKey("bandwidth")) {
+            val all = ArrayList<Entry>()
+            val cached = ArrayList<Entry>()
+            val uncached = ArrayList<Entry>()
+            val dataSets = ArrayList<ILineDataSet>()
 
-        timeSeries.forEach { data ->
-            val time = data.since.toDate().time.toFloat()
-            all.add(Entry(time, data.bandwidth.all.toFloat()))
-            cached.add(Entry(time, data.bandwidth.cached.toFloat()))
-            uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
+            analyticsDashboard.timeSeries.forEach { data ->
+                val time = data.since.toDate().time.toFloat()
+                all.add(Entry(time, data.bandwidth.all.toFloat()))
+                cached.add(Entry(time, data.bandwidth.cached.toFloat()))
+                uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
+            }
+
+            y_axis_title.text = "Bandwidth Usage (Bytes)"
+
+            dataSets.add(
+                LineDataSet(all, "All").apply(
+                    customLineDataSet()
+                )
+            )
+
+            dataSets.add(
+                LineDataSet(cached, "Cached").apply(
+                    customLineDataSet(R.color.colorBlue)
+                )
+            )
+
+            dataSets.add(
+                LineDataSet(uncached, "Uncached").apply(
+                    customLineDataSet(R.color.colorRed)
+                )
+            )
+
+            lines["bandwidth"] = LineData(dataSets)
         }
 
-        y_axis_title.text = "Bandwidth Usage (Bytes)"
-
-        dataSets.add(
-            LineDataSet(all, "All").apply(
-                customLineDataSet()
-            )
-        )
-
-        dataSets.add(
-            LineDataSet(cached, "Cached").apply(
-                customLineDataSet(R.color.colorBlue)
-            )
-        )
-
-        dataSets.add(
-            LineDataSet(uncached, "Uncached").apply(
-                customLineDataSet(R.color.colorRed)
-            )
-        )
-
-        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
-            data = LineData(dataSets)
+        analytics_chart.apply(customChart(lines.getValue("bandwidth").entryCount, autoFormatter())).apply {
+            data = lines.getValue("bandwidth")
         }
     }
 
     private fun drawThreats() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("Threats", totals.threats.all)
+        drawTotal("Threats", analyticsDashboard.totals.threats.all)
 
-        val all = ArrayList<Entry>()
-        val dataSets = ArrayList<ILineDataSet>()
+        if (!lines.containsKey("threats")) {
+            val all = ArrayList<Entry>()
+            val dataSets = ArrayList<ILineDataSet>()
 
-        timeSeries.forEach { data ->
-            val time = data.since.toDate().time.toFloat()
-            all.add(Entry(time, data.threats.all.toFloat()))
+            analyticsDashboard.timeSeries.forEach { data ->
+                val time = data.since.toDate().time.toFloat()
+                all.add(Entry(time, data.threats.all.toFloat()))
+            }
+
+            y_axis_title.text = "Number of Threats"
+
+            dataSets.add(
+                LineDataSet(all, "All").apply(customLineDataSet())
+            )
+
+            lines["threats"] = LineData(dataSets)
         }
 
-        y_axis_title.text = "Number of Threats"
-
-        dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet())
-        )
-
-        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
-            data = LineData(dataSets)
+        analytics_chart.apply(customChart(lines.getValue("threats").entryCount, autoFormatter())).apply {
+            data = lines.getValue("threats")
         }
     }
 
     private fun drawPageviews() = with (cache.getValue(viewModel.timePeriod)) {
-        drawTotal("Pageviews", totals.pageviews.all)
+        drawTotal("Pageviews", analyticsDashboard.totals.pageviews.all)
 
-        val all = ArrayList<Entry>()
-        val dataSets = ArrayList<ILineDataSet>()
+        if (!lines.containsKey("pageviews")) {
+            val all = ArrayList<Entry>()
+            val dataSets = ArrayList<ILineDataSet>()
 
-        timeSeries.forEach { data ->
-            val time = data.since.toDate().time.toFloat()
-            all.add(Entry(time, data.pageviews.all.toFloat()))
+            analyticsDashboard.timeSeries.forEach { data ->
+                val time = data.since.toDate().time.toFloat()
+                all.add(Entry(time, data.pageviews.all.toFloat()))
+            }
+
+            y_axis_title.text = "Number of Pageviews"
+
+            dataSets.add(
+                LineDataSet(all, "All").apply(customLineDataSet())
+            )
+
+            lines["pageviews"] = LineData(dataSets)
         }
 
-        y_axis_title.text = "Number of Pageviews"
-
-        dataSets.add(
-            LineDataSet(all, "All").apply(customLineDataSet())
-        )
-
-        analytics_chart.apply(customChart(all.size, autoFormatter())).apply {
-            data = LineData(dataSets)
+        analytics_chart.apply(customChart(lines.getValue("pageviews").entryCount, autoFormatter())).apply {
+            data = lines.getValue("pageviews")
         }
     }
 }
