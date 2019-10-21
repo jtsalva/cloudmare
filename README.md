@@ -6,6 +6,8 @@ Simple & Quick Cloudflare tool for:
  
  * Managing DNS records
  
+ * View Analytics
+
  * Toggle Page Rules
  
  * Manage SSL Settings
