@@ -44,7 +44,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
     class YAxisValueFormatter : LargeValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String =
-            if (value >= 1000) super.getAxisLabel(value, axis) else value.toString()
+            if (value >= 1000) super.getAxisLabel(value, axis)
+            else Y_AXIS_TWO_DECIMAL_PLACES_FORMATTER.format(value)
     }
 
     data class CacheItem(
@@ -58,6 +59,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         private const val LINE_WIDTH = 4f
         private const val X_AXIS_LABEL_ROTATION = -45f
         private const val MAX_NUM_OF_X_AXIS_LABELS = 7
+
+        private const val Y_AXIS_TWO_DECIMAL_PLACES_FORMATTER = "%.2f"
 
         private val LAST_TWENTY_FOUR_HOURS = -900 downTo -4319
         private val LAST_WEEK = -4320 downTo -10080
