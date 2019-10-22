@@ -68,17 +68,19 @@ class AnalyticsViewModel(
         set(value) {
             if (value != field) {
                 field = value
-                activity.render()
+                activity.drawGraph()
             }
         }
 
     var timePeriod: Int = TIME_PERIOD_ONE_DAY
         set(value) {
-            if (value != field) {
+            if (value != field) with (activity) {
                 val oldValue = field
                 field = value
 
-                if (!activity.cache.containsKey(value)) AnalyticsDashboardRequest(activity).launch {
+                if (cache.containsKey(value)) drawGraph()
+
+                else AnalyticsDashboardRequest(activity).launch {
                     timePeriodSpinner.isEnabled = false
 
                     val response = get(domain.id, since = field)
@@ -86,26 +88,22 @@ class AnalyticsViewModel(
                         field = oldValue
 
                         timePeriodSpinner.setSelection(
-                            activity.timePeriodAdapter.getPosition(
+                            timePeriodAdapter.getPosition(
                                 timePeriodTranslator.getReadable(
                                     oldValue
                                 )
                             )
                         )
 
-                        activity.dialog.error(message = response.firstErrorMessage)
+                        dialog.error(message = response.firstErrorMessage)
                     }
 
-                    else {
-                        activity.cache[field] =
-                            AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
-                    }
+                    else cache[field] =
+                        AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
 
                     timePeriodSpinner.isEnabled = true
-                    activity.render()
+                    drawGraph()
                 }
-
-                else activity.render()
             }
         }
 
