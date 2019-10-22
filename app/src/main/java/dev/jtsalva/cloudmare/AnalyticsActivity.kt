@@ -107,7 +107,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun customLineDataSet(lineColor: Int = R.color.colorPrimary): LineDataSet.() -> Unit = {
+    private fun customLineDataSet(lineColor: Int): LineDataSet.() -> Unit = {
         setColors(intArrayOf(lineColor), this@AnalyticsActivity)
         lineWidth = LINE_WIDTH
         setDrawValues(false)
@@ -261,7 +261,9 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             }
 
             dataSets.add(
-                LineDataSet(all, "All").apply(customLineDataSet())
+                LineDataSet(all, "All").apply(
+                    customLineDataSet(R.color.colorPrimary)
+                )
             )
 
             dataSets.add(
@@ -309,7 +311,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
             dataSets.add(
                 LineDataSet(all, "All").apply(
-                    customLineDataSet()
+                    customLineDataSet(R.color.colorPrimary)
                 )
             )
 
@@ -348,7 +350,9 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             }
 
             dataSets.add(
-                LineDataSet(all, "All").apply(customLineDataSet())
+                LineDataSet(all, "All").apply(
+                    customLineDataSet(R.color.colorPrimary)
+                )
             )
 
             lines[AnalyticsViewModel.CATEGORY_THREATS] = LineData(dataSets)
@@ -374,7 +378,9 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             }
 
             dataSets.add(
-                LineDataSet(all, "All").apply(customLineDataSet())
+                LineDataSet(all, "All").apply(
+                    customLineDataSet(R.color.colorPrimary)
+                )
             )
 
             lines[AnalyticsViewModel.CATEGORY_PAGEVIEWS] = LineData(dataSets)
