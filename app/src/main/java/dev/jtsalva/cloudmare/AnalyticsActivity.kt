@@ -204,24 +204,18 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         cache.clear()
     }
 
-    override fun render() = launch {
-        if (!cache.containsKey(viewModel.timePeriod)) {
-            val response = AnalyticsDashboardRequest(this).get(domain.id, since = viewModel.timePeriod)
-            if (response.failure || response.result == null)
-                dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
+    override fun render() = AnalyticsDashboardRequest(this).launch {
+        val response = get(domain.id, since = viewModel.timePeriod)
+        if (response.failure || response.result == null)
+            dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-            else {
-                cache[viewModel.timePeriod] = CacheItem(analyticsDashboard = response.result)
-                drawGraph()
-            }
+        else {
+            cache[viewModel.timePeriod] = CacheItem(analyticsDashboard = response.result)
+            drawGraph()
         }
-
-        else drawGraph()
-
-        showProgressBar = false
     }
 
-    private fun drawGraph() {
+    fun drawGraph() {
         totals_table.removeAllViews()
 
         when (viewModel.category) {
@@ -238,6 +232,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         viewModel.timePeriodSpinner.isEnabled = true
 
         analytics_view_group.visibility = View.VISIBLE
+
+        showProgressBar = false
     }
 
     private fun drawRequests() = with (cache.getValue(viewModel.timePeriod)) {
