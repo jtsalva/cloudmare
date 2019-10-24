@@ -27,7 +27,7 @@ class AnalyticsViewModel(
         const val TIME_PERIOD_THIRTY_DAYS = -43200
     }
 
-    val timePeriodSpinner by lazy {
+    val timePeriodSpinner: Spinner by lazy {
         activity.findViewById<Spinner>(R.id.time_period_spinner)
     }
 
