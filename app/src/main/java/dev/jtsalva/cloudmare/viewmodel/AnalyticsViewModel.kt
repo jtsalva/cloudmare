@@ -40,9 +40,6 @@ class AnalyticsViewModel(
                 CATEGORY_PAGEVIEWS to getString(R.string.analytics_dashboard_category_pageviews)
             )
 
-            fun getReadable(id: String): String =
-                idToReadable.getValue(id)
-
             fun getId(readable: String): String =
                 idToReadable.filterValues { it == readable }.keys.first()
         }

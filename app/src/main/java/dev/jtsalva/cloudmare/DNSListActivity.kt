@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
-import dev.jtsalva.cloudmare.api.dns.DNSRecord.Companion.SORT_BY_PROXIED
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
 import kotlinx.android.synthetic.main.activity_dns_list.*
@@ -182,7 +181,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             domain.id,
             order = sortBy,
             direction =
-                if (sortBy == SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
+                if (sortBy == DNSRecord.SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
                 else Request.DIRECTION_ASCENDING
         )
         if (response.failure || response.result == null)

@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch as coLaunch
 
 abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
-    protected lateinit var job: Job
+    private lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
