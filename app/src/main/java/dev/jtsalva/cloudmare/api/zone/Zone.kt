@@ -41,8 +41,7 @@ data class Zone(
         parcel.createStringArrayListOrBlank(),
         parcel.createStringArrayListOrBlank(),
         parcel.readStringOrBlank()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
