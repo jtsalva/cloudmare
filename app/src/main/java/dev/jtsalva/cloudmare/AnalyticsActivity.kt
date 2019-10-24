@@ -1,5 +1,6 @@
 package dev.jtsalva.cloudmare
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -114,6 +115,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         setDrawCircles(false)
     }
 
+    @SuppressLint("InflateParams")
     private inline fun totalsTemplate(label: String, value: String): View =
         layoutInflater.inflate(R.layout.analytics_dashboard_totals_item, null).apply {
             val labelTextView = findViewById<TextView>(R.id.label)
