@@ -59,6 +59,7 @@
                         android:hint="Name"
                         android:text="@={viewModel.name}"
                         android:textSize="24dp"
+                        android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.504"
                         app:layout_constraintStart_toStartOf="parent"
