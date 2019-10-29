@@ -280,7 +280,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         val requestsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_REQUESTS)
-        y_axis_title.text = "Num of Requests"
+        y_axis_title.text = getString(R.string.analytics_axis_title_requests)
         analytics_chart.apply(customChart(requestsLineData.entryCount, autoFormatter())).apply {
             data = requestsLineData
         }
@@ -329,7 +329,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         val bandwidthLineData = lines.getValue(AnalyticsViewModel.CATEGORY_BANDWIDTH)
-        y_axis_title.text = "Bandwidth (Bytes)"
+        y_axis_title.text = getString(R.string.analytics_axis_title_bandwidth)
         analytics_chart.apply(customChart(bandwidthLineData.entryCount, autoFormatter())).apply {
             data = bandwidthLineData
         }
@@ -357,7 +357,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         val threatsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_THREATS)
-        y_axis_title.text = "Num of Threats"
+        y_axis_title.text = getString(R.string.analytics_axis_title_threats)
         analytics_chart.apply(customChart(threatsLineData.entryCount, autoFormatter())).apply {
             data = threatsLineData
         }
@@ -385,7 +385,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         val pageviewsLineData = lines.getValue(AnalyticsViewModel.CATEGORY_PAGEVIEWS)
-        y_axis_title.text = "Num of Pageviews"
+        y_axis_title.text = getString(R.string.analytics_axis_title_pageviews)
         analytics_chart.apply(customChart(pageviewsLineData.entryCount, autoFormatter())).apply {
             data = pageviewsLineData
         }

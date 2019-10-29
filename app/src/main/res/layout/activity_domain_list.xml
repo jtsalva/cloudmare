@@ -18,7 +18,7 @@
             android:id="@+id/non_found_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No domains found"
+            android:text="@string/domain_list_none_found"
             android:textSize="20dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

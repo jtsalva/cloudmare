@@ -23,6 +23,15 @@
     <string name="info_analytics">Gain an insight on your data</string>
     <string name="info_caching">Manage caching settings for your website</string>
 
+    // Caching Activity
+    <string name="caching_level_title">Caching Level</string>
+    <string name="caching_level_info">Determine how much of your website’s static content you want Cloudflare to cache. Increased caching can speed up page load time.</string>
+    <string name="caching_expiration_title">Browser Cache Expiration</string>
+    <string name="caching_expiration_info">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</string>
+
+    // DNS List Activity
+    <string name="dns_list_none_found">No dns records found</string>
+
     // DNS Record Type Labels
     <string name="type_a">A</string>
     <string name="type_aaaa">AAAA</string>
@@ -66,6 +75,44 @@
         <item>@string/type_tlsa</item>
         <item>@string/type_uri</item>
     </string-array>
+
+    // DNS Record Activity
+    <string name="dns_record_type">Type</string>
+    <string name="dns_record_name">Name</string>
+    <string name="dns_record_content">Content</string>
+    <string name="dns_record_ttl">TTL</string>
+    <string name="dns_record_priority">Priority</string>
+    <string name="dns_record_priority_hint">0 to 65535</string>
+
+    // Domain List Activity
+    <string name="domain_list_none_found">No domains found</string>
+
+    // Page Rules Activity
+    <string name="page_rules_none_found">No page rules found</string>
+
+    // SSL Activity
+    <string name="ssl_encryption_mode">SSL Encryption Mode</string>
+
+    // User Activity
+    <string name="user_cloudflare_email">Cloudflare Email</string>
+    <string name="user_cloudflare_global_api_key">Global API Key</string>
+    <string name="user_save">SAVE</string>
+    <string name="user_instructions">To get Global API Key go to \'My Profile\' on the Cloudflare website and click on \'view\' under \'Global API Key\'</string>
+    <string name="user_cloudflare_email_label">Email</string>
+    <string name="user_api_key">API Key</string>
+    
+    // Menu
+    <string name="menu_user">User</string>
+    <string name="menu_sort_by">Sort By</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_add">Add</string>
+    
+    // Analytics Activity Axis Titles
+    <string name="analytics_axis_title_requests">Num of Requests</string>
+    <string name="analytics_axis_title_bandwidth">Bandwidth (Bytes)</string>
+    <string name="analytics_axis_title_threats">Num of Threats</string>
+    <string name="analytics_axis_title_pageviews">Num of Pageviews</string>
 
     // TTL Labels
     <string name="ttl_respect_existing_headers">Respect Existing Headers</string>
