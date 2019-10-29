@@ -17,7 +17,7 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/email_input"
-            android:hint="Cloudflare Email"
+            android:hint="@string/user_cloudflare_email"
             android:textSize="24dp" android:layout_marginTop="45dp"
             android:autofillHints="email"
             android:importantForAutofill="auto"
@@ -32,7 +32,7 @@
             android:ems="10"
             android:maxLength="37"
             android:id="@+id/api_key_input"
-            android:hint="Global API Key"
+            android:hint="@string/user_cloudflare_global_api_key"
             android:textSize="24dp" android:layout_marginTop="40dp"
             android:autofillHints="password"
             android:importantForAutofill="auto"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:targetApi="o" />
     <Button
-            android:text="SAVE"
+            android:text="@string/user_save"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:id="@+id/save_button"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
-            android:text="To get Global API Key go to 'My Profile' on the Cloudflare website and click on 'view' under 'Global API Key'"
+            android:text="@string/user_instructions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/info" android:textSize="16dp"
@@ -60,14 +60,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
     <TextView
-            android:text="Email"
+            android:text="@string/user_cloudflare_email_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/email_input"
             android:textSize="24dp" app:layout_constraintStart_toStartOf="@+id/email_input"
     />
     <TextView
-            android:text="API Key"
+            android:text="@string/user_api_key"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/api_key_input"

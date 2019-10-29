@@ -50,7 +50,7 @@
                                 android:layout_height="match_parent"
                                 android:textColor="#000"
                                 android:textSize="24dp"
-                                android:text="Caching Level"
+                                android:text="@string/caching_level_title"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +67,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:textSize="16dp"
-                                android:text="Determine how much of your website’s static content you want Cloudflare to cache. Increased caching can speed up page load time."
+                                android:text="@string/caching_level_info"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/cache_level_spinner" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -80,7 +80,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="10dp"
-                                android:text="Browser Cache Expiration"
+                                android:text="@string/caching_expiration_title"
                                 android:textColor="#000"
                                 android:textSize="24dp"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:paddingBottom="10dp"
-                                android:text="Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads."
+                                android:text="@string/caching_expiration_info"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/browser_cache_ttl_spinner" />

@@ -51,7 +51,7 @@
                                 android:layout_height="match_parent"
                                 android:textColor="#000"
                                 android:textSize="24dp"
-                                android:text="SSL Encryption Mode"
+                                android:text="@string/ssl_encryption_mode"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
