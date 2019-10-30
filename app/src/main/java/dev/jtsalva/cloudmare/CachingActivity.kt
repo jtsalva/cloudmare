@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
+import dev.jtsalva.cloudmare.api.zonesettings.PurgeCacheRequest
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSettingRequest
 import dev.jtsalva.cloudmare.databinding.ActivityCachingBindingImpl
@@ -43,6 +44,8 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
         binding = setLayoutBinding(R.layout.activity_caching)
 
         setToolbarTitle("${domain.name} | Caching")
+
+        setOnClickListeners()
     }
 
     override fun onStart() {
@@ -101,5 +104,28 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         showProgressBar = false
+    }
+
+    private fun setOnClickListeners() {
+        purge_everything_item.setOnClickListener {
+            handlePurgeEverything()
+        }
+    }
+
+    private fun handlePurgeEverything() {
+        dialog.confirm(message = "This will purge all cache") { confirmed ->
+            if (confirmed) {
+                dialog.loading(title = "Purging...")
+                PurgeCacheRequest(this).launch {
+                    val response = purgeAll(domain.id)
+                    if (response.success) Dialog.dismissOpenDialog(hashCode())
+                    else dialog.error(
+                        title = "Couldn't purge cache",
+                        message = response.firstErrorMessage,
+                        positive = "Okay"
+                    )
+                }
+            }
+        }
     }
 }
