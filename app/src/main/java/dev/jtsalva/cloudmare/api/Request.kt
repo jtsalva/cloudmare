@@ -27,6 +27,8 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
         const val ORDER_STATUS = "status"
         const val ORDER_PRIORITY = "priority"
+
+        const val CHARSET = "UTF-8"
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -64,7 +66,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
             try {
                 val res = String(
                     response.data,
-                    Charset.forName(HttpHeaderParser.parseCharset(response.headers, "UTF-8"))
+                    Charset.forName(HttpHeaderParser.parseCharset(response.headers, CHARSET))
                 )
                 Timber.e("Error Response: $res")
                 callback(JSONObject(res))
