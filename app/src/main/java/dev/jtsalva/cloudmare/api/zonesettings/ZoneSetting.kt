@@ -23,7 +23,6 @@ data class ZoneSetting(
         const val ID_OPPORTUNISTIC_ENCRYPTION = "opportunistic_encryption"
         const val ID_OPPORTUNISTIC_ONION = "opportunistic_onion"
         const val ID_AUTOMATIC_HTTPS_REWRITES = "automatic_https_rewrites"
-
         const val ID_CACHE_LEVEL = "cache_level"
         const val ID_ALWAYS_ONLINE = "always_online"
         const val ID_BROWSER_CACHE_TTL = "browser_cache_ttl"
@@ -40,6 +39,15 @@ data class ZoneSetting(
         const val CACHE_LEVEL_BASIC = "basic"
         const val CACHE_LEVEL_SIMPLIFIED = "simplified"
         const val CACHE_LEVEL_AGGRESSIVE = "aggressive"
+
+        fun alwaysOnline(value: String) = ZoneSetting(ID_ALWAYS_ONLINE, value)
+        fun browserCacheTtl(value: Int) = ZoneSetting(ID_BROWSER_CACHE_TTL, value)
+        fun cacheLevel(value: String) = ZoneSetting(ID_CACHE_LEVEL, value)
+        fun alwaysUseHttps(value: String) = ZoneSetting(ID_ALWAYS_USE_HTTPS, value)
+        fun automaticHttpsRewrites(value: String) = ZoneSetting(ID_AUTOMATIC_HTTPS_REWRITES, value)
+        fun opportunisticEncryption(value: String) = ZoneSetting(ID_OPPORTUNISTIC_ENCRYPTION, value)
+        fun opportunisticOnion(value: String) = ZoneSetting(ID_OPPORTUNISTIC_ONION, value)
+        fun ssl(value: String) = ZoneSetting(ID_SSL, value)
     }
 
     class SSLModeTranslator(activity: CloudMareActivity) {
