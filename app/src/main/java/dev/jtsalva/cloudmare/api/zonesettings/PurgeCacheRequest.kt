@@ -10,11 +10,11 @@ import kotlin.coroutines.suspendCoroutine
 class PurgeCacheRequest(context: CloudMareActivity) : Request<PurgeCacheRequest>(context) {
 
     suspend fun purgeAll(zoneId: String) = suspendCoroutine<PurgeCacheResponse> { cont ->
-        val data = JSONObject()
-        data.put("purge_everything", true)
+        val payload = JSONObject()
+        payload.put("purge_everything", true)
 
-        requestTAG = GET
-        get("zones/$zoneId/purge_cache", data) {
+        requestTAG = POST
+        post("zones/$zoneId/purge_cache", payload) {
             cont.resume(
                 getAdapter(PurgeCacheResponse::class).
                     fromJson(it.toString()) ?: PurgeCacheResponse(success = false)
