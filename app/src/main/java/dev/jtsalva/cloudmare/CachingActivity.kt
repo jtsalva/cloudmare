@@ -113,12 +113,12 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private fun handlePurgeEverything() {
-        dialog.confirm(message = "This will purge all cache") { confirmed ->
+        dialog.confirm(message = "This may have dramatic affects on your origin server load after performing this action.") { confirmed ->
             if (confirmed) {
                 dialog.loading(title = "Purging...")
                 PurgeCacheRequest(this).launch {
                     val response = purgeAll(domain.id)
-                    if (response.success) Dialog.dismissOpenDialog(hashCode())
+                    if (response.success) Dialog.dismissOpenDialog(this@CachingActivity.hashCode())
                     else dialog.error(
                         title = "Couldn't purge cache",
                         message = response.firstErrorMessage,
