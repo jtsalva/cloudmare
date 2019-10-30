@@ -12,7 +12,7 @@ abstract class Pagination(private val activity: CloudMareActivity,
             field = value
         }
 
-    private val reachedBottom: Boolean get() =
+    private inline val reachedBottom: Boolean get() =
         (recyclerView.layoutManager as LinearLayoutManager).run {
             (childCount + findFirstVisibleItemPosition()) >= itemCount
         }
