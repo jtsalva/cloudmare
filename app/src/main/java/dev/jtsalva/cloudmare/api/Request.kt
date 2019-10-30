@@ -18,6 +18,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
         const val CREATE = "create"
         const val GET = "get"
         const val LIST = "list"
+        const val POST = "post"
         const val UPDATE = "update"
         const val DELETE = "delete"
 

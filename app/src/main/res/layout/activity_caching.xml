@@ -110,7 +110,13 @@
                             android:id="@+id/always_online_item"
                             app:checked="@={viewModel.alwaysOnline}"
                             app:info="If your server goes down, Cloudflare will serve your website’s static pages from their cache."
-                            app:title="Always Online™"/>
+                            app:title="Always Online™" />
+
+                    <dev.jtsalva.cloudmare.view.ButtonOptionView
+                            android:id="@+id/purge_everything_item"
+                            android:paddingTop="10dp"
+                            app:info="Clear cached files to force Cloudflare to fetch a fresh version of those files from your web server."
+                            app:title="Purge Everything" />
 
                 </TableLayout>
 
