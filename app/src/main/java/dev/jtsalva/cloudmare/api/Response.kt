@@ -30,9 +30,10 @@ open class Response(
         // Intercept and replace user obscure error messages
         // TODO: find more messages and make them more understandable
         when (code) {
-            6103 -> "Invalid api key format"
-            9103 -> "Invalid email or api key"
+            6102, 6103 -> "Invalid email or api key format"
             9041 -> "This DNS record cannot be proxied"
+            9103 -> "Invalid email or api key"
+            9106, 9107 -> "Missing email or api key"
             else -> message.fit(100)
         }
     }
