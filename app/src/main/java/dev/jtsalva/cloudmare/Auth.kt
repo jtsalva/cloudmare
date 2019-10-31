@@ -22,8 +22,7 @@ object Auth {
 
     var apiToken = ""
 
-    val isSet: Boolean get() = usingApiKey || usingApiToken
-    val notSet: Boolean get() = !isSet
+    val notSet: Boolean get() = !(usingApiKey || usingApiToken)
 
     private inline val usingApiKey: Boolean get() = email != "" && apiKey != ""
     private inline val usingApiToken: Boolean get() = apiToken != ""
