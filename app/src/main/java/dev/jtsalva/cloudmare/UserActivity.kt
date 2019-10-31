@@ -22,10 +22,8 @@ class UserActivity : CloudMareActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (Auth.isSet) {
-            email_input.setText(Auth.email)
-            api_key_input.setText(Auth.apiKey)
-        }
+        email_input.setText(Auth.email)
+        api_key_input.setText(Auth.apiKey)
     }
 
     @Suppress("UNUSED_PARAMETER")
