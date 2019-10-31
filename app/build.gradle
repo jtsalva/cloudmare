@@ -13,8 +13,8 @@ android {
         applicationId "dev.jtsalva.cloudmare"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 26
-        versionName "Cumulonimbus"
+        versionCode 32
+        versionName "Cumulonimbus+"
     }
     buildTypes {
         release {
