@@ -10,46 +10,56 @@
     <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
-    />
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
     <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
             android:id="@+id/email_input"
-            android:hint="@string/user_cloudflare_email"
-            android:textSize="24dp" android:layout_marginTop="45dp"
-            android:autofillHints="email"
-            android:importantForAutofill="auto"
-            app:layout_constraintTop_toBottomOf="@+id/info" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:targetApi="o" />
-    <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:gravity="start|top"
+            android:autofillHints="email"
             android:ems="10"
-            android:maxLength="37"
-            android:id="@+id/api_key_input"
-            android:hint="@string/user_cloudflare_global_api_key"
-            android:textSize="24dp" android:layout_marginTop="40dp"
-            android:autofillHints="password"
+            android:visibility="gone"
+            android:hint="@string/user_cloudflare_email"
             android:importantForAutofill="auto"
-            app:layout_constraintTop_toBottomOf="@+id/email_input" app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textEmailAddress"
+            android:textSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_label"
             tools:targetApi="o" />
+
+    <EditText
+            android:id="@+id/api_key_or_token_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/user_cloudflare_global_api_key_or_token"
+            android:importantForAutofill="auto"
+            android:inputType="textMultiLine"
+            android:maxLength="40"
+            android:textSize="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/api_key_label"
+            tools:targetApi="o" />
+
     <Button
-            android:text="@string/user_save"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:id="@+id/save_button"
-            android:textColor="#FFF"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button"
+            android:text="@string/user_save"
+            android:textColor="#FFF"
             android:textSize="24dp"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/api_key_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/email_input" />
+
     <TextView
             android:text="@string/user_instructions"
             android:layout_width="0dp"
@@ -59,20 +69,27 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+
     <TextView
+            android:id="@+id/email_label"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/user_cloudflare_email_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/email_input"
-            android:textSize="24dp" app:layout_constraintStart_toStartOf="@+id/email_input"
-    />
+            android:textSize="24dp"
+            app:layout_constraintStart_toStartOf="@+id/email_input"
+            app:layout_constraintTop_toBottomOf="@+id/api_key_or_token_input" />
+
     <TextView
-            android:text="@string/user_api_key"
+            android:id="@+id/api_key_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/api_key_input"
-            android:textSize="24dp" app:layout_constraintStart_toStartOf="@+id/api_key_input"
-    />
+            android:layout_marginTop="16dp"
+            android:text="@string/user_api_key_or_token_label"
+            android:textSize="24dp"
+            app:layout_constraintStart_toStartOf="@+id/api_key_or_token_input"
+            app:layout_constraintTop_toBottomOf="@+id/info" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
