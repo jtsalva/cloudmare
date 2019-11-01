@@ -95,12 +95,14 @@
 
     // User Activity
     <string name="user_cloudflare_email">Cloudflare Email</string>
-    <string name="user_cloudflare_global_api_key">Global API Key</string>
+    <string name="user_cloudflare_global_api_key_or_token">Token or Global API Key</string>
     <string name="user_save">SAVE</string>
     <string name="user_instructions">To get Global API Key go to \'My Profile\' on the Cloudflare website and click on \'view\' under \'Global API Key\'</string>
     <string name="user_cloudflare_email_label">Email</string>
-    <string name="user_api_key">API Key</string>
-    
+    <string name="user_api_key_or_token_label">API Token or Key</string>
+    <string name="user_api_key_label">API Key</string>
+    <string name="user_api_token_label">API Token</string>
+
     // Menu
     <string name="menu_user">User</string>
     <string name="menu_sort_by">Sort By</string>
