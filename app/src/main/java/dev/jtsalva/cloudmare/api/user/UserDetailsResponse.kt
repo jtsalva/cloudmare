@@ -7,6 +7,6 @@ import dev.jtsalva.cloudmare.api.Response
 class UserDetailsResponse(
     success: Boolean,
     errors: List<Error> = emptyList(),
-    messages: List<String> = emptyList(),
+    messages: List<Message> = emptyList(),
     override val result: UserDetails? = null
 ) : Response(success, errors, messages)

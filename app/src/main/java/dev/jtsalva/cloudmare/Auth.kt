@@ -5,24 +5,43 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import timber.log.Timber
 
 object Auth {
     private const val SHARED_PREFS_FILENAME = "dev.jtsalva.cloudmare.eprefs"
+    private const val EMAIL_PREFS = "email"
+    private const val API_KEY_PREFS = "api_key"
+    private const val API_TOKEN_PREFS = "api_token"
+
+    private val CONTENT_TYPE_HEADER = "Content-Type" to "application/json"
+
+    private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     var email = ""
     var apiKey = ""
 
-    val isSet: Boolean get() = !notSet
-    val notSet: Boolean get() = email == "" || apiKey == ""
+    var apiToken = ""
+
+    val notSet: Boolean get() = !(usingApiKey || usingApiToken)
+
+    inline val usingApiKey: Boolean get() = email != "" && apiKey != ""
+    private inline val usingApiToken: Boolean get() = apiToken != ""
 
     val headers: MutableMap<String, String> get() =
-        mutableMapOf(
-            "Content-Type" to "application/json",
-            "X-Auth-Email" to email,
-            "X-Auth-Key" to apiKey
-        )
+        mutableMapOf(CONTENT_TYPE_HEADER).apply {
+            when {
+                usingApiKey -> {
+                    put("X-Auth-Email", email)
+                    put("X-Auth-Key", apiKey)
+                }
+                usingApiToken -> {
+                    put("Authorization", "Bearer $apiToken")
+                }
 
-    private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+                else ->
+                    Timber.e("Neither apiKey or apiToken authorization methods are set!")
+            }
+        }
 
     private fun getPrefs(context: Context): SharedPreferences =
         EncryptedSharedPreferences.create(
@@ -33,16 +52,16 @@ object Auth {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
 
-    fun load(context: Context) {
-        val preferences = getPrefs(context)
-
-        email = preferences.getString("email", null) ?: ""
-        apiKey = preferences.getString("api_key", null) ?: ""
+    fun load(context: Context) = with (getPrefs(context)) {
+        email = getString(EMAIL_PREFS, null) ?: ""
+        apiKey = getString(API_KEY_PREFS, null) ?: ""
+        apiToken = getString(API_TOKEN_PREFS, null) ?: ""
     }
 
     fun save(context: Context) =
         getPrefs(context).edit(commit = true) {
-            putString("email", email)
-            putString("api_key", apiKey)
+            putString(EMAIL_PREFS, email)
+            putString(API_KEY_PREFS, apiKey)
+            putString(API_TOKEN_PREFS, apiToken)
         }
 }

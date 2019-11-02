@@ -7,6 +7,6 @@ import dev.jtsalva.cloudmare.api.Response
 class PageRuleResponse(
     success: Boolean,
     errors: List<Error> = emptyList(),
-    messages: List<String> = emptyList(),
+    messages: List<Message> = emptyList(),
     override val result: PageRule? = null
 ) : Response(success, errors, messages)

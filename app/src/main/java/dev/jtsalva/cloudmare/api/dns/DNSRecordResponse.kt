@@ -7,6 +7,6 @@ import dev.jtsalva.cloudmare.api.Response
 class DNSRecordResponse(
     success: Boolean,
     errors: List<Error> = listOf(),
-    messages: List<String> = listOf(),
+    messages: List<Message> = listOf(),
     override val result: DNSRecord? = null
 ) : Response(success, errors, messages)

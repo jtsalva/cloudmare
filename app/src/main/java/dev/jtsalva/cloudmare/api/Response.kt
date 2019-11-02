@@ -8,7 +8,7 @@ import dev.jtsalva.cloudmare.adapter.fit
 open class Response(
     val success: Boolean,
     val errors: List<Error> = emptyList(),
-    val messages: List<String> = emptyList()
+    val messages: List<Message> = emptyList()
 ) {
 
     companion object {
@@ -30,10 +30,12 @@ open class Response(
         // Intercept and replace user obscure error messages
         // TODO: find more messages and make them more understandable
         when (code) {
-            6103 -> "Invalid api key format"
-            9103 -> "Invalid email or api key"
+            0 -> "Access denied, more permission required"
+            6102, 6103 -> "Invalid email or api key format"
             9041 -> "This DNS record cannot be proxied"
-            else -> message.fit(100)
+            9103 -> "Invalid email or api key"
+            9106, 9107 -> "Missing email or api key"
+            else -> message.fit(600)
         }
     }
 
@@ -49,5 +51,11 @@ open class Response(
         val mostRelevantError: Error get() = errorChain?.get(0)?.mostRelevantError ?: this
 
     }
+
+    @JsonClass(generateAdapter = true)
+    data class Message(
+        @field:Json(name = "code") val code: Int,
+        @field:Json(name = "message") val message: String
+    )
 
 }
