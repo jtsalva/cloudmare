@@ -52,7 +52,7 @@ class SSLViewModel(
                 ZoneSettingRequest(activity).launch {
                     sslModeSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_SSL, value))
+                    val response = update(domain.id, ZoneSetting.ssl(value))
 
                     if (response.success) field = value
                     else {
@@ -85,7 +85,7 @@ class SSLViewModel(
 
                     val response = update(
                         domain.id,
-                        ZoneSetting(ZoneSetting.ID_ALWAYS_USE_HTTPS, value.toApiValue()))
+                        ZoneSetting.alwaysUseHttps(value.toApiValue()))
 
                     if (response.success) field = value
                     else {
@@ -118,7 +118,7 @@ class SSLViewModel(
 
                     val response = update(
                         domain.id,
-                        ZoneSetting(ZoneSetting.ID_OPPORTUNISTIC_ENCRYPTION, value.toApiValue()))
+                        ZoneSetting.opportunisticEncryption(value.toApiValue()))
 
                     if (response.success) field = value
                     else {
@@ -151,7 +151,7 @@ class SSLViewModel(
 
                     val response = update(
                         domain.id,
-                        ZoneSetting(ZoneSetting.ID_OPPORTUNISTIC_ONION, value.toApiValue()))
+                        ZoneSetting.opportunisticOnion(value.toApiValue()))
 
                     if (response.success) field = value
                     else {
@@ -184,7 +184,7 @@ class SSLViewModel(
 
                     val response = update(
                         domain.id,
-                        ZoneSetting(ZoneSetting.ID_AUTOMATIC_HTTPS_REWRITES, value.toApiValue()))
+                        ZoneSetting.automaticHttpsRewrites(value.toApiValue()))
 
                     if (response.success) field = value
                     else {
