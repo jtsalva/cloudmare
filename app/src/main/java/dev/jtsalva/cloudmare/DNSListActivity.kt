@@ -19,6 +19,14 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     private lateinit var records: MutableList<DNSRecord>
 
     private var sortBy = DNSRecord.SORT_BY_TYPE
+        set(value) {
+            if (value != field) {
+                showProgressBar = true
+                field = value
+                pagination.resetPage()
+                render()
+            }
+        }
 
     private var fromActivityResult = false
         get() {
@@ -141,9 +149,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 title = "Sort By",
                 resId = R.array.entries_dns_list_sort_by,
                 initialSelection = selectedItemIndex) { _, _, text ->
-                showProgressBar = true
                 sortBy = sortByTranslator.getValue(text)
-                onSwipeRefresh()
             }
             true
         }
