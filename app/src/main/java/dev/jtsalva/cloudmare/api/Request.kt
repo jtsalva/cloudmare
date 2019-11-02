@@ -86,7 +86,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
             val failedResponse = Response.createWithErrors(
                 Response.Error(
-                    code = 0,
+                    code = -1,
                     message = "Make sure you're connected to the internet"
                 )
             )
