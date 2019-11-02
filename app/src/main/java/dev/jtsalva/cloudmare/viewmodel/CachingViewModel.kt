@@ -44,7 +44,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     cacheLevelSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_CACHE_LEVEL, value))
+                    val response = update(domain.id, ZoneSetting.cacheLevel(value))
 
                     if (response.success) field = value
                     else {
@@ -78,7 +78,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     browserCacheTtlSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_BROWSER_CACHE_TTL, value))
+                    val response = update(domain.id, ZoneSetting.browserCacheTtl(value))
                     if (response.success) field = value
                     else {
                         field = oldValue
@@ -111,7 +111,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     alwaysOnlineSwitch.switchIsEnabled = false
 
-                    val response = update(domain.id, ZoneSetting(ZoneSetting.ID_ALWAYS_ONLINE, value.toApiValue()))
+                    val response = update(domain.id, ZoneSetting.alwaysOnline(value.toApiValue()))
 
                     if (response.success) field = value
                     else {
