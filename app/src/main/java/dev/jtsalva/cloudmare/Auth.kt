@@ -24,7 +24,7 @@ object Auth {
 
     val notSet: Boolean get() = !(usingApiKey || usingApiToken)
 
-    inline val usingApiKey: Boolean get() = email != "" && apiKey != ""
+    inline val usingApiKey: Boolean get() = apiKey != ""
     private inline val usingApiToken: Boolean get() = apiToken != ""
 
     val headers: MutableMap<String, String> get() =
