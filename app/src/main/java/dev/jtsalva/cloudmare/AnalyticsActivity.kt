@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -66,46 +67,50 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         private val LAST_TWENTY_FOUR_HOURS = -900 downTo -4319
         private val LAST_WEEK = -4320 downTo -10080
         private val LAST_MONTH = -10081 downTo -525600
+    }
 
-        private fun customXAxis(count: Int,
-                                formatter: ValueFormatter,
-                                forceLabelCount: Boolean = true): XAxis.() -> Unit =
-            {
-                position = XAxis.XAxisPosition.BOTTOM
-                textSize = AXIS_LABEL_TEXT_SIZE
-                valueFormatter = formatter
-                labelRotationAngle = X_AXIS_LABEL_ROTATION
-                setDrawGridLines(false)
-                setDrawAxisLine(false)
-                setLabelCount(
-                    if (count <= MAX_NUM_OF_X_AXIS_LABELS) count else MAX_NUM_OF_X_AXIS_LABELS,
-                    forceLabelCount
-                )
-            }
-
-        private val customYAxis: YAxis.() -> Unit = {
+    private fun customXAxis(count: Int,
+                            formatter: ValueFormatter,
+                            forceLabelCount: Boolean = true): XAxis.() -> Unit =
+        {
+            position = XAxis.XAxisPosition.BOTTOM
             textSize = AXIS_LABEL_TEXT_SIZE
-            valueFormatter = YAxisValueFormatter()
-            setDrawGridLines(true)
+            valueFormatter = formatter
+            labelRotationAngle = X_AXIS_LABEL_ROTATION
+            setDrawGridLines(false)
             setDrawAxisLine(false)
-            setDrawGridLinesBehindData(false)
+            setLabelCount(
+                if (count <= MAX_NUM_OF_X_AXIS_LABELS) count else MAX_NUM_OF_X_AXIS_LABELS,
+                forceLabelCount
+            )
+            textColor = labelColor
         }
 
-        private fun customChart(count: Int,
-                                formatter: ValueFormatter): LineChart.() -> Unit = {
-            isAutoScaleMinMaxEnabled = true
+    private val customYAxis: YAxis.() -> Unit = {
+        textSize = AXIS_LABEL_TEXT_SIZE
+        valueFormatter = YAxisValueFormatter()
+        setDrawGridLines(true)
+        setDrawAxisLine(false)
+        setDrawGridLinesBehindData(false)
+        textColor = labelColor
+    }
 
-            setTouchEnabled(false)
-            description.isEnabled = false
-            axisRight.isEnabled = false
+    private fun customChart(count: Int,
+                            formatter: ValueFormatter): LineChart.() -> Unit = {
+        isAutoScaleMinMaxEnabled = true
 
-            legend.textSize = LEGEND_TEXT_SIZE
+        setTouchEnabled(false)
+        description.isEnabled = false
+        axisRight.isEnabled = false
 
-            setExtraOffsets(0f, 0f, 0f, 10f)
+        legend.textSize = LEGEND_TEXT_SIZE
 
-            xAxis.apply(customXAxis(count, formatter))
-            axisLeft.apply(customYAxis)
-        }
+        setExtraOffsets(0f, 0f, 0f, 10f)
+
+        xAxis.apply(customXAxis(count, formatter))
+        axisLeft.apply(customYAxis)
+
+        legend.textColor = labelColor
     }
 
     private fun customLineDataSet(lineColor: Int): LineDataSet.() -> Unit = {
@@ -136,6 +141,13 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         in LAST_MONTH -> MonthAxisValueFormatter()
 
         else -> throw Exception("Can't auto assign formatter given viewModel.timePeriod")
+    }
+
+    private val labelColor by lazy {
+        getColor(
+            if (Settings.theme == AppCompatDelegate.MODE_NIGHT_YES) R.color.colorWhite
+            else R.color.colorBlack
+        )
     }
 
     private lateinit var domain: Zone
