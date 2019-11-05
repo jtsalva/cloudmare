@@ -107,12 +107,13 @@
     <string name="user_api_token_label">API Token</string>
 
     // Menu
+    <string name="menu_settings">Preferences</string>
     <string name="menu_user">User</string>
     <string name="menu_sort_by">Sort By</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_save">Save</string>
     <string name="menu_add">Add</string>
-    
+
     // Analytics Activity Axis Titles
     <string name="analytics_axis_title_requests">Num of Requests</string>
     <string name="analytics_axis_title_bandwidth">Bandwidth (Bytes)</string>
@@ -263,5 +264,27 @@
         <item>@string/analytics_dashboard_time_period_one_day</item>
         <item>@string/analytics_dashboard_time_period_one_week</item>
         <item>@string/analytics_dashboard_time_period_one_month</item>
+    </string-array>
+
+    // Settings Activity
+    <string name="settings_theme_label">Theme</string>
+
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_battery_saver">Set by Battery Saver</string>
+    <string name="settings_theme_system_default">System Default</string>
+
+    // Settings Theme Options Android 9 or earlier
+    <string-array name="entries_settings_theme_android_nine_and_below">
+        <item>@string/settings_theme_light</item>
+        <item>@string/settings_theme_dark</item>
+        <item>@string/settings_theme_battery_saver</item>
+    </string-array>
+
+    // Settings Theme Options Android 10 or after
+    <string-array name="entries_settings_theme_android_ten_and_above">
+        <item>@string/settings_theme_light</item>
+        <item>@string/settings_theme_dark</item>
+        <item>@string/settings_theme_system_default</item>
     </string-array>
 </resources>

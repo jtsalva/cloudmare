@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:theme="@style/AppTheme"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +28,7 @@
                 android:hint="@string/user_cloudflare_email"
                 android:importantForAutofill="auto"
                 android:inputType="textEmailAddress"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +46,7 @@
                 android:importantForAutofill="auto"
                 android:inputType="textMultiLine"
                 android:maxLength="40"
+                android:text="?android:attr/textColorPrimary"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +56,10 @@
         <Button
                 android:id="@+id/save_button"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button"
+                android:paddingBottom="4dp"
                 android:text="@string/user_save"
                 android:textColor="#FFF"
                 android:textSize="24dp"
