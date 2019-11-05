@@ -10,7 +10,6 @@
             android:id="@+id/title_switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="#000"
             android:textSize="24dp"
             android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"

@@ -94,6 +94,11 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
             true
         }
 
+        R.id.action_settings_activity -> {
+            startActivity(SettingsActivity::class)
+            true
+        }
+
         else -> super.onOptionsItemSelected(item)
     }
 

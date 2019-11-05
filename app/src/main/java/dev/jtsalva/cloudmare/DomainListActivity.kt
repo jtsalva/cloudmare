@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
@@ -40,7 +41,10 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
-        menuButtonInitializer.onInflateSetVisible(R.id.action_user_activity)
+        menuButtonInitializer.onInflateSetVisible(
+            R.id.action_settings_activity,
+            R.id.action_user_activity
+        )
 
         setLayout(R.layout.activity_domain_list)
         setToolbarTitle(R.string.title_domain_list_activity)
@@ -48,6 +52,11 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun onStart() {
         super.onStart()
+
+        Settings.load(this)
+
+        if (AppCompatDelegate.getDefaultNightMode() != Settings.theme)
+            AppCompatDelegate.setDefaultNightMode(Settings.theme)
 
         if (Auth.notSet) startActivity(UserActivity::class)
         else render()

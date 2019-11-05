@@ -90,11 +90,11 @@ class UserActivity : CloudMareActivity() {
     private fun onSave(view: View? = null) {
         dialog.loading(title = "Validating...")
 
-        Auth.email = email_input.text.toString()
         api_key_or_token_input.text.toString().let { text ->
             if (text.length == API_KEY_LENGTH) {
                 Auth.apiKey = text
                 Auth.apiToken = ""
+                Auth.email = email_input.text.toString()
             } else {
                 Auth.apiKey = ""
                 Auth.apiToken = text
