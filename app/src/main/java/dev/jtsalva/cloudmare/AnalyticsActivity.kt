@@ -1,11 +1,11 @@
 package dev.jtsalva.cloudmare
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -145,7 +145,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val labelColor by lazy {
         getColor(
-            if (Settings.theme == AppCompatDelegate.MODE_NIGHT_YES) R.color.colorWhite
+            if (resources.configuration.uiMode in Configuration.UI_MODE_NIGHT_YES..(Configuration.UI_MODE_NIGHT_YES + 1)) R.color.colorWhite
             else R.color.colorBlack
         )
     }
