@@ -144,8 +144,10 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     private val labelColor by lazy {
+        val darkModes =
+            Configuration.UI_MODE_NIGHT_YES..(Configuration.UI_MODE_NIGHT_YES + 1)
         getColor(
-            if (resources.configuration.uiMode in Configuration.UI_MODE_NIGHT_YES..(Configuration.UI_MODE_NIGHT_YES + 1)) R.color.colorWhite
+            if (resources.configuration.uiMode in darkModes) R.color.colorWhite
             else R.color.colorBlack
         )
     }
