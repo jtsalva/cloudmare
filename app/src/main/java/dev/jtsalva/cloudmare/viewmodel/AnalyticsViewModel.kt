@@ -27,6 +27,10 @@ class AnalyticsViewModel(
         const val TIME_PERIOD_THIRTY_DAYS = -43200
     }
 
+    val categorySpinner: Spinner by lazy {
+        activity.findViewById<Spinner>(R.id.category_spinner)
+    }
+
     val timePeriodSpinner: Spinner by lazy {
         activity.findViewById<Spinner>(R.id.time_period_spinner)
     }
@@ -79,6 +83,7 @@ class AnalyticsViewModel(
 
                 else AnalyticsDashboardRequest(activity).launch {
                     timePeriodSpinner.isEnabled = false
+                    categorySpinner.isEnabled = false
 
                     val response = get(domain.id, since = field)
                     if (response.failure || response.result == null) {
@@ -99,6 +104,7 @@ class AnalyticsViewModel(
                         AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
 
                     timePeriodSpinner.isEnabled = true
+                    categorySpinner.isEnabled = true
                     drawGraph()
                 }
             }
