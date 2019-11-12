@@ -60,7 +60,7 @@ class DomainDashViewModel(
                 underAttackModeSwitch.switchIsEnabled = true
 
                 @Suppress("UNRESOLVED_REFERENCE")
-                notifyPropertyChanged(BR.developmentModeEnabled)
+                notifyPropertyChanged(BR.underAttackModeEnabled)
             }
         }
 
