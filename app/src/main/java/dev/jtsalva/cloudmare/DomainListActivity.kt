@@ -90,5 +90,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         showProgressBar = false
+
+        swipeRefreshLayout.isRefreshing = false
     }
 }

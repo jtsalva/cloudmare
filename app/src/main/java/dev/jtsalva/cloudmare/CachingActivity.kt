@@ -104,6 +104,8 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         showProgressBar = false
+
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun setOnClickListeners() {

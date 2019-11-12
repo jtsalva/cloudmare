@@ -229,6 +229,8 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             cache[viewModel.timePeriod] = CacheItem(analyticsDashboard = response.result)
             drawGraph()
         }
+
+        swipeRefreshLayout.isRefreshing = false
     }
 
     fun drawGraph() {
