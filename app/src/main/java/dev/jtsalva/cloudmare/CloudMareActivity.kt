@@ -36,9 +36,9 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
             field = value
         }
 
-    private val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
-    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
-    private val nonFoundMessage by lazy { findViewById<TextView>(R.id.non_found_message) }
+    protected val swipeRefreshLayout: SwipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
+    private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
+    private val nonFoundMessage: TextView by lazy { findViewById<TextView>(R.id.non_found_message) }
 
     val dialog: Dialog get() = Dialog(this)
     val menuButtonInitializer = MenuButtonInitializer()
@@ -69,7 +69,6 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
             setOnRefreshListener {
                 Timber.d("Refreshing")
                 onSwipeRefresh()
-                isRefreshing = false
             }
         }
     }

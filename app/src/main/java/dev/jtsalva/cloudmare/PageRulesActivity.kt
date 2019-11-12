@@ -56,5 +56,7 @@ class PageRulesActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         showProgressBar = false
+
+        swipeRefreshLayout.isRefreshing = false
     }
 }

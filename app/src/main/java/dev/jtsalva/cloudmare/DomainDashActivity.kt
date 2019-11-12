@@ -23,11 +23,11 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
 
         domain = intent.getParcelableExtra("domain")!!
 
-        launch {
-            viewModel = DomainDashViewModel(this, domain)
-            binding = setLayoutBinding(R.layout.activity_domain_dash)
-            binding.viewModel = viewModel
+        viewModel = DomainDashViewModel(this, domain)
+        binding = setLayoutBinding(R.layout.activity_domain_dash)
+        binding.viewModel = viewModel
 
+        launch {
             setToolbarTitle(domain.name)
             setOnClickListeners()
         }
@@ -75,6 +75,8 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
                 }
             }
         }
+
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun setOnClickListeners() {
