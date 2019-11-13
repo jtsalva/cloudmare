@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import dev.jtsalva.cloudmare.DNSListActivity
 import dev.jtsalva.cloudmare.DNSRecordActivity
@@ -17,6 +19,11 @@ class DNSListAdapter(
     private val domain: Zone,
     private val records: MutableList<DNSRecord>
 ) : RecyclerView.Adapter<DNSListAdapter.ViewHolder>() {
+
+    companion object {
+        const val NO_BIAS = 0.5f
+        const val UPSHIFT_BIAS = 0.3f
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -32,7 +39,16 @@ class DNSListAdapter(
                 if (name == domain.name) "@" else name.fit()
             }
             content.text = record.content.fit()
-
+            val constraintSet = ConstraintSet().apply { clone(dnsListItem) }
+            if (record.priority != null) {
+                priority.text = record.priority.toString()
+                constraintSet.setVerticalBias(R.id.type, UPSHIFT_BIAS)
+                constraintSet.applyTo(dnsListItem)
+            } else {
+                priority.text = ""
+                constraintSet.setVerticalBias(R.id.type, NO_BIAS)
+                constraintSet.applyTo(dnsListItem)
+            }
         }
 
         holder.itemView.setOnClickListener {
@@ -48,9 +64,11 @@ class DNSListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val dnsListItem: ConstraintLayout = itemView.findViewById(R.id.dns_list_item)
         val type: TextView = itemView.findViewById(R.id.type)
         val name: TextView = itemView.findViewById(R.id.name)
         val content: TextView = itemView.findViewById(R.id.content)
+        val priority: TextView = itemView.findViewById(R.id.priority)
 
     }
 

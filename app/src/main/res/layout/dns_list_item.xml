@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/dns_list_item"
         android:background="@drawable/bottom_border_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,5 +68,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/guideline"
             app:layout_constraintGuide_end="243dp"/>
+
+    <TextView
+            android:id="@+id/priority"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textAlignment="gravity"
+            android:textSize="24dp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="priority" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
