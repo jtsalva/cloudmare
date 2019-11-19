@@ -217,6 +217,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onSwipeRefresh() {
         super.onSwipeRefresh()
 
+        viewModel.disableSpinners()
         cache.clear()
     }
 
@@ -231,6 +232,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         swipeRefreshLayout.isRefreshing = false
+        viewModel.enableSpinners()
     }
 
     fun drawGraph() {
