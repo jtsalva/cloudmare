@@ -287,4 +287,16 @@
         <item>@string/settings_theme_dark</item>
         <item>@string/settings_theme_system_default</item>
     </string-array>
+
+    // Network Pseudo IPV4 Labels
+    <string name="network_pseudo_ipv4_off">Off</string>
+    <string name="network_pseudo_ipv4_add_header">Add Header</string>
+    <string name="network_pseudo_ipv4_overwrite_header">Overwrite Headers</string>
+
+    // Network Pseudo IPV4 Options
+    <string-array name="entries_network_pseudo_ipv4">
+        <item>@string/network_pseudo_ipv4_off</item>
+        <item>@string/network_pseudo_ipv4_add_header</item>
+        <item>@string/network_pseudo_ipv4_overwrite_header</item>
+    </string-array>
 </resources>
