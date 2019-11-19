@@ -98,6 +98,12 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
             )
         }
 
+        network_item.setOnClickListener {
+            startActivityWithExtras(NetworkActivity::class,
+                "domain" to domain
+            )
+        }
+
         page_rules_item.setOnClickListener {
             startActivityWithExtras(PageRulesActivity::class,
                 "domain" to domain)
