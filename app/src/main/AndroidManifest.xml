@@ -15,8 +15,11 @@
             android:theme="@style/AppTheme"
             tools:replace="android:supportsRtl">
         <activity
+                android:name=".NetworkActivity"
+                android:launchMode="singleTop" />
+        <activity
                 android:name=".SettingsActivity"
-                android:launchMode="singleTop"/>
+                android:launchMode="singleTop" />
         <activity
                 android:name=".AnalyticsActivity"
                 android:launchMode="singleTop" />

@@ -64,6 +64,11 @@
                                 app:title="@string/category_dns" />
 
                         <dev.jtsalva.cloudmare.view.ButtonOptionView
+                                android:id="@+id/network_item"
+                                app:info="Manage network settings for your website."
+                                app:title="Network" />
+
+                        <dev.jtsalva.cloudmare.view.ButtonOptionView
                                 android:id="@+id/page_rules_item"
                                 app:info="@string/info_page_rules"
                                 app:title="@string/category_page_rules" />
