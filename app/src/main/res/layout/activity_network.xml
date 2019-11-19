@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".NetworkActivity">
+    <data>
+        <variable
+                name="viewModel"
+                type="dev.jtsalva.cloudmare.viewmodel.NetworkViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+
+        <include
+                layout="@layout/progress_bar" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <ScrollView
+                    android:id="@+id/network_view_group"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:visibility="visible">
+
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/ipv6_compatibility_item"
+                            app:checked="@={viewModel.ipv6Compatibility}"
+                            app:info="Enable IPv6 support and gateway."
+                            app:title="IPv6 Compatibility" />
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/web_sockets_item"
+                            app:checked="@={viewModel.webSockets}"
+                            app:info="Allow WebSockets connections to your origin server."
+                            app:title="WebSockets" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/pseudo_ipv4_item">
+
+                    <TextView
+                            android:id="@+id/pseudo_ipv4_item_title_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:text="Pseudo IPv4"
+                            android:textSize="24dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <Spinner
+                            android:id="@+id/pseudo_ipv4_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:entries="@array/entries_network_pseudo_ipv4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/pseudo_ipv4_item_title_text_view" />
+
+                    <TextView
+                            android:id="@+id/pseudo_ipv4_info_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Adds an IPv4 header to requests when a client is using IPv6, but the server only supports IPv4."
+                            android:textSize="16dp"
+                            app:layout_constraintStart_toStartOf="@+id/pseudo_ipv4_spinner"
+                            app:layout_constraintTop_toBottomOf="@+id/pseudo_ipv4_spinner" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <dev.jtsalva.cloudmare.view.SwitchOptionView
+                            android:id="@+id/ip_geolocation_item"
+                            app:checked="@={viewModel.ipGeolocation}"
+                            app:info="Include the country code of the visitor location with all requests to your website."
+                            app:title="IP Geolocation" />
+
+                </TableLayout>
+
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
