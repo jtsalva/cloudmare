@@ -13,7 +13,10 @@ data class ZoneSetting(
 ) {
 
     companion object {
-        const val SSL_MODE_OFF = "off"
+        const val VALUE_OFF = "off"
+        const val VALUE_ON = "on"
+
+        const val SSL_MODE_OFF = VALUE_OFF
         const val SSL_MODE_FLEXIBLE = "flexible"
         const val SSL_MODE_FULL = "full"
         const val SSL_MODE_STRICT = "strict"
@@ -26,9 +29,10 @@ data class ZoneSetting(
         const val ID_CACHE_LEVEL = "cache_level"
         const val ID_ALWAYS_ONLINE = "always_online"
         const val ID_BROWSER_CACHE_TTL = "browser_cache_ttl"
-
-        const val VALUE_OFF = "off"
-        const val VALUE_ON = "on"
+        const val ID_IPV6 = "ipv6"
+        const val ID_WEBSOCKETS = "websockets"
+        const val ID_PSEUDO_IPV4 = "pseudo_ipv4"
+        const val ID_IP_GELOCATION = "ip_geolocation"
 
         const val SECURITY_LEVEL_ESSENTIALLY_OFF = "essentially_off"
         const val SECURITY_LEVEL_LOW = "low"
@@ -40,6 +44,10 @@ data class ZoneSetting(
         const val CACHE_LEVEL_SIMPLIFIED = "simplified"
         const val CACHE_LEVEL_AGGRESSIVE = "aggressive"
 
+        const val PSEUDO_IPV4_OFF = VALUE_OFF
+        const val PSEUDO_IPV4_ADD_HEADER = "add_header"
+        const val PSEUDO_IPV4_OVERWRITE_HEADER = "overwrite_header"
+
         fun alwaysOnline(value: String) = ZoneSetting(ID_ALWAYS_ONLINE, value)
         fun browserCacheTtl(value: Int) = ZoneSetting(ID_BROWSER_CACHE_TTL, value)
         fun cacheLevel(value: String) = ZoneSetting(ID_CACHE_LEVEL, value)
@@ -48,6 +56,10 @@ data class ZoneSetting(
         fun opportunisticEncryption(value: String) = ZoneSetting(ID_OPPORTUNISTIC_ENCRYPTION, value)
         fun opportunisticOnion(value: String) = ZoneSetting(ID_OPPORTUNISTIC_ONION, value)
         fun ssl(value: String) = ZoneSetting(ID_SSL, value)
+        fun ipv6(value: String) = ZoneSetting(ID_IPV6, value)
+        fun webSockets(value: String) = ZoneSetting(ID_WEBSOCKETS, value)
+        fun pseudoIpv4(value: String) = ZoneSetting(ID_PSEUDO_IPV4, value)
+        fun ipGeolocation(value: String) = ZoneSetting(ID_IP_GELOCATION, value)
     }
 
     class SSLModeTranslator(activity: CloudMareActivity) {
@@ -85,6 +97,23 @@ data class ZoneSetting(
         inline fun getId(readable: String): String =
             idToReadable.filterValues { it == readable }.keys.first()
 
+    }
+
+    class PseudoIpv4Translator(activity: CloudMareActivity) {
+
+        val idToReadable = activity.run {
+            mapOf(
+                PSEUDO_IPV4_OFF to getString(R.string.network_pseudo_ipv4_off),
+                PSEUDO_IPV4_ADD_HEADER to getString(R.string.network_pseudo_ipv4_add_header),
+                PSEUDO_IPV4_OVERWRITE_HEADER to getString(R.string.network_pseudo_ipv4_overwrite_header)
+            )
+        }
+
+        inline fun getReadable(id: String): String =
+            idToReadable.getValue(id)
+
+        inline fun getId(readable: String): String =
+            idToReadable.filterValues { it == readable }.keys.first()
     }
 
 }
