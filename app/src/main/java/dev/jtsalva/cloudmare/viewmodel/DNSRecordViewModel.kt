@@ -17,7 +17,7 @@ class DNSRecordViewModel(
     val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
-    val ttlTranslator = DNSRecord.TtlTranslator(activity)
+    val ttlTranslator = DNSRecord.ttlTranslator(activity)
 
     private val originalHash = data.hashCode()
 
@@ -71,7 +71,7 @@ class DNSRecordViewModel(
             }
 
             R.id.ttl_spinner ->
-                data.ttl = ttlTranslator.getValue(selectedItem as String)
+                data.ttl = ttlTranslator.getId(selectedItem as String)
         }
 
     }

@@ -3,6 +3,7 @@ package dev.jtsalva.cloudmare
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
+import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.databinding.ActivitySettingsBinding
 import dev.jtsalva.cloudmare.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -27,26 +28,16 @@ class SettingsActivity : CloudMareActivity() {
         )
     }
 
-    class ThemeTranslator(activity: CloudMareActivity) {
-
-        private val valueToReadable = activity.run {
+    val themeTranslator by lazy {
+        IdTranslator(
             mapOf(
                 AppCompatDelegate.MODE_NIGHT_NO to getString(R.string.settings_theme_light),
                 AppCompatDelegate.MODE_NIGHT_YES to getString(R.string.settings_theme_dark),
                 AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY to getString(R.string.settings_theme_battery_saver),
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM to getString(R.string.settings_theme_system_default)
             )
-        }
-
-        fun getReadable(value: Int) =
-            valueToReadable.getValue(value)
-
-        fun getValue(readable: String) =
-            valueToReadable.filterValues { it == readable }.keys.first()
-
+        )
     }
-
-    val themeTranslator by lazy { ThemeTranslator(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

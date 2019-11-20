@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.readStringOrBlank
 
 data class DNSRecord(
@@ -114,53 +115,46 @@ data class DNSRecord(
 
             override fun newArray(size: Int): Array<DNSRecord?> = arrayOfNulls(size)
         }
-    }
 
-    class TtlTranslator(activity: CloudMareActivity) {
+        fun ttlTranslator(activity: CloudMareActivity) =
+            IdTranslator(
+                activity.run {
+                    mapOf(
+                        TTL_RESPECT_EXISTING_HEADERS to getString(R.string.ttl_respect_existing_headers),
+                        TTL_AUTOMATIC to getString(R.string.ttl_automatic),
 
-        val valueToReadable = activity.run {
-            mapOf(
-                TTL_RESPECT_EXISTING_HEADERS to getString(R.string.ttl_respect_existing_headers),
-                TTL_AUTOMATIC to getString(R.string.ttl_automatic),
+                        TTL_TWO_MINUTES to getString(R.string.ttl_two_minutes),
+                        TTL_FIVE_MINUTES to getString(R.string.ttl_five_minutes),
+                        TTL_TEN_MINUTES to getString(R.string.ttl_ten_minutes),
+                        TTL_FIFTEEN_MINUTES to getString(R.string.ttl_fifteen_minutes),
+                        TTL_THIRTY_MINUTES to getString(R.string.ttl_thirty_minutes),
 
-                TTL_TWO_MINUTES to getString(R.string.ttl_two_minutes),
-                TTL_FIVE_MINUTES to getString(R.string.ttl_five_minutes),
-                TTL_TEN_MINUTES to getString(R.string.ttl_ten_minutes),
-                TTL_FIFTEEN_MINUTES to getString(R.string.ttl_fifteen_minutes),
-                TTL_THIRTY_MINUTES to getString(R.string.ttl_thirty_minutes),
+                        TTL_ONE_HOURS to getString(R.string.ttl_one_hours),
+                        TTL_TWO_HOURS to getString(R.string.ttl_two_hours),
+                        TTL_THREE_HOURS to getString(R.string.ttl_three_hours),
+                        TTL_FOUR_HOURS to getString(R.string.ttl_four_hours),
+                        TTL_FIVE_HOURS to getString(R.string.ttl_five_hours),
+                        TTL_EIGHT_HOURS to getString(R.string.ttl_eight_hours),
+                        TTL_TWELVE_HOURS to getString(R.string.ttl_twelve_hours),
+                        TTL_SIXTEEN_HOURS to getString(R.string.ttl_sixteen_hours),
+                        TTL_TWENTY_HOURS to getString(R.string.ttl_twelve_hours),
 
-                TTL_ONE_HOURS to getString(R.string.ttl_one_hours),
-                TTL_TWO_HOURS to getString(R.string.ttl_two_hours),
-                TTL_THREE_HOURS to getString(R.string.ttl_three_hours),
-                TTL_FOUR_HOURS to getString(R.string.ttl_four_hours),
-                TTL_FIVE_HOURS to getString(R.string.ttl_five_hours),
-                TTL_EIGHT_HOURS to getString(R.string.ttl_eight_hours),
-                TTL_TWELVE_HOURS to getString(R.string.ttl_twelve_hours),
-                TTL_SIXTEEN_HOURS to getString(R.string.ttl_sixteen_hours),
-                TTL_TWENTY_HOURS to getString(R.string.ttl_twelve_hours),
+                        TTL_ONE_DAYS to getString(R.string.ttl_one_days),
+                        TTL_TWO_DAYS to getString(R.string.ttl_two_days),
+                        TTL_THREE_DAYS to getString(R.string.ttl_three_days),
+                        TTL_FOUR_DAYS to getString(R.string.ttl_four_days),
+                        TTL_FIVE_DAYS to getString(R.string.ttl_five_days),
+                        TTL_EIGHT_DAYS to getString(R.string.ttl_eight_days),
+                        TTL_SIXTEEN_DAYS to getString(R.string.ttl_sixteen_days),
+                        TTL_TWENTY_FOUR_DAYS to getString(R.string.ttl_twenty_four_days),
 
-                TTL_ONE_DAYS to getString(R.string.ttl_one_days),
-                TTL_TWO_DAYS to getString(R.string.ttl_two_days),
-                TTL_THREE_DAYS to getString(R.string.ttl_three_days),
-                TTL_FOUR_DAYS to getString(R.string.ttl_four_days),
-                TTL_FIVE_DAYS to getString(R.string.ttl_five_days),
-                TTL_EIGHT_DAYS to getString(R.string.ttl_eight_days),
-                TTL_SIXTEEN_DAYS to getString(R.string.ttl_sixteen_days),
-                TTL_TWENTY_FOUR_DAYS to getString(R.string.ttl_twenty_four_days),
-
-                TTL_ONE_MONTHS to getString(R.string.ttl_one_months),
-                TTL_TWO_MONTHS to getString(R.string.ttl_two_months),
-                TTL_SIX_MONTHS to getString(R.string.ttl_six_months),
-                TTL_ONE_YEARS to getString(R.string.ttl_one_years)
+                        TTL_ONE_MONTHS to getString(R.string.ttl_one_months),
+                        TTL_TWO_MONTHS to getString(R.string.ttl_two_months),
+                        TTL_SIX_MONTHS to getString(R.string.ttl_six_months),
+                        TTL_ONE_YEARS to getString(R.string.ttl_one_years)
+                    )
+                }
             )
-        }
-
-        inline fun getReadable(value: Int): String =
-            valueToReadable.getValue(value)
-
-        inline fun getValue(readable: String): Int =
-            valueToReadable.filterValues { it == readable }.keys.first()
-
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
