@@ -28,7 +28,6 @@ open class Response(
 
     val firstErrorMessage: String get() = with(errors[0].mostRelevantError) {
         // Intercept and replace user obscure error messages
-        // TODO: find more messages and make them more understandable
         when (code) {
             0 -> "Access denied, more permission required"
             6102, 6103 -> "Invalid email or api key format"
