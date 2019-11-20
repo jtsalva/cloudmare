@@ -3,6 +3,7 @@ package dev.jtsalva.cloudmare.api.zonesettings
 import com.squareup.moshi.Json
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.IdTranslator
 
 data class ZoneSetting(
     @field:Json(name = "id") val id: String,
@@ -60,60 +61,39 @@ data class ZoneSetting(
         fun webSockets(value: String) = ZoneSetting(ID_WEBSOCKETS, value)
         fun pseudoIpv4(value: String) = ZoneSetting(ID_PSEUDO_IPV4, value)
         fun ipGeolocation(value: String) = ZoneSetting(ID_IP_GELOCATION, value)
-    }
 
-    class SSLModeTranslator(activity: CloudMareActivity) {
-
-        val idToReadable = activity.run {
-            mapOf(
-                SSL_MODE_OFF to getString(R.string.ssl_mode_off),
-                SSL_MODE_FLEXIBLE to getString(R.string.ssl_mode_flexible),
-                SSL_MODE_FULL to getString(R.string.ssl_mode_full),
-                SSL_MODE_STRICT to getString(R.string.ssl_mode_full_strict)
+        fun cacheLevelTranslator(activity: CloudMareActivity) =
+            IdTranslator(
+                activity.run {
+                    mapOf(
+                        CACHE_LEVEL_BASIC to getString(R.string.cache_level_basic),
+                        CACHE_LEVEL_SIMPLIFIED to getString(R.string.cache_level_simplified),
+                        CACHE_LEVEL_AGGRESSIVE to getString(R.string.cache_level_aggressive)
+                    )
+                }
             )
-        }
 
-        inline fun getReadable(id: String): String =
-            idToReadable.getValue(id)
-
-        inline fun getId(readable: String): String =
-            idToReadable.filterValues { it == readable }.keys.first()
-
-    }
-
-    class CacheLevelTranslator(activity: CloudMareActivity) {
-
-        val idToReadable = activity.run {
-            mapOf(
-                CACHE_LEVEL_BASIC to getString(R.string.cache_level_basic),
-                CACHE_LEVEL_SIMPLIFIED to getString(R.string.cache_level_simplified),
-                CACHE_LEVEL_AGGRESSIVE to getString(R.string.cache_level_aggressive)
+        fun sslModeTranslator(activity: CloudMareActivity) =
+            IdTranslator(
+                activity.run {
+                    mapOf(
+                        SSL_MODE_OFF to getString(R.string.ssl_mode_off),
+                        SSL_MODE_FLEXIBLE to getString(R.string.ssl_mode_flexible),
+                        SSL_MODE_FULL to getString(R.string.ssl_mode_full),
+                        SSL_MODE_STRICT to getString(R.string.ssl_mode_full_strict)
+                    )
+                }
             )
-        }
 
-        inline fun getReadable(id: String): String =
-            idToReadable.getValue(id)
-
-        inline fun getId(readable: String): String =
-            idToReadable.filterValues { it == readable }.keys.first()
-
-    }
-
-    class PseudoIpv4Translator(activity: CloudMareActivity) {
-
-        val idToReadable = activity.run {
-            mapOf(
-                PSEUDO_IPV4_OFF to getString(R.string.network_pseudo_ipv4_off),
-                PSEUDO_IPV4_ADD_HEADER to getString(R.string.network_pseudo_ipv4_add_header),
-                PSEUDO_IPV4_OVERWRITE_HEADER to getString(R.string.network_pseudo_ipv4_overwrite_header)
+        fun pseudoIpv4Translator(activity: CloudMareActivity) =
+            IdTranslator(
+                activity.run {
+                    mapOf(
+                        PSEUDO_IPV4_OFF to getString(R.string.network_pseudo_ipv4_off),
+                        PSEUDO_IPV4_ADD_HEADER to getString(R.string.network_pseudo_ipv4_add_header),
+                        PSEUDO_IPV4_OVERWRITE_HEADER to getString(R.string.network_pseudo_ipv4_overwrite_header)
+                    )
+                }
             )
-        }
-
-        inline fun getReadable(id: String): String =
-            idToReadable.getValue(id)
-
-        inline fun getId(readable: String): String =
-            idToReadable.filterValues { it == readable }.keys.first()
     }
-
 }
