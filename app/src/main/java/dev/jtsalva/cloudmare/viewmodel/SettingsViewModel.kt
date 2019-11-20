@@ -16,7 +16,7 @@ class SettingsViewModel(
         set(value) {
             if (value != field) {
                 field = value
-                Settings.theme = activity.themeTranslator.getValue(field)
+                Settings.theme = activity.themeTranslator.getId(field)
                 Settings.save(activity)
             }
         }

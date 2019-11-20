@@ -33,8 +33,8 @@ class CachingViewModel(
 
     var isFinishedInitializing = false
 
-    val cacheLevelTranslator = ZoneSetting.CacheLevelTranslator(activity)
-    val ttlTranslator = DNSRecord.TtlTranslator(activity)
+    val cacheLevelTranslator = ZoneSetting.cacheLevelTranslator(activity)
+    val ttlTranslator = DNSRecord.ttlTranslator(activity)
 
     var cacheLevel = ZoneSetting.CACHE_LEVEL_BASIC
         set(value) {
@@ -139,7 +139,7 @@ class CachingViewModel(
                 cacheLevel = cacheLevelTranslator.getId(selectedItem.toString())
             }
             R.id.browser_cache_ttl_spinner -> {
-                browserCacheTtl = ttlTranslator.getValue(selectedItem.toString())
+                browserCacheTtl = ttlTranslator.getId(selectedItem.toString())
             }
         }
     }
