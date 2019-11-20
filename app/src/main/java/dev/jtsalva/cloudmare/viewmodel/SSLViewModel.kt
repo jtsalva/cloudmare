@@ -42,7 +42,7 @@ class SSLViewModel(
 
     var isFinishedInitializing = false
 
-    val sslModeTranslator = ZoneSetting.SSLModeTranslator(activity)
+    val sslModeTranslator = ZoneSetting.sslModeTranslator(activity)
 
     var sslMode = ZoneSetting.SSL_MODE_OFF
         set(value) {

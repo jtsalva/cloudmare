@@ -5,9 +5,10 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import dev.jtsalva.cloudmare.NetworkActivity
 import dev.jtsalva.cloudmare.BR
+import dev.jtsalva.cloudmare.NetworkActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.toApiValue
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
@@ -38,7 +39,7 @@ class NetworkViewModel(
 
     var isFinishedInitializing = false
 
-    val pseudoIpv4Translator = ZoneSetting.PseudoIpv4Translator(activity)
+    val pseudoIpv4Translator = ZoneSetting.pseudoIpv4Translator(activity)
 
     @Bindable var ipv6Compatibility = false
         set(value) {
