@@ -29,6 +29,8 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
         const val ORDER_PRIORITY = "priority"
 
         const val CHARSET = "UTF-8"
+
+        const val LOCAL_ERROR_CODE = -1
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -73,7 +75,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
             } catch (e: Throwable) {
                 val failedResponse = Response.createWithErrors(
                     Response.Error(
-                        code = 0,
+                        code = LOCAL_ERROR_CODE,
                         message = "Something wen't wrong decoding error response"
                     )
                 )
@@ -86,7 +88,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
             val failedResponse = Response.createWithErrors(
                 Response.Error(
-                    code = -1,
+                    code = LOCAL_ERROR_CODE,
                     message = "Make sure you're connected to the internet"
                 )
             )
