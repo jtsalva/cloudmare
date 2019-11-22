@@ -13,6 +13,8 @@ Simple & Quick Cloudflare tool for:
  * Manage SSL Settings
  
  * Caching Controls
+
+ * Manage Network Settings
  
  * More features on it's way
 
