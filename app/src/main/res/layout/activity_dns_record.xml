@@ -36,7 +36,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dns_record_type"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintStart_toStartOf="@+id/type_spinner"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +60,9 @@
                         android:ems="10"
                         android:hint="@string/dns_record_name"
                         android:text="@={viewModel.name}"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         android:inputType="text"
                         android:importantForAutofill="no"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +83,9 @@
                         android:inputType="textMultiLine"
                         android:importantForAutofill="no"
                         android:text="@={viewModel.content}"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.504"
                         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +109,9 @@
                         android:layout_marginTop="16dp"
                         android:checked="@={viewModel.proxied}"
                         android:text='@{viewModel.proxied ? "Proxied" : "DNS only"}'
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintEnd_toEndOf="@+id/ttl_spinner"
                         app:layout_constraintStart_toStartOf="@+id/ttl_spinner"
                         app:layout_constraintTop_toBottomOf="@+id/ttl_spinner" />
@@ -114,7 +122,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/dns_record_name"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
                         app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
 
@@ -124,7 +134,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/dns_record_content"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintStart_toStartOf="@+id/content_edit_text"
                         app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
 
@@ -134,7 +146,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/dns_record_ttl"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         app:layout_constraintStart_toStartOf="@+id/ttl_spinner"
                         app:layout_constraintTop_toBottomOf="@+id/content_edit_text" />
 
@@ -144,7 +158,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/dns_record_priority"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="@+id/priority_edit_text"
                         app:layout_constraintTop_toBottomOf="@+id/ttl_spinner" />
@@ -158,7 +174,9 @@
                         android:hint="@string/dns_record_priority_hint"
                         android:inputType="number"
                         android:text="@={viewModel.priority}"
-                        android:textSize="24dp"
+                        android:textSize="20sp"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeTextType="uniform"
                         android:visibility="gone"
                         android:importantForAutofill="no"
                         app:layout_constraintEnd_toEndOf="parent"
