@@ -130,7 +130,7 @@ data class PageRule(
                     "Minify: html: ${minify.html}, css: ${minify.css}, javascript: ${minify.javascript}"
                 }
 
-//            ActionId.ALWAYS_USE_HTTPS -> "OBJECT STRUCTURE UNKNOWN" // TODO: find out structure
+            ActionId.ALWAYS_USE_HTTPS -> "Always Use HTTPS"
 
             ActionId.DISABLE_APPS, ActionId.DISABLE_PERFORMANCE, ActionId.DISABLE_SECURITY ->
                 Actions.getValue(id)
