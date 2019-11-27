@@ -13,7 +13,6 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSettingRequest
 import dev.jtsalva.cloudmare.view.SwitchOptionView
-import timber.log.Timber
 
 class SSLViewModel(
     private val activity: SSLActivity,
@@ -209,7 +208,9 @@ class SSLViewModel(
             }
         }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        if (parent == null) return
+
         val selectedItem = parent.getItemAtPosition(pos)
 
         when (parent.id) {
@@ -219,8 +220,8 @@ class SSLViewModel(
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>) {
-        Timber.d("Nothing selected")
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        // Intentionally blank
     }
 
 }

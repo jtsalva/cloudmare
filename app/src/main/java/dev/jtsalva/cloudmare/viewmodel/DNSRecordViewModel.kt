@@ -9,7 +9,6 @@ import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.zone.Zone
-import timber.log.Timber
 
 class DNSRecordViewModel(
     private val activity: DNSRecordActivity,
@@ -60,7 +59,9 @@ class DNSRecordViewModel(
             notifyPropertyChanged(BR.proxied)
         }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        if (parent == null) return
+
         val selectedItem = parent.getItemAtPosition(pos)
 
         when (parent.id) {
@@ -76,8 +77,8 @@ class DNSRecordViewModel(
 
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>) {
-        Timber.d("Nothing selected")
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        // Intentionally blank
     }
 
 }
