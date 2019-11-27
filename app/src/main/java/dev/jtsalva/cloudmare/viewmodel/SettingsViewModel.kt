@@ -6,7 +6,6 @@ import androidx.databinding.BaseObservable
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.Settings
 import dev.jtsalva.cloudmare.SettingsActivity
-import timber.log.Timber
 
 class SettingsViewModel(
     private val activity: SettingsActivity
@@ -21,7 +20,9 @@ class SettingsViewModel(
             }
         }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        if (parent == null) return
+
         val selectedItem = parent.getItemAtPosition(pos)
 
         when (parent.id) {
@@ -31,7 +32,7 @@ class SettingsViewModel(
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>) {
-        Timber.d("Nothing selected")
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        // Intentionally blank
     }
 }

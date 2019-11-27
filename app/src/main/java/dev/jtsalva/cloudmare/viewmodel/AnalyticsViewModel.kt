@@ -8,7 +8,6 @@ import dev.jtsalva.cloudmare.AnalyticsActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.analytics.AnalyticsDashboardRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
-import timber.log.Timber
 
 class AnalyticsViewModel(
     private val activity: AnalyticsActivity,
@@ -118,7 +117,9 @@ class AnalyticsViewModel(
             }
         }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        if (parent == null) return
+
         val selectedItem = parent.getItemAtPosition(pos)
 
         when (parent.id) {
@@ -132,8 +133,8 @@ class AnalyticsViewModel(
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>) {
-        Timber.d("Nothing selected")
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        // Intentionally blank
     }
 
 }
