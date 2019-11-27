@@ -29,7 +29,7 @@
                 android:importantForAutofill="auto"
                 android:inputType="textEmailAddress"
                 android:textColor="?android:attr/textColorPrimary"
-                android:autoSizeMaxTextSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_label"
@@ -47,7 +47,7 @@
                 android:inputType="textMultiLine"
                 android:maxLength="40"
                 android:text="?android:attr/textColorPrimary"
-                android:autoSizeMaxTextSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/api_key_label"
@@ -62,7 +62,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/user_save"
                 android:textColor="#FFF"
-                android:autoSizeMaxTextSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
                 android:text="@string/user_instructions"
-                android:autoSizeMaxTextSize="18sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/save_button" />
@@ -89,7 +89,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:text="@string/user_required_token_permissions"
-                android:autoSizeMaxTextSize="18sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/info" />
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/user_cloudflare_email_label"
-                android:autoSizeMaxTextSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/email_input"
                 app:layout_constraintTop_toBottomOf="@+id/api_key_or_token_input" />
 
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/user_api_key_or_token_label"
-                android:autoSizeMaxTextSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/api_key_or_token_input"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
