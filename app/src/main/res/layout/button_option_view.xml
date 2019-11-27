@@ -11,8 +11,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20sp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeTextType="uniform"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="20dp"
             tools:text="Title" />
@@ -22,8 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="14sp"
-            android:autoSizeMaxTextSize="14sp"
-            android:autoSizeTextType="uniform"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text_view"
             tools:text="Info" />
