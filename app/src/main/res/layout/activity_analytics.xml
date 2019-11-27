@@ -96,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:rotation="-90"
-                            android:autoSizeMaxTextSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="@+id/analytics_chart"
                             app:layout_constraintEnd_toStartOf="@+id/analytics_chart"
                             app:layout_constraintStart_toStartOf="parent"
