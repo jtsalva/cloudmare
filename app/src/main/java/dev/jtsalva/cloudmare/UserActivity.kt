@@ -34,15 +34,17 @@ class UserActivity : CloudMareActivity() {
                 email_input.visibility = visibility
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Blank
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Blank
             }
 
-            override fun afterTextChanged(s: Editable) {
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+
                 when (s.length) {
                     API_KEY_LENGTH -> {
                         api_key_label.text = apiKeyLabel
