@@ -20,6 +20,7 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/baseline_search_white_48"
+        android:title="Search"
         android:visible="false"
         app:showAsAction="always"
             tools:ignore="AlwaysShowAction" />
