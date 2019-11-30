@@ -57,7 +57,7 @@
 
         <Button
                 android:id="@+id/save_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button"
@@ -65,9 +65,9 @@
                 android:text="@string/user_save"
                 android:textColor="#FFF"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/api_key_or_token_input"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/api_key_or_token_input"
                 app:layout_constraintTop_toBottomOf="@+id/email_input" />
 
         <TextView
