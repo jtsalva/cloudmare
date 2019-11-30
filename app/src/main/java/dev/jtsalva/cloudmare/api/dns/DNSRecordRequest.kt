@@ -56,14 +56,25 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                      pageNumber: Int = 1,
                      perPage: Int = 20,
                      order: String = DNSRecord.SORT_BY_TYPE,
-                     direction: String = DIRECTION_DESCENDING) =
+                     direction: String = DIRECTION_DESCENDING,
+                     contains: String? = null) =
         suspendCoroutine<DNSRecordListResponse> { cont ->
-            val params = urlParams(
+            var params = urlParams(
                 "page" to pageNumber,
                 "per_page" to perPage,
                 "order" to order,
                 "direction" to direction
             )
+
+            val matcher = "contains%3A$contains"
+
+            if (contains != null && contains != "") params +=
+                "&${urlParams(
+                    "name" to matcher,
+                    "type" to matcher,
+                    "content" to matcher,
+                    "match" to "any"
+                ).substringAfter("?")}"
 
             requestTAG = LIST
             get("zones/$zoneId/dns_records$params") {
