@@ -34,7 +34,6 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             if (value != field) {
                 showProgressBar = true
                 field = value
-                paginationListener.resetPage()
                 render()
             }
         }
@@ -178,8 +177,11 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             search_edit_text.apply {
                 if (visibility == View.VISIBLE) {
                     visibility = View.GONE
-                    search_edit_text.setText("")
-                    searchQuery = null
+
+                    if (search_edit_text.text.toString() != "") {
+                        search_edit_text.setText("")
+                        searchQuery = null
+                    }
                 }
                 else visibility = View.VISIBLE
             }
@@ -250,7 +252,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 dns_list.layoutManager!!.scrollToPosition(0)
 
                 clear()
-                addAll(0, result)
+                addAll(result)
 
                 dns_list.adapter!!.notifyDataSetChanged()
             }
