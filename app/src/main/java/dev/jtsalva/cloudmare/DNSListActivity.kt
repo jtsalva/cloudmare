@@ -74,6 +74,10 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
+    private val direction get() =
+        if (sortBy == DNSRecord.SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
+        else Request.DIRECTION_ASCENDING
+
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
     private val paginationListener by lazy {
@@ -81,7 +85,12 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
             override fun fetchNextPage(pageNumber: Int) =
                 DNSRecordRequest(this@DNSListActivity).launch {
-                    list(domain.id, pageNumber = pageNumber, order = sortBy).run {
+                    list(
+                        domain.id,
+                        pageNumber = pageNumber,
+                        order = sortBy,
+                        direction = direction,
+                        contains = searchQuery).run {
                         if (failure || result == null)
                             dialog.error(message = firstErrorMessage)
                         else if (result.isNotEmpty()) result.let { nextPage ->
@@ -228,9 +237,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         val response = list(
             domain.id,
             order = sortBy,
-            direction =
-                if (sortBy == DNSRecord.SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
-                else Request.DIRECTION_ASCENDING,
+            direction = direction,
             contains = searchQuery
         )
         if (response.failure || response.result == null)
