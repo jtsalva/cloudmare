@@ -54,7 +54,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
 
     suspend fun list(zoneId: String,
                      pageNumber: Int = 1,
-                     perPage: Int = 6,
+                     perPage: Int = 20,
                      order: String = DNSRecord.SORT_BY_TYPE,
                      direction: String = DIRECTION_DESCENDING,
                      contains: String? = null) =
