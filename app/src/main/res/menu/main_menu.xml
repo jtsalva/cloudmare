@@ -5,44 +5,44 @@
         android:icon="@drawable/baseline_settings_applications_white_48"
         android:title="@string/menu_settings"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_user_activity"
         android:icon="@drawable/baseline_account_circle_white_48"
         android:title="@string/menu_user"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/baseline_search_white_48"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_sort_by"
         android:icon="@drawable/baseline_sort_by_alpha_white_48"
         android:title="@string/menu_sort_by"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/baseline_delete_white_48"
         android:title="@string/menu_delete"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/baseline_backup_white_48"
         android:title="@string/menu_save"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/baseline_add_white_48"
         android:title="@string/menu_add"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>
