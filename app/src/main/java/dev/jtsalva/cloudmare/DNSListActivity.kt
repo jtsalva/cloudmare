@@ -227,11 +227,6 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         if (!fromActivityResult) render()
     }
 
-    override fun onSwipeRefresh() {
-        super.onSwipeRefresh()
-        paginationListener.resetPage()
-    }
-
     override fun render() = DNSRecordRequest(this).launch {
         cancelAll(Request.LIST)
         val response = list(
@@ -251,6 +246,9 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 layoutManager = LinearLayoutManager(this@DNSListActivity)
                 addOnScrollListener(paginationListener)
             } else if (result != records) records.apply {
+                paginationListener.resetPage()
+                dns_list.layoutManager!!.scrollToPosition(0)
+
                 clear()
                 addAll(0, result)
 
