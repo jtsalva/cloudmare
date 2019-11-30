@@ -169,6 +169,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             search_edit_text.apply {
                 if (visibility == View.VISIBLE) {
                     visibility = View.GONE
+                    search_edit_text.setText("")
                     searchQuery = null
                 }
                 else visibility = View.VISIBLE
