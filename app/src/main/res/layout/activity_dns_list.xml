@@ -33,8 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/search">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dns_list"
@@ -48,5 +49,23 @@
                 tools:listitem="@layout/dns_list_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bottom_border_background"
+            android:ems="10"
+            android:hint="Search"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:inputType="text"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
