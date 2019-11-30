@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
+import kotlinx.android.synthetic.main.activity_dns_list.*
 import kotlinx.android.synthetic.main.activity_domain_list.*
 import timber.log.Timber
 
 class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private val domains = mutableListOf<Zone>()
+    private lateinit var domains: MutableList<Zone>
 
     private val initialized get() = domain_list.adapter is DomainListAdapter
 
@@ -87,21 +88,24 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
-        else {
-            if (response.result != domains) domain_list.apply {
-                domains.clear()
-                domains.addAll(0, response.result)
+        else (response.result as MutableList<Zone>).also { result ->
+            if (!initialized) domain_list.apply {
+                domains = result
 
-                if (initialized)
-                    adapter!!.notifyDataSetChanged()
-                else {
-                    adapter = DomainListAdapter(this@DomainListActivity, domains)
-                    layoutManager = LinearLayoutManager(this@DomainListActivity)
-                    addOnScrollListener(paginationListener)
-                }
+                adapter = DomainListAdapter(this@DomainListActivity, domains)
+                layoutManager = LinearLayoutManager(this@DomainListActivity)
+                addOnScrollListener(paginationListener)
+            } else if (result != domains) domains.apply {
+                paginationListener.resetPage()
+                domain_list.layoutManager!!.scrollToPosition(0)
+
+                clear()
+                addAll(result)
+
+                domain_list.adapter!!.notifyDataSetChanged()
             }
 
-            showNonFoundMessage = response.result.isEmpty()
+            showNonFoundMessage = result.isEmpty()
         }
 
         showProgressBar = false
