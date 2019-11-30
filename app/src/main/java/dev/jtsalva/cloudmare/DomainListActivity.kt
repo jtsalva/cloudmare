@@ -1,6 +1,7 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
@@ -34,6 +35,20 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                 }
 
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_user_activity -> {
+            startActivity(UserActivity::class)
+            true
+        }
+
+        R.id.action_settings_activity -> {
+            startActivity(SettingsActivity::class)
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
