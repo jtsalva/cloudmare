@@ -34,7 +34,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             if (value != field) {
                 showProgressBar = true
                 field = value
-                pagination.resetPage()
+                paginationListener.resetPage()
                 render()
             }
         }
@@ -76,8 +76,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
 
-    private val pagination by lazy {
-        object : Pagination(this, dns_list) {
+    private val paginationListener by lazy {
+        object : PaginationListener(this, dns_list.layoutManager as LinearLayoutManager) {
 
             override fun fetchNextPage(pageNumber: Int) =
                 DNSRecordRequest(this@DNSListActivity).launch {
@@ -220,7 +220,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun onSwipeRefresh() {
         super.onSwipeRefresh()
-        pagination.resetPage()
+        paginationListener.resetPage()
     }
 
     override fun render() = DNSRecordRequest(this).launch {
@@ -242,7 +242,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
                 adapter = DNSListAdapter(this@DNSListActivity, domain, records)
                 layoutManager = LinearLayoutManager(this@DNSListActivity)
-                addOnScrollListener(pagination)
+                addOnScrollListener(paginationListener)
             } else if (result != records) records.apply {
                 clear()
                 addAll(0, result)

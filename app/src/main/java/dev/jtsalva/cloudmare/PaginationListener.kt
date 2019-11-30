@@ -3,8 +3,8 @@ package dev.jtsalva.cloudmare
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class Pagination(private val activity: CloudMareActivity,
-                          private val recyclerView: RecyclerView) : RecyclerView.OnScrollListener() {
+abstract class PaginationListener(private val activity: CloudMareActivity,
+                                  private val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
     protected var fetchingNextPage: Boolean = false
         set(value) {
@@ -12,12 +12,12 @@ abstract class Pagination(private val activity: CloudMareActivity,
             field = value
         }
 
+    protected var reachedLastPage = false
+
     private inline val reachedBottom: Boolean get() =
-        (recyclerView.layoutManager as LinearLayoutManager).run {
+        layoutManager.run {
             (childCount + findFirstVisibleItemPosition()) >= itemCount
         }
-
-    protected var reachedLastPage = false
 
     private var currentPage = 1
 
