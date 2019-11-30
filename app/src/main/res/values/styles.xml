@@ -11,6 +11,8 @@
 
         // Material Dialogs
         <item name="md_corner_radius">5dp</item>
+
+        <item name="android:textColorSecondary">@color/colorWhite</item>
     </style>
 
     <style name="TextViewStyle" parent="android:Widget.TextView">

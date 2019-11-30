@@ -2,7 +2,10 @@ package dev.jtsalva.cloudmare
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.Request
@@ -17,6 +20,14 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     private lateinit var domain: Zone
 
     private lateinit var records: MutableList<DNSRecord>
+
+    private var searchQuery: String? = null
+        set(value) {
+            if (value != field) {
+                field = value
+                render()
+            }
+        }
 
     private var sortBy = DNSRecord.SORT_BY_TYPE
         set(value) {
@@ -154,6 +165,19 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             true
         }
 
+        R.id.action_search -> {
+            search_edit_text.apply {
+                if (visibility == View.VISIBLE) {
+                    visibility = View.GONE
+                    search_edit_text.setText("")
+                    searchQuery = null
+                }
+                else visibility = View.VISIBLE
+            }
+
+            true
+        }
+
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -163,12 +187,29 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         domain = intent.getParcelableExtra("domain")!!
 
         menuButtonInitializer.onInflateSetVisible(
+            R.id.action_search,
             R.id.action_sort_by,
             R.id.action_add
         )
 
         setLayout(R.layout.activity_dns_list)
         setToolbarTitle("${domain.name} | DNS Records")
+
+        search_edit_text.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Blank
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Blank
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+
+                searchQuery = s.toString()
+            }
+        })
     }
 
     override fun onStart() {
@@ -183,12 +224,14 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = DNSRecordRequest(this).launch {
+        cancelAll(Request.LIST)
         val response = list(
             domain.id,
             order = sortBy,
             direction =
                 if (sortBy == DNSRecord.SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
-                else Request.DIRECTION_ASCENDING
+                else Request.DIRECTION_ASCENDING,
+            contains = searchQuery
         )
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
