@@ -16,8 +16,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized get() = domain_list.adapter is DomainListAdapter
 
-    private val pagination by lazy {
-        object : Pagination(this, domain_list) {
+    private val paginationListener by lazy {
+        object : PaginationListener(this, domain_list.layoutManager as LinearLayoutManager) {
 
             override fun fetchNextPage(pageNumber: Int) =
                 ZoneRequest(this@DomainListActivity).launch {
@@ -79,7 +79,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun onSwipeRefresh() {
         super.onSwipeRefresh()
-        pagination.resetPage()
+        paginationListener.resetPage()
     }
 
     override fun render() = ZoneRequest(this).launch {
@@ -97,7 +97,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
                 else {
                     adapter = DomainListAdapter(this@DomainListActivity, domains)
                     layoutManager = LinearLayoutManager(this@DomainListActivity)
-                    addOnScrollListener(pagination)
+                    addOnScrollListener(paginationListener)
                 }
             }
 
