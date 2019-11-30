@@ -57,7 +57,7 @@
             android:layout_height="60dp"
             android:background="@drawable/bottom_border_background"
             android:ems="10"
-            android:hint="Search"
+            android:hint="Start typing to search..."
             android:visibility="gone"
             tools:visibility="visible"
             android:inputType="text"
