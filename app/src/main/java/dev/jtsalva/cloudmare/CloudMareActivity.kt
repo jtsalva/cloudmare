@@ -2,7 +2,6 @@ package dev.jtsalva.cloudmare
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -85,20 +84,6 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
         setSwipeRefreshListener()
 
         return binding
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_user_activity -> {
-            startActivity(UserActivity::class)
-            true
-        }
-
-        R.id.action_settings_activity -> {
-            startActivity(SettingsActivity::class)
-            true
-        }
-
-        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
