@@ -15,6 +15,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/baseline_search_white_48"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_sort_by"
         android:icon="@drawable/baseline_sort_by_alpha_white_48"
         android:title="@string/menu_sort_by"

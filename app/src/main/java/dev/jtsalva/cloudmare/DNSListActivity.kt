@@ -163,6 +163,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         domain = intent.getParcelableExtra("domain")!!
 
         menuButtonInitializer.onInflateSetVisible(
+            R.id.action_search,
             R.id.action_sort_by,
             R.id.action_add
         )
