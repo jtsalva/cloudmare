@@ -3,6 +3,7 @@ package dev.jtsalva.cloudmare
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.Request
@@ -151,6 +152,14 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 initialSelection = selectedItemIndex) { _, _, text ->
                 sortBy = sortByTranslator.getValue(text)
             }
+            true
+        }
+
+        R.id.action_search -> {
+            search_edit_text.visibility =
+                if (search_edit_text.visibility == View.VISIBLE) View.GONE
+                else View.VISIBLE
+
             true
         }
 
