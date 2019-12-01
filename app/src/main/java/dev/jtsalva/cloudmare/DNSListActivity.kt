@@ -1,11 +1,13 @@
 package dev.jtsalva.cloudmare
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSListAdapter
 import dev.jtsalva.cloudmare.api.Request
@@ -176,6 +178,8 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         R.id.action_search -> {
             search_edit_text.apply {
                 if (visibility == View.VISIBLE) {
+                    isEnabled = false
+
                     visibility = View.GONE
 
                     if (search_edit_text.text.toString() != "") {
@@ -183,7 +187,19 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                         searchQuery = null
                     }
                 }
-                else visibility = View.VISIBLE
+                else {
+                    isEnabled = true
+
+                    visibility = View.VISIBLE
+
+                    requestFocus()
+                    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
+                        toggleSoftInputFromWindow(
+                            currentFocus!!.windowToken,
+                            InputMethodManager.SHOW_FORCED,
+                            0)
+                    }
+                }
             }
 
             true
