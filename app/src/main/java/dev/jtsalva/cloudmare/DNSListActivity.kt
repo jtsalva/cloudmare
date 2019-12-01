@@ -192,10 +192,10 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
                     visibility = View.VISIBLE
 
-                    requestFocus()
                     (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
+                        requestFocus()
                         toggleSoftInputFromWindow(
-                            currentFocus!!.windowToken,
+                            currentFocus?.windowToken,
                             InputMethodManager.SHOW_FORCED,
                             0)
                     }
