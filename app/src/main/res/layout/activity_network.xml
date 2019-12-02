@@ -81,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="Adds an IPv4 header to requests when a client is using IPv6, but the server only supports IPv4."
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="@+id/pseudo_ipv4_spinner"
                             app:layout_constraintTop_toBottomOf="@+id/pseudo_ipv4_spinner" />
 
