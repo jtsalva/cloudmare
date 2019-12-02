@@ -38,7 +38,9 @@
         <activity
                 android:name=".DNSListActivity"
                 android:launchMode="singleTop" />
-        <activity android:name=".DomainListActivity">
+        <activity
+                android:name=".DomainListActivity"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
