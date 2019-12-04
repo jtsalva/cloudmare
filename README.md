@@ -1,20 +1,20 @@
-# CloudMare: Cloudflare DNS Manager
+# CloudMare: Android Cloudflare Manager
 Available on the [Google Play Store](https://play.google.com/store/apps/details?id=dev.jtsalva.cloudmare)
 
-Simple & Quick Cloudflare tool for:
+Small & Simple Cloudflare tool for:
  * Toggling 'Under Attack Mode' and 'Development Mode'
  
- * Managing DNS records
+ * Searching & Managing DNS records
  
- * View Analytics
+ * Viewing Analytics
 
- * Toggle Page Rules
+ * Toggling Page Rules
  
- * Manage SSL Settings
+ * Managing SSL Settings
  
  * Caching Controls
 
- * Manage Network Settings
+ * Managing Network Settings
  
  * More features on it's way
 
