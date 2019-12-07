@@ -47,7 +47,7 @@
                 android:gravity="start|top"
                 android:hint="@string/user_cloudflare_global_api_key_or_token"
                 android:importantForAutofill="auto"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:maxLength="40"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
