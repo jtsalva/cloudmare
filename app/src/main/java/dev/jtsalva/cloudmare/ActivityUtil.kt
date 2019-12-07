@@ -1,27 +1,25 @@
 package dev.jtsalva.cloudmare
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
-import java.io.InvalidClassException
 import java.security.InvalidParameterException
 import kotlin.reflect.KClass
 
-inline fun <T : Activity> Context.startActivity(activityClass: KClass<T>) =
+inline fun <T : Activity> Activity.startActivity(activityClass: KClass<T>) =
     startActivity(Intent(this, activityClass.java))
 
-inline fun <T : Activity> Context.startActivityWithExtras(activityClass: KClass<T>, vararg extras: Pair<String, Any>) =
+inline fun <T : Activity> Activity.startActivityWithExtras(activityClass: KClass<T>, vararg extras: Pair<String, Any>) =
     startActivity(
         Intent(this, activityClass.java).putExtras(*extras)
     )
 
-inline fun <T : Activity> Context.startActivityWithExtrasForResult(activityClass: KClass<T>,
+inline fun <T : Activity> Activity.startActivityWithExtrasForResult(activityClass: KClass<T>,
                                                             requestCode: Int,
                                                             vararg extras: Pair<String, Any>) =
-    if (this is Activity) startActivityForResult(
+    startActivityForResult(
         Intent(this, activityClass.java).putExtras(*extras), requestCode
-    ) else throw InvalidClassException("only subclasses of Activity can call this extension function")
+    )
 
 
 inline fun Intent.putExtras(vararg extras: Pair<String, Any>): Intent {
