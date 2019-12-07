@@ -67,6 +67,7 @@ class UserActivity : CloudMareActivity() {
         email_input.setOnKeyListener(::onEnter)
         api_key_or_token_input.setOnKeyListener(::onEnter)
         save_button.setOnClickListener(::onSave)
+        help_button.setOnClickListener(::onHelp)
     }
 
     override fun onStart() {
@@ -113,6 +114,14 @@ class UserActivity : CloudMareActivity() {
             if (response.success) finish()
             else dialog.error(message = response.firstErrorMessage)
         }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun onHelp(view: View? = null) {
+        help_button.visibility = View.GONE
+        info.visibility = View.VISIBLE
+        user_required_token_permissions.visibility = View.VISIBLE
+        user_additional_info.visibility = View.VISIBLE
     }
 
 }
