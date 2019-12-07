@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DomainListAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
-import kotlinx.android.synthetic.main.activity_dns_list.*
 import kotlinx.android.synthetic.main.activity_domain_list.*
 import timber.log.Timber
 
