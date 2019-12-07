@@ -16,31 +16,31 @@
             tools:replace="android:supportsRtl">
         <activity
                 android:name=".NetworkActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".SettingsActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".AnalyticsActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".CachingActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".SSLActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".PageRulesActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".DNSRecordActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".DNSListActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".DomainListActivity"
-                android:launchMode="singleTop">
+                android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,10 +49,10 @@
         </activity>
         <activity
                 android:name=".DomainDashActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
         <activity
                 android:name=".UserActivity"
-                android:launchMode="singleTop" />
+                android:launchMode="singleTask" />
     </application>
 
 </manifest>
