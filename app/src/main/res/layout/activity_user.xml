@@ -60,7 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button"
+                android:background="@drawable/button_blue"
                 android:paddingBottom="4dp"
                 android:text="@string/user_save"
                 android:textColor="#FFF"
@@ -69,6 +69,21 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/api_key_or_token_input"
                 app:layout_constraintTop_toBottomOf="@+id/email_input" />
+
+        <Button
+                android:id="@+id/help_button"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_green"
+                android:paddingBottom="4dp"
+                android:text="Help"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/api_key_or_token_input"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/api_key_or_token_input"
+                app:layout_constraintTop_toBottomOf="@+id/save_button" />
 
         <TextView
                 android:id="@+id/info"
@@ -80,6 +95,7 @@
                 android:text="@string/user_instructions"
                 android:textSize="18sp"
                 android:autoLink="web"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/save_button" />
@@ -93,6 +109,7 @@
                 android:layout_marginEnd="24dp"
                 android:text="@string/user_required_token_permissions"
                 android:textSize="18sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/info" />
@@ -107,6 +124,7 @@
                 android:text="@string/user_additional_info"
                 android:textSize="18sp"
                 android:autoLink="web"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_required_token_permissions" />
