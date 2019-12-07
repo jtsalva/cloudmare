@@ -101,7 +101,7 @@
     </string>
     <string name="user_required_token_permissions">Required API Token Permissions: All zones | Zone Settings:Edit | Zone:Edit | Cache Purge:Edit | Page Rules:Edit | DNS:Edit | Analytics:Read
     </string>
-    <string name="user_additional_info">Need help? For a more in-depth guide go to cloudmare.jtsalva.dev/help.html</string>
+    <string name="user_additional_info">Need help? For a more in-depth guide go to cloudmare.jtsalva.dev/help</string>
     <string name="user_cloudflare_email_label">Email</string>
     <string name="user_api_key_or_token_label">API Token or Key</string>
     <string name="user_api_key_label">API Key</string>
