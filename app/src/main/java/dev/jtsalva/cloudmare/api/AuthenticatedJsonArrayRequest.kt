@@ -22,19 +22,19 @@ class AuthenticatedJsonArrayRequest(
 
     override fun getHeaders(): MutableMap<String, String> = Auth.headers
 
-    override fun parseNetworkResponse(response: NetworkResponse): com.android.volley.Response<JSONObject> =
+    override fun parseNetworkResponse(response: NetworkResponse): JsonResponse<JSONObject> =
         try {
             val jsonString = String(
                 response.data,
                 Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET))
             )
-            com.android.volley.Response.success(
+            JsonResponse.success(
                 JSONObject(jsonString), HttpHeaderParser.parseCacheHeaders(response)
             )
         } catch (e: UnsupportedEncodingException) {
-            com.android.volley.Response.error(ParseError(e))
+            JsonResponse.error(ParseError(e))
         } catch (je: JSONException) {
-            com.android.volley.Response.error(ParseError(je))
+            JsonResponse.error(ParseError(je))
         }
 
 }
