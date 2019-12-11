@@ -50,6 +50,7 @@
 
                     <dev.jtsalva.cloudmare.view.SwitchOptionView
                             android:id="@+id/web_sockets_item"
+                            android:layout_marginTop="10dp"
                             app:checked="@={viewModel.webSockets}"
                             app:info="Allow WebSockets connections to your origin server."
                             app:title="WebSockets" />
@@ -89,6 +90,7 @@
 
                     <dev.jtsalva.cloudmare.view.SwitchOptionView
                             android:id="@+id/ip_geolocation_item"
+                            android:layout_marginTop="10dp"
                             app:checked="@={viewModel.ipGeolocation}"
                             app:info="Include the country code of the visitor location with all requests to your website."
                             app:title="IP Geolocation" />
