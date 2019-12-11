@@ -50,7 +50,6 @@ class NetworkActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else response.result.let { settings ->
-            Timber.e(settings.toString())
             viewModel.pseudoIpv4 = settings.valueAsString(ZoneSetting.ID_PSEUDO_IPV4)
 
             pseudoIpv4Adapter.let { adapter ->
