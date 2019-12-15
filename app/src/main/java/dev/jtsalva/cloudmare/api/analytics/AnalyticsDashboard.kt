@@ -23,46 +23,46 @@ data class AnalyticsDashboard(
 
         @JsonClass(generateAdapter = true)
         data class Requests(
-            @field:Json(name = "all") val all: Int,
-            @field:Json(name = "cached") val cached: Int,
-            @field:Json(name = "uncached") val uncached: Int,
-            @field:Json(name = "content_type") val contentType: Map<String, Int>? = null,
-            @field:Json(name = "country") val country: Map<String, Int>? = null,
-            @field:Json(name = "ssl") val ssl: Map<String, Int>? = null,
-            @field:Json(name = "ssl_protocols") val sslProtocols: Map<String, Int>? = null,
-            @field:Json(name = "http_status") val httpStatus: Map<String, Int>? = null,
+            @field:Json(name = "all") val all: Long,
+            @field:Json(name = "cached") val cached: Long,
+            @field:Json(name = "uncached") val uncached: Long,
+            @field:Json(name = "content_type") val contentType: Map<String, Long>? = null,
+            @field:Json(name = "country") val country: Map<String, Long>? = null,
+            @field:Json(name = "ssl") val ssl: Map<String, Long>? = null,
+            @field:Json(name = "ssl_protocols") val sslProtocols: Map<String, Long>? = null,
+            @field:Json(name = "http_status") val httpStatus: Map<String, Long>? = null,
             @field:Json(name = "threats") val threats: Threats? = null
         )
 
         @JsonClass(generateAdapter = true)
         data class Bandwidth(
-            @field:Json(name = "all") val all: Int,
-            @field:Json(name = "cached") val cached: Int,
-            @field:Json(name = "uncached") val uncached: Int,
-            @field:Json(name = "content_type") val contentType: Map<String, Int>? = null,
-            @field:Json(name = "country") val country: Map<String, Int>? = null,
-            @field:Json(name = "ssl") val ssl: Map<String, Int>? = null,
-            @field:Json(name = "ssl_protocols") val sslProtocols: Map<String, Int>? = null,
+            @field:Json(name = "all") val all: Long,
+            @field:Json(name = "cached") val cached: Long,
+            @field:Json(name = "uncached") val uncached: Long,
+            @field:Json(name = "content_type") val contentType: Map<String, Long>? = null,
+            @field:Json(name = "country") val country: Map<String, Long>? = null,
+            @field:Json(name = "ssl") val ssl: Map<String, Long>? = null,
+            @field:Json(name = "ssl_protocols") val sslProtocols: Map<String, Long>? = null,
             @field:Json(name = "pageviews") val pageViews: PageViews? = null,
             @field:Json(name = "uniques") val uniques: Uniques? = null
         )
 
         @JsonClass(generateAdapter = true)
         data class Threats(
-            @field:Json(name = "all") val all: Int,
-            @field:Json(name = "country") val country: Map<String, Int>? = null,
-            @field:Json(name = "type") val type: Map<String, Int>? = null
+            @field:Json(name = "all") val all: Long,
+            @field:Json(name = "country") val country: Map<String, Long>? = null,
+            @field:Json(name = "type") val type: Map<String, Long>? = null
         )
 
         @JsonClass(generateAdapter = true)
         data class PageViews(
-            @field:Json(name = "all") val all: Int,
-            @field:Json(name = "search_engine") val searchEngine: Map<String, Int>? = null
+            @field:Json(name = "all") val all: Long,
+            @field:Json(name = "search_engine") val searchEngine: Map<String, Long>? = null
         )
 
         @JsonClass(generateAdapter = true)
         data class Uniques(
-            @field:Json(name = "all") val all: Int
+            @field:Json(name = "all") val all: Long
         )
     }
 
@@ -70,7 +70,7 @@ data class AnalyticsDashboard(
     data class Query(
         @field:Json(name = "since") val since: String,
         @field:Json(name = "until") val until: String,
-        @field:Json(name = "time_delta") val timeDelta: Int
+        @field:Json(name = "time_delta") val timeDelta: Long
     )
 
 }
