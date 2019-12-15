@@ -130,7 +130,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
             valueTextView.text = value
         }
 
-    private inline fun drawTotals(vararg totals: Pair<String, Int>, units: String = "") =
+    private inline fun drawTotals(vararg totals: Pair<String, Long>, units: String = "") =
         totals.forEach { total ->
             totals_table.addView(totalsTemplate(total.first, "${total.second} $units"))
         }
