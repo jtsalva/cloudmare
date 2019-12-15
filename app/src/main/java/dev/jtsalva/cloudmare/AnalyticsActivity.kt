@@ -276,23 +276,25 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 uncached.add(Entry(time, data.requests.uncached.toFloat()))
             }
 
-            dataSets.add(
-                LineDataSet(all, "All").apply(
-                    customLineDataSet(R.color.colorPrimary)
+            dataSets.apply {
+                add(
+                    LineDataSet(all, "All").apply(
+                        customLineDataSet(R.color.colorPrimary)
+                    )
                 )
-            )
 
-            dataSets.add(
-                LineDataSet(cached, "Cached").apply(
-                    customLineDataSet(R.color.colorBlue)
+                add(
+                    LineDataSet(cached, "Cached").apply(
+                        customLineDataSet(R.color.colorBlue)
+                    )
                 )
-            )
 
-            dataSets.add(
-                LineDataSet(uncached, "Uncached").apply(
-                    customLineDataSet(R.color.colorRed)
+                add(
+                    LineDataSet(uncached, "Uncached").apply(
+                        customLineDataSet(R.color.colorRed)
+                    )
                 )
-            )
+            }
 
             lines[AnalyticsViewModel.CATEGORY_REQUESTS] = LineData(dataSets)
         }
@@ -325,23 +327,25 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
                 uncached.add(Entry(time, data.bandwidth.uncached.toFloat()))
             }
 
-            dataSets.add(
-                LineDataSet(all, "All").apply(
-                    customLineDataSet(R.color.colorPrimary)
+            dataSets.apply {
+                add(
+                    LineDataSet(all, "All").apply(
+                        customLineDataSet(R.color.colorPrimary)
+                    )
                 )
-            )
 
-            dataSets.add(
-                LineDataSet(cached, "Cached").apply(
-                    customLineDataSet(R.color.colorBlue)
+                add(
+                    LineDataSet(cached, "Cached").apply(
+                        customLineDataSet(R.color.colorBlue)
+                    )
                 )
-            )
 
-            dataSets.add(
-                LineDataSet(uncached, "Uncached").apply(
-                    customLineDataSet(R.color.colorRed)
+                add(
+                    LineDataSet(uncached, "Uncached").apply(
+                        customLineDataSet(R.color.colorRed)
+                    )
                 )
-            )
+            }
 
             lines[AnalyticsViewModel.CATEGORY_BANDWIDTH] = LineData(dataSets)
         }
