@@ -57,6 +57,7 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
         menuButtonInitializer.onInflateSetVisible(
+            R.id.action_contact,
             R.id.action_settings_activity,
             R.id.action_user_activity
         )
