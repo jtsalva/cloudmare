@@ -108,6 +108,7 @@
     <string name="user_api_token_label">API Token</string>
 
     // Menu
+    <string name="menu_contact">Contact</string>
     <string name="menu_settings">Preferences</string>
     <string name="menu_user">User</string>
     <string name="menu_sort_by">Sort By</string>
