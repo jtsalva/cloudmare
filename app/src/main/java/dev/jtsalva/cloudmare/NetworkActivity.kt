@@ -9,7 +9,6 @@ import dev.jtsalva.cloudmare.api.zonesettings.ZoneSettingRequest
 import dev.jtsalva.cloudmare.databinding.ActivityNetworkBindingImpl
 import dev.jtsalva.cloudmare.viewmodel.NetworkViewModel
 import kotlinx.android.synthetic.main.activity_network.*
-import timber.log.Timber
 
 class NetworkActivity : CloudMareActivity(), SwipeRefreshable {
 
