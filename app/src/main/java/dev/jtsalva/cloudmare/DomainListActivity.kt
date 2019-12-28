@@ -1,5 +1,7 @@
 package dev.jtsalva.cloudmare
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
@@ -37,6 +39,10 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
+    companion object {
+        private const val CONTACT_URL = "https://cloudmare.jtsalva.dev/contact"
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_user_activity -> {
             startActivity(UserActivity::class)
@@ -45,6 +51,16 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
 
         R.id.action_settings_activity -> {
             startActivity(SettingsActivity::class)
+            true
+        }
+
+        R.id.action_contact -> {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(CONTACT_URL)
+                )
+            )
             true
         }
 
