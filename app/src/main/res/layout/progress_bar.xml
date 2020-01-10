@@ -11,7 +11,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.06999999"
+            app:layout_constraintVertical_bias="0.5"
             android:visibility="visible"
             android:elevation="2dp"
             tools:visibility="gone" />
