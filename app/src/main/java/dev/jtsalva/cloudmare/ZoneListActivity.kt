@@ -96,7 +96,7 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
     override fun onSwipeRefresh() {
         super.onSwipeRefresh()
-        paginationListener.resetPage()
+        if (initialized) paginationListener.resetPage()
     }
 
     override fun render() = ZoneRequest(this).launch {

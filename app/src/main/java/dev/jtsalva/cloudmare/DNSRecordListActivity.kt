@@ -91,7 +91,8 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
                         pageNumber = pageNumber,
                         order = sortBy,
                         direction = direction,
-                        contains = searchQuery).run {
+                        contains = searchQuery
+                    ).run {
                         if (failure || result == null)
                             dialog.error(message = firstErrorMessage)
                         else if (result.isNotEmpty()) result.let { nextPage ->
