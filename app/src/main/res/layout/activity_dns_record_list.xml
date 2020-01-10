@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DNSListActivity">
+        tools:context=".DNSRecordListActivity">
 
     <include
             android:id="@+id/toolbar"
@@ -20,7 +20,7 @@
             android:id="@+id/non_found_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dns_list_none_found"
+            android:text="@string/dns_record_list_none_found"
             android:textSize="20sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/search_edit_text">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dns_list"
+                android:id="@+id/dns_record_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:scrollbars="vertical"
@@ -47,7 +47,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                tools:listitem="@layout/dns_list_item" />
+                tools:listitem="@layout/dns_record_list_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

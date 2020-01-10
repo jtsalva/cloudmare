@@ -30,7 +30,7 @@
     <string name="caching_expiration_info">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</string>
 
     // DNS List Activity
-    <string name="dns_list_none_found">No dns records found</string>
+    <string name="dns_record_list_none_found">No dns records found</string>
 
     // DNS Record Type Labels
     <string name="type_a">A</string>
@@ -188,19 +188,19 @@
     <string name="ssl_mode_info_full_strict">Full (strict) - Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server</string>
 
     // DNS List Sort By Labels
-    <string name="dns_list_sort_by_type">Type</string>
-    <string name="dns_list_sort_by_name">Name</string>
-    <string name="dns_list_sort_by_content">Content</string>
-    <string name="dns_list_sort_by_ttl">TTL</string>
-    <string name="dns_list_sort_by_proxied">Proxied</string>
+    <string name="dns_record_list_sort_by_type">Type</string>
+    <string name="dns_record_list_sort_by_name">Name</string>
+    <string name="dns_record_list_sort_by_content">Content</string>
+    <string name="dns_record_list_sort_by_ttl">TTL</string>
+    <string name="dns_record_list_sort_by_proxied">Proxied</string>
 
     // DNS List Sort By Options
-    <string-array name="entries_dns_list_sort_by">
-        <item>@string/dns_list_sort_by_type</item>
-        <item>@string/dns_list_sort_by_name</item>
-        <item>@string/dns_list_sort_by_content</item>
-        <item>@string/dns_list_sort_by_ttl</item>
-        <item>@string/dns_list_sort_by_proxied</item>
+    <string-array name="entries_dns_record_list_sort_by">
+        <item>@string/dns_record_list_sort_by_type</item>
+        <item>@string/dns_record_list_sort_by_name</item>
+        <item>@string/dns_record_list_sort_by_content</item>
+        <item>@string/dns_record_list_sort_by_ttl</item>
+        <item>@string/dns_record_list_sort_by_proxied</item>
     </string-array>
 
     // Caching Level Labels

@@ -9,15 +9,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.jtsalva.cloudmare.adapter.DNSListAdapter
+import dev.jtsalva.cloudmare.adapter.DNSRecordListAdapter
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
-import kotlinx.android.synthetic.main.activity_dns_list.*
+import kotlinx.android.synthetic.main.activity_dns_record_list.*
 import timber.log.Timber
 
-class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
+class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var zone: Zone
 
@@ -51,11 +51,11 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         object {
 
             val idToReadable = mapOf(
-                DNSRecord.SORT_BY_TYPE to getString(R.string.dns_list_sort_by_type),
-                DNSRecord.SORT_BY_NAME to getString(R.string.dns_list_sort_by_name),
-                DNSRecord.SORT_BY_CONTENT to getString(R.string.dns_list_sort_by_content),
-                DNSRecord.SORT_BY_TTL to getString(R.string.dns_list_sort_by_ttl),
-                DNSRecord.SORT_BY_PROXIED to getString(R.string.dns_list_sort_by_proxied)
+                DNSRecord.SORT_BY_TYPE to getString(R.string.dns_record_list_sort_by_type),
+                DNSRecord.SORT_BY_NAME to getString(R.string.dns_record_list_sort_by_name),
+                DNSRecord.SORT_BY_CONTENT to getString(R.string.dns_record_list_sort_by_content),
+                DNSRecord.SORT_BY_TTL to getString(R.string.dns_record_list_sort_by_ttl),
+                DNSRecord.SORT_BY_PROXIED to getString(R.string.dns_record_list_sort_by_proxied)
             )
 
             fun indexOfValue(value: String): Int =
@@ -79,13 +79,13 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         if (sortBy == DNSRecord.SORT_BY_PROXIED) Request.DIRECTION_DESCENDING
         else Request.DIRECTION_ASCENDING
 
-    private val initialized: Boolean get() = dns_list.adapter is DNSListAdapter
+    private val initialized: Boolean get() = dns_record_list.adapter is DNSRecordListAdapter
 
     private val paginationListener by lazy {
-        object : PaginationListener(this, dns_list.layoutManager as LinearLayoutManager) {
+        object : PaginationListener(this, dns_record_list.layoutManager as LinearLayoutManager) {
 
             override fun fetchNextPage(pageNumber: Int) =
-                DNSRecordRequest(this@DNSListActivity).launch {
+                DNSRecordRequest(this@DNSRecordListActivity).launch {
                     list(
                         zone.id,
                         pageNumber = pageNumber,
@@ -97,7 +97,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                         else if (result.isNotEmpty()) result.let { nextPage ->
                             val positionStart = records.size
                             records.addAll(nextPage)
-                            dns_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
+                            dns_record_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
                         } else reachedLastPage = true
                     }
 
@@ -128,15 +128,15 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 val position = records.indexOfFirst { it.id == dnsRecord.id }
 
                 records[position] = dnsRecord
-                dns_list.adapter!!.notifyItemChanged(position)
+                dns_record_list.adapter!!.notifyItemChanged(position)
             }
 
             DNSRecordActivity.CREATED -> {
                 val dnsRecord = data.getParcelableExtra<DNSRecord>("dns_record")!!
 
                 records.add(0, dnsRecord)
-                dns_list.adapter!!.notifyItemInserted(0)
-                dns_list.layoutManager!!.scrollToPosition(0)
+                dns_record_list.adapter!!.notifyItemInserted(0)
+                dns_record_list.layoutManager!!.scrollToPosition(0)
 
                 showNonFoundMessage = false
             }
@@ -146,7 +146,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
                 val position = records.indexOfFirst { it.id == dnsRecord.id }
 
                 records.removeAt(position)
-                dns_list.adapter!!.run {
+                dns_record_list.adapter!!.run {
                     notifyItemRemoved(position)
                     notifyItemRangeChanged(position, records.size)
                 }
@@ -168,7 +168,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             val selectedItemIndex = sortByTranslator.indexOfValue(sortBy)
             dialog.multiChoice(
                 title = "Sort By",
-                resId = R.array.entries_dns_list_sort_by,
+                resId = R.array.entries_dns_record_list_sort_by,
                 initialSelection = selectedItemIndex) { _, _, text ->
                 sortBy = sortByTranslator.getValue(text.toString())
             }
@@ -219,7 +219,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             R.id.action_add
         )
 
-        setLayout(R.layout.activity_dns_list)
+        setLayout(R.layout.activity_dns_record_list)
         setToolbarTitle("${zone.name} | DNS Records")
 
         search_edit_text.addTextChangedListener(object : TextWatcher {
@@ -257,20 +257,20 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else (response.result as MutableList<DNSRecord>).also { result ->
-            if (!initialized) dns_list.apply {
+            if (!initialized) dns_record_list.apply {
                 records = result
 
-                adapter = DNSListAdapter(this@DNSListActivity, zone, records)
-                layoutManager = LinearLayoutManager(this@DNSListActivity)
+                adapter = DNSRecordListAdapter(this@DNSRecordListActivity, zone, records)
+                layoutManager = LinearLayoutManager(this@DNSRecordListActivity)
                 addOnScrollListener(paginationListener)
             } else if (result != records) records.apply {
                 paginationListener.resetPage()
-                dns_list.layoutManager!!.scrollToPosition(0)
+                dns_record_list.layoutManager!!.scrollToPosition(0)
 
                 clear()
                 addAll(result)
 
-                dns_list.adapter!!.notifyDataSetChanged()
+                dns_record_list.adapter!!.notifyDataSetChanged()
             }
 
             showNonFoundMessage = result.isEmpty()

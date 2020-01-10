@@ -7,18 +7,18 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.DNSListActivity
+import dev.jtsalva.cloudmare.DNSRecordListActivity
 import dev.jtsalva.cloudmare.DNSRecordActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
 
-class DNSListAdapter(
-    private val activity: DNSListActivity,
+class DNSRecordListAdapter(
+    private val activity: DNSRecordListActivity,
     private val zone: Zone,
     private val records: MutableList<DNSRecord>
-) : RecyclerView.Adapter<DNSListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<DNSRecordListAdapter.ViewHolder>() {
 
     companion object {
         const val NO_BIAS = 0.5f
@@ -27,7 +27,7 @@ class DNSListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.dns_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.dns_record_list_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -39,21 +39,21 @@ class DNSListAdapter(
                 if (name == zone.name) "@" else name.fit()
             }
             content.text = record.content.fit()
-            val constraintSet = ConstraintSet().apply { clone(dnsListItem) }
+            val constraintSet = ConstraintSet().apply { clone(dnsRecordListItem) }
             if (record.priority != null) {
                 priority.text = record.priority.toString()
                 constraintSet.setVerticalBias(R.id.type, UPSHIFT_BIAS)
-                constraintSet.applyTo(dnsListItem)
+                constraintSet.applyTo(dnsRecordListItem)
             } else {
                 priority.text = ""
                 constraintSet.setVerticalBias(R.id.type, NO_BIAS)
-                constraintSet.applyTo(dnsListItem)
+                constraintSet.applyTo(dnsRecordListItem)
             }
         }
 
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtrasForResult(
-                DNSRecordActivity::class,  DNSListActivity.EDIT_RECORD,
+                DNSRecordActivity::class,  DNSRecordListActivity.EDIT_RECORD,
                     "zone" to zone,
                     "dns_record" to record
             )
@@ -64,7 +64,7 @@ class DNSListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val dnsListItem: ConstraintLayout = itemView.findViewById(R.id.dns_list_item)
+        val dnsRecordListItem: ConstraintLayout = itemView.findViewById(R.id.dns_record_list_item)
         val type: TextView = itemView.findViewById(R.id.type)
         val name: TextView = itemView.findViewById(R.id.name)
         val content: TextView = itemView.findViewById(R.id.content)

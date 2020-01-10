@@ -93,7 +93,7 @@ class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         dns_item.setOnClickListener {
-            startActivityWithExtras(DNSListActivity::class,
+            startActivityWithExtras(DNSRecordListActivity::class,
                 "zone" to zone
             )
         }
