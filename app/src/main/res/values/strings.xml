@@ -29,7 +29,8 @@
     <string name="caching_expiration_title">Browser Cache Expiration</string>
     <string name="caching_expiration_info">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</string>
 
-    // DNS List Activity
+    // DNS Record List Activity
+    <string name="dns_record_list_search_hint">Start typing to search...</string>
     <string name="dns_record_list_none_found">No dns records found</string>
 
     // DNS Record Type Labels
@@ -93,10 +94,15 @@
     // SSL Activity
     <string name="ssl_encryption_mode">SSL Encryption Mode</string>
 
+    // Network Activity
+    <string name="network_pseudo_ipv4_title">Pseudo IPv4</string>
+    <string name="network_pseudo_ipv4_info">Adds an IPv4 header to requests when a client is using IPv6, but the server only supports IPv4.</string>
+
     // User Activity
     <string name="user_cloudflare_email">Cloudflare Email</string>
     <string name="user_cloudflare_global_api_key_or_token">Token or Global API Key</string>
     <string name="user_save">SAVE</string>
+    <string name="user_help">HELP</string>
     <string name="user_instructions">To generate an API Token log in to dash.cloudflare.com/profile/api-tokens and click on \'Create Token\'
     </string>
     <string name="user_required_token_permissions">Required API Token Permissions: All zones | Zone Settings:Edit | Zone:Edit | Cache Purge:Edit | Page Rules:Edit | DNS:Edit | Analytics:Read
@@ -111,6 +117,7 @@
     <string name="menu_contact">Contact</string>
     <string name="menu_settings">Preferences</string>
     <string name="menu_user">User</string>
+    <string name="menu_search">Search</string>
     <string name="menu_sort_by">Sort By</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_save">Save</string>

@@ -63,7 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
-                            android:text="Pseudo IPv4"
+                            android:text="@string/network_pseudo_ipv4_title"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -81,7 +81,7 @@
                             android:id="@+id/pseudo_ipv4_info_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Adds an IPv4 header to requests when a client is using IPv6, but the server only supports IPv4."
+                            android:text="@string/network_pseudo_ipv4_info"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="@+id/pseudo_ipv4_spinner"
                             app:layout_constraintTop_toBottomOf="@+id/pseudo_ipv4_spinner" />
