@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_caching.*
 
 class CachingActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
     private lateinit var binding: ActivityCachingBindingImpl
 
@@ -38,12 +38,12 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domain = intent.getParcelableExtra("domain")!!
+        zone = intent.getParcelableExtra("zone")!!
 
-        viewModel = CachingViewModel(this, domain)
+        viewModel = CachingViewModel(this, zone)
         binding = setLayoutBinding(R.layout.activity_caching)
 
-        setToolbarTitle("${domain.name} | Caching")
+        setToolbarTitle("${zone.name} | Caching")
 
         setOnClickListeners()
     }
@@ -61,7 +61,7 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = launch {
-        val response = ZoneSettingRequest(this).list(domain.id)
+        val response = ZoneSettingRequest(this).list(zone.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
@@ -119,7 +119,7 @@ class CachingActivity : CloudMareActivity(), SwipeRefreshable {
             if (confirmed) {
                 dialog.loading(title = "Purging...")
                 PurgeCacheRequest(this).launch {
-                    val response = purgeAll(domain.id)
+                    val response = purgeAll(zone.id)
                     if (response.success) Dialog.dismissOpenDialog(this@CachingActivity.hashCode())
                     else dialog.error(
                         title = "Couldn't purge cache",

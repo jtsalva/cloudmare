@@ -16,7 +16,7 @@ import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class SSLViewModel(
     private val activity: SSLActivity,
-    private val domain: Zone
+    private val zone: Zone
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     private val sslModeSpinner by lazy {
@@ -51,7 +51,7 @@ class SSLViewModel(
                 ZoneSettingRequest(activity).launch {
                     sslModeSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting.ssl(value))
+                    val response = update(zone.id, ZoneSetting.ssl(value))
 
                     if (response.success) field = value
                     else {
@@ -83,7 +83,7 @@ class SSLViewModel(
                     alwaysUseHttpsSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.alwaysUseHttps(value.toApiValue()))
 
                     if (response.success) field = value
@@ -116,7 +116,7 @@ class SSLViewModel(
                     opportunisticEncryptionSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.opportunisticEncryption(value.toApiValue()))
 
                     if (response.success) field = value
@@ -149,7 +149,7 @@ class SSLViewModel(
                     opportunisticOnionSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.opportunisticOnion(value.toApiValue()))
 
                     if (response.success) field = value
@@ -182,7 +182,7 @@ class SSLViewModel(
                     automaticHttpsRewritesSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.automaticHttpsRewrites(value.toApiValue()))
 
                     if (response.success) field = value

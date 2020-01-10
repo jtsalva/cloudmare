@@ -2,10 +2,10 @@
     <string name="app_name">CloudMare</string>
 
     // Activity titles
-    <string name="title_domain_list_activity">Domains</string>
+    <string name="title_zone_list_activity">Zones</string>
     <string name="title_user_activity">User</string>
 
-    // Domain Dash categories
+    // Zone Dash categories
     <string name="category_under_attack_mode">Under Attack Mode</string>
     <string name="category_development_mode">Development Mode</string>
     <string name="category_dns">DNS</string>
@@ -14,7 +14,7 @@
     <string name="category_analytics">Analytics</string>
     <string name="category_caching">Caching</string>
 
-    // Domain Dash category info
+    // Zone Dash category info
     <string name="info_under_attack_mode">Show visitors a JavaScript challenge when visiting your site.</string>
     <string name="info_development_mode">Temporarily bypass cache. See changes to your origin server in realtime.</string>
     <string name="info_dns">Manage your Domain Name System (DNS) settings</string>
@@ -84,8 +84,8 @@
     <string name="dns_record_priority">Priority</string>
     <string name="dns_record_priority_hint">0 to 65535</string>
 
-    // Domain List Activity
-    <string name="domain_list_none_found">No domains found</string>
+    // Zone List Activity
+    <string name="zone_list_none_found">No zones found</string>
 
     // Page Rules Activity
     <string name="page_rules_none_found">No page rules found</string>

@@ -5,34 +5,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.DomainDashActivity
-import dev.jtsalva.cloudmare.DomainListActivity
+import dev.jtsalva.cloudmare.ZoneDashActivity
+import dev.jtsalva.cloudmare.ZoneListActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtras
 
-class DomainListAdapter(
-    private val activity: DomainListActivity,
-    private val domains: MutableList<Zone>
-) : RecyclerView.Adapter<DomainListAdapter.ViewHolder>() {
+class ZoneListAdapter(
+    private val activity: ZoneListActivity,
+    private val zones: MutableList<Zone>
+) : RecyclerView.Adapter<ZoneListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.domain_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.zone_list_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val domain = domains[position]
+        val zone = zones[position]
 
-        holder.name.text = domain.name.fit(75)
+        holder.name.text = zone.name.fit(75)
         holder.itemView.setOnClickListener {
-            activity.startActivityWithExtras(DomainDashActivity::class,
-                "domain" to domain
+            activity.startActivityWithExtras(ZoneDashActivity::class,
+                "zone" to zone
             )
         }
     }
 
-    override fun getItemCount(): Int = domains.size
+    override fun getItemCount(): Int = zones.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

@@ -12,7 +12,7 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 
 class DNSRecordViewModel(
     private val activity: DNSRecordActivity,
-    private val domain: Zone,
+    private val zone: Zone,
     val data: DNSRecord
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
@@ -23,9 +23,9 @@ class DNSRecordViewModel(
     val dataHasChanged: Boolean get() = data.hashCode() != originalHash
 
     var name: String
-        @Bindable get() = if (data.name == domain.name) "@" else data.name.substringBefore(".${domain.name}")
+        @Bindable get() = if (data.name == zone.name) "@" else data.name.substringBefore(".${zone.name}")
         set(value) {
-            data.name = if (value in setOf(domain.name, "@")) domain.name else "$value.${domain.name}"
+            data.name = if (value in setOf(zone.name, "@")) zone.name else "$value.${zone.name}"
 
             @Suppress("UNRESOLVED_REFERENCE")
             notifyPropertyChanged(BR.name)

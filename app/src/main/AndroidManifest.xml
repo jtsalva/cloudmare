@@ -39,7 +39,7 @@
                 android:name=".DNSListActivity"
                 android:launchMode="singleTask" />
         <activity
-                android:name=".DomainListActivity"
+                android:name=".ZoneListActivity"
                 android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".DomainDashActivity"
+                android:name=".ZoneDashActivity"
                 android:launchMode="singleTask" />
         <activity
                 android:name=".UserActivity"

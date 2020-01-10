@@ -14,7 +14,7 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 
 class PageRulesAdapter(
     private val activity: PageRulesActivity,
-    private val domain: Zone,
+    private val zone: Zone,
     private val pageRules: MutableList<PageRule>
 ) : RecyclerView.Adapter<PageRulesAdapter.ViewHolder>() {
 
@@ -39,7 +39,7 @@ class PageRulesAdapter(
                 pageRule.status = if (status.isChecked) PageRule.ACTIVE else PageRule.DISABLED
 
                 PageRuleRequest(activity).launch {
-                    update(domain.id, pageRule).let { response ->
+                    update(zone.id, pageRule).let { response ->
                         if (response.failure) {
                             status.toggle()
                             activity.dialog.error(message = response.firstErrorMessage)

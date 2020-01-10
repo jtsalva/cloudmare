@@ -11,7 +11,7 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 
 class AnalyticsViewModel(
     private val activity: AnalyticsActivity,
-    private val domain: Zone
+    private val zone: Zone
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     companion object {
@@ -93,7 +93,7 @@ class AnalyticsViewModel(
                 else AnalyticsDashboardRequest(activity).launch {
                     disableSpinners()
 
-                    val response = get(domain.id, since = field)
+                    val response = get(zone.id, since = field)
                     if (response.failure || response.result == null) {
                         field = oldValue
 

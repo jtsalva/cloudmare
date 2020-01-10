@@ -152,7 +152,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         )
     }
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
     private lateinit var binding: ActivityAnalyticsBinding
 
@@ -179,13 +179,13 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domain = intent.getParcelableExtra("domain")!!
+        zone = intent.getParcelableExtra("zone")!!
 
-        viewModel = AnalyticsViewModel(this, domain)
+        viewModel = AnalyticsViewModel(this, zone)
         binding = setLayoutBinding(R.layout.activity_analytics)
         binding.viewModel = viewModel
 
-        setToolbarTitle("${domain.name} | Analytics")
+        setToolbarTitle("${zone.name} | Analytics")
 
         launch {
             categoryAdapter.let { adapter ->
@@ -222,7 +222,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = AnalyticsDashboardRequest(this).launch {
-        val response = get(domain.id, since = viewModel.timePeriod)
+        val response = get(zone.id, since = viewModel.timePeriod)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 

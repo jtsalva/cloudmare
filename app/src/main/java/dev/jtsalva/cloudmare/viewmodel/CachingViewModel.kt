@@ -15,7 +15,7 @@ import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class CachingViewModel(
     private val activity: CachingActivity,
-    private val domain: Zone
+    private val zone: Zone
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     private val cacheLevelSpinner by lazy {
@@ -43,7 +43,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     cacheLevelSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting.cacheLevel(value))
+                    val response = update(zone.id, ZoneSetting.cacheLevel(value))
 
                     if (response.success) field = value
                     else {
@@ -77,7 +77,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     browserCacheTtlSpinner.isEnabled = false
 
-                    val response = update(domain.id, ZoneSetting.browserCacheTtl(value))
+                    val response = update(zone.id, ZoneSetting.browserCacheTtl(value))
                     if (response.success) field = value
                     else {
                         field = oldValue
@@ -110,7 +110,7 @@ class CachingViewModel(
                 ZoneSettingRequest(activity).launch {
                     alwaysOnlineSwitch.switchIsEnabled = false
 
-                    val response = update(domain.id, ZoneSetting.alwaysOnline(value.toApiValue()))
+                    val response = update(zone.id, ZoneSetting.alwaysOnline(value.toApiValue()))
 
                     if (response.success) field = value
                     else {

@@ -6,30 +6,30 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.jtsalva.cloudmare.adapter.DomainListAdapter
+import dev.jtsalva.cloudmare.adapter.ZoneListAdapter
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
-import kotlinx.android.synthetic.main.activity_domain_list.*
+import kotlinx.android.synthetic.main.activity_zone_list.*
 import timber.log.Timber
 
-class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
+class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domains: MutableList<Zone>
+    private lateinit var zones: MutableList<Zone>
 
-    private val initialized get() = domain_list.adapter is DomainListAdapter
+    private val initialized get() = zone_list.adapter is ZoneListAdapter
 
     private val paginationListener by lazy {
-        object : PaginationListener(this, domain_list.layoutManager as LinearLayoutManager) {
+        object : PaginationListener(this, zone_list.layoutManager as LinearLayoutManager) {
 
             override fun fetchNextPage(pageNumber: Int) =
-                ZoneRequest(this@DomainListActivity).launch {
+                ZoneRequest(this@ZoneListActivity).launch {
                     list(pageNumber).run {
                         if (failure || result == null)
                             dialog.error(message = firstErrorMessage)
                         else if (result.isNotEmpty()) result.let { nextPage ->
-                            val positionStart = domains.size
-                            domains.addAll(nextPage)
-                            domain_list.adapter?.notifyItemRangeChanged(positionStart, domains.size)
+                            val positionStart = zones.size
+                            zones.addAll(nextPage)
+                            zone_list.adapter?.notifyItemRangeChanged(positionStart, zones.size)
                         } else reachedLastPage = true
                     }
 
@@ -78,8 +78,8 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
             R.id.action_user_activity
         )
 
-        setLayout(R.layout.activity_domain_list)
-        setToolbarTitle(R.string.title_domain_list_activity)
+        setLayout(R.layout.activity_zone_list)
+        setToolbarTitle(R.string.title_zone_list_activity)
     }
 
     override fun onStart() {
@@ -105,20 +105,20 @@ class DomainListActivity : CloudMareActivity(), SwipeRefreshable {
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
         else (response.result as MutableList<Zone>).also { result ->
-            if (!initialized) domain_list.apply {
-                domains = result
+            if (!initialized) zone_list.apply {
+                zones = result
 
-                adapter = DomainListAdapter(this@DomainListActivity, domains)
-                layoutManager = LinearLayoutManager(this@DomainListActivity)
+                adapter = ZoneListAdapter(this@ZoneListActivity, zones)
+                layoutManager = LinearLayoutManager(this@ZoneListActivity)
                 addOnScrollListener(paginationListener)
-            } else if (result != domains) domains.apply {
+            } else if (result != zones) zones.apply {
                 paginationListener.resetPage()
-                domain_list.layoutManager!!.scrollToPosition(0)
+                zone_list.layoutManager!!.scrollToPosition(0)
 
                 clear()
                 addAll(result)
 
-                domain_list.adapter!!.notifyDataSetChanged()
+                zone_list.adapter!!.notifyDataSetChanged()
             }
 
             showNonFoundMessage = result.isEmpty()

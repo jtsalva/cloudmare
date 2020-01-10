@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_dns_record.*
 
 class DNSRecordActivity : CloudMareActivity() {
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
     private lateinit var dnsRecord: DNSRecord
 
@@ -75,11 +75,11 @@ class DNSRecordActivity : CloudMareActivity() {
         super.onCreate(savedInstanceState)
 
         with (intent) {
-            domain = getParcelableExtra("domain")!!
+            zone = getParcelableExtra("zone")!!
 
             dnsRecord = getParcelableExtra("dns_record") ?:
                     DNSRecord.default.apply {
-                        zoneName = domain.name
+                        zoneName = zone.name
                         isNewRecord = true
                     }
         }
@@ -90,7 +90,7 @@ class DNSRecordActivity : CloudMareActivity() {
         )
 
         binding = setLayoutBinding(R.layout.activity_dns_record)
-        setToolbarTitle("${domain.name} | ${if (isNewRecord) "Create" else "Edit"}")
+        setToolbarTitle("${zone.name} | ${if (isNewRecord) "Create" else "Edit"}")
     }
 
     override fun onStart() {
@@ -154,7 +154,7 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun render() {
-        viewModel = DNSRecordViewModel(this, domain, dnsRecord)
+        viewModel = DNSRecordViewModel(this, zone, dnsRecord)
 
         customizeForm()
 
@@ -197,7 +197,7 @@ class DNSRecordActivity : CloudMareActivity() {
             if (confirmed) DNSRecordRequest(this).launch {
                 dialog.loading(title = "Deleting...")
 
-                val response = delete(domain.id, dnsRecord.id)
+                val response = delete(zone.id, dnsRecord.id)
 
                 if (response.success) {
                     setResult(DELETED, Intent().putExtras(
@@ -214,8 +214,8 @@ class DNSRecordActivity : CloudMareActivity() {
         dialog.loading(title = "Saving...")
 
         val response =
-            if (isNewRecord) create(domain.id, viewModel.data)
-            else update(domain.id, viewModel.data)
+            if (isNewRecord) create(zone.id, viewModel.data)
+            else update(zone.id, viewModel.data)
 
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, positive = "Okay")

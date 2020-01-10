@@ -6,29 +6,29 @@ import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
 import dev.jtsalva.cloudmare.api.zonesettings.ZoneSetting
-import dev.jtsalva.cloudmare.databinding.ActivityDomainDashBinding
-import dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel
-import kotlinx.android.synthetic.main.activity_domain_dash.*
+import dev.jtsalva.cloudmare.databinding.ActivityZoneDashBinding
+import dev.jtsalva.cloudmare.viewmodel.ZoneDashViewModel
+import kotlinx.android.synthetic.main.activity_zone_dash.*
 
-class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
+class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
-    private lateinit var binding: ActivityDomainDashBinding
+    private lateinit var binding: ActivityZoneDashBinding
 
-    private lateinit var viewModel: DomainDashViewModel
+    private lateinit var viewModel: ZoneDashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domain = intent.getParcelableExtra("domain")!!
+        zone = intent.getParcelableExtra("zone")!!
 
-        viewModel = DomainDashViewModel(this, domain)
-        binding = setLayoutBinding(R.layout.activity_domain_dash)
+        viewModel = ZoneDashViewModel(this, zone)
+        binding = setLayoutBinding(R.layout.activity_zone_dash)
         binding.viewModel = viewModel
 
         launch {
-            setToolbarTitle(domain.name)
+            setToolbarTitle(zone.name)
             setOnClickListeners()
         }
     }
@@ -53,7 +53,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         val developmentModeRequest = DevelopmentModeRequest(this)
 
         securityLevelRequest.launch {
-            get(domain.id).let { response ->
+            get(zone.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     developmentModeRequest.cancelAll(Request.GET)
@@ -65,7 +65,7 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         developmentModeRequest.launch {
-            get(domain.id).let { response ->
+            get(zone.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll(Request.GET)
@@ -82,36 +82,36 @@ class DomainDashActivity : CloudMareActivity(), SwipeRefreshable {
     private fun setOnClickListeners() {
         analytics_item.setOnClickListener {
             startActivityWithExtras(AnalyticsActivity::class,
-                "domain" to domain
+                "zone" to zone
             )
         }
 
         caching_item.setOnClickListener {
             startActivityWithExtras(CachingActivity::class,
-                "domain" to domain
+                "zone" to zone
             )
         }
 
         dns_item.setOnClickListener {
             startActivityWithExtras(DNSListActivity::class,
-                "domain" to domain
+                "zone" to zone
             )
         }
 
         network_item.setOnClickListener {
             startActivityWithExtras(NetworkActivity::class,
-                "domain" to domain
+                "zone" to zone
             )
         }
 
         page_rules_item.setOnClickListener {
             startActivityWithExtras(PageRulesActivity::class,
-                "domain" to domain)
+                "zone" to zone)
         }
 
         ssl_item.setOnClickListener {
             startActivityWithExtras(SSLActivity::class,
-                "domain" to domain)
+                "zone" to zone)
         }
     }
 }

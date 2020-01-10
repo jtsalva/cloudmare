@@ -16,7 +16,7 @@ import dev.jtsalva.cloudmare.startActivityWithExtrasForResult
 
 class DNSListAdapter(
     private val activity: DNSListActivity,
-    private val domain: Zone,
+    private val zone: Zone,
     private val records: MutableList<DNSRecord>
 ) : RecyclerView.Adapter<DNSListAdapter.ViewHolder>() {
 
@@ -35,8 +35,8 @@ class DNSListAdapter(
 
         holder.apply {
             type.text = record.type.fit()
-            name.text = record.name.substringBefore(".${domain.name}").let { name ->
-                if (name == domain.name) "@" else name.fit()
+            name.text = record.name.substringBefore(".${zone.name}").let { name ->
+                if (name == zone.name) "@" else name.fit()
             }
             content.text = record.content.fit()
             val constraintSet = ConstraintSet().apply { clone(dnsListItem) }
@@ -54,7 +54,7 @@ class DNSListAdapter(
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtrasForResult(
                 DNSRecordActivity::class,  DNSListActivity.EDIT_RECORD,
-                    "domain" to domain,
+                    "zone" to zone,
                     "dns_record" to record
             )
         }

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_ssl.*
 
 class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
     private lateinit var binding: ActivitySslBindingImpl
 
@@ -29,12 +29,12 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domain = intent.getParcelableExtra("domain")!!
+        zone = intent.getParcelableExtra("zone")!!
 
-        viewModel = SSLViewModel(this, domain)
+        viewModel = SSLViewModel(this, zone)
         binding = setLayoutBinding(R.layout.activity_ssl)
 
-        setToolbarTitle("${domain.name} | SSL / TLS")
+        setToolbarTitle("${zone.name} | SSL / TLS")
     }
 
     override fun onStart() {
@@ -50,7 +50,7 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = launch {
-        val response = ZoneSettingRequest(this).list(domain.id)
+        val response = ZoneSettingRequest(this).list(zone.id)
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 

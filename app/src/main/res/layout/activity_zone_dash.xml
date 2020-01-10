@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".DomainDashActivity">
+        tools:context=".ZoneDashActivity">
     <data>
         <variable
                 name="viewModel"
-                type="dev.jtsalva.cloudmare.viewmodel.DomainDashViewModel" />
+                type="dev.jtsalva.cloudmare.viewmodel.ZoneDashViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

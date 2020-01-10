@@ -19,7 +19,7 @@ import timber.log.Timber
 
 class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
 
-    private lateinit var domain: Zone
+    private lateinit var zone: Zone
 
     private lateinit var records: MutableList<DNSRecord>
 
@@ -87,7 +87,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             override fun fetchNextPage(pageNumber: Int) =
                 DNSRecordRequest(this@DNSListActivity).launch {
                     list(
-                        domain.id,
+                        zone.id,
                         pageNumber = pageNumber,
                         order = sortBy,
                         direction = direction,
@@ -159,7 +159,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             startActivityWithExtrasForResult(DNSRecordActivity::class, CREATE_RECORD,
-                "domain" to domain
+                "zone" to zone
             )
             true
         }
@@ -211,7 +211,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        domain = intent.getParcelableExtra("domain")!!
+        zone = intent.getParcelableExtra("zone")!!
 
         menuButtonInitializer.onInflateSetVisible(
             R.id.action_search,
@@ -220,7 +220,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
         )
 
         setLayout(R.layout.activity_dns_list)
-        setToolbarTitle("${domain.name} | DNS Records")
+        setToolbarTitle("${zone.name} | DNS Records")
 
         search_edit_text.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -248,7 +248,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun render() = DNSRecordRequest(this).launch {
         cancelAll(Request.LIST)
         val response = list(
-            domain.id,
+            zone.id,
             order = sortBy,
             direction = direction,
             contains = searchQuery
@@ -260,7 +260,7 @@ class DNSListActivity : CloudMareActivity(), SwipeRefreshable {
             if (!initialized) dns_list.apply {
                 records = result
 
-                adapter = DNSListAdapter(this@DNSListActivity, domain, records)
+                adapter = DNSListAdapter(this@DNSListActivity, zone, records)
                 layoutManager = LinearLayoutManager(this@DNSListActivity)
                 addOnScrollListener(paginationListener)
             } else if (result != records) records.apply {

@@ -16,7 +16,7 @@ import dev.jtsalva.cloudmare.view.SwitchOptionView
 
 class NetworkViewModel(
     private val activity: NetworkActivity,
-    private val domain: Zone
+    private val zone: Zone
 ) : BaseObservable(), AdapterView.OnItemSelectedListener {
 
     private val ipv6CompatibilitySwitch by lazy {
@@ -46,7 +46,7 @@ class NetworkViewModel(
                     ipv6CompatibilitySwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.ipv6(value.toApiValue())
                     )
 
@@ -81,7 +81,7 @@ class NetworkViewModel(
                     webSocketsSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.webSockets(value.toApiValue())
                     )
 
@@ -116,7 +116,7 @@ class NetworkViewModel(
             if (value != field && isFinishedInitializing)
                 ZoneSettingRequest(activity).launch {
                     pseudoIpv4Spinner.isEnabled = false
-                    val response = update(domain.id, ZoneSetting.pseudoIpv4(value))
+                    val response = update(zone.id, ZoneSetting.pseudoIpv4(value))
 
                     if (response.success) field = value
                     else {
@@ -149,7 +149,7 @@ class NetworkViewModel(
                     ipGeolocationSwitch.switchIsEnabled = false
 
                     val response = update(
-                        domain.id,
+                        zone.id,
                         ZoneSetting.ipGeolocation(value.toApiValue())
                     )
 
