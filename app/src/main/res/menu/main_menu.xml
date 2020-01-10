@@ -6,7 +6,8 @@
         android:icon="@drawable/baseline_contact_support_white_48"
         android:title="@string/menu_contact"
         android:visible="false"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"
+            tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_settings_activity"
