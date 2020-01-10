@@ -70,7 +70,7 @@
             app:layout_constraintHorizontal_bias="0.65"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/target"
-            tools:text="Forwarding Url: ..." />
+            tools:text="Forwarding Url: …" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

@@ -195,7 +195,7 @@ class DNSRecordActivity : CloudMareActivity() {
 
         else dialog.confirm(positive = "Yes delete") { confirmed ->
             if (confirmed) DNSRecordRequest(this).launch {
-                dialog.loading(title = "Deleting...")
+                dialog.loading(title = "Deleting…")
 
                 val response = delete(zone.id, dnsRecord.id)
 
@@ -211,7 +211,7 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     private fun saveRecord() = DNSRecordRequest(this).launch {
-        dialog.loading(title = "Saving...")
+        dialog.loading(title = "Saving…")
 
         val response =
             if (isNewRecord) create(zone.id, viewModel.data)

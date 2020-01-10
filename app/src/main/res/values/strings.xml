@@ -30,7 +30,7 @@
     <string name="caching_expiration_info">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</string>
 
     // DNS Record List Activity
-    <string name="dns_record_list_search_hint">Start typing to search...</string>
+    <string name="dns_record_list_search_hint">Start typing to search…</string>
     <string name="dns_record_list_none_found">No dns records found</string>
 
     // DNS Record Type Labels

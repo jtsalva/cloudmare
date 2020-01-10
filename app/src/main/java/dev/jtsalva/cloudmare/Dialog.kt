@@ -70,7 +70,7 @@ class Dialog(private val activity: CloudMareActivity) {
         })
     }
 
-    fun loading(title: String = "Loading...",
+    fun loading(title: String = "Loading…",
                 message: String = ""): Dialog {
         if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             cancelable(false)

@@ -91,7 +91,7 @@ class UserActivity : CloudMareActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     private fun onSave(view: View? = null) {
-        dialog.loading(title = "Validating...")
+        dialog.loading(title = "Validating…")
 
         api_key_or_token_input.text.toString().let { text ->
             if (text.length == API_KEY_LENGTH) {
