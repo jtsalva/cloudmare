@@ -137,19 +137,26 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
     private fun selectTheme() {
         Settings.load(this)
 
-        val themeTranslator by lazy {
+        val supportsNightFollowSystem = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
+
+        val themeTranslator =
             IdTranslator(
-                mapOf(
-                    AppCompatDelegate.MODE_NIGHT_NO to getString(R.string.settings_theme_light),
-                    AppCompatDelegate.MODE_NIGHT_YES to getString(R.string.settings_theme_dark),
-                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY to getString(R.string.settings_theme_battery_saver),
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM to getString(R.string.settings_theme_system_default)
-                )
+                if (supportsNightFollowSystem)
+                    mapOf(
+                        AppCompatDelegate.MODE_NIGHT_NO to getString(R.string.settings_theme_light),
+                        AppCompatDelegate.MODE_NIGHT_YES to getString(R.string.settings_theme_dark),
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM to getString(R.string.settings_theme_system_default)
+                    )
+                else
+                    mapOf(
+                        AppCompatDelegate.MODE_NIGHT_NO to getString(R.string.settings_theme_light),
+                        AppCompatDelegate.MODE_NIGHT_YES to getString(R.string.settings_theme_dark),
+                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY to getString(R.string.settings_theme_battery_saver)
+                    )
             )
-        }
 
         val entriesId =
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+            if (supportsNightFollowSystem)
                 R.array.entries_settings_theme_android_ten_and_above
             else
                 R.array.entries_settings_theme_android_nine_and_below
@@ -162,7 +169,7 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
             val newTheme = themeTranslator.getId(text.toString())
             if (newTheme != Settings.theme) {
                 Settings.theme = newTheme
-                Settings.save(this@ZoneListActivity)
+                Settings.save(this)
                 updateTheme()
             }
         }
