@@ -18,9 +18,6 @@
                 android:name=".NetworkActivity"
                 android:launchMode="singleTask" />
         <activity
-                android:name=".SettingsActivity"
-                android:launchMode="singleTask" />
-        <activity
                 android:name=".AnalyticsActivity"
                 android:launchMode="singleTask" />
         <activity

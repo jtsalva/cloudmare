@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.DNSRecordListAdapter
+import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
@@ -48,31 +49,15 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
     private val sortByTranslator by lazy {
-        object {
-
-            val idToReadable = mapOf(
+        IdTranslator(
+            mapOf(
                 DNSRecord.SORT_BY_TYPE to getString(R.string.dns_record_list_sort_by_type),
                 DNSRecord.SORT_BY_NAME to getString(R.string.dns_record_list_sort_by_name),
                 DNSRecord.SORT_BY_CONTENT to getString(R.string.dns_record_list_sort_by_content),
                 DNSRecord.SORT_BY_TTL to getString(R.string.dns_record_list_sort_by_ttl),
                 DNSRecord.SORT_BY_PROXIED to getString(R.string.dns_record_list_sort_by_proxied)
             )
-
-            fun indexOfValue(value: String): Int =
-                idToReadable.run {
-                    var index = 0
-                    forEach {
-                        if (it.key == value) return index
-                        index += 1
-                    }
-
-                    return -1
-                }
-
-            fun getValue(readable: String): String =
-                idToReadable.filterValues { it == readable }.keys.first()
-
-        }
+        )
     }
 
     private val direction get() =
@@ -166,12 +151,12 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         R.id.action_sort_by -> {
-            val selectedItemIndex = sortByTranslator.indexOfValue(sortBy)
             dialog.multiChoice(
                 title = "Sort By",
                 resId = R.array.entries_dns_record_list_sort_by,
-                initialSelection = selectedItemIndex) { _, _, text ->
-                sortBy = sortByTranslator.getValue(text.toString())
+                initialSelection = sortByTranslator.indexOfId(sortBy)
+            ) { _, _, text ->
+                sortBy = sortByTranslator.getId(text.toString())
             }
             true
         }

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.jtsalva.cloudmare.adapter.ZoneListAdapter
+import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zone.ZoneRequest
 import kotlinx.android.synthetic.main.activity_zone_list.*
@@ -49,8 +50,8 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
             true
         }
 
-        R.id.action_settings_activity -> {
-            startActivity(SettingsActivity::class)
+        R.id.action_theme -> {
+            selectTheme()
             true
         }
 
@@ -74,7 +75,7 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
         menuButtonInitializer.onInflateSetVisible(
             R.id.action_contact,
-            R.id.action_settings_activity,
+            R.id.action_theme,
             R.id.action_user_activity
         )
 
@@ -85,10 +86,7 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onStart() {
         super.onStart()
 
-        Settings.load(this)
-
-        if (AppCompatDelegate.getDefaultNightMode() != Settings.theme)
-            AppCompatDelegate.setDefaultNightMode(Settings.theme)
+        updateTheme()
 
         if (Auth.notSet) startActivity(UserActivity::class)
         else render()
@@ -127,5 +125,46 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
         showProgressBar = false
 
         swipeRefreshLayout.isRefreshing = false
+    }
+
+    private fun updateTheme() {
+        Settings.load(this)
+
+        if (AppCompatDelegate.getDefaultNightMode() != Settings.theme)
+            AppCompatDelegate.setDefaultNightMode(Settings.theme)
+    }
+
+    private fun selectTheme() {
+        Settings.load(this)
+
+        val themeTranslator by lazy {
+            IdTranslator(
+                mapOf(
+                    AppCompatDelegate.MODE_NIGHT_NO to getString(R.string.settings_theme_light),
+                    AppCompatDelegate.MODE_NIGHT_YES to getString(R.string.settings_theme_dark),
+                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY to getString(R.string.settings_theme_battery_saver),
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM to getString(R.string.settings_theme_system_default)
+                )
+            )
+        }
+
+        val entriesId =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+                R.array.entries_settings_theme_android_ten_and_above
+            else
+                R.array.entries_settings_theme_android_nine_and_below
+
+        dialog.multiChoice(
+            title = "Theme",
+            resId = entriesId,
+            initialSelection = themeTranslator.indexOfId(Settings.theme)
+        ) { _, _, text ->
+            val newTheme = themeTranslator.getId(text.toString())
+            if (newTheme != Settings.theme) {
+                Settings.theme = newTheme
+                Settings.save(this@ZoneListActivity)
+                updateTheme()
+            }
+        }
     }
 }
