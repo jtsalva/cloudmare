@@ -6,9 +6,9 @@ import dev.jtsalva.cloudmare.adapter.fit
 
 @JsonClass(generateAdapter = true)
 open class Response(
-    val success: Boolean,
-    val errors: List<Error> = emptyList(),
-    val messages: List<Message> = emptyList()
+    @field:Json(name = "success") val success: Boolean,
+    @field:Json(name = "errors") val errors: List<Error> = emptyList(),
+    @field:Json(name = "messages") val messages: List<Message> = emptyList()
 ) {
 
     companion object {
