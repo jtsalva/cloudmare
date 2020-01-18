@@ -111,8 +111,8 @@ class AnalyticsViewModel(
                     else cache[field] =
                         AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
 
-                    enableSpinners()
                     drawGraph()
+                    enableSpinners()
                 }
             }
         }

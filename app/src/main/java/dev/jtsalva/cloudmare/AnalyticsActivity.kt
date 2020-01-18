@@ -249,8 +249,6 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
 
         analytics_chart.invalidate()
 
-        viewModel.timePeriodSpinner.isEnabled = true
-
         analytics_view_group.visibility = View.VISIBLE
 
         showProgressBar = false
