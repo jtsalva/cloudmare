@@ -66,30 +66,25 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized: Boolean get() = dns_record_list.adapter is DNSRecordListAdapter
 
-    private val paginationListener by lazy {
-        object : PaginationListener(this, dns_record_list.layoutManager as LinearLayoutManager) {
+    private val paginationListener by PaginationListener.lazy(this, R.id.dns_record_list) { pageNumber ->
+        DNSRecordRequest(this@DNSRecordListActivity).launch {
+            list(
+                zone.id,
+                pageNumber = pageNumber,
+                order = sortBy,
+                direction = direction,
+                contains = searchQuery
+            ).run {
+                if (failure || result == null)
+                    dialog.error(message = firstErrorMessage)
+                else if (result.isNotEmpty()) result.let { nextPage ->
+                    val positionStart = records.size
+                    records.addAll(nextPage)
+                    dns_record_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
+                } else reachedLastPage()
+            }
 
-            override fun fetchNextPage(pageNumber: Int) =
-                DNSRecordRequest(this@DNSRecordListActivity).launch {
-                    list(
-                        zone.id,
-                        pageNumber = pageNumber,
-                        order = sortBy,
-                        direction = direction,
-                        contains = searchQuery
-                    ).run {
-                        if (failure || result == null)
-                            dialog.error(message = firstErrorMessage)
-                        else if (result.isNotEmpty()) result.let { nextPage ->
-                            val positionStart = records.size
-                            records.addAll(nextPage)
-                            dns_record_list.adapter?.notifyItemRangeInserted(positionStart, records.size)
-                        } else reachedLastPage = true
-                    }
-
-                    fetchingNextPage = false
-                }
-
+            finishedFetchingPage()
         }
     }
 

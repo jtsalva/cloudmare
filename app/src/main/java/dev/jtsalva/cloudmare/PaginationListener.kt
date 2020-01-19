@@ -4,18 +4,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class PaginationListener(private val activity: CloudMareActivity,
-                                  private val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+                                  private val linearLayoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
-    protected var fetchingNextPage: Boolean = false
+    companion object {
+
+        fun lazy(activity: CloudMareActivity,
+                 recyclerViewId: Int,
+                 onFetchNextPage: PaginationListener.(pageNumber: Int) -> Unit): Lazy<PaginationListener> =
+            lazy {
+                val layoutManager = activity.findViewById<RecyclerView>(recyclerViewId).layoutManager
+                object : PaginationListener(activity, layoutManager as LinearLayoutManager) {
+                    override fun fetchNextPage(pageNumber: Int) {
+                        onFetchNextPage.invoke(this, pageNumber)
+                    }
+                }
+            }
+
+    }
+
+    private var fetchingNextPage: Boolean = false
         set(value) {
             activity.showProgressBar = value
             field = value
         }
 
-    protected var reachedLastPage = false
+    private var reachedLastPage = false
 
     private inline val reachedBottom: Boolean get() =
-        layoutManager.run {
+        linearLayoutManager.run {
             (childCount + findFirstVisibleItemPosition()) >= itemCount
         }
 
@@ -31,6 +47,14 @@ abstract class PaginationListener(private val activity: CloudMareActivity,
         reachedLastPage = false
     }
 
+    fun reachedLastPage() {
+        reachedLastPage = true
+    }
+
+    fun finishedFetchingPage() {
+        fetchingNextPage = false
+    }
+
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (dy > 0 && !fetchingNextPage && reachedBottom && !reachedLastPage) {
             fetchingNextPage = true
@@ -39,6 +63,6 @@ abstract class PaginationListener(private val activity: CloudMareActivity,
         }
     }
 
-    abstract fun fetchNextPage(pageNumber: Int): Any
+    abstract fun fetchNextPage(pageNumber: Int)
 
 }

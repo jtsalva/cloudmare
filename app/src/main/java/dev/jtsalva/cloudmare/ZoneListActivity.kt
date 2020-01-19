@@ -19,24 +19,19 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private val initialized get() = zone_list.adapter is ZoneListAdapter
 
-    private val paginationListener by lazy {
-        object : PaginationListener(this, zone_list.layoutManager as LinearLayoutManager) {
+    private val paginationListener by PaginationListener.lazy(this, R.id.zone_list) { pageNumber ->
+        ZoneRequest(this@ZoneListActivity).launch {
+            list(pageNumber).run {
+                if (failure || result == null)
+                    dialog.error(message = firstErrorMessage)
+                else if (result.isNotEmpty()) result.let { nextPage ->
+                    val positionStart = zones.size
+                    zones.addAll(nextPage)
+                    zone_list.adapter?.notifyItemRangeChanged(positionStart, zones.size)
+                } else reachedLastPage()
+            }
 
-            override fun fetchNextPage(pageNumber: Int) =
-                ZoneRequest(this@ZoneListActivity).launch {
-                    list(pageNumber).run {
-                        if (failure || result == null)
-                            dialog.error(message = firstErrorMessage)
-                        else if (result.isNotEmpty()) result.let { nextPage ->
-                            val positionStart = zones.size
-                            zones.addAll(nextPage)
-                            zone_list.adapter?.notifyItemRangeChanged(positionStart, zones.size)
-                        } else reachedLastPage = true
-                    }
-
-                    fetchingNextPage = false
-                }
-
+            finishedFetchingPage()
         }
     }
 
