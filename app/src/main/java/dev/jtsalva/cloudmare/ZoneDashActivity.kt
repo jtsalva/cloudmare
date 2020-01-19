@@ -57,8 +57,8 @@ class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     developmentModeRequest.cancelAll(developmentModeRequest::get)
                 } else viewModel.apply {
-                    viewModel.underAttackModeEnabled = response.result.value.toString() == ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
-                    viewModel.underAttackModeInitialized = true
+                    underAttackModeEnabled = response.result.value.toString() == ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
+                    underAttackModeInitialized = true
                 }
             }
         }
@@ -69,8 +69,8 @@ class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
                     securityLevelRequest.cancelAll(securityLevelRequest::get)
                 } else viewModel.apply {
-                    viewModel.developmentModeEnabled = response.result.value.toString() == ZoneSetting.VALUE_ON
-                    viewModel.developmentModeInitialized = true
+                    developmentModeEnabled = response.result.value.toString() == ZoneSetting.VALUE_ON
+                    developmentModeInitialized = true
                 }
             }
         }
