@@ -8,7 +8,7 @@ import org.json.JSONObject
 class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingRequest>(context) {
 
     suspend fun list(zoneId: String): ZoneSettingListResponse {
-        requestTAG = LIST
+        requestTAG = "list"
         return super.httpGet("zones/$zoneId/settings")
     }
 
@@ -22,7 +22,7 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
             JSONObject("{\"items\":[${strings.joinToString(",")}]}")
         }
 
-        requestTAG = UPDATE
+        requestTAG = "update"
         return super.httpPatch("zones/$zoneId/settings", payload)
     }
 

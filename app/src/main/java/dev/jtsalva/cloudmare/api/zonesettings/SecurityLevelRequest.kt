@@ -7,7 +7,7 @@ import org.json.JSONObject
 class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRequest>(context) {
 
     suspend fun get(zoneId: String): ZoneSettingResponse {
-        requestTAG = GET
+        requestTAG = "get"
         return super.httpGet("zones/$zoneId/settings/security_level")
     }
 
@@ -16,7 +16,7 @@ class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRe
             put("value", value)
         }
 
-        requestTAG = UPDATE
+        requestTAG = "update"
         return super.httpPatch("zones/$zoneId/settings/security_level", payload)
     }
 

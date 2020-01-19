@@ -7,7 +7,7 @@ import dev.jtsalva.cloudmare.api.Response
 class TokenRequest(context: CloudMareActivity) : Request<TokenRequest>(context) {
 
     suspend fun verify(): Response {
-            requestTAG = GET
+            requestTAG = "verify"
             return super.httpGet("/user/tokens/verify")
         }
 

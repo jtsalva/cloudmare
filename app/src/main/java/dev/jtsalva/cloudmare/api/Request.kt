@@ -10,6 +10,7 @@ import java.nio.charset.Charset
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.reflect.KFunction
 import com.android.volley.Request as VolleyRequest
 import com.android.volley.Response as JsonResponse
 
@@ -19,13 +20,6 @@ typealias ResponseCallback = (response: JSONObject?) -> Unit
 open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
     companion object {
-        const val CREATE = "create"
-        const val GET = "get"
-        const val LIST = "list"
-        const val POST = "post"
-        const val UPDATE = "update"
-        const val DELETE = "delete"
-
         const val DIRECTION_ASCENDING = "asc"
         const val DIRECTION_DESCENDING = "desc"
 
@@ -45,9 +39,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
     protected var requestTAG: String = className
         set(method) {
-            if (!(method == GET || method == LIST))
-                cancelAll(method)
-
+            cancelAll(method)
             field = "$className.$method"
         }
 
@@ -59,6 +51,8 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
     fun cancelAll(method: String) =
         RequestQueueSingleton(activity).requestQueue.cancelAll("$className.$method")
+
+    fun cancelAll(function: KFunction<Any>) = cancelAll(function.name)
 
     private inline fun handleError(error: VolleyError, callback: ResponseCallback) {
         Timber.e(error.message ?: error.toString())

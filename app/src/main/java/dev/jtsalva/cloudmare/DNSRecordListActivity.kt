@@ -227,7 +227,6 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
     }
 
     override fun render() = DNSRecordRequest(this).launch {
-        cancelAll(Request.LIST)
         val response = list(
             zone.id,
             order = sortBy,

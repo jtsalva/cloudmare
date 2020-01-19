@@ -20,17 +20,17 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
             if (validKeys.contains(key)) payload.put(key, data[key])
         }
 
-        requestTAG = CREATE
+        requestTAG = "create"
         return super.httpPost("zones/$zoneId/dns_records", payload)
     }
 
     suspend fun delete(zoneId: String, dnsRecordId: String): DNSRecordResponse {
-        requestTAG = DELETE
+        requestTAG = "delete"
         return super.httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
     suspend fun get(zoneId: String, dnsRecordId: String): DNSRecordResponse {
-        requestTAG = GET
+        requestTAG = "get"
         return super.httpGet("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
@@ -59,7 +59,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                     ).substringAfter("?")}"
             }
 
-            requestTAG = LIST
+            requestTAG = "list"
             return super.httpGet("zones/$zoneId/dns_records$params")
         }
 
@@ -68,7 +68,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
             getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
         )
 
-        requestTAG = UPDATE
+        requestTAG = "update"
         return super.httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
     }
 

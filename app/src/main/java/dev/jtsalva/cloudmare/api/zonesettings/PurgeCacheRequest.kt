@@ -10,7 +10,7 @@ class PurgeCacheRequest(context: CloudMareActivity) : Request<PurgeCacheRequest>
         val payload = JSONObject()
         payload.put("purge_everything", true)
 
-        requestTAG = POST
+        requestTAG = "purgeAll"
         return super.httpPost("zones/$zoneId/purge_cache", payload)
     }
 

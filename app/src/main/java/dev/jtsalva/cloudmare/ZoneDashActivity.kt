@@ -1,7 +1,6 @@
 package dev.jtsalva.cloudmare
 
 import android.os.Bundle
-import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest
@@ -56,7 +55,7 @@ class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
             get(zone.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    developmentModeRequest.cancelAll(Request.GET)
+                    developmentModeRequest.cancelAll(developmentModeRequest::get)
                 } else viewModel.apply {
                     viewModel.underAttackModeEnabled = response.result.value.toString() == ZoneSetting.SECURITY_LEVEL_UNDER_ATTACK
                     viewModel.underAttackModeInitialized = true
@@ -68,7 +67,7 @@ class ZoneDashActivity : CloudMareActivity(), SwipeRefreshable {
             get(zone.id).let { response ->
                 if (response.failure || response.result == null) {
                     dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
-                    securityLevelRequest.cancelAll(Request.GET)
+                    securityLevelRequest.cancelAll(securityLevelRequest::get)
                 } else viewModel.apply {
                     viewModel.developmentModeEnabled = response.result.value.toString() == ZoneSetting.VALUE_ON
                     viewModel.developmentModeInitialized = true
