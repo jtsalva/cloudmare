@@ -42,7 +42,7 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
     val dialog: Dialog get() = Dialog(this)
     val menuButtonInitializer = MenuButtonInitializer()
 
-    fun launch(block: suspend () -> Unit): Job = coLaunch { block() }
+    fun launch(block: suspend () -> Unit): Job = coLaunch(coroutineContext) { block() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

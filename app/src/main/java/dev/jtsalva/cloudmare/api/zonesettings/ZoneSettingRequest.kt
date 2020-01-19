@@ -4,22 +4,15 @@ import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingRequest>(context) {
 
-    suspend fun list(zoneId: String) = suspendCoroutine<ZoneSettingListResponse> { cont ->
+    suspend fun list(zoneId: String): ZoneSettingListResponse {
         requestTAG = LIST
-        get("zones/$zoneId/settings") {
-            cont.resume(
-                getAdapter(ZoneSettingListResponse::class).
-                    fromJson(it.toString()) ?: ZoneSettingListResponse(success = false)
-            )
-        }
+        return super.httpGet("zones/$zoneId/settings")
     }
 
-    suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting) = suspendCoroutine<ZoneSettingListResponse> { cont ->
+    suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting): ZoneSettingListResponse {
         val payload = getAdapter(ZoneSetting::class).run {
             val strings = mutableListOf<String>()
             zoneSettings.forEach { zoneSetting ->
@@ -30,12 +23,7 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
         }
 
         requestTAG = UPDATE
-        patch("zones/$zoneId/settings", payload) {
-            cont.resume(
-                getAdapter(ZoneSettingListResponse::class).
-                    fromJson(it.toString()) ?: ZoneSettingListResponse(success = false)
-            )
-        }
+        return super.httpPatch("zones/$zoneId/settings", payload)
     }
 
 }

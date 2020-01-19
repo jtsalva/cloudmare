@@ -3,8 +3,8 @@ package dev.jtsalva.cloudmare.viewmodel
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.jtsalva.cloudmare.BR
-import dev.jtsalva.cloudmare.ZoneDashActivity
 import dev.jtsalva.cloudmare.R
+import dev.jtsalva.cloudmare.ZoneDashActivity
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.api.zonesettings.DevelopmentModeRequest
 import dev.jtsalva.cloudmare.api.zonesettings.SecurityLevelRequest

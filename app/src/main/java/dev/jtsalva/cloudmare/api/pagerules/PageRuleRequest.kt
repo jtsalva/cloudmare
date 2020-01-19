@@ -4,65 +4,39 @@ import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(context) {
 
     suspend fun list(zoneId: String,
                      order: String = ORDER_PRIORITY,
-                     direction: String = DIRECTION_ASCENDING) =
-        suspendCoroutine<PageRuleListResponse> { cont ->
+                     direction: String = DIRECTION_ASCENDING): PageRuleListResponse {
             val params = urlParams("order" to order, "direction" to direction)
 
             requestTAG = LIST
-            get("zones/$zoneId/pagerules$params") {
-                cont.resume(
-                    getAdapter(PageRuleListResponse::class).
-                        fromJson(it.toString()) ?: PageRuleListResponse(success = false)
-                )
-            }
+            return super.httpGet("zones/$zoneId/pagerules$params")
         }
 
-    suspend fun create(zoneId: String, newPageRule: PageRule) =
-        suspendCoroutine<PageRuleResponse> { cont ->
+    suspend fun create(zoneId: String, newPageRule: PageRule): PageRuleResponse {
             val payload = JSONObject(
                 getAdapter(PageRule::class).toJson(newPageRule)
             )
 
             requestTAG = CREATE
-            post("zones/$zoneId/pagerules", payload) {
-                cont.resume(
-                    getAdapter(PageRuleResponse::class).
-                        fromJson(it.toString()) ?: PageRuleResponse(success = false)
-                )
-            }
+            return super.httpPost("zones/$zoneId/pagerules", payload)
         }
 
-    suspend fun update(zoneId: String, updatedPageRule: PageRule) =
-        suspendCoroutine<PageRuleResponse> { cont ->
+    suspend fun update(zoneId: String, updatedPageRule: PageRule): PageRuleResponse {
             val payload = JSONObject(
                 getAdapter(PageRule::class).toJson(updatedPageRule)
             )
 
             requestTAG = UPDATE
-            put("zones/$zoneId/pagerules/${updatedPageRule.id}", payload) {
-                cont.resume(
-                    getAdapter(PageRuleResponse::class).
-                        fromJson(it.toString()) ?: PageRuleResponse(success = false)
-                )
-            }
+            return super.httpPut("zones/$zoneId/pagerules/${updatedPageRule.id}", payload)
         }
 
-    suspend fun delete(zoneId: String, pageRuleId: String) =
-        suspendCoroutine<PageRuleResponse> { cont ->
+    suspend fun delete(zoneId: String, pageRuleId: String): PageRuleResponse {
             requestTAG = DELETE
-            delete("zones/$zoneId/pagerules/$pageRuleId") {
-                cont.resume(
-                    getAdapter(PageRuleResponse::class).
-                        fromJson(it.toString()) ?: PageRuleResponse(success = false)
-                )
-            }
+            return super.httpDelete("zones/$zoneId/pagerules/$pageRuleId")
         }
 
 }

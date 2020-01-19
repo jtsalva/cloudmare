@@ -100,7 +100,7 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
         else (response.result as MutableList<Zone>).also { result ->
             if (!initialized) zone_list.apply {
                 zones = result
-
+ 
                 adapter = ZoneListAdapter(this@ZoneListActivity, zones)
                 layoutManager = LinearLayoutManager(this@ZoneListActivity)
                 addOnScrollListener(paginationListener)

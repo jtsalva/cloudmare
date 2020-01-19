@@ -7,6 +7,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 import java.nio.charset.Charset
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import com.android.volley.Request as VolleyRequest
 import com.android.volley.Response as JsonResponse
 
@@ -36,11 +38,6 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
     @Suppress("UNCHECKED_CAST")
     fun launch(block: suspend R.() -> Unit) = context.launch { block.invoke(this as R) }
-
-    private inline fun ResponseCallback.logResponse(): ResponseCallback = { response ->
-        Timber.v(response.toString())
-        invoke(response)
-    }
 
     private val className = javaClass.simpleName
 
@@ -98,71 +95,64 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
         }
     }
 
-    private inline fun send(method: Int, data: Any?, path: String, crossinline callback: ResponseCallback) {
-        val url = "$BASE_URL/$path"
+    private suspend inline fun <reified T : Response> send(method: Int, data: Any?, path: String) =
+        suspendCoroutine<T> { cont ->
+            val url = "$BASE_URL/$path"
 
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(
-            when (data) {
-                null, is JSONObject -> AuthenticatedJsonObjectRequest(
-                    method,
-                    url,
-                    data as? JSONObject,
-                    JsonResponse.Listener(callback.logResponse()),
-                    JsonResponse.ErrorListener { error -> handleError(error, callback.logResponse()) }
+            val callback: ResponseCallback = { response ->
+                Timber.v(response.toString())
+                cont.resume(
+                    getAdapter(T::class).fromJson(response.toString())
+                    ?: Response(success = false) as T
                 )
+            }
 
-                is JSONArray -> AuthenticatedJsonArrayRequest(
-                    method,
-                    url,
-                    data,
-                    JsonResponse.Listener(callback.logResponse()),
-                    JsonResponse.ErrorListener { error -> handleError(error, callback.logResponse()) }
-                )
+            RequestQueueSingleton.getInstance(context).addToRequestQueue(
+                when (data) {
+                    is JSONObject, null -> AuthenticatedJsonObjectRequest(
+                        method,
+                        url,
+                        data as? JSONObject,
+                        JsonResponse.Listener(callback),
+                        JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                    )
 
-                else -> throw Exception("invalid request data type must be either JSONObject or JSONArray")
+                    is JSONArray -> AuthenticatedJsonArrayRequest(
+                        method,
+                        url,
+                        data,
+                        JsonResponse.Listener(callback),
+                        JsonResponse.ErrorListener { error -> handleError(error, callback) }
+                    )
 
-            }.apply { setTag(requestTAG) }
-        )
-    }
+                    else -> throw Exception("invalid request data type must be either JSONObject or JSONArray")
 
-    fun get(path: String, data: Any? = null, callback: ResponseCallback) =
-        send(
-            VolleyRequest.Method.GET,
-            data,
-            path,
-            callback
-        )
+                }.apply { setTag(requestTAG) }
+            )
+        }
 
-    fun patch(path: String, data: Any? = null, callback: ResponseCallback) =
-        send(
-            VolleyRequest.Method.PATCH,
-            data,
-            path,
-            callback
-        )
+    internal suspend inline fun <reified T : Response> httpGet(path: String, data: Any?) =
+        send<T>(VolleyRequest.Method.GET, data, path)
 
-    fun put(path: String, data: Any? = null, callback: ResponseCallback) =
-        send(
-            VolleyRequest.Method.PATCH,
-            data,
-            path,
-            callback
-        )
+    internal suspend inline fun <reified T : Response> httpPatch(path: String, data: Any?) =
+        send<T>(VolleyRequest.Method.PATCH, data, path)
 
-    fun post(path: String, data: Any? = null, callback: ResponseCallback) =
-        send(
-            VolleyRequest.Method.POST,
-            data,
-            path,
-            callback
-        )
+    internal suspend inline fun <reified T : Response> httpPut(path: String, data: Any? = null) =
+        send<T>(VolleyRequest.Method.PATCH, data, path)
 
-    fun delete(path: String, data: Any? = null, callback: ResponseCallback) =
-        send(
-            VolleyRequest.Method.DELETE,
-            data,
-            path,
-            callback
-        )
+    internal suspend inline fun <reified T : Response> httpPost(path: String, data: Any? = null) =
+        send<T>(VolleyRequest.Method.POST, data, path)
 
+    internal suspend inline fun <reified T : Response> httpDelete(path: String, data: Any? = null) =
+        send<T>(VolleyRequest.Method.DELETE, data, path)
+
+    internal suspend inline fun <reified T : Response> httpGet(path: String) = httpGet<T>(path, null)
+
+    internal suspend inline fun <reified T : Response> httpPatch(path: String) = httpPatch<T>(path, null)
+
+    internal suspend inline fun <reified T : Response> httpPut(path: String) = httpPut<T>(path, null)
+
+    internal suspend inline fun <reified T : Response> httpPost(path: String) = httpPost<T>(path, null)
+
+    internal suspend inline fun <reified T : Response> httpDelete(path: String) = httpDelete<T>(path, null)
 }

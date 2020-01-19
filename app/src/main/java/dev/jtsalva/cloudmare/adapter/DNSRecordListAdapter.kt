@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
-import dev.jtsalva.cloudmare.DNSRecordListActivity
 import dev.jtsalva.cloudmare.DNSRecordActivity
+import dev.jtsalva.cloudmare.DNSRecordListActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.zone.Zone

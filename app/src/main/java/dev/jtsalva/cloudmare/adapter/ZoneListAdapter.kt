@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.ZoneDashActivity
 import dev.jtsalva.cloudmare.ZoneListActivity
-import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.zone.Zone
 import dev.jtsalva.cloudmare.startActivityWithExtras
 

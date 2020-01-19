@@ -4,12 +4,10 @@ import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
 import dev.jtsalva.cloudmare.api.getAdapter
 import org.json.JSONObject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(context) {
 
-    suspend fun create(zoneId: String, newDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
+    suspend fun create(zoneId: String, newDNSRecord: DNSRecord): DNSRecordResponse {
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
         val data = JSONObject(
             getAdapter(DNSRecord::class).toJson(newDNSRecord)
@@ -23,32 +21,17 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         }
 
         requestTAG = CREATE
-        post("zones/$zoneId/dns_records", payload) {
-            cont.resume(
-                getAdapter(DNSRecordResponse::class).
-                        fromJson(it.toString()) ?: DNSRecordResponse(success = false)
-            )
-        }
+        return super.httpPost("zones/$zoneId/dns_records", payload)
     }
 
-    suspend fun delete(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
+    suspend fun delete(zoneId: String, dnsRecordId: String): DNSRecordResponse {
         requestTAG = DELETE
-        delete("zones/$zoneId/dns_records/$dnsRecordId") {
-            cont.resume(
-                getAdapter(DNSRecordResponse::class).
-                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
-            )
-        }
+        return super.httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
-    suspend fun get(zoneId: String, dnsRecordId: String) = suspendCoroutine<DNSRecordResponse> { cont ->
+    suspend fun get(zoneId: String, dnsRecordId: String): DNSRecordResponse {
         requestTAG = GET
-        get("zones/$zoneId/dns_records/$dnsRecordId") {
-            cont.resume(
-                getAdapter(DNSRecordResponse::class).
-                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
-            )
-        }
+        return super.httpGet("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
 
@@ -57,8 +40,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                      perPage: Int = 20,
                      order: String = DNSRecord.SORT_BY_TYPE,
                      direction: String = DIRECTION_DESCENDING,
-                     contains: String? = null) =
-        suspendCoroutine<DNSRecordListResponse> { cont ->
+                     contains: String? = null): DNSRecordListResponse {
             var params = urlParams(
                 "page" to pageNumber,
                 "per_page" to perPage,
@@ -66,37 +48,28 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                 "direction" to direction
             )
 
-            val matcher = "contains%3A$contains"
-
-            if (contains != null && contains != "") params +=
-                "&${urlParams(
-                    "name" to matcher,
-                    "type" to matcher,
-                    "content" to matcher,
-                    "match" to "any"
-                ).substringAfter("?")}"
+            if (contains != null && contains != "") {
+                val matcher = "contains%3A$contains"
+                params +=
+                    "&${urlParams(
+                        "name" to matcher,
+                        "type" to matcher,
+                        "content" to matcher,
+                        "match" to "any"
+                    ).substringAfter("?")}"
+            }
 
             requestTAG = LIST
-            get("zones/$zoneId/dns_records$params") {
-                cont.resume(
-                    getAdapter(DNSRecordListResponse::class).
-                        fromJson(it.toString()) ?: DNSRecordListResponse(success = false)
-                )
-            }
+            return super.httpGet("zones/$zoneId/dns_records$params")
         }
 
-    suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord) = suspendCoroutine<DNSRecordResponse> { cont ->
+    suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord): DNSRecordResponse {
         val payload = JSONObject(
             getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
         )
 
         requestTAG = UPDATE
-        put("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload) {
-            cont.resume(
-                getAdapter(DNSRecordResponse::class).
-                    fromJson(it.toString()) ?: DNSRecordResponse(success = false)
-            )
-        }
+        return super.httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
     }
 
 }
