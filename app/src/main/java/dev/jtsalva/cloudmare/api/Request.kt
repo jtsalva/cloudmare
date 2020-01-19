@@ -12,6 +12,7 @@ import com.android.volley.Response as JsonResponse
 
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
+@Suppress("UNUSED")
 open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
 
     companion object {

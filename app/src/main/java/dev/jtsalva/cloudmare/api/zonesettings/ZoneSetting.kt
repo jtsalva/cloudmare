@@ -5,6 +5,7 @@ import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.IdTranslator
 
+@Suppress("UNUSED")
 data class ZoneSetting(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "value") val value: Any,

@@ -31,4 +31,4 @@ inline fun Float.toDateMonthAsString(): String =
     MonthDateTimeFormat.format(this)
 
 inline fun <T : Any> getAdapter(type: KClass<T>, vararg adapters: Any): JsonAdapter<T> =
-    Moshi.Builder().apply { adapters.forEach { add(it) } }.build().adapter<T>(type.java)
+    Moshi.Builder().apply { adapters.forEach { add(it) } }.build().adapter(type.java)

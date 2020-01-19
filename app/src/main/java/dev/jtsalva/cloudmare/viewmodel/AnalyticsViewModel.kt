@@ -40,7 +40,7 @@ class AnalyticsViewModel(
         activity.findViewById<Spinner>(R.id.category_spinner)
     }
 
-    val timePeriodSpinner: Spinner by lazy {
+    private val timePeriodSpinner: Spinner by lazy {
         activity.findViewById<Spinner>(R.id.time_period_spinner)
     }
 

@@ -8,6 +8,7 @@ import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.readStringOrBlank
 
+@Suppress("UNUSED")
 data class DNSRecord(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "type") var type: String,
