@@ -138,7 +138,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
         send<T>(VolleyRequest.Method.PATCH, data, path)
 
     internal suspend inline fun <reified T : Response> httpPut(path: String, data: Any? = null) =
-        send<T>(VolleyRequest.Method.PATCH, data, path)
+        send<T>(VolleyRequest.Method.PUT, data, path)
 
     internal suspend inline fun <reified T : Response> httpPost(path: String, data: Any? = null) =
         send<T>(VolleyRequest.Method.POST, data, path)
