@@ -7,6 +7,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 import java.nio.charset.Charset
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import com.android.volley.Request as VolleyRequest
@@ -15,7 +16,7 @@ import com.android.volley.Response as JsonResponse
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
 @Suppress("UNUSED")
-open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
+open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
     companion object {
         const val CREATE = "create"
@@ -37,7 +38,8 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun launch(block: suspend R.() -> Unit) = context.launch { block.invoke(this as R) }
+    fun launch(context: CoroutineContext = activity.coroutineContext,
+               block: suspend R.() -> Unit) = activity.launch(context) { block.invoke(this as R) }
 
     private val className = javaClass.simpleName
 
@@ -56,7 +58,7 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
     }
 
     fun cancelAll(method: String) =
-        RequestQueueSingleton(context).requestQueue.cancelAll("$className.$method")
+        RequestQueueSingleton(activity).requestQueue.cancelAll("$className.$method")
 
     private inline fun handleError(error: VolleyError, callback: ResponseCallback) {
         Timber.e(error.message ?: error.toString())
@@ -103,11 +105,11 @@ open class Request<R : Request<R>>(protected val context: CloudMareActivity) {
                 Timber.v(response.toString())
                 cont.resume(
                     getAdapter(T::class).fromJson(response.toString())
-                    ?: Response(success = false) as T
+                        ?: Response(success = false) as T
                 )
             }
 
-            RequestQueueSingleton.getInstance(context).addToRequestQueue(
+            RequestQueueSingleton.getInstance(activity).addToRequestQueue(
                 when (data) {
                     is JSONObject, null -> AuthenticatedJsonObjectRequest(
                         method,
