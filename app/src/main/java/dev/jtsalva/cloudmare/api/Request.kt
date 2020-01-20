@@ -49,7 +49,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
         return urlParamsString.substring(0, urlParamsString.length - 1)
     }
 
-    fun cancelAll(method: String) =
+    private inline fun cancelAll(method: String) =
         RequestQueueSingleton(activity).requestQueue.cancelAll("$className.$method")
 
     fun cancelAll(function: KFunction<Any>) = cancelAll(function.name)
@@ -127,10 +127,10 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
             )
         }
 
-    internal suspend inline fun <reified T : Response> httpGet(path: String, data: Any?) =
+    internal suspend inline fun <reified T : Response> httpGet(path: String, data: Any? = null) =
         send<T>(VolleyRequest.Method.GET, data, path)
 
-    internal suspend inline fun <reified T : Response> httpPatch(path: String, data: Any?) =
+    internal suspend inline fun <reified T : Response> httpPatch(path: String, data: Any? = null) =
         send<T>(VolleyRequest.Method.PATCH, data, path)
 
     internal suspend inline fun <reified T : Response> httpPut(path: String, data: Any? = null) =
@@ -141,14 +141,4 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
     internal suspend inline fun <reified T : Response> httpDelete(path: String, data: Any? = null) =
         send<T>(VolleyRequest.Method.DELETE, data, path)
-
-    internal suspend inline fun <reified T : Response> httpGet(path: String) = httpGet<T>(path, null)
-
-    internal suspend inline fun <reified T : Response> httpPatch(path: String) = httpPatch<T>(path, null)
-
-    internal suspend inline fun <reified T : Response> httpPut(path: String) = httpPut<T>(path, null)
-
-    internal suspend inline fun <reified T : Response> httpPost(path: String) = httpPost<T>(path, null)
-
-    internal suspend inline fun <reified T : Response> httpDelete(path: String) = httpDelete<T>(path, null)
 }

@@ -8,14 +8,14 @@ class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentMo
 
     suspend fun get(zoneId: String): ZoneSettingResponse {
         requestTAG = "get"
-        return super.httpGet("zones/$zoneId/settings/development_mode")
+        return httpGet("zones/$zoneId/settings/development_mode")
     }
 
     suspend fun update(zoneId: String, value: String): ZoneSettingResponse {
         val payload = JSONObject().apply { put("value", value) }
 
         requestTAG = "update"
-        return super.httpPatch("zones/$zoneId/settings/development_mode", payload)
+        return httpPatch("zones/$zoneId/settings/development_mode", payload)
     }
 
 }

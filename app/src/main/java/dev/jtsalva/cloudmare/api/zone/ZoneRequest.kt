@@ -9,7 +9,7 @@ class ZoneRequest(context: CloudMareActivity) : Request<ZoneRequest>(context) {
         val params = urlParams("page" to pageNumber, "per_page" to perPage)
 
         requestTAG = "list"
-        return super.httpGet("zones$params")
+        return httpGet("zones$params")
     }
 
 }

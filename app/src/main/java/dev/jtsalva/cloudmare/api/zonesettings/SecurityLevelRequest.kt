@@ -8,7 +8,7 @@ class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRe
 
     suspend fun get(zoneId: String): ZoneSettingResponse {
         requestTAG = "get"
-        return super.httpGet("zones/$zoneId/settings/security_level")
+        return httpGet("zones/$zoneId/settings/security_level")
     }
 
     suspend fun update(zoneId: String, value: String): ZoneSettingResponse {
@@ -17,7 +17,7 @@ class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRe
         }
 
         requestTAG = "update"
-        return super.httpPatch("zones/$zoneId/settings/security_level", payload)
+        return httpPatch("zones/$zoneId/settings/security_level", payload)
     }
 
 }

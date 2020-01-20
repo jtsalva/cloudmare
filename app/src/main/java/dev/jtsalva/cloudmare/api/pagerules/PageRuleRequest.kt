@@ -13,7 +13,7 @@ class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(con
             val params = urlParams("order" to order, "direction" to direction)
 
             requestTAG = "list"
-            return super.httpGet("zones/$zoneId/pagerules$params")
+            return httpGet("zones/$zoneId/pagerules$params")
         }
 
     suspend fun create(zoneId: String, newPageRule: PageRule): PageRuleResponse {
@@ -22,7 +22,7 @@ class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(con
             )
 
             requestTAG = "create"
-            return super.httpPost("zones/$zoneId/pagerules", payload)
+            return httpPost("zones/$zoneId/pagerules", payload)
         }
 
     suspend fun update(zoneId: String, updatedPageRule: PageRule): PageRuleResponse {
@@ -31,12 +31,12 @@ class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(con
             )
 
             requestTAG = "update"
-            return super.httpPut("zones/$zoneId/pagerules/${updatedPageRule.id}", payload)
+            return httpPut("zones/$zoneId/pagerules/${updatedPageRule.id}", payload)
         }
 
     suspend fun delete(zoneId: String, pageRuleId: String): PageRuleResponse {
             requestTAG = "delete"
-            return super.httpDelete("zones/$zoneId/pagerules/$pageRuleId")
+            return httpDelete("zones/$zoneId/pagerules/$pageRuleId")
         }
 
 }

@@ -11,7 +11,7 @@ class PurgeCacheRequest(context: CloudMareActivity) : Request<PurgeCacheRequest>
         payload.put("purge_everything", true)
 
         requestTAG = "purgeAll"
-        return super.httpPost("zones/$zoneId/purge_cache", payload)
+        return httpPost("zones/$zoneId/purge_cache", payload)
     }
 
 }

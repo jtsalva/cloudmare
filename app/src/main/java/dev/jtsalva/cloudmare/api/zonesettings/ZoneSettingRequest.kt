@@ -9,7 +9,7 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
 
     suspend fun list(zoneId: String): ZoneSettingListResponse {
         requestTAG = "list"
-        return super.httpGet("zones/$zoneId/settings")
+        return httpGet("zones/$zoneId/settings")
     }
 
     suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting): ZoneSettingListResponse {
@@ -23,7 +23,7 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
         }
 
         requestTAG = "update"
-        return super.httpPatch("zones/$zoneId/settings", payload)
+        return httpPatch("zones/$zoneId/settings", payload)
     }
 
 }

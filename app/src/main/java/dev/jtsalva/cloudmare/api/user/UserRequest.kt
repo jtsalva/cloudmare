@@ -7,7 +7,7 @@ class UserRequest(context: CloudMareActivity) : Request<UserRequest>(context) {
 
     suspend fun getDetails(): UserDetailsResponse {
         requestTAG = "getDetails"
-        return super.httpGet("user")
+        return httpGet("user")
     }
 
 }

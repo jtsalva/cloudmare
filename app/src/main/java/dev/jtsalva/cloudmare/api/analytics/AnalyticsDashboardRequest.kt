@@ -15,7 +15,7 @@ class AnalyticsDashboardRequest(context: CloudMareActivity) : Request<AnalyticsD
         )
 
         requestTAG = "get"
-        return super.httpGet("zones/$zoneId/analytics/dashboard$params")
+        return httpGet("zones/$zoneId/analytics/dashboard$params")
     }
 
 

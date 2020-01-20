@@ -21,17 +21,17 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         }
 
         requestTAG = "create"
-        return super.httpPost("zones/$zoneId/dns_records", payload)
+        return httpPost("zones/$zoneId/dns_records", payload)
     }
 
     suspend fun delete(zoneId: String, dnsRecordId: String): DNSRecordResponse {
         requestTAG = "delete"
-        return super.httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
+        return httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
     suspend fun get(zoneId: String, dnsRecordId: String): DNSRecordResponse {
         requestTAG = "get"
-        return super.httpGet("zones/$zoneId/dns_records/$dnsRecordId")
+        return httpGet("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
 
@@ -60,7 +60,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
             }
 
             requestTAG = "list"
-            return super.httpGet("zones/$zoneId/dns_records$params")
+            return httpGet("zones/$zoneId/dns_records$params")
         }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord): DNSRecordResponse {
@@ -69,7 +69,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         )
 
         requestTAG = "update"
-        return super.httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
+        return httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
     }
 
 }
