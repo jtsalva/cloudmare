@@ -74,7 +74,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
                     )
                 )
 
-                callback(JSONObject(failedResponse))
+                callback(failedResponse.toJson())
                 Timber.e(e)
             }
         } else {
@@ -87,7 +87,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
                 )
             )
 
-            callback(JSONObject(failedResponse))
+            callback(failedResponse.toJson())
         }
     }
 
@@ -97,10 +97,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
 
             val callback: ResponseCallback = { response ->
                 Timber.v(response.toString())
-                cont.resume(
-                    getAdapter(T::class).fromJson(response.toString())
-                        ?: Response(success = false) as T
-                )
+                cont.resume(response.fromJson())
             }
 
             RequestQueueSingleton.getInstance(activity).addToRequestQueue(

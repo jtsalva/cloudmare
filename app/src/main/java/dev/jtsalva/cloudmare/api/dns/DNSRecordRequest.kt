@@ -2,16 +2,14 @@ package dev.jtsalva.cloudmare.api.dns
 
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.getAdapter
+import dev.jtsalva.cloudmare.api.toJson
 import org.json.JSONObject
 
 class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord): DNSRecordResponse {
         val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
-        val data = JSONObject(
-            getAdapter(DNSRecord::class).toJson(newDNSRecord)
-        )
+        val data = newDNSRecord.toJson()
         val payload = JSONObject()
 
         val keys = data.keys()
@@ -64,9 +62,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord): DNSRecordResponse {
-        val payload = JSONObject(
-            getAdapter(DNSRecord::class).toJson(updatedDNSRecord)
-        )
+        val payload = updatedDNSRecord.toJson()
 
         requestTAG = "update"
         return httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)

@@ -2,7 +2,7 @@ package dev.jtsalva.cloudmare.api.zonesettings
 
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.getAdapter
+import dev.jtsalva.cloudmare.api.toJsonString
 import org.json.JSONObject
 
 class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingRequest>(context) {
@@ -13,14 +13,12 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
     }
 
     suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting): ZoneSettingListResponse {
-        val payload = getAdapter(ZoneSetting::class).run {
-            val strings = mutableListOf<String>()
-            zoneSettings.forEach { zoneSetting ->
-                strings.add(toJson(zoneSetting))
-            }
-
-            JSONObject("{\"items\":[${strings.joinToString(",")}]}")
+        val strings = mutableListOf<String>()
+        zoneSettings.forEach { zoneSetting ->
+            strings.add(zoneSetting.toJsonString())
         }
+
+        val payload = JSONObject("{\"items\":[${strings.joinToString(",")}]}")
 
         requestTAG = "update"
         return httpPatch("zones/$zoneId/settings", payload)

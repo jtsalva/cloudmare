@@ -2,8 +2,7 @@ package dev.jtsalva.cloudmare.api.pagerules
 
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
-import dev.jtsalva.cloudmare.api.getAdapter
-import org.json.JSONObject
+import dev.jtsalva.cloudmare.api.toJson
 
 class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(context) {
 
@@ -17,18 +16,14 @@ class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(con
         }
 
     suspend fun create(zoneId: String, newPageRule: PageRule): PageRuleResponse {
-            val payload = JSONObject(
-                getAdapter(PageRule::class).toJson(newPageRule)
-            )
+            val payload = newPageRule.toJson()
 
             requestTAG = "create"
             return httpPost("zones/$zoneId/pagerules", payload)
         }
 
     suspend fun update(zoneId: String, updatedPageRule: PageRule): PageRuleResponse {
-            val payload = JSONObject(
-                getAdapter(PageRule::class).toJson(updatedPageRule)
-            )
+            val payload = updatedPageRule.toJson()
 
             requestTAG = "update"
             return httpPut("zones/$zoneId/pagerules/${updatedPageRule.id}", payload)

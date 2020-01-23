@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare.api
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.reflect.KClass
@@ -30,5 +31,14 @@ inline fun Float.toDateHourAsString(): String =
 inline fun Float.toDateMonthAsString(): String =
     MonthDateTimeFormat.format(this)
 
-inline fun <T : Any> getAdapter(type: KClass<T>): JsonAdapter<T> =
+private inline fun <T : Any> getAdapter(type: KClass<T>): JsonAdapter<T> =
     Moshi.Builder().build().adapter(type.java)
+
+internal inline fun <reified T : Any> T.toJson(): JSONObject =
+    JSONObject(toJsonString())
+
+internal inline fun <reified T : Any> T.toJsonString(): String =
+    getAdapter(T::class).toJson(this)
+
+internal inline fun <reified T : Response> JSONObject?.fromJson(): T =
+    getAdapter(T::class).fromJson(toString()) ?: Response(success = false) as T

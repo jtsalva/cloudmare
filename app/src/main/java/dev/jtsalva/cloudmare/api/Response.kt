@@ -12,14 +12,12 @@ open class Response(
 ) {
 
     companion object {
-        fun createWithErrors(vararg errors: Error): String =
-            getAdapter(Response::class).toJson(
-                Response(success = false, errors = errors.run {
-                    mutableListOf<Error>().apply {
-                        for (err in this@run) add(err)
-                    }
-                })
-            )
+        fun createWithErrors(vararg errors: Error) =
+            Response(success = false, errors = errors.run {
+                mutableListOf<Error>().apply {
+                    for (err in this@run) add(err)
+                }
+            })
     }
 
     open val result: Any? = null
