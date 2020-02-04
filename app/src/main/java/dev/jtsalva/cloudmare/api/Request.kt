@@ -74,12 +74,10 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
                     )
                 )
 
-                callback(failedResponse.toJson())
                 Timber.e(e)
+                callback(failedResponse.toJson())
             }
         } else {
-            Timber.e(error.localizedMessage ?: "null error response")
-
             val failedResponse = Response.createWithErrors(
                 Response.Error(
                     code = LOCAL_ERROR_CODE,
@@ -87,6 +85,7 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
                 )
             )
 
+            Timber.e(error.localizedMessage ?: "null error response")
             callback(failedResponse.toJson())
         }
     }
