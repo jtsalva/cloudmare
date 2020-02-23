@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.toTtlString
 import java.net.URI
 
+@JsonClass(generateAdapter = true)
 data class PageRule(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "targets") val targets: List<Target>,

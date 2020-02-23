@@ -1,11 +1,13 @@
 package dev.jtsalva.cloudmare.api.zonesettings
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.IdTranslator
 
 @Suppress("UNUSED")
+@JsonClass(generateAdapter = true)
 data class ZoneSetting(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "value") val value: Any,
