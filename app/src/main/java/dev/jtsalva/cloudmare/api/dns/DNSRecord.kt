@@ -3,12 +3,14 @@ package dev.jtsalva.cloudmare.api.dns
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.R
 import dev.jtsalva.cloudmare.api.IdTranslator
 import dev.jtsalva.cloudmare.api.readStringOrBlank
 
 @Suppress("UNUSED")
+@JsonClass(generateAdapter = true)
 data class DNSRecord(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "type") var type: String,
@@ -18,7 +20,7 @@ data class DNSRecord(
     @field:Json(name = "proxied") var proxied: Boolean,
     @field:Json(name = "ttl") var ttl: Int,
     @field:Json(name = "locked") var locked: Boolean,
-    @field:Json(name = "zoneId") var zoneId: String,
+    @field:Json(name = "zone_id") var zoneId: String,
     @field:Json(name = "zone_name") var zoneName: String,
     @field:Json(name = "priority") var priority: Int? = null,
     @field:Json(name = "created_on") var createdOn: String? = null,
