@@ -2,6 +2,7 @@ package dev.jtsalva.cloudmare.api.dns
 
 import dev.jtsalva.cloudmare.CloudMareActivity
 import dev.jtsalva.cloudmare.api.Request
+import dev.jtsalva.cloudmare.api.Response
 import dev.jtsalva.cloudmare.api.toJson
 import org.json.JSONObject
 
@@ -22,7 +23,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         return httpPost("zones/$zoneId/dns_records", payload)
     }
 
-    suspend fun delete(zoneId: String, dnsRecordId: String): DNSRecordResponse {
+    suspend fun delete(zoneId: String, dnsRecordId: String): Response {
         requestTAG = "delete"
         return httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
     }
