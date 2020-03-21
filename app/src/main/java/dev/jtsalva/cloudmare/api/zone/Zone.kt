@@ -3,11 +3,9 @@ package dev.jtsalva.cloudmare.api.zone
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import dev.jtsalva.cloudmare.api.createStringArrayListOrBlank
 import dev.jtsalva.cloudmare.api.readStringOrBlank
 
-@JsonClass(generateAdapter = true)
 data class Zone(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "name") val name: String,
