@@ -52,7 +52,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                 "direction" to direction
             )
 
-            if (contains != null && contains != "") {
+            if (!contains.isNullOrBlank()) {
                 val matcher = "contains%3A$contains"
                 params +=
                     "&${urlParams(
