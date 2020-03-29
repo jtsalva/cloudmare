@@ -9,15 +9,20 @@ import org.json.JSONObject
 class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord): DNSRecordResponse {
-        val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
-        val data = newDNSRecord.toJson()
-        val payload = JSONObject()
+        fun filterInvalidKeys(newDNSRecordData: JSONObject): JSONObject {
+            val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
+            val validData = JSONObject()
 
-        val keys = data.keys()
-        while (keys.hasNext()) {
-            val key = keys.next()
-            if (validKeys.contains(key)) payload.put(key, data[key])
+            val keys = newDNSRecordData.keys()
+            while (keys.hasNext()) {
+                val key = keys.next()
+                if (validKeys.contains(key)) validData.put(key, newDNSRecordData[key])
+            }
+
+            return validData
         }
+
+        val payload = filterInvalidKeys(newDNSRecord.toJson())
 
         requestTAG = "create"
         return httpPost("zones/$zoneId/dns_records", payload)
