@@ -37,7 +37,5 @@ class ZoneListAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val name: TextView = itemView.findViewById(R.id.name)
-
     }
-
 }

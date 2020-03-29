@@ -223,5 +223,4 @@ class SSLViewModel(
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // Intentionally blank
     }
-
 }

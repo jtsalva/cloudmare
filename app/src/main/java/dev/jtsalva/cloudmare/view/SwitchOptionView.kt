@@ -37,5 +37,4 @@ class SwitchOptionView(context: Context, attrs: AttributeSet) : ConstraintLayout
 
     fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener) =
         title_switch.setOnCheckedChangeListener(listener)
-
 }

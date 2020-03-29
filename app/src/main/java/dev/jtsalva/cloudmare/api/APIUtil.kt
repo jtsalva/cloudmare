@@ -2,17 +2,18 @@ package dev.jtsalva.cloudmare.api
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import kotlin.reflect.KClass
+import org.json.JSONObject
 
 const val BASE_URL = "https://api.cloudflare.com/client/v4"
 const val CLOUDFLARE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 const val DAY_DATE_FORMAT = "EEE"
 const val HOURLY_DATE_FORMAT = "HH:mm"
 const val MONTH_DATE_FORMAT = "MMM d"
-
 
 val CloudflareDateTimeFormat = SimpleDateFormat(CLOUDFLARE_DATE_FORMAT, Locale.ENGLISH)
 val DayDateTimeFormat = SimpleDateFormat(DAY_DATE_FORMAT, Locale.ENGLISH)

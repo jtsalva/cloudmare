@@ -3,14 +3,18 @@ package dev.jtsalva.cloudmare
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class PaginationListener(private val activity: CloudMareActivity,
-                                  private val linearLayoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+abstract class PaginationListener(
+    private val activity: CloudMareActivity,
+    private val linearLayoutManager: LinearLayoutManager
+) : RecyclerView.OnScrollListener() {
 
     companion object {
 
-        fun lazy(activity: CloudMareActivity,
-                 recyclerViewId: Int,
-                 onFetchNextPage: PaginationListener.(pageNumber: Int) -> Unit): Lazy<PaginationListener> =
+        fun lazy(
+            activity: CloudMareActivity,
+            recyclerViewId: Int,
+            onFetchNextPage: PaginationListener.(pageNumber: Int) -> Unit
+        ): Lazy<PaginationListener> =
             lazy {
                 val layoutManager = activity.findViewById<RecyclerView>(recyclerViewId).layoutManager
                 object : PaginationListener(activity, layoutManager as LinearLayoutManager) {
@@ -19,7 +23,6 @@ abstract class PaginationListener(private val activity: CloudMareActivity,
                     }
                 }
             }
-
     }
 
     private var fetchingNextPage: Boolean = false
@@ -64,5 +67,4 @@ abstract class PaginationListener(private val activity: CloudMareActivity,
     }
 
     abstract fun fetchNextPage(pageNumber: Int)
-
 }

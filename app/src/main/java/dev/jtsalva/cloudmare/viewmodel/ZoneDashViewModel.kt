@@ -97,5 +97,4 @@ class ZoneDashViewModel(
                 notifyPropertyChanged(BR.developmentModeEnabled)
             }
         }
-
 }

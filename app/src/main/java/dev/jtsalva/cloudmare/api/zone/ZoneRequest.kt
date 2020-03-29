@@ -11,5 +11,4 @@ class ZoneRequest(context: CloudMareActivity) : Request<ZoneRequest>(context) {
         requestTAG = "list"
         return httpGet("zones$params")
     }
-
 }

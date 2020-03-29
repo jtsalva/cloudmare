@@ -74,11 +74,11 @@ class DNSRecordActivity : CloudMareActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with (intent) {
+        with(intent) {
             zone = getParcelableExtra("zone")!!
 
-            dnsRecord = getParcelableExtra("dns_record") ?:
-                    DNSRecord.default.apply {
+            dnsRecord = getParcelableExtra("dns_record")
+                    ?: DNSRecord.default.apply {
                         zoneName = zone.name
                         isNewRecord = true
                     }
@@ -99,7 +99,7 @@ class DNSRecordActivity : CloudMareActivity() {
         render()
     }
 
-    fun customizeForm() = with (viewModel.data) {
+    fun customizeForm() = with(viewModel.data) {
         fun setPriorityVisibility(isVisible: Boolean) {
             priority_label.isVisible = isVisible
             priority_edit_text.isVisible = isVisible
@@ -204,8 +204,7 @@ class DNSRecordActivity : CloudMareActivity() {
                         "dns_record" to dnsRecord
                     ))
                     finish()
-                }
-                else dialog.error(message = response.firstErrorMessage)
+                } else dialog.error(message = response.firstErrorMessage)
             }
         }
     }

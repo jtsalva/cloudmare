@@ -46,7 +46,6 @@ open class Response(
     ) {
 
         val mostRelevantError: Error get() = errorChain?.get(0)?.mostRelevantError ?: this
-
     }
 
     @JsonClass(generateAdapter = true)
@@ -54,5 +53,4 @@ open class Response(
         @field:Json(name = "code") val code: Int,
         @field:Json(name = "message") val message: String
     )
-
 }

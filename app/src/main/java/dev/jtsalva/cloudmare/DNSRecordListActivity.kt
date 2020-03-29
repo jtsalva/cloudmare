@@ -167,8 +167,7 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
                         search_edit_text.setText("")
                         searchQuery = null
                     }
-                }
-                else {
+                } else {
                     isEnabled = true
 
                     visibility = View.VISIBLE
@@ -260,6 +259,4 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
 
         swipeRefreshLayout.isRefreshing = false
     }
-
-
 }

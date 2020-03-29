@@ -9,5 +9,4 @@ class UserRequest(context: CloudMareActivity) : Request<UserRequest>(context) {
         requestTAG = "getDetails"
         return httpGet("user")
     }
-
 }

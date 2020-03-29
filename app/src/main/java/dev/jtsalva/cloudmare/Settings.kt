@@ -14,7 +14,7 @@ object Settings {
     private fun getPrefs(context: Context): SharedPreferences =
         context.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)
 
-    fun load(context: Context) = with (getPrefs(context)) {
+    fun load(context: Context) = with(getPrefs(context)) {
         theme = getInt(THEME_PREFS, theme)
     }
 

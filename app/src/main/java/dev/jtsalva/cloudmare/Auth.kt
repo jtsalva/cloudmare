@@ -52,7 +52,7 @@ object Auth {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
 
-    fun load(context: Context) = with (getPrefs(context)) {
+    fun load(context: Context) = with(getPrefs(context)) {
         email = getString(EMAIL_PREFS, null) ?: ""
         apiKey = getString(API_KEY_PREFS, null) ?: ""
         apiToken = getString(API_TOKEN_PREFS, null) ?: ""

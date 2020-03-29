@@ -148,5 +148,4 @@ class CachingViewModel(
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // Intentionally blank
     }
-
 }

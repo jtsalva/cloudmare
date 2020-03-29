@@ -69,10 +69,11 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         private val LAST_MONTH = -10081 downTo -525600
     }
 
-    private fun customXAxis(count: Int,
-                            formatter: ValueFormatter,
-                            forceLabelCount: Boolean = true): XAxis.() -> Unit =
-        {
+    private fun customXAxis(
+        count: Int,
+        formatter: ValueFormatter,
+        forceLabelCount: Boolean = true
+    ): XAxis.() -> Unit = {
             position = XAxis.XAxisPosition.BOTTOM
             textSize = AXIS_LABEL_TEXT_SIZE
             valueFormatter = formatter
@@ -95,8 +96,10 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         textColor = labelColor
     }
 
-    private fun customChart(count: Int,
-                            formatter: ValueFormatter): LineChart.() -> Unit = {
+    private fun customChart(
+        count: Int,
+        formatter: ValueFormatter
+    ): LineChart.() -> Unit = {
         isAutoScaleMinMaxEnabled = true
 
         setTouchEnabled(false)
@@ -254,7 +257,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         showProgressBar = false
     }
 
-    private fun drawRequests() = with (cache.getValue(viewModel.timePeriod)) {
+    private fun drawRequests() = with(cache.getValue(viewModel.timePeriod)) {
         drawTotals(
             "All" to analyticsDashboard.totals.requests.all,
             "Cached" to analyticsDashboard.totals.requests.cached,
@@ -304,7 +307,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawBandwidth() = with (cache.getValue(viewModel.timePeriod)) {
+    private fun drawBandwidth() = with(cache.getValue(viewModel.timePeriod)) {
         drawTotals(
             "All" to analyticsDashboard.totals.bandwidth.all,
             "Cached" to analyticsDashboard.totals.bandwidth.cached,
@@ -355,7 +358,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawThreats() = with (cache.getValue(viewModel.timePeriod)) {
+    private fun drawThreats() = with(cache.getValue(viewModel.timePeriod)) {
         drawTotals("Threats" to analyticsDashboard.totals.threats.all)
 
         if (!lines.containsKey(AnalyticsViewModel.CATEGORY_THREATS)) {
@@ -383,7 +386,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
     }
 
-    private fun drawPageviews() = with (cache.getValue(viewModel.timePeriod)) {
+    private fun drawPageviews() = with(cache.getValue(viewModel.timePeriod)) {
         drawTotals("Pageviews" to analyticsDashboard.totals.pageviews.all)
 
         if (!lines.containsKey(AnalyticsViewModel.CATEGORY_PAGEVIEWS)) {

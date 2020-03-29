@@ -91,5 +91,4 @@ class SSLActivity : CloudMareActivity(), SwipeRefreshable {
 
         swipeRefreshLayout.isRefreshing = false
     }
-
 }

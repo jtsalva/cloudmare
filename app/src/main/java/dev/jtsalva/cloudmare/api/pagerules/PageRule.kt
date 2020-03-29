@@ -122,7 +122,7 @@ data class PageRule(
                     val domain = URI(forwardingUrl.url).run {
                         "$host$path"
                     }
-                    
+
                     "${forwardingUrl.statusCode}: $domain"
                 }
 
