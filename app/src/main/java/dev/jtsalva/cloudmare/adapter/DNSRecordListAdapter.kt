@@ -53,7 +53,7 @@ class DNSRecordListAdapter(
 
         holder.itemView.setOnClickListener {
             activity.startActivityWithExtrasForResult(
-                DNSRecordActivity::class,  DNSRecordListActivity.EDIT_RECORD,
+                DNSRecordActivity::class, DNSRecordListActivity.EDIT_RECORD,
                     "zone" to zone,
                     "dns_record" to record
             )
@@ -69,7 +69,5 @@ class DNSRecordListAdapter(
         val name: TextView = itemView.findViewById(R.id.name)
         val content: TextView = itemView.findViewById(R.id.content)
         val priority: TextView = itemView.findViewById(R.id.priority)
-
     }
-
 }

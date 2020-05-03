@@ -21,13 +21,14 @@ class Dialog(private val activity: CloudMareActivity) {
             openDialogs[activityHash]?.dismiss()
             openDialogs.remove(activityHash)
         }
-
     }
 
-    fun multiChoice(title: String = "Choose one",
-                    resId: Int = -1,
-                    initialSelection: Int = -1,
-                    onSelection: SingleChoiceListener) {
+    fun multiChoice(
+        title: String = "Choose one",
+        resId: Int = -1,
+        initialSelection: Int = -1,
+        onSelection: SingleChoiceListener
+    ) {
         if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             listItemsSingleChoice(
@@ -38,10 +39,12 @@ class Dialog(private val activity: CloudMareActivity) {
         })
     }
 
-    fun error(title: String = "Oops",
-              message: String = "Something went wrong",
-              positive: String = "Try again",
-              onAcknowledge: () -> Unit = {}) {
+    fun error(
+        title: String = "Oops",
+        message: String = "Something went wrong",
+        positive: String = "Try again",
+        onAcknowledge: () -> Unit = {}
+    ) {
         if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             message(text = message)
@@ -55,11 +58,13 @@ class Dialog(private val activity: CloudMareActivity) {
         }
     }
 
-    fun confirm(title: String = "Are you sure?",
-                message: String = "",
-                positive: String = "Yes",
-                negative: String = "Cancel",
-                onResult: (confirmed: Boolean) -> Unit) {
+    fun confirm(
+        title: String = "Are you sure?",
+        message: String = "",
+        positive: String = "Yes",
+        negative: String = "Cancel",
+        onResult: (confirmed: Boolean) -> Unit
+    ) {
         if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             title(text = title)
             if (message != "") message(text = message)
@@ -70,8 +75,10 @@ class Dialog(private val activity: CloudMareActivity) {
         })
     }
 
-    fun loading(title: String = "Loading…",
-                message: String = ""): Dialog {
+    fun loading(
+        title: String = "Loading…",
+        message: String = ""
+    ): Dialog {
         if (!activity.isFinishing) setOpenDialog(activity.hashCode(), materialDialog.show {
             cancelable(false)
             cancelOnTouchOutside(false)

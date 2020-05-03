@@ -123,5 +123,4 @@ class UserActivity : CloudMareActivity() {
         user_required_token_permissions.visibility = View.VISIBLE
         user_additional_info.visibility = View.VISIBLE
     }
-
 }

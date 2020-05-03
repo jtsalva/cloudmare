@@ -23,5 +23,4 @@ class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingReques
         requestTAG = "update"
         return httpPatch("zones/$zoneId/settings", payload)
     }
-
 }

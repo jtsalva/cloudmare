@@ -14,13 +14,14 @@ inline fun <T : Activity> Activity.startActivityWithExtras(activityClass: KClass
         Intent(this, activityClass.java).putExtras(*extras)
     )
 
-inline fun <T : Activity> Activity.startActivityWithExtrasForResult(activityClass: KClass<T>,
-                                                            requestCode: Int,
-                                                            vararg extras: Pair<String, Any>) =
+inline fun <T : Activity> Activity.startActivityWithExtrasForResult(
+    activityClass: KClass<T>,
+    requestCode: Int,
+    vararg extras: Pair<String, Any>
+) =
     startActivityForResult(
         Intent(this, activityClass.java).putExtras(*extras), requestCode
     )
-
 
 inline fun Intent.putExtras(vararg extras: Pair<String, Any>): Intent {
     for (pair in extras) when (pair.second) {

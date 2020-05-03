@@ -24,5 +24,4 @@ class ButtonOptionView(context: Context, attrs: AttributeSet) : ConstraintLayout
             info = getString(R.styleable.ButtonOptionView_info)
         }.recycle()
     }
-
 }

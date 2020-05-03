@@ -72,5 +72,4 @@ data class AnalyticsDashboard(
         @field:Json(name = "until") val until: String,
         @field:Json(name = "time_delta") val timeDelta: Long
     )
-
 }

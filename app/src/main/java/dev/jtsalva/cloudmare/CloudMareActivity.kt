@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlin.coroutines.CoroutineContext
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.launch as coLaunch
+import timber.log.Timber
 
 abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
@@ -44,7 +44,8 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
     fun launch(
         context: CoroutineContext = coroutineContext,
-        block: suspend () -> Unit): Job = coLaunch(context) { block() }
+        block: suspend () -> Unit
+    ): Job = coLaunch(context) { block() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

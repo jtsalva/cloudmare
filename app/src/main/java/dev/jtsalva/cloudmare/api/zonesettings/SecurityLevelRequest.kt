@@ -19,5 +19,4 @@ class SecurityLevelRequest(context: CloudMareActivity) : Request<SecurityLevelRe
         requestTAG = "update"
         return httpPatch("zones/$zoneId/settings/security_level", payload)
     }
-
 }

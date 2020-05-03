@@ -1,18 +1,18 @@
 package dev.jtsalva.cloudmare.api
 
+import com.android.volley.Request as VolleyRequest
+import com.android.volley.Response as JsonResponse
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import dev.jtsalva.cloudmare.CloudMareActivity
-import org.json.JSONArray
-import org.json.JSONObject
-import timber.log.Timber
 import java.nio.charset.Charset
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.reflect.KFunction
-import com.android.volley.Request as VolleyRequest
-import com.android.volley.Response as JsonResponse
+import org.json.JSONArray
+import org.json.JSONObject
+import timber.log.Timber
 
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
@@ -32,8 +32,10 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun launch(context: CoroutineContext = activity.coroutineContext,
-               block: suspend R.() -> Unit) = activity.launch(context) { block.invoke(this as R) }
+    fun launch(
+        context: CoroutineContext = activity.coroutineContext,
+        block: suspend R.() -> Unit
+    ) = activity.launch(context) { block.invoke(this as R) }
 
     private val className = javaClass.simpleName
 
@@ -118,7 +120,6 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
                     )
 
                     else -> throw Exception("invalid request data type must be either JSONObject or JSONArray")
-
                 }.apply { setTag(requestTAG) }
             )
         }

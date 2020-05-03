@@ -33,5 +33,4 @@ object CustomSwitchBinder {
         if (checked != switchOptionView.switchIsChecked)
             switchOptionView.switchIsChecked = checked
     }
-
 }

@@ -17,5 +17,4 @@ class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentMo
         requestTAG = "update"
         return httpPatch("zones/$zoneId/settings/development_mode", payload)
     }
-
 }

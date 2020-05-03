@@ -74,11 +74,9 @@ class DNSRecordViewModel(
             R.id.ttl_spinner ->
                 data.ttl = ttlTranslator.getId(selectedItem as String)
         }
-
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // Intentionally blank
     }
-
 }

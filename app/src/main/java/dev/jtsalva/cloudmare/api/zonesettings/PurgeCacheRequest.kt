@@ -13,5 +13,4 @@ class PurgeCacheRequest(context: CloudMareActivity) : Request<PurgeCacheRequest>
         requestTAG = "purgeAll"
         return httpPost("zones/$zoneId/purge_cache", payload)
     }
-
 }

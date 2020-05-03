@@ -6,9 +6,11 @@ import dev.jtsalva.cloudmare.api.toJson
 
 class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(context) {
 
-    suspend fun list(zoneId: String,
-                     order: String = ORDER_PRIORITY,
-                     direction: String = DIRECTION_ASCENDING): PageRuleListResponse {
+    suspend fun list(
+        zoneId: String,
+        order: String = ORDER_PRIORITY,
+        direction: String = DIRECTION_ASCENDING
+    ): PageRuleListResponse {
             val params = urlParams("order" to order, "direction" to direction)
 
             requestTAG = "list"
@@ -33,5 +35,4 @@ class PageRuleRequest(context: CloudMareActivity) : Request<PageRuleRequest>(con
             requestTAG = "delete"
             return httpDelete("zones/$zoneId/pagerules/$pageRuleId")
         }
-
 }

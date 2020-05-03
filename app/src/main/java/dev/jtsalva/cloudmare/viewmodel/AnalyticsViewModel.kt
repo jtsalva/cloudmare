@@ -84,7 +84,7 @@ class AnalyticsViewModel(
 
     var timePeriod: Int = TIME_PERIOD_ONE_DAY
         set(value) {
-            if (value != field) with (activity) {
+            if (value != field) with(activity) {
                 val oldValue = field
                 field = value
 
@@ -106,9 +106,7 @@ class AnalyticsViewModel(
                         )
 
                         dialog.error(message = response.firstErrorMessage)
-                    }
-
-                    else cache[field] =
+                    } else cache[field] =
                         AnalyticsActivity.CacheItem(analyticsDashboard = response.result)
 
                     drawGraph()
@@ -136,5 +134,4 @@ class AnalyticsViewModel(
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // Intentionally blank
     }
-
 }

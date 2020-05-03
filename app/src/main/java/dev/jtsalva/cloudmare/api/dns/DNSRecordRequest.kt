@@ -9,15 +9,20 @@ import org.json.JSONObject
 class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(context) {
 
     suspend fun create(zoneId: String, newDNSRecord: DNSRecord): DNSRecordResponse {
-        val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
-        val data = newDNSRecord.toJson()
-        val payload = JSONObject()
+        fun filterInvalidKeys(newDNSRecordData: JSONObject): JSONObject {
+            val validKeys = setOf("type", "name", "content", "ttl", "priority", "proxied")
+            val validData = JSONObject()
 
-        val keys = data.keys()
-        while (keys.hasNext()) {
-            val key = keys.next()
-            if (validKeys.contains(key)) payload.put(key, data[key])
+            val keys = newDNSRecordData.keys()
+            while (keys.hasNext()) {
+                val key = keys.next()
+                if (validKeys.contains(key)) validData.put(key, newDNSRecordData[key])
+            }
+
+            return validData
         }
+
+        val payload = filterInvalidKeys(newDNSRecord.toJson())
 
         requestTAG = "create"
         return httpPost("zones/$zoneId/dns_records", payload)
@@ -33,13 +38,14 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         return httpGet("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
-
-    suspend fun list(zoneId: String,
-                     pageNumber: Int = 1,
-                     perPage: Int = 20,
-                     order: String = DNSRecord.SORT_BY_TYPE,
-                     direction: String = DIRECTION_DESCENDING,
-                     contains: String? = null): DNSRecordListResponse {
+    suspend fun list(
+        zoneId: String,
+        pageNumber: Int = 1,
+        perPage: Int = 20,
+        order: String = DNSRecord.SORT_BY_TYPE,
+        direction: String = DIRECTION_DESCENDING,
+        contains: String? = null
+    ): DNSRecordListResponse {
             var params = urlParams(
                 "page" to pageNumber,
                 "per_page" to perPage,
@@ -47,7 +53,7 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                 "direction" to direction
             )
 
-            if (contains != null && contains != "") {
+            if (!contains.isNullOrBlank()) {
                 val matcher = "contains%3A$contains"
                 params +=
                     "&${urlParams(
@@ -68,5 +74,4 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
         requestTAG = "update"
         return httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
     }
-
 }

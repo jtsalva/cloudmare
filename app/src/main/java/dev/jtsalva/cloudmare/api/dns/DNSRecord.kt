@@ -177,5 +177,4 @@ data class DNSRecord(
     override fun describeContents(): Int {
         return 0
     }
-
 }
