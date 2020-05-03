@@ -1,5 +1,5 @@
 # CloudMare: Android Cloudflare Manager
-Available on the [Google Play Store](https://play.google.com/store/apps/details?id=dev.jtsalva.cloudmare)
+Available on the [Google Play Store](https://play.google.com/store/apps/details?id=dev.jtsalva.cloudmare) and [F-Droid](https://f-droid.org/en/packages/dev.jtsalva.cloudmare/)
 
 Small & Simple Cloudflare tool for:
  * Toggling 'Under Attack Mode' and 'Development Mode'
