@@ -138,7 +138,7 @@ data class DNSRecord(
                         TTL_EIGHT_HOURS to getString(R.string.ttl_eight_hours),
                         TTL_TWELVE_HOURS to getString(R.string.ttl_twelve_hours),
                         TTL_SIXTEEN_HOURS to getString(R.string.ttl_sixteen_hours),
-                        TTL_TWENTY_HOURS to getString(R.string.ttl_twelve_hours),
+                        TTL_TWENTY_HOURS to getString(R.string.ttl_twenty_hours),
 
                         TTL_ONE_DAYS to getString(R.string.ttl_one_days),
                         TTL_TWO_DAYS to getString(R.string.ttl_two_days),
