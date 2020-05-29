@@ -18,7 +18,7 @@ class DNSRecordActivity : CloudMareActivity() {
 
     private lateinit var dnsRecord: DNSRecord
 
-    private var isNewRecord = false
+    private val isNewRecord get() = dnsRecord.id.isEmpty()
 
     private lateinit var binding: ActivityDnsRecordBinding
 
@@ -78,10 +78,7 @@ class DNSRecordActivity : CloudMareActivity() {
             zone = getParcelableExtra("zone")!!
 
             dnsRecord = getParcelableExtra("dns_record")
-                    ?: DNSRecord.default.apply {
-                        zoneName = zone.name
-                        isNewRecord = true
-                    }
+                ?: DNSRecord.default.apply { zoneName = zone.name }
         }
 
         menuButtonInitializer.onInflateSetVisible(
@@ -100,47 +97,43 @@ class DNSRecordActivity : CloudMareActivity() {
     }
 
     fun customizeForm() = with(viewModel.data) {
-        fun setPriorityVisibility(isVisible: Boolean) {
-            priority_label.isVisible = isVisible
-            priority_edit_text.isVisible = isVisible
+        fun setValues(contentHint: String, isPriorityVisibile: Boolean, isProxiedVisible: Boolean) {
+            content_edit_text.hint = contentHint
+            priority_label.isVisible = isPriorityVisibile
+            priority_edit_text.isVisible = isPriorityVisibile
+            proxied_switch.isVisible = isProxiedVisible
         }
-
-        fun setProxiedVisibility(isVisible: Boolean) {
-            proxied_switch.isVisible = isVisible
-        }
-
-        fun setContentHint(hint: String) = content_edit_text.apply { setHint(hint) }
 
         when (type) {
-            DNSRecord.A -> {
-                setContentHint("IPv4 address")
-                setPriorityVisibility(false)
-                setProxiedVisibility(true)
-            }
+            DNSRecord.TYPE_A -> setValues(
+                contentHint = "Ipv4 address",
+                isPriorityVisibile = false,
+                isProxiedVisible = true
+            )
 
-            DNSRecord.AAAA -> {
-                setContentHint("IPv6 address")
-                setPriorityVisibility(false)
-                setProxiedVisibility(true)
-            }
+            DNSRecord.TYPE_AAAA -> setValues(
+                contentHint = "IPv6 address",
+                isPriorityVisibile = false,
+                isProxiedVisible = true
+            )
 
-            DNSRecord.CNAME -> {
-                setContentHint("Domain name")
-                setPriorityVisibility(false)
-                setProxiedVisibility(true)
-            }
+            DNSRecord.TYPE_CNAME -> setValues(
+                contentHint = "Domain name",
+                isPriorityVisibile = false,
+                isProxiedVisible = true
+            )
 
-            DNSRecord.MX -> {
-                setContentHint("Content")
-                setPriorityVisibility(true)
-                setProxiedVisibility(false)
-            }
+            DNSRecord.TYPE_MX -> setValues(
+                contentHint = "Content",
+                isPriorityVisibile = true,
+                isProxiedVisible = false
+            )
 
-            else -> {
-                setContentHint("Content")
-                setPriorityVisibility(false)
-                setProxiedVisibility(false)
-            }
+            else -> setValues(
+                contentHint = "Content",
+                isPriorityVisibile = false,
+                isProxiedVisible = false
+            )
         }
 
         ttl_spinner.apply {
@@ -159,10 +152,6 @@ class DNSRecordActivity : CloudMareActivity() {
         customizeForm()
 
         binding.viewModel = viewModel
-
-        dns_record_form_group.isVisible = true
-
-        showProgressBar = false
 
         dnsRecordTypeAdapter.let { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -188,6 +177,10 @@ class DNSRecordActivity : CloudMareActivity() {
                 onItemSelectedListener = viewModel
             }
         }
+
+        dns_record_form_group.isVisible = true
+
+        showProgressBar = false
     }
 
     private fun deleteRecord() {

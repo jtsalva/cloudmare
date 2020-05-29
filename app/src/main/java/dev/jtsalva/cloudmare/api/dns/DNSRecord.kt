@@ -42,25 +42,25 @@ data class DNSRecord(
     )
 
     companion object {
-        const val A = "A"
-        const val AAAA = "AAAA"
-        const val CNAME = "CNAME"
-        const val MX = "MX"
-        const val LOC = "LOC"
-        const val SRV = "SRV"
-        const val SPF = "SPF"
-        const val TXT = "TXT"
-        const val NS = "NS"
-        const val CAA = "CAA"
-        const val PTR = "PTR"
-        const val CERT = "CERT"
-        const val DNSKEY = "DNSKEY"
-        const val DS = "DS"
-        const val NAPTR = "NAPTR"
-        const val SMIMEA = "SMIMEA"
-        const val SSHFP = "SSHFP"
-        const val TLSA = "TLSA"
-        const val URI = "URI"
+        const val TYPE_A = "A"
+        const val TYPE_AAAA = "AAAA"
+        const val TYPE_CNAME = "CNAME"
+        const val TYPE_MX = "MX"
+        const val TYPE_LOC = "LOC"
+        const val TYPE_SRV = "SRV"
+        const val TYPE_SPF = "SPF"
+        const val TYPE_TXT = "TXT"
+        const val TYPE_NS = "NS"
+        const val TYPE_CAA = "CAA"
+        const val TYPE_PTR = "PTR"
+        const val TYPE_CERT = "CERT"
+        const val TYPE_DNSKEY = "DNSKEY"
+        const val TYPE_DS = "DS"
+        const val TYPE_NAPTR = "NAPTR"
+        const val TYPE_SMIMEA = "SMIMEA"
+        const val TYPE_SSHFP = "SSHFP"
+        const val TYPE_TLSA = "TLSA"
+        const val TYPE_URI = "URI"
 
         const val TTL_RESPECT_EXISTING_HEADERS = 0
         const val TTL_AUTOMATIC = 1
@@ -100,7 +100,7 @@ data class DNSRecord(
         val default: DNSRecord get() =
             DNSRecord(
                 id = "",
-                type = A,
+                type = TYPE_A,
                 name = "",
                 content = "",
                 proxiable = true,
@@ -113,7 +113,6 @@ data class DNSRecord(
 
         @JvmField val CREATOR = object : Parcelable.Creator<DNSRecord> {
             override fun createFromParcel(parcel: Parcel) = DNSRecord(parcel)
-
             override fun newArray(size: Int): Array<DNSRecord?> = arrayOfNulls(size)
         }
 
@@ -174,7 +173,5 @@ data class DNSRecord(
         parcel.writeString(modifiedOn)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 }

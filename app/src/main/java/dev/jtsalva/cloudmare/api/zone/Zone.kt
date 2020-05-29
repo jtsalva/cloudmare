@@ -62,17 +62,10 @@ data class Zone(
         parcel.writeString(deactivationReason)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<Zone> {
-        override fun createFromParcel(parcel: Parcel): Zone {
-            return Zone(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Zone?> {
-            return arrayOfNulls(size)
-        }
+        override fun createFromParcel(parcel: Parcel) = Zone(parcel)
+        override fun newArray(size: Int): Array<Zone?> = arrayOfNulls(size)
     }
 }

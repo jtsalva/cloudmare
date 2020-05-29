@@ -13,6 +13,7 @@ import kotlin.reflect.KFunction
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.StringBuilder
 
 typealias ResponseCallback = (response: JSONObject?) -> Unit
 
@@ -26,9 +27,8 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
         const val ORDER_STATUS = "status"
         const val ORDER_PRIORITY = "priority"
 
-        const val CHARSET = "UTF-8"
-
-        const val LOCAL_ERROR_CODE = -1
+        private const val CHARSET = "UTF-8"
+        private const val LOCAL_ERROR_CODE = -1
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -46,8 +46,8 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
         }
 
     protected inline fun urlParams(vararg params: Pair<String, Any>): String = params.run {
-        var urlParamsString = "?"
-        forEach { urlParamsString += "${it.first}=${it.second}&" }
+        val urlParamsString = StringBuilder("?")
+        forEach { urlParamsString.append("${it.first}=${it.second}&") }
         return urlParamsString.substring(0, urlParamsString.length - 1)
     }
 
