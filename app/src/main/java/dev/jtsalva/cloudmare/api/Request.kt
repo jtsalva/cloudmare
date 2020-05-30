@@ -52,10 +52,10 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
         var callbackResponse: JSONObject
         if (response != null) {
             try {
-                callbackResponse = String(
+                callbackResponse = JSONObject(String(
                     response.data,
                     Charset.forName(HttpHeaderParser.parseCharset(response.headers, CHARSET))
-                ).toJson()
+                ))
                 Timber.e("Error Response: $callbackResponse")
             } catch (e: Throwable) {
                 callbackResponse = Response.createWithErrors(
