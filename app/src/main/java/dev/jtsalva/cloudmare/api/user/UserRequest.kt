@@ -6,7 +6,6 @@ import dev.jtsalva.cloudmare.api.Request
 class UserRequest(context: CloudMareActivity) : Request<UserRequest>(context) {
 
     suspend fun getDetails(): UserDetailsResponse {
-        requestTAG = "getDetails"
         return httpGet("user")
     }
 }

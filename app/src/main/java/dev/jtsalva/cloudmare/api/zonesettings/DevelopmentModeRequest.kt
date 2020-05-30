@@ -7,14 +7,12 @@ import org.json.JSONObject
 class DevelopmentModeRequest(context: CloudMareActivity) : Request<DevelopmentModeRequest>(context) {
 
     suspend fun get(zoneId: String): ZoneSettingResponse {
-        requestTAG = "get"
         return httpGet("zones/$zoneId/settings/development_mode")
     }
 
     suspend fun update(zoneId: String, value: String): ZoneSettingResponse {
         val payload = JSONObject().apply { put("value", value) }
 
-        requestTAG = "update"
         return httpPatch("zones/$zoneId/settings/development_mode", payload)
     }
 }

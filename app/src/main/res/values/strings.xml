@@ -125,7 +125,7 @@
 
     // Analytics Activity Axis Titles
     <string name="analytics_axis_title_requests">Num of Requests</string>
-    <string name="analytics_axis_title_bandwidth">Bandwidth (Bytes)</string>
+    <string name="analytics_axis_title_bandwidth">Bandwidth (%1$s)</string>
     <string name="analytics_axis_title_threats">Num of Threats</string>
     <string name="analytics_axis_title_pageviews">Num of Pageviews</string>
 

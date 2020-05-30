@@ -8,19 +8,15 @@ import org.json.JSONObject
 class ZoneSettingRequest(context: CloudMareActivity) : Request<ZoneSettingRequest>(context) {
 
     suspend fun list(zoneId: String): ZoneSettingListResponse {
-        requestTAG = "list"
         return httpGet("zones/$zoneId/settings")
     }
 
     suspend fun update(zoneId: String, vararg zoneSettings: ZoneSetting): ZoneSettingListResponse {
         val strings = mutableListOf<String>()
-        zoneSettings.forEach { zoneSetting ->
-            strings.add(zoneSetting.toJsonString())
-        }
+        zoneSettings.forEach { strings.add(it.toJsonString()) }
 
         val payload = JSONObject("{\"items\":[${strings.joinToString(",")}]}")
 
-        requestTAG = "update"
         return httpPatch("zones/$zoneId/settings", payload)
     }
 }

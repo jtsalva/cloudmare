@@ -363,7 +363,7 @@ class AnalyticsActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         val bandwidthLineData = lines.getValue(AnalyticsViewModel.CATEGORY_BANDWIDTH)
-        y_axis_title.text = "Bandwidth (${displayUnit.second})"
+        y_axis_title.text = getString(R.string.analytics_axis_title_bandwidth, displayUnit.second)
         analytics_chart.apply(customChart(bandwidthLineData.entryCount, autoFormatter()))
         analytics_chart.data = bandwidthLineData
     }

@@ -24,17 +24,14 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
 
         val payload = filterInvalidKeys(newDNSRecord.toJson())
 
-        requestTAG = "create"
         return httpPost("zones/$zoneId/dns_records", payload)
     }
 
     suspend fun delete(zoneId: String, dnsRecordId: String): Response {
-        requestTAG = "delete"
         return httpDelete("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
     suspend fun get(zoneId: String, dnsRecordId: String): DNSRecordResponse {
-        requestTAG = "get"
         return httpGet("zones/$zoneId/dns_records/$dnsRecordId")
     }
 
@@ -64,14 +61,12 @@ class DNSRecordRequest(context: CloudMareActivity) : Request<DNSRecordRequest>(c
                     ).substringAfter("?")}"
             }
 
-            requestTAG = "list"
             return httpGet("zones/$zoneId/dns_records$params")
         }
 
     suspend fun update(zoneId: String, updatedDNSRecord: DNSRecord): DNSRecordResponse {
         val payload = updatedDNSRecord.toJson()
 
-        requestTAG = "update"
         return httpPut("zones/$zoneId/dns_records/${updatedDNSRecord.id}", payload)
     }
 }

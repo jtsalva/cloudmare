@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlin.coroutines.CoroutineContext
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch as coLaunch
 import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch as coLaunch
 
 abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
 
@@ -35,9 +35,9 @@ abstract class CloudMareActivity : AppCompatActivity(), CoroutineScope {
             field = value
         }
 
-    protected val swipeRefreshLayout: SwipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
-    private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
-    private val nonFoundMessage: TextView by lazy { findViewById<TextView>(R.id.non_found_message) }
+    protected val swipeRefreshLayout by lazy { findViewById<SwipeRefreshLayout>(R.id.swipe_refresh) }
+    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
+    private val nonFoundMessage by lazy { findViewById<TextView>(R.id.non_found_message) }
 
     val dialog: Dialog get() = Dialog(this)
     val menuButtonInitializer = MenuButtonInitializer()

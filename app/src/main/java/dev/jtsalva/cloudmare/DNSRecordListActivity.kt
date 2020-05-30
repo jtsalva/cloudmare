@@ -256,7 +256,6 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
         }
 
         showProgressBar = false
-
         swipeRefreshLayout.isRefreshing = false
     }
 }
