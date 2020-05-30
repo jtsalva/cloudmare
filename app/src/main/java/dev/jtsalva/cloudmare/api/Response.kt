@@ -12,6 +12,8 @@ open class Response(
 ) {
 
     companion object {
+        private const val MAX_ERROR_MESSAGE_LENGTH = 600
+
         fun createWithErrors(vararg errors: Error) =
             Response(success = false, errors = errors.run {
                 mutableListOf<Error>().apply {
@@ -32,9 +34,11 @@ open class Response(
             9041 -> "This DNS record cannot be proxied"
             9103 -> "Invalid email or api key"
             9106, 9107 -> "Missing email or api key"
-            else -> message.fit(600)
+            else -> message.fit(MAX_ERROR_MESSAGE_LENGTH)
         }
     }
+
+    val isLocalError: Boolean get() = errors[0].code == Request.LOCAL_ERROR_CODE
 
     @JsonClass(generateAdapter = true)
     data class Error(

@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import dev.jtsalva.cloudmare.api.tokens.TokenRequest
+import dev.jtsalva.cloudmare.api.user.UserRequest
 import timber.log.Timber
 
 object Auth {
@@ -64,4 +66,8 @@ object Auth {
             putString(API_KEY_PREFS, apiKey)
             putString(API_TOKEN_PREFS, apiToken)
         }
+
+    suspend fun testValidity(activity: CloudMareActivity) =
+        if (usingApiKey) UserRequest(activity).getDetails()
+        else TokenRequest(activity).verify()
 }

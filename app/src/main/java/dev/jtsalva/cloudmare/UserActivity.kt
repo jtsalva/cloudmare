@@ -5,8 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import dev.jtsalva.cloudmare.api.tokens.TokenRequest
-import dev.jtsalva.cloudmare.api.user.UserRequest
 import kotlinx.android.synthetic.main.activity_user.*
 
 class UserActivity : CloudMareActivity() {
@@ -107,12 +105,10 @@ class UserActivity : CloudMareActivity() {
         Auth.save(this)
 
         launch {
-            val response =
-                if (Auth.usingApiKey) UserRequest(this).getDetails()
-                else TokenRequest(this).verify()
+            val validityResponse = Auth.testValidity(this)
 
-            if (response.success) finish()
-            else dialog.error(message = response.firstErrorMessage)
+            if (validityResponse.success) finish()
+            else dialog.error(message = validityResponse.firstErrorMessage)
         }
     }
 

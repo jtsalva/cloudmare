@@ -25,8 +25,9 @@ open class Request<R : Request<R>>(protected val activity: CloudMareActivity) {
         const val ORDER_STATUS = "status"
         const val ORDER_PRIORITY = "priority"
 
+        const val LOCAL_ERROR_CODE = -1
+
         private const val CHARSET = "UTF-8"
-        private const val LOCAL_ERROR_CODE = -1
 
         fun cancelAll(activity: CloudMareActivity) {
             RequestQueueSingleton(activity).requestQueue.cancelAll(activity)

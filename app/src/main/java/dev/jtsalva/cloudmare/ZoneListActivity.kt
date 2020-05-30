@@ -83,8 +83,23 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
         updateTheme()
 
-        if (Auth.notSet) startActivity(UserActivity::class)
-        else render()
+        launch {
+            val validityResponse = Auth.testValidity(this)
+
+            if (validityResponse.failure) {
+                if (validityResponse.isLocalError)
+                    dialog.error(
+                        message = validityResponse.firstErrorMessage,
+                        onAcknowledge = ::onStart
+                    )
+                else dialog.error(
+                    title = "Invalid authorization",
+                    message = "Re-enter your credentials",
+                    positive = "Go to login"
+                ) { startActivity(UserActivity::class) }
+            }
+            else render()
+        }
     }
 
     override fun onSwipeRefresh() {
