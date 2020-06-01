@@ -16,6 +16,8 @@ import dev.jtsalva.cloudmare.api.dns.DNSRecord
 import dev.jtsalva.cloudmare.api.dns.DNSRecordRequest
 import dev.jtsalva.cloudmare.api.zone.Zone
 import kotlinx.android.synthetic.main.activity_dns_record_list.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
@@ -24,11 +26,17 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
 
     private lateinit var records: MutableList<DNSRecord>
 
+    private var renderJob: Job? = null
+        set(value) {
+            field?.cancel()
+            field = value
+        }
+
     private var searchQuery: String? = null
         set(value) {
             if (value != field) {
                 field = value
-                render()
+                renderJob = render()
             }
         }
 
@@ -37,7 +45,7 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
             if (value != field) {
                 showProgressBar = true
                 field = value
-                render()
+                renderJob = render()
             }
         }
 
@@ -91,6 +99,8 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
     companion object {
         const val EDIT_RECORD = 0
         const val CREATE_RECORD = 1
+
+        const val RENDER_CANCEL_OPPORTUNITY_DURATION = 70L
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -222,7 +232,9 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
     override fun onStart() {
         super.onStart()
 
-        if (!fromActivityResult) render()
+        if (!fromActivityResult) {
+            renderJob = render()
+        }
     }
 
     override fun render() = DNSRecordRequest(this).launch {
@@ -232,6 +244,9 @@ class DNSRecordListActivity : CloudMareActivity(), SwipeRefreshable {
             direction = direction,
             contains = searchQuery
         )
+
+        delay(RENDER_CANCEL_OPPORTUNITY_DURATION)
+
         if (response.failure || response.result == null)
             dialog.error(message = response.firstErrorMessage, onAcknowledge = ::onStart)
 
