@@ -83,7 +83,8 @@ class ZoneListActivity : CloudMareActivity(), SwipeRefreshable {
 
         updateTheme()
 
-        launch {
+        if (Auth.notSet) startActivity(UserActivity::class)
+        else launch {
             val validityResponse = Auth.testValidity(this)
 
             if (validityResponse.failure) {
