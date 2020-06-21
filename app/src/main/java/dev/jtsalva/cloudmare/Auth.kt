@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import dev.jtsalva.cloudmare.api.tokens.TokenRequest
 import dev.jtsalva.cloudmare.api.user.UserRequest
 import timber.log.Timber
@@ -17,29 +17,28 @@ object Auth {
 
     private val CONTENT_TYPE_HEADER = "Content-Type" to "application/json"
 
-    private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-
     var email = ""
+        private set
     var apiKey = ""
-
+        private set
     var apiToken = ""
+        private set
 
-    val notSet: Boolean get() = !(usingApiKey || usingApiToken)
+    val isNotSet get() = !(isUsingApiKey || isUsingApiToken)
 
-    inline val usingApiKey: Boolean get() = apiKey != ""
-    private inline val usingApiToken: Boolean get() = apiToken != ""
+    inline val isUsingApiKey get() = apiKey.isNotEmpty()
+    inline val isUsingApiToken get() = apiToken.isNotEmpty()
 
     val headers: MutableMap<String, String> get() =
         mutableMapOf(CONTENT_TYPE_HEADER).apply {
             when {
-                usingApiKey -> {
+                isUsingApiKey -> {
                     put("X-Auth-Email", email)
                     put("X-Auth-Key", apiKey)
                 }
-                usingApiToken -> {
+                isUsingApiToken -> {
                     put("Authorization", "Bearer $apiToken")
                 }
-
                 else ->
                     Timber.e("Neither apiKey or apiToken authorization methods are set!")
             }
@@ -47,9 +46,9 @@ object Auth {
 
     private fun getPrefs(context: Context): SharedPreferences =
         EncryptedSharedPreferences.create(
-            SHARED_PREFS_FILENAME,
-            masterKeyAlias,
             context,
+            SHARED_PREFS_FILENAME,
+            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
@@ -60,14 +59,22 @@ object Auth {
         apiToken = getString(API_TOKEN_PREFS, null) ?: ""
     }
 
-    fun save(context: Context) =
-        getPrefs(context).edit(commit = true) {
-            putString(EMAIL_PREFS, email)
-            putString(API_KEY_PREFS, apiKey)
-            putString(API_TOKEN_PREFS, apiToken)
-        }
-
     suspend fun testValidity(activity: CloudMareActivity) =
-        if (usingApiKey) UserRequest(activity).getDetails()
+        if (isUsingApiKey) UserRequest(activity).getDetails()
         else TokenRequest(activity).verify()
+
+    class Editor(private val context: Context) {
+        fun set(
+            email: String = "",
+            apiKey: String = "",
+            apiToken: String = ""
+        ) {
+            getPrefs(context).edit(commit = true) {
+                putString(EMAIL_PREFS, email)
+                putString(API_KEY_PREFS, apiKey)
+                putString(API_TOKEN_PREFS, apiToken)
+            }
+            load(context)
+        }
+    }
 }

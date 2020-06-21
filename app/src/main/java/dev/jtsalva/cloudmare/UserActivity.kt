@@ -73,7 +73,7 @@ class UserActivity : CloudMareActivity() {
 
         email_input.setText(Auth.email)
         api_key_or_token_input.setText(
-            if (Auth.usingApiKey) Auth.apiKey
+            if (Auth.isUsingApiKey) Auth.apiKey
             else Auth.apiToken
         )
     }
@@ -92,17 +92,14 @@ class UserActivity : CloudMareActivity() {
         dialog.loading(title = "Validating…")
 
         api_key_or_token_input.text.toString().let { text ->
-            if (text.length == API_KEY_LENGTH) {
-                Auth.apiKey = text
-                Auth.apiToken = ""
-                Auth.email = email_input.text.toString()
-            } else {
-                Auth.apiKey = ""
-                Auth.apiToken = text
-                Auth.email = ""
-            }
+            val editor = Auth.Editor(this)
+            if (text.length == API_KEY_LENGTH)
+                editor.set(
+                    email = email_input.text.toString(),
+                    apiKey = text
+                )
+            else editor.set(apiToken = text)
         }
-        Auth.save(this)
 
         launch {
             val validityResponse = Auth.testValidity(this)
