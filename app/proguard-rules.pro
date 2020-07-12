@@ -21,3 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 -printmapping build/outputs/mapping/release/mapping.txt
+-keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
+    <fields>;
+}
