@@ -1,3 +1,4 @@
+<!-- File "app/src/main/res/values/strings.xml" -->
 <resources>
     <string name="app_name">CloudMare</string>
 
@@ -25,20 +26,20 @@
 
     // Caching Activity
     <string name="caching_level_title">缓存等级</string>
-    <string name="caching_level_info">在此期间，浏览器从其本地缓存中加载文件，从而加快了页面加载速度。</string>
+    <string name="caching_level_info">css js jpg jpge gif ico png bmp pict csv doc pdf pls ppt tif tiff eps ejs swf midi mid ttf eot woff otf svg svgz webp docx xlsx xls pptx ps class jar woff2\n
+     \n
+     默认不会对html进行缓存，如果需要缓存html，请在页面规则添加一条类似*.example.com/*.html的规则加入\n
+     \n
+     缓存静态内容(basic):只对上方列出的文件后缀或者自定义规则里面定义的后缀进行缓存,如果带?随机参数访问的内容将不进行缓存,例如: /a.css【缓存】 /a.css?ver=1.0【不缓存】\n
+     \n
+     移除动态查询(simplified):在basic缓存的基础上，如果访问带?随机参数，将移除随机参数后进行缓存并将无参数结果返回给所有访客,例如/a.css?ver=1.0将缓存a.css后面的?ver=1.0将被丢弃，缓存结果和/a.css一样\n
+     \n
+     动态查询也缓存(aggressive):将每个不同的随机参数结果都缓存，并返回给查询相同参数的访客，例如:/a.css【缓存a.css】 /a.css?ver=1.0【缓存a.css?ver=1.0】\n
+     \n
+     全部内容缓存(cache_everything):该选项只在页面规则里面有效，用于将符合规则的全部内容都缓存,不用考虑后缀问题，通通都能缓存，但是对于有动态内容的页面，需要做个规则单独排除，不然登陆页面可能无法登陆\n
+     注意：对于不包括在上面默认缓存后缀表中的其他后缀，只能通过添加页面定制来实现缓存，而且缓存设置只能选择全部内容缓存(cache_everything)，其他三个选项只针对CF默认支持的后缀有效。</string>
     <string name="caching_expiration_title">浏览器缓存时间</string>
-    <string name="caching_expiration_info">css js jpg jpge gif ico png bmp pict csv doc pdf pls ppt tif tiff eps ejs swf midi mid ttf eot woff otf svg svgz webp docx xlsx xls pptx ps class jar woff2\n
-    \n
-    默认不会对html进行缓存，如果需要缓存html，请在页面规则添加一条类似*.example.com/*.html的规则加入\n
-    \n
-    缓存静态内容(basic):只对上方列出的文件后缀或者自定义规则里面定义的后缀进行缓存,如果带?随机参数访问的内容将不进行缓存,例如: /a.css【缓存】 /a.css?ver=1.0【不缓存】\n
-    \n
-    移除动态查询(simplified):在basic缓存的基础上，如果访问带?随机参数，将移除随机参数后进行缓存并将无参数结果返回给所有访客,例如/a.css?ver=1.0将缓存a.css后面的?ver=1.0将被丢弃，缓存结果和/a.css一样\n
-    \n
-    动态查询也缓存(aggressive):将每个不同的随机参数结果都缓存，并返回给查询相同参数的访客，例如:/a.css【缓存a.css】 /a.css?ver=1.0【缓存a.css?ver=1.0】\n
-    \n
-    全部内容缓存(cache_everything):该选项只在页面规则里面有效，用于将符合规则的全部内容都缓存,不用考虑后缀问题，通通都能缓存，但是对于有动态内容的页面，需要做个规则单独排除，不然登陆页面可能无法登陆\n
-    注意：对于不包括在上面默认缓存后缀表中的其他后缀，只能通过添加页面定制来实现缓存，而且缓存设置只能选择全部内容缓存(cache_everything)，其他三个选项只针对CF默认支持的后缀有效。</string>
+    <string name="caching_expiration_info">浏览器从本地缓存中加载文件的时间。</string>
 
     // DNS Record List Activity
     <string name="dns_record_list_search_hint">键入以搜索…</string>
@@ -96,7 +97,7 @@
     <string name="user_instructions">要生成API令牌，请登录 dash.cloudflare.com/profile/api-tokens ，然后单击“创建令牌”。或使用Global API Key(推荐)</string>
     <string name="user_required_token_permissions">必需的API Token权限：所有区域| 区域设置：编辑| 区域：编辑| 缓存清除：编辑| 页面规则：编辑|  DNS：编辑| 分析：读取</string>
     <string name="user_additional_info">需要更多帮助吗？有关更深入的指南，请访问\n
- cloudmare.jtsalva.dev/help</string>
+  cloudmare.jtsalva.dev/help</string>
     <string name="user_cloudflare_email_label">Email</string>
     <string name="user_api_key_or_token_label">API Token or Key</string>
     <string name="user_api_key_label">API Key</string>
@@ -181,7 +182,7 @@
     // Caching Level Options
 
     // Browser Cache TTL Options
-
+ 
     // Analytics Dashboard Category Labels
     <string name="analytics_dashboard_category_requests">请求</string>
     <string name="analytics_dashboard_category_bandwidth">带宽</string>
