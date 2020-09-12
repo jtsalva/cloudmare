@@ -1,0 +1,217 @@
+<!-- File "app/src/main/res/values/strings.xml" -->
+<resources>
+    <string name="app_name">CloudMare</string>
+
+    // Activity titles
+    <string name="title_zone_list_activity">域</string>
+    <string name="title_user_activity">帐户</string>
+
+    // Zone Dash categories
+    <string name="category_under_attack_mode">处于攻击模式(五秒盾)</string>
+    <string name="category_development_mode">工程模式</string>
+    <string name="category_dns">DNS</string>
+    <string name="category_page_rules">页面规则</string>
+    <string name="category_ssl">SSL / TLS</string>
+    <string name="category_analytics">统计</string>
+    <string name="category_caching">缓存</string>
+
+    // Zone Dash category info
+    <string name="info_under_attack_mode">防御CC建议开启5秒盾(under attack mode)然后到IP防火墙里面放行各搜索引擎蜘蛛,或者通过您的DNS给蜘蛛设置回源线路。</string>
+    <string name="info_development_mode">暂时绕过缓存，实时查看服务器原始内容。</string>
+    <string name="info_dns">管理你的DNS设置</string>
+    <string name="info_page_rules">自定义的CDN缓存规则，免费账户可添加3条记录</string>
+    <string name="info_ssl">管理你的网站加密设置</string>
+    <string name="info_analytics">深入了解您的数据</string>
+    <string name="info_caching">管理你网站的缓存设置</string>
+
+    // Caching Activity
+    <string name="caching_level_title">缓存等级</string>
+    <string name="caching_level_info">css js jpg jpge gif ico png bmp pict csv doc pdf pls ppt tif tiff eps ejs swf midi mid ttf eot woff otf svg svgz webp docx xlsx xls pptx ps class jar woff2\n
+     \n
+     默认不会对html进行缓存，如果需要缓存html，请在页面规则添加一条类似*.example.com/*.html的规则加入\n
+     \n
+     缓存静态内容(basic):只对上方列出的文件后缀或者自定义规则里面定义的后缀进行缓存,如果带?随机参数访问的内容将不进行缓存,例如: /a.css【缓存】 /a.css?ver=1.0【不缓存】\n
+     \n
+     移除动态查询(simplified):在basic缓存的基础上，如果访问带?随机参数，将移除随机参数后进行缓存并将无参数结果返回给所有访客,例如/a.css?ver=1.0将缓存a.css后面的?ver=1.0将被丢弃，缓存结果和/a.css一样\n
+     \n
+     动态查询也缓存(aggressive):将每个不同的随机参数结果都缓存，并返回给查询相同参数的访客，例如:/a.css【缓存a.css】 /a.css?ver=1.0【缓存a.css?ver=1.0】\n
+     \n
+     全部内容缓存(cache_everything):该选项只在页面规则里面有效，用于将符合规则的全部内容都缓存,不用考虑后缀问题，通通都能缓存，但是对于有动态内容的页面，需要做个规则单独排除，不然登陆页面可能无法登陆\n
+     注意：对于不包括在上面默认缓存后缀表中的其他后缀，只能通过添加页面定制来实现缓存，而且缓存设置只能选择全部内容缓存(cache_everything)，其他三个选项只针对CF默认支持的后缀有效。</string>
+    <string name="caching_expiration_title">浏览器缓存时间</string>
+    <string name="caching_expiration_info">浏览器从本地缓存中加载文件的时间。</string>
+
+    // DNS Record List Activity
+    <string name="dns_record_list_search_hint">键入以搜索…</string>
+    <string name="dns_record_list_none_found">找不到dns记录</string>
+
+    // DNS Record Type Labels
+    <string name="type_a">A</string>
+    <string name="type_aaaa">AAAA</string>
+    <string name="type_cname">CNAME</string>
+    <string name="type_mx">MX</string>
+    <string name="type_loc">LOC</string>
+    <string name="type_srv">SRV</string>
+    <string name="type_spf">SPF</string>
+    <string name="type_txt">TXT</string>
+    <string name="type_ns">NS</string>
+    <string name="type_caa">CAA</string>
+    <string name="type_ptr">PTR</string>
+    <string name="type_cert">CERT</string>
+    <string name="type_dnskey">DNSKEY</string>
+    <string name="type_ds">DS</string>
+    <string name="type_naptr">NAPTR</string>
+    <string name="type_smimea">SMIMEA</string>
+    <string name="type_sshfp">SSHFP</string>
+    <string name="type_tlsa">TLSA</string>
+    <string name="type_uri">URI</string>
+
+    // DNS Record Type Options
+
+    // DNS Record Activity
+    <string name="dns_record_type">类型</string>
+    <string name="dns_record_name">名称</string>
+    <string name="dns_record_content">内容</string>
+    <string name="dns_record_ttl">TTL</string>
+    <string name="dns_record_priority">优先级</string>
+    <string name="dns_record_priority_hint">0 到 65535</string>
+
+    // Zone List Activity
+    <string name="zone_list_none_found">未找到域</string>
+
+    // Page Rules Activity
+    <string name="page_rules_none_found">找不到页面规则</string>
+
+    // SSL Activity
+    <string name="ssl_encryption_mode">SSL加密模式</string>
+
+    // Network Activity
+    <string name="network_pseudo_ipv4_title">伪IPv4</string>
+    <string name="network_pseudo_ipv4_info">为IPV6访客添加IPV4访问头用于实现IPV6转IPV4访问</string>
+
+    // User Activity
+    <string name="user_cloudflare_email">Cloudflare Email</string>
+    <string name="user_cloudflare_global_api_key_or_token">Token 或 Global API Key</string>
+    <string name="user_save">保存</string>
+    <string name="user_help">帮助</string>
+    <string name="user_instructions">要生成API令牌，请登录 dash.cloudflare.com/profile/api-tokens ，然后单击“创建令牌”。或使用Global API Key(推荐)</string>
+    <string name="user_required_token_permissions">必需的API Token权限：所有区域| 区域设置：编辑| 区域：编辑| 缓存清除：编辑| 页面规则：编辑|  DNS：编辑| 分析：读取</string>
+    <string name="user_additional_info">需要更多帮助吗？有关更深入的指南，请访问\n
+  cloudmare.jtsalva.dev/help</string>
+    <string name="user_cloudflare_email_label">Email</string>
+    <string name="user_api_key_or_token_label">API Token or Key</string>
+    <string name="user_api_key_label">API Key</string>
+    <string name="user_api_token_label">API Token</string>
+
+    // Menu
+    <string name="menu_contact">内容</string>
+    <string name="menu_theme">主题</string>
+    <string name="menu_user">账户</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_sort_by">排序方式</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_add">添加</string>
+
+    // Analytics Activity Axis Titles
+    <string name="analytics_axis_title_requests">请求数</string>
+    <string name="analytics_axis_title_bandwidth">带宽 (%1$s)</string>
+    <string name="analytics_axis_title_threats">威胁数</string>
+    <string name="analytics_axis_title_pageviews">浏览数</string>
+
+    // TTL Labels
+    <string name="ttl_respect_existing_headers">Respect Existing Headers</string>
+    <string name="ttl_automatic">自动</string>
+    <string name="ttl_two_minutes">2分钟</string>
+    <string name="ttl_five_minutes">5分钟</string>
+    <string name="ttl_ten_minutes">10分钟</string>
+    <string name="ttl_fifteen_minutes">15分钟</string>
+    <string name="ttl_thirty_minutes">30分钟</string>
+    <string name="ttl_one_hours">1小时</string>
+    <string name="ttl_two_hours">2小时</string>
+    <string name="ttl_three_hours">3小时</string>
+    <string name="ttl_four_hours">4小时</string>
+    <string name="ttl_five_hours">5小时</string>
+    <string name="ttl_eight_hours">8小时</string>
+    <string name="ttl_twelve_hours">12小时</string>
+    <string name="ttl_sixteen_hours">16小时</string>
+    <string name="ttl_twenty_hours">20小时</string>
+    <string name="ttl_one_days">1天</string>
+    <string name="ttl_two_days">2天</string>
+    <string name="ttl_three_days">3天</string>
+    <string name="ttl_four_days">4天</string>
+    <string name="ttl_five_days">5天</string>
+    <string name="ttl_eight_days">8天</string>
+    <string name="ttl_sixteen_days">16天</string>
+    <string name="ttl_twenty_four_days">24天</string>
+    <string name="ttl_one_months">1个月</string>
+    <string name="ttl_two_months">2个月</string>
+    <string name="ttl_six_months">6个月</string>
+    <string name="ttl_one_years">1年</string>
+
+    // DNS Record TTL Options
+
+    // SSL Mode Labels
+    <string name="ssl_mode_off">关闭(不安全)</string>
+    <string name="ssl_mode_flexible">半程加密</string>
+    <string name="ssl_mode_full">简易全程</string>
+    <string name="ssl_mode_full_strict">完整全程</string>
+
+    // SSL Mode Options
+
+    // SSL Mode Info
+    <string name="ssl_mode_info_off">关闭(off):关闭SSL功能</string>
+    <string name="ssl_mode_info_flexible">半程加密(flexible)：只加密访客到CDN的访问，CDN到你服务器获取源数据的访问未加密，这种方式不需要你服务器有开始SSL</string>
+    <string name="ssl_mode_info_full">简易全程(full)：访客到CDN的访问用CF的正规证书加密，CDN到您服务器的访问用您服务器证书加密（非严格模式,不验证服务器证书有效性,只要是证书就行,自签名的也可以）</string>
+    <string name="ssl_mode_info_full_strict">完整全程(strict)：访客到CDN的访问用CF的正规证书加密，CDN到您服务器的访问用您服务器证书加密（严格模式,验证服务器证书有效性,需要您的服务器有正规证书签名,在关掉CDN情况下，用HTTPS访问您的网站也不会报错的情况下才能开启）</string>
+
+    // DNS List Sort By Labels
+    <string name="dns_record_list_sort_by_type">类型</string>
+    <string name="dns_record_list_sort_by_name">名称</string>
+    <string name="dns_record_list_sort_by_content">内容</string>
+    <string name="dns_record_list_sort_by_ttl">TTL</string>
+    <string name="dns_record_list_sort_by_proxied">通过CDN</string>
+
+    // DNS List Sort By Options
+
+    // Caching Level Labels
+    <string name="cache_level_basic">缓存静态内容</string>
+    <string name="cache_level_simplified">忽略动态查询</string>
+    <string name="cache_level_aggressive">缓存动态查询</string>
+
+    // Caching Level Options
+
+    // Browser Cache TTL Options
+ 
+    // Analytics Dashboard Category Labels
+    <string name="analytics_dashboard_category_requests">请求</string>
+    <string name="analytics_dashboard_category_bandwidth">带宽</string>
+    <string name="analytics_dashboard_category_threats">威胁</string>
+    <string name="analytics_dashboard_category_pageviews">浏览</string>
+
+    // Analytics Dashboard Category Options
+
+    // Analytics Dashboard Time Period Labels
+    <string name="analytics_dashboard_time_period_one_day">24小时</string>
+    <string name="analytics_dashboard_time_period_one_week">7天</string>
+    <string name="analytics_dashboard_time_period_one_month">30天</string>
+
+    // Analytics Dashboard Time Period Options
+
+    // Settings Activity
+    <string name="settings_theme_light">明亮</string>
+    <string name="settings_theme_dark">黑暗</string>
+    <string name="settings_theme_battery_saver">由省电模式设定</string>
+    <string name="settings_theme_system_default">系统默认</string>
+
+    // Settings Theme Options Android 9 or earlier
+
+    // Settings Theme Options Android 10 or after
+
+    // Network Pseudo IPV4 Labels
+    <string name="network_pseudo_ipv4_off">关</string>
+    <string name="network_pseudo_ipv4_add_header">添加头部标识</string>
+    <string name="network_pseudo_ipv4_overwrite_header">重写头部标识</string>
+
+    // Network Pseudo IPV4 Options
+</resources>
